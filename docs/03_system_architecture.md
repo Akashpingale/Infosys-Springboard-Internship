@@ -1,4 +1,4 @@
-Task 3: Design the System Architecture
+**Task 3: Design the System Architecture**
 
 Project Title
 
