@@ -1,4 +1,4 @@
-**Project: Development of AI Based Startup Idea Validator with Market Analysis Assistance**
+**Project:** Development of AI Based Startup Idea Validator with Market Analysis Assistance
 
 # Task 3: Design the System Architecture
 
