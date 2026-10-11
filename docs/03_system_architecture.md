@@ -1,4 +1,4 @@
-Project: Development of AI Based Startup Idea Validator with Market Analysis Assistance
+**Project: Development of AI Based Startup Idea Validator with Market Analysis Assistance**
 
 # Task 3: Design the System Architecture
 
@@ -8,81 +8,6 @@ The system architecture defines how the AI Startup Idea Validator processes a st
 
 The founder submits a startup idea in 2–3 lines through the user interface. The backend coordinates the processing workflow, and the LLM supports reasoning and structured analysis. The individual agents perform specialized validation tasks and pass their outputs through the pipeline. Finally, the Report Generation Agent compiles the results into a structured startup validation report.
 
-## System Architecture Diagram
-
-```text
-User (Entrepreneur / Founder)
-              |
-              v
-      User Interface (Web/Mobile)
-              |
-              | Startup Idea and Context
-              v
-            Backend
-              |
-              | Agent Orchestration
-              v
-      Multi-Agent Pipeline
-              |
-              +----------------------------------+
-              |                                  |
-              v                                  v
-       Web Search Agent                    LLM Service
-              |                                  |
-              v                                  |
-        Web Search API <-------------------------+
-        (Tavily / Equivalent)
-              |
-              | Market Data, Competitor Data,
-              | Industry Trends and News
-              v
-      +-------------------------+
-      |    Market Analysis     |
-      |         Agent          |
-      +-------------------------+
-                  |
-                  v
-      +-------------------------+
-      |  Competitor Analysis    |
-      |         Agent          |
-      +-------------------------+
-                  |
-                  v
-      +-------------------------+
-      |     SWOT and Risk       |
-      |         Agent           |
-      +-------------------------+
-                  |
-                  v
-      +-------------------------+
-      |   MVP Recommendation    |
-      |         Agent           |
-      +-------------------------+
-                  |
-                  v
-      +-------------------------+
-      |   Go-To-Market Strategy |
-      |         Agent           |
-      +-------------------------+
-                  |
-                  v
-      +-------------------------+
-      |   Report Generation     |
-      |         Agent           |
-      +-------------------------+
-                  |
-                  v
-        Final Validation Report
-                  |
-                  v
-        Backend / Data Storage
-                  |
-                  v
-          User Interface
-                  |
-                  v
-       View or Download Report
-```
 
 ## 1. User Interface (Web/Mobile)
 
@@ -318,6 +243,8 @@ The AI Startup Idea Validator uses a multi-agent architecture to evaluate startu
 The backend coordinates the workflow, the LLM supports business reasoning, and the Web Search API provides relevant external information. The Report Generation Agent consolidates the findings into a structured validation report that helps entrepreneurs make more informed decisions.
 
 This architecture provides the foundation for implementing, testing, and extending the AI Startup Idea Validator.
+
+## System Architecture Diagram
 
                  AI STARTUP IDEA VALIDATOR
                     SYSTEM ARCHITECTURE
