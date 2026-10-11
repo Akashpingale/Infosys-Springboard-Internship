@@ -1,8 +1,11 @@
 # Task 5: Explore Web Search API Integration
 
 **Project:** AI Startup Idea Validator
+
 **Milestone:** 1
+
 **Author:** Akash Pingale
+
 **Code location:** `src/web_search/`
 
 ---
