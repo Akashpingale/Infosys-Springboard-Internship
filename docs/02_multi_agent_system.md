@@ -197,4 +197,3 @@ By coordinating these agents through a Python backend, the proposed system can p
 - [x] Included an example of agents working together.
 - [x] Documented benefits, limitations, and good practices.
 
-**End of Task 2 Documentation**
