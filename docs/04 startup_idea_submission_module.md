@@ -1,6 +1,7 @@
-**Project:** Development of AI Based Startup Idea Validator with Market Analysis Assistance
-
 # Task 4: Design the Startup Idea Submission Module
+
+**Project:** Development of AI Based Startup Idea Validator with Market Analysis Assistance
+**Milestone:** 1 | **Deadline:** 12 October 2026
 
 ## Overview
 
@@ -21,7 +22,10 @@ flowchart LR
 
 ## 1. Basic UI wireframe for submitting a startup idea
 
-> Wireframe screenshot: add the image to the repo and link it here, for example `![Wireframe](docs/images/task4_wireframe.png)`
+![Startup idea submission wireframe](task4_wireframe.png)
+
+<details>
+<summary>Text version of the wireframe</summary>
 
 ```
 +--------------------------------------------------------------+
@@ -52,6 +56,10 @@ flowchart LR
 |       [ Edit ]   [ Confirm and run agents ]                  |
 +--------------------------------------------------------------+
 ```
+
+</details>
+
+*Numbers (1-9) match the input fields table in section 2; (10) is the review step shown after submission.*
 
 **Design decisions**
 
@@ -231,7 +239,7 @@ def structure_idea(form_data: dict, llm_call) -> StartupIdea:
 
 ## Deliverable summary
 
-- UI wireframe for idea submission (`task4_wireframe.html` and screenshot)
+- UI wireframe for idea submission (`task4_wireframe.png`)
 - Field specification (9 input fields plus review step)
 - LLM structuring approach: prompt, schema, validation and retry logic
 - Sample input and structured output for one startup idea
