@@ -22,7 +22,7 @@ flowchart LR
 
 ## 1. Basic UI wireframe for submitting a startup idea
 
-![Startup idea submission wireframe](task4_wireframe.png)
+![Startup idea submission wireframe](task4_wireframe(2).png)
 
 <details>
 <summary>Text version of the wireframe</summary>
