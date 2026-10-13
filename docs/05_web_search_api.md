@@ -120,16 +120,21 @@ Tavily is a search API built for AI agents and LLM applications. A normal search
 ### Folder structure
 
 ```
-startup-idea-validator/
+Infosys-Springboard-Internship/
 |-- .gitignore
 |-- docs/
-|   `-- 05_web_search_api.md
+|   |-- 05_web_search_api.md
+|   `-- 05_sample_output.md
 `-- src/
     |-- README.md
     `-- web_search/
         |-- .env.example
         |-- requirements.txt
-        `-- search_test.py
+        |-- search_test.py
+        `-- output/
+            |-- search_results.json
+            |-- search_results.md
+            `-- screenshots/
 ```
 
 ### File roles

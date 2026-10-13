@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task 4 – Startup Idea Submission Wireframe</title>
+<style>
+  :root { --ink:#222; --mid:#777; --line:#aaa; --fill:#f2f2f2; --bg:#fff; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px; font-family: Arial, Helvetica, sans-serif; color:var(--ink); background:#e9e9e9; }
+  .frame { max-width: 880px; margin: 0 auto; background: var(--bg); border: 2px solid var(--ink); }
+  .bar { display:flex; justify-content:space-between; align-items:center; padding:12px 20px; border-bottom:2px solid var(--ink); background:var(--fill); }
+  .logo { font-weight:bold; border:1px dashed var(--ink); padding:4px 10px; }
+  nav span { margin-left:16px; color:var(--mid); }
+  nav span.on { color:var(--ink); border-bottom:2px solid var(--ink); }
+  main { padding: 24px 28px 32px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: var(--mid); margin: 0 0 22px; font-size: 14px; }
+  .field { margin-bottom: 16px; position: relative; }
+  label, .lbl { display:block; font-size:13px; font-weight:bold; margin-bottom:5px; }
+  label small, .lbl small { font-weight:normal; color:var(--mid); }
+  input[type=text], select, textarea { width:100%; border:1px solid var(--line); background:var(--bg); padding:9px 10px; font: inherit; font-size:14px; color:var(--ink); border-radius:0; }
+  textarea { min-height: 92px; resize: vertical; }
+  input::placeholder, textarea::placeholder { color:var(--mid); }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--ink); outline-offset: 0; }
+  .row { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
+  .hint { font-size:12px; color:var(--mid); margin-top:4px; display:flex; justify-content:space-between; }
+  .chips { display:flex; gap:8px; flex-wrap:wrap; }
+  .chip { border:1px solid var(--line); border-radius:14px; padding:5px 12px; font-size:13px; color:var(--mid); cursor:pointer; background:var(--bg); user-select:none; }
+  .chip:hover { border-color: var(--ink); }
+  .chip.on { background:var(--ink); color:#fff; border-color:var(--ink); }
+  details { border:1px dashed var(--line); padding:10px 12px; margin-bottom:18px; }
+  summary { cursor:pointer; font-size:14px; font-weight:bold; }
+  details .field:first-of-type { margin-top:14px; }
+  .actions { display:flex; gap:12px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+  button { font: inherit; padding:11px 22px; border:2px solid var(--ink); background:var(--ink); color:#fff; cursor:pointer; }
+  button:hover { opacity:.85; }
+  button.ghost { background:var(--bg); color:var(--ink); }
+  .tag { position:absolute; left:-20px; top:0; width:18px; height:18px; border-radius:50%; background:var(--ink); color:#fff; font-size:11px; line-height:18px; text-align:center; }
+  .err { color:#222; font-size:12px; margin-top:4px; display:none; font-weight:bold; }
+  .field.bad input, .field.bad select, .field.bad textarea { border:2px solid var(--ink); background:#eee; }
+  .field.bad .err { display:block; }
+  #preview { display:none; margin-top:26px; border:2px dashed var(--ink); padding:16px; background:var(--fill); }
+  #preview h2 { font-size:15px; margin:0 0 4px; }
+  #preview .note { font-size:12px; color:var(--mid); margin:0 0 10px; }
+  #json { width:100%; font-family: Consolas, "Courier New", monospace; font-size:12px; line-height:1.5; min-height:260px; background:var(--bg); }
+  #json[readonly] { background:var(--bg); border-color:var(--line); }
+  #status { display:none; margin-top:14px; border:2px solid var(--ink); padding:10px 14px; font-size:14px; background:var(--bg); }
+  .legend { max-width:880px; margin:14px auto 0; font-size:12px; color:#555; }
+  @media (max-width:640px){ .row{grid-template-columns:1fr;} main{padding:20px 22px 28px;} .tag{left:-16px;} body{padding:10px;} }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="bar">
+    <div class="logo">LOGO · Startup Validator</div>
+    <nav><span class="on">New idea</span><span>My ideas</span><span>Reports</span></nav>
+  </div>
+  <main>
+    <h1>Describe your startup idea</h1>
+    <p class="sub">Two or three lines is enough. We'll research the market and competitors for you.</p>
+
+    <div class="field" id="f-idea">
+      <span class="tag">1</span>
+      <label for="idea">Startup idea <small>(required)</small></label>
+      <textarea id="idea" maxlength="500" placeholder="e.g. A subscription service that delivers home-style tiffin meals to working professionals in Bengaluru."></textarea>
+      <div class="hint"><span>Describe the problem and your solution.</span><span id="count">0 / 500</span></div>
+      <div class="err">Please write at least 30 characters so we can understand the idea.</div>
+    </div>
+
+    <div class="row">
+      <div class="field" id="f-cust">
+        <span class="tag">2</span>
+        <label for="cust">Target customers <small>(required)</small></label>
+        <input type="text" id="cust" placeholder="e.g. Working professionals aged 22–35">
+        <div class="err">Please tell us who the customers are.</div>
+      </div>
+      <div class="field" id="f-ind">
+        <span class="tag">3</span>
+        <label for="ind">Industry <small>(required)</small></label>
+        <select id="ind">
+          <option value="">Select industry</option>
+          <option>Food Tech</option><option>EdTech</option><option>HealthTech</option><option>FinTech</option>
+          <option>AgriTech</option><option>E-commerce</option><option>SaaS/B2B</option>
+          <option>Travel and Mobility</option><option>Entertainment and Media</option>
+          <option>Sustainability/CleanTech</option><option>Other</option>
+        </select>
+        <div class="err">Please choose an industry.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <span class="tag">4</span>
+        <label for="loc">Target location <small>(optional)</small></label>
+        <input type="text" id="loc" placeholder="e.g. Bengaluru, India">
+      </div>
+      <div class="field">
+        <span class="tag">5</span>
+        <span class="lbl">Current stage</span>
+        <div class="chips" id="stage">
+          <span class="chip on">Just an idea</span><span class="chip">Prototype</span><span class="chip">Launched</span>
+        </div>
+      </div>
+    </div>
+
+    <details id="more">
+      <summary>More details (optional)</summary>
+      <div class="field">
+        <span class="tag">6</span>
+        <span class="lbl">Business model</span>
+        <div class="chips" id="model">
+          <span class="chip">Subscription</span><span class="chip">Marketplace</span><span class="chip">One-time sale</span><span class="chip">Ads</span><span class="chip">Other</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <span class="tag">7</span>
+          <label for="budget">Budget and team size</label>
+          <input type="text" id="budget" placeholder="e.g. Under ₹5 lakh, 2 founders">
+        </div>
+        <div class="field">
+          <span class="tag">8</span>
+          <label for="comp">Competitors you already know</label>
+          <input type="text" id="comp" placeholder="e.g. Swiggy, Box8">
+        </div>
+      </div>
+      <div class="field">
+        <span class="tag">9</span>
+        <label for="notes">Anything else we should know?</label>
+        <textarea id="notes" maxlength="500" placeholder="Extra context, constraints or goals"></textarea>
+      </div>
+    </details>
+
+    <div class="actions">
+      <button type="button" id="submit">Validate my idea</button>
+      <button type="button" class="ghost" id="sample">Try a sample idea</button>
+      <button type="button" class="ghost" id="reset">Clear form</button>
+    </div>
+
+    <div id="preview">
+      <h2>10 · Review step: what the system understood</h2>
+      <p class="note">Wireframe demo: this JSON is built in the browser from your inputs. In the real system the LLM writes it (including problem, solution and assumptions). You can edit it before the agents start.</p>
+      <textarea id="json" readonly spellcheck="false"></textarea>
+      <div class="actions">
+        <button type="button" class="ghost" id="edit">Edit</button>
+        <button type="button" id="confirm">Confirm and run agents</button>
+      </div>
+      <div id="status"></div>
+    </div>
+  </main>
+</div>
+<p class="legend">Numbers map to the field table in the Task 4 document. Greyscale on purpose: this is a layout wireframe, not a visual design.</p>
+<script>
+  const $ = id => document.getElementById(id);
+  const idea=$('idea'), cust=$('cust'), ind=$('ind'), loc=$('loc'), budget=$('budget'), comp=$('comp'), notes=$('notes');
+  const json=$('json'), preview=$('preview'), status=$('status');
+
+  const updateCount = () => { $('count').textContent = idea.value.length + ' / 500'; };
+  idea.addEventListener('input', () => { updateCount(); $('f-idea').classList.remove('bad'); });
+  cust.addEventListener('input', () => $('f-cust').classList.remove('bad'));
+  ind.addEventListener('change', () => $('f-ind').classList.remove('bad'));
+
+  // chips: stage = single select, model = multi select
+  $('stage').addEventListener('click', e => {
+    if (!e.target.classList.contains('chip')) return;
+    $('stage').querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    e.target.classList.add('on');
+  });
+  $('model').addEventListener('click', e => {
+    if (e.target.classList.contains('chip')) e.target.classList.toggle('on');
+  });
+
+  const chosen = id => [...$(id).querySelectorAll('.chip.on')].map(c => c.textContent);
+  const list = s => s.split(',').map(x => x.trim()).filter(Boolean);
+
+  function buildJson() {
+    const industry = ind.value, location = loc.value.trim() || null;
+    const words = idea.value.trim().split(/\s+/).slice(0, 6).join(' ');
+    const where = location ? ' ' + location.split(',')[0] : '';
+    const stageMap = {'Just an idea':'idea','Prototype':'prototype','Launched':'launched'};
+    return {
+      idea_title: words,
+      one_line_summary: idea.value.trim(),
+      target_customers: list(cust.value),
+      industry: industry,
+      location: location,
+      stage: stageMap[chosen('stage')[0]] || 'idea',
+      business_model: chosen('model'),
+      budget_and_team: budget.value.trim() || null,
+      known_competitors: list(comp.value),
+      assumptions: ["(generated by the LLM in the real system)"],
+      search_keywords: [
+        industry.toLowerCase() + ' market size' + where,
+        industry.toLowerCase() + ' competitors' + where,
+        list(cust.value)[0] ? (list(cust.value)[0].toLowerCase() + ' ' + industry.toLowerCase() + ' demand') : industry.toLowerCase() + ' demand'
+      ],
+      additional_notes: notes.value.trim() || null
+    };
+  }
+
+  function validate() {
+    const okIdea = idea.value.trim().length >= 30;
+    const okCust = cust.value.trim().length >= 3;
+    const okInd = ind.value !== '';
+    $('f-idea').classList.toggle('bad', !okIdea);
+    $('f-cust').classList.toggle('bad', !okCust);
+    $('f-ind').classList.toggle('bad', !okInd);
+    if (!okIdea) idea.focus(); else if (!okCust) cust.focus(); else if (!okInd) ind.focus();
+    return okIdea && okCust && okInd;
+  }
+
+  $('submit').addEventListener('click', () => {
+    status.style.display = 'none';
+    if (!validate()) { preview.style.display = 'none'; return; }
+    json.value = JSON.stringify(buildJson(), null, 2);
+    json.readOnly = true;
+    $('edit').textContent = 'Edit';
+    preview.style.display = 'block';
+    preview.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+
+  $('sample').addEventListener('click', () => {
+    idea.value = 'A subscription service that delivers fresh, home-style tiffin meals to working professionals in Bengaluru, sourced from verified home cooks.';
+    cust.value = 'Working professionals aged 22-35, bachelors and PG residents';
+    ind.value = 'Food Tech';
+    loc.value = 'Bengaluru, India';
+    budget.value = 'Under 5 lakh, 2 founders';
+    comp.value = 'Swiggy, Box8';
+    notes.value = 'Plan to start with tech parks in Whitefield and Electronic City';
+    document.querySelectorAll('#model .chip').forEach(c => c.classList.toggle('on', c.textContent === 'Subscription'));
+    document.querySelectorAll('#stage .chip').forEach(c => c.classList.toggle('on', c.textContent === 'Just an idea'));
+    $('more').open = true;
+    ['f-idea','f-cust','f-ind'].forEach(id => $(id).classList.remove('bad'));
+    updateCount();
+  });
+
+  $('reset').addEventListener('click', () => {
+    [idea,cust,loc,budget,comp,notes].forEach(el => el.value = '');
+    ind.value = '';
+    document.querySelectorAll('#model .chip').forEach(c => c.classList.remove('on'));
+    document.querySelectorAll('#stage .chip').forEach((c,i) => c.classList.toggle('on', i === 0));
+    ['f-idea','f-cust','f-ind'].forEach(id => $(id).classList.remove('bad'));
+    preview.style.display = 'none'; status.style.display = 'none';
+    updateCount(); window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  $('edit').addEventListener('click', () => {
+    if (json.readOnly) { json.readOnly = false; json.focus(); $('edit').textContent = 'Lock'; }
+    else { json.readOnly = true; $('edit').textContent = 'Edit'; }
+  });
+
+  $('confirm').addEventListener('click', () => {
+    try { JSON.parse(json.value); }
+    catch (e) { status.textContent = 'The JSON is not valid. Fix it with "Edit", then confirm again.'; status.style.display = 'block'; return; }
+    status.textContent = 'Idea confirmed. Next: the Web Search Agent starts using the search keywords (demo only, no agents are connected in this wireframe).';
+    status.style.display = 'block';
+  });
+</script>
+</body>
+</html>
