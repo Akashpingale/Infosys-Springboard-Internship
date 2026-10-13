@@ -39,10 +39,10 @@ Status values: `DONE`, `PLANNED`.
 
 | Planned Sprint | Actual Sprint | US ID | User Story | MoSCoW | Dependency | Assignee | Status |
 |:---:|:---:|:---|:---|:---:|:---|:---|:---:|
-| 1 | 1 | **US-FND-01** | *As a team member, I want notes on startup validation and one sample idea validated so that the team shares the same understanding.* (`docs/01_project_understanding.md`) | MUST | - | TBD | DONE |
-| 1 | 1 | **US-FND-02** | *As a team member, I want agent roles and responsibilities defined so that each module has a clear owner.* (`docs/02_multi_agent_system.md`) | MUST | US-FND-01 | TBD | DONE |
-| 1 | 1 | **US-FND-03** | *As a developer, I want a system architecture and information flow so that implementation follows one design.* (`docs/03_system_architecture.md`) | MUST | US-FND-02 | TBD | DONE |
-| 1 | 1 | **US-FND-04** | *As a founder, I want a submission form wireframe and a structured output format so that my idea reaches the agents in a usable form.* (`docs/04_startup_idea_submission_module.md`) | MUST | US-FND-03 | TBD | DONE |
+| 1 | 1 | **US-FND-01** | *As a team member, I want notes on startup validation and one sample idea validated so that the team shares the same understanding.* (`docs/01_project_understanding.md`) | MUST | - | Anil Kumar | DONE |
+| 1 | 1 | **US-FND-02** | *As a team member, I want agent roles and responsibilities defined so that each module has a clear owner.* (`docs/02_multi_agent_system.md`) | MUST | US-FND-01 |  | DONE |
+| 1 | 1 | **US-FND-03** | *As a developer, I want a system architecture and information flow so that implementation follows one design.* (`docs/03_system_architecture.md`) | MUST | US-FND-02 | Kanukula Devi | DONE |
+| 1 | 1 | **US-FND-04** | *As a founder, I want a submission form wireframe and a structured output format so that my idea reaches the agents in a usable form.* (`docs/04_startup_idea_submission_module.md`) | MUST | US-FND-03 | Chandana B | DONE |
 | 1 | 1 | **US-FND-05** | *As a developer, I want a working Tavily web search test so that agents can use live data.* (`src/web_search/`, `docs/05_web_search_api.md`) | MUST | US-FND-03 | Akash Pingale | DONE |
 
 ### Epic 1: Startup Idea Submission (Milestone 1 Module)
