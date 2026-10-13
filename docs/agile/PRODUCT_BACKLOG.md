@@ -35,7 +35,7 @@ A story is **Done** only when all of the following are true:
 
 Status values: `DONE`, `PLANNED`.
 
-### Epic 0: Foundation (SOP Tasks 1-5)
+### Epic 1: Foundation (SOP Tasks 1-5)
 
 | Planned Sprint | Actual Sprint | US ID | User Story | MoSCoW | Dependency | Assignee | Status |
 |:---:|:---:|:---|:---|:---:|:---|:---|:---:|
@@ -45,7 +45,7 @@ Status values: `DONE`, `PLANNED`.
 | 1 | 1 | **US-FND-04** | *As a founder, I want a submission form wireframe and a structured output format so that my idea reaches the agents in a usable form.* (`docs/04_startup_idea_submission_module.md`) | MUST | US-FND-03 | Chandana B | DONE |
 | 1 | 1 | **US-FND-05** | *As a developer, I want a working Tavily web search test so that agents can use live data.* (`src/web_search/`, `docs/05_web_search_api.md`) | MUST | US-FND-03 | Akash Pingale | DONE |
 
-### Epic 1: Startup Idea Submission (Milestone 1 Module)
+### Epic 2: Startup Idea Submission (Milestone 1 Module)
 
 | Planned Sprint | Actual Sprint | US ID | User Story | MoSCoW | Dependency | Assignee | Status |
 |:---:|:---:|:---|:---|:---:|:---|:---|:---:|
@@ -53,7 +53,7 @@ Status values: `DONE`, `PLANNED`.
 | 2 | - | **US-SUB-02** | *As a founder, I want my free-text idea converted by an LLM into a validated structured object so that all agents use the same input.* | MUST | US-SUB-01 | TBD | PLANNED |
 | 2 | - | **US-SUB-03** | *As a founder, I want to review and edit what the system understood before the agents run.* | SHOULD | US-SUB-02 | TBD | PLANNED |
 
-### Epic 2: Web Search Agent (Milestone 1 Module)
+### Epic 3: Web Search Agent (Milestone 1 Module)
 
 | Planned Sprint | Actual Sprint | US ID | User Story | MoSCoW | Dependency | Assignee | Status |
 |:---:|:---:|:---|:---|:---:|:---|:---|:---:|
