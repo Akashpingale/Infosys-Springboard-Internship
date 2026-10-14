@@ -57,4 +57,3 @@ Agile / Scrum tracking (backlog, sprints, stand-ups, retrospectives): [docs/agil
 
 See [src/README.md](src/README.md) for setup and running the web search test.
 
-![AI-Based Startup Idea Validator Architecture](architecture.png)
