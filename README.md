@@ -56,3 +56,42 @@ Agile / Scrum tracking (backlog, sprints, stand-ups, retrospectives): [docs/agil
 ## Quick start
 
 See [src/README.md](src/README.md) for setup and running the web search test.
+
+
+
+flowchart TD
+    U[User] --> UI[Streamlit User Interface]
+    UI --> B[Python Backend]
+    B --> V[Validate and Structure Startup Idea]
+    V --> O[Workflow Orchestrator]
+
+    O --> W[Web Search Agent]
+    W --> S[Web Search API]
+    S --> R[Structured Search Results]
+
+    R --> M[Market Analysis Agent]
+    V --> M
+    R --> C[Competitor Analysis Agent]
+    V --> C
+
+    M --> SW[SWOT and Risk Agent]
+    C --> SW
+
+    M --> MVP[MVP Recommendation Agent]
+    C --> MVP
+    SW --> MVP
+
+    M --> L[LLM Service]
+    C --> L
+    SW --> L
+    MVP --> L
+
+    L --> RG[Report Generation Agent]
+    M --> RG
+    C --> RG
+    SW --> RG
+    MVP --> RG
+
+    RG --> B
+    B --> OUT[Display and Download Final Report]
+    OUT --> UI
