@@ -348,6 +348,7 @@ Agile / Scrum tracking (backlog, sprints, stand-ups, retrospectives): [docs/agil
 
 The Week 1 standalone Tavily script and its own instructions: [src/README.md](src/README.md)
 
+<<<<<<< HEAD
 ## Troubleshooting
 
 | Problem | What to do |
@@ -375,3 +376,7 @@ orchestration. Everything below is **to be planned** in Milestone 2 onward:
 ## License
 
 MIT. See [LICENSE](LICENSE).
+=======
+See [src/README.md](src/README.md) for setup and running the web search test.
+
+>>>>>>> origin/main
