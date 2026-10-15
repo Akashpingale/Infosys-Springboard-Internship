@@ -1,0 +1,125 @@
+{
+  "status": "complete",
+  "idea": {
+    "idea_title": "AI-Powered Crop Disease Detection App",
+    "problem": "Small farmers often face significant delays waiting for expert visits to diagnose crop diseases. This lack of immediate information can lead to untreated infections and crop loss.",
+    "solution": "A mobile application that provides instant disease diagnosis and treatment suggestions from a photo of a leaf. The app delivers results in the farmer's local language to ensure accessibility.",
+    "target_customers": [
+      "Small farmers in India",
+      "Farming cooperatives"
+    ],
+    "industry": "Agriculture / AgriTech",
+    "key_features": [
+      "Photo-based disease detection",
+      "Instant diagnostic results",
+      "Treatment recommendations",
+      "Local language support",
+      "Mobile-first interface"
+    ]
+  },
+  "search": {
+    "sections": [
+      {
+        "label": "Market size and trends",
+        "query": "Agriculture / AgriTech A mobile application that provides instant disease diagnosis market size growth trends",
+        "answer": "The global Agritech market size is valued at USD 31.9 billion in 2025 and is predicted to reach USD 121.2 billion by 2035 at a 14.4% CAGR from 2026 to 2035 according to InsightAce Analytic. Mordor Intelligence reports the Agritech market size is USD 2.23 billion in 2026 and is forecast to reach USD 6.27 billion by 2031 at a 22.97% CAGR from 2026 to 2031. Persistence Market Research projects the global Agritech Platform market to be valued at US$ 18.90 billion in 2026 and is projected to reach US$ 47.58 billion by 2033, growing at a CAGR of 14.1% over the forecast period.",
+        "results": [
+          {
+            "title": "Agritech Market Size, Trends and Forecast 2026 to 2035",
+            "url": "https://www.insightaceanalytic.com/report/agritech-market/2546",
+            "snippet": "Global Agritech Market Size is valued at USD 31.9 Bn in 2025 and is predicted to reach USD 121.2 Bn by the year 2035 at a 14.4% CAGR during the forecast period for 2026 to 2035. Agritech Market Size, Share & Trends Analysis Report By Type (Biotechnology and Biochemicals, Big Data and Analytics, S...",
+            "score": 0.7040996
+          },
+          {
+            "title": "Agritech Market Share, Size & Growth Outlook to 2031",
+            "url": "https://www.mordorintelligence.com/industry-reports/global-agritech-market",
+            "snippet": "The Agritech market size is anticipated to grow from USD 1.8 billion in 2025 to USD 2.23 billion in 2026 and is forecast to reach USD 6.27 billion by 2031 at a 22.97% CAGR over 2026-2031. Farms are redirecting capital toward subscription access to autonomous robots priced below USD 50,000, while...",
+            "score": 0.6711479
+          },
+          {
+            "title": "Agritech Platform Market Size & Growth Trends, 2033",
+            "url": "https://www.persistencemarketresearch.com/market-research/agritech-platform-market.asp",
+            "snippet": "The global Agritech Platform market is valued at US$ 18.90 Billion in 2026 and is projected to reach US$ 47.58 Billion by 2033, growing at a CAGR of 14.1% over the forecast period, driven by the acceleration of government-backed digital agriculture mandates combined with the rapid commercialisati...",
+            "score": 0.6453216
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitors",
+        "query": "Small farmers often face significant delays waiting for competitors alternatives startups",
+        "answer": "Small farmers often face significant delays waiting for competitors' alternatives startups due to limited engagement with farmers and a lack of understanding of their contexts. According to a Reserve Bank of India’s research paper, Indian farmers receive just one-third of the final price, while wholesalers and retailers take most of the profit. Agri-startups often fail to tailor solutions to farmers' realities, leading to technologies that are not ready for real-world conditions without constant internet connectivity and perfect adoption. Additionally, smallholder farmers struggle with barriers in accessing profitable markets and often lack sufficient funds, infrastructure, and are vulnerable to supply chain favoritism towards large-scale farmers.",
+        "results": [
+          {
+            "title": "Smallholder Farmers in Asia: Challenges and Opportunities",
+            "url": "https://earth.org/smallholder-farmers-in-asia-challenges-opportunities-and-the-path-to-sustainable-food-production",
+            "snippet": "Additionally, smallholders often face significant barriers in accessing profitable markets. The lack of direct market linkages forces them to rely on intermediaries who offer low prices and diminish their earnings. Accordingly to a Reserve Bank of India’s research paper, Indian farmers receive ju...",
+            "score": 0.4105205
+          },
+          {
+            "title": "What Are the Challenges of Smallholder Farmers Around the World? - Bread for the World",
+            "url": "https://www.bread.org/article/challenges-of-smallholder-farmers",
+            "snippet": "Smallholder farmers are facing significant challenges worldwide. They often lack sufficient funds, work with improper infrastructure, or are vulnerable to the whims of supply chains that can favor large-scale farmers. Climate change plays a role in making it difficult for smallholder farmers to s...",
+            "score": 0.39215115
+          },
+          {
+            "title": "High-Tech, Low-Touch: The Growing Gap between Agri-Startups and Farmers | AESA",
+            "url": "https://aesanetwork.org/high-tech-low-touch-the-growing-gap-between-agri-startups-and-farmers",
+            "snippet": "Another frequently cited constraint is limited engagement with farmers. The absolute failure lies in our inability to understand farmers’ contexts and tailor solutions accordingly. Rather than acknowledging this gap, responsibility is often shifted onto farmers—labelled as uneducated, small-scale...",
+            "score": 0.38699567
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Customer demand and pain points",
+        "query": "Small farmers in India Small farmers often face significant delays waiting for demand pain points",
+        "answer": "Small farmers in India face significant barriers in accessing profitable markets, often relying on intermediaries who offer low prices and diminish their earnings. According to a Reserve Bank of India’s research paper, Indian farmers receive just one-third of the final price, while wholesalers and retailers take most of the profit. They also struggle with outdated farming practices, limited access to quality seeds, fertilizers, and irrigation resources, and lack of digital infrastructure, internet connectivity, and electricity in rural areas. Additionally, rising input costs and stagnant market prices further strain their budgets.",
+        "results": [
+          {
+            "title": "Small-Scale Farming: A Review of Challenges and Potential Opportunities Offered by Technological Advancements",
+            "url": "https://www.mdpi.com/2071-1050/15/21/15478",
+            "snippet": "Even though there are many benefits of small-scale farming, there are multiple barriers that need to be tackled to help make small-scale farming profitable and sustainable. As is the case with small-scale farming in the USA, similar challenges have been faced by small-scale farmers all over the w...",
+            "score": 0.31204548
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Recent news and funding",
+        "query": "Agriculture / AgriTech startups funding news recent",
+        "answer": "The AgriTech sector is seeing significant funding activity. Between July 8 and August 26, 2026, 12 AgriTech companies raised at least $178.6M in aggregate funding, with Ranchbot's round reported as more than $15.0M. Categories like crop protection, fertilizer innovation, livestock technology, and precision agriculture were prominent. Additionally, Pursell Agri-Tech, Stenon, Innok Robotics, Siena Farms, AgriAku, Sloan Agricultural Society, and Pacific Hybreed have all secured funding in June and July 2026, ranging from seed to series B rounds.",
+        "results": [
+          {
+            "title": "Seed Funding for AgriTech Startups: Grants & Investors",
+            "url": "https://qubit.capital/blog/seed-funding-options-agritech-startups",
+            "snippet": "The good news? The AgriTech sector is experiencing sustained investor interest. Global agritech funding is projected to exceed $40 billion in 2025, representing a 15% increase from the previous year. However, recent market shifts tell a more nuanced story. While overall deal values in 2024 decrea...",
+            "score": 0.9288814
+          },
+          {
+            "title": "AgriTech Market Funding News (September 2026) – New Market Pitch",
+            "url": "https://newmarketpitch.com/blogs/news/agritech-funding-news",
+            "snippet": "We identified 12 publicly announced AgriTech funding rounds of at least $300,000 between July 8 and August 26, 2026. These companies raised at least $178.6M in aggregate, with Ranchbot's round reported as more than $15.0M. Crop protection, fertilizer innovation, livestock technology and precision...",
+            "score": 0.8872928
+          },
+          {
+            "title": "976+ Funded Agriculture Startups 2026 | AgTech Database & Contacts - Growth List",
+            "url": "https://growthlist.co/agriculture-startups",
+            "snippet": "Looking for recently funded agriculture startups? You’re in the right place. Agriculture startups are transforming global food systems with innovative solutions in precision farming, agricultural robotics, and sustainable practices. The agriculture technology sector raised $2.6 billion in 2024, r...",
+            "score": 0.87166095
+          }
+        ],
+        "error": null
+      }
+    ],
+    "total_results": 10,
+    "queries_failed": 0
+  },
+  "warnings": [],
+  "errors": [],
+  "timings": {
+    "extraction": 7.496,
+    "search": 17.948,
+    "total": 25.444
+  }
+}

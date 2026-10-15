@@ -1,0 +1,137 @@
+{
+  "status": "complete",
+  "idea": {
+    "idea_title": "Home-Style Tiffin Subscription Platform for Office Workers",
+    "problem": "Office workers in Indian cities often lack access to healthy, home-cooked meals while eating lunch away from home. They are frequently forced to rely on restaurant food or unhealthy alternatives for their daily sustenance.",
+    "solution": "A subscription-based platform that connects office workers with local home cooks who prepare and deliver fresh, home-style meals based on a weekly menu.",
+    "target_customers": [
+      "Office workers in Indian cities",
+      "Commuters eating lunch away from home"
+    ],
+    "industry": "Food & Beverage",
+    "key_features": [
+      "Weekly menu selection",
+      "Daily meal delivery",
+      "Verified home cooks",
+      "Hygiene certification",
+      "Subscription management"
+    ]
+  },
+  "search": {
+    "sections": [
+      {
+        "label": "Market size and trends",
+        "query": "Food & Beverage A subscription-based platform that connects office workers with market size growth trends",
+        "answer": "The food subscription market size has grown rapidly in recent years and is projected to continue growing. In 2025, the market size was $6.73 billion, and it is expected to grow to $7.56 billion in 2026 at a compound annual growth rate (CAGR) of 12.2%. The market is expected to grow from $6.74 billion in 2026 to $14.42 billion by 2032, exhibiting a CAGR of 9.97% during the forecast period. Direct to consumer online platforms are expected to account for approximately 68% of total market share in 2026 due to subscription based delivery models and digital ordering systems.",
+        "results": [
+          {
+            "title": "Food Subscription Market Size, Share & Forecast to 2030",
+            "url": "https://www.researchandmarkets.com/report/food",
+            "snippet": "The food subscription market size has grown rapidly in recent years. It will grow from $6.73 billion in 2025 to $7.56 billion in 2026 at a compound annual growth rate (CAGR) of 12.2%. The growth in the historic period can be attributed to growth of e-commerce food platforms, rising urbanization a...",
+            "score": 0.7811474
+          },
+          {
+            "title": "Food Subscription Market Size, Share & Trends | Report [2034]",
+            "url": "https://www.fortunebusinessinsights.com/food-subscription-market-111770",
+            "snippet": "| | | --- | | ATTRIBUTE | DETAILS | | Study Period | 2021-2034 | | Base Year | 2025 | | Forecast Period | 2026-2034 | | Historical Period | 2021-2024 | | Growth Rate | CAGR of 9.97% from 2026 to 2034 | | Unit | Value (USD Billion) | | Segmentation | By Service Type Meal-based Subscriptions Pantry...",
+            "score": 0.7116118
+          },
+          {
+            "title": "Food Subscription Box Market, Global Market Analysis Report - 2036",
+            "url": "https://www.factmr.com/report/food-subscription-box-market",
+            "snippet": "Market size estimation and revenue forecasts for the Food Subscription Box Market from 2026 to 2036, supported by recurring commerce benchmarks and adoption trends across digitally enabled food delivery subscription models. Growth opportunity mapping across meal kit subscription boxes, snack subs...",
+            "score": 0.6897452
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitors",
+        "query": "Office workers in Indian cities often lack access competitors alternatives startups",
+        "answer": "The sources indicate that India's gig economy is experiencing significant growth, with startups like Urban Company, Dunzo, and Zomato leading the way in providing flexible, freelance, and on-demand work opportunities for gig economy workers. These platforms are not only creating job opportunities but also ensuring that gig workers thrive in a competitive landscape through flexible schedules, training programs, and high earning potential. Additionally, the entrepreneurial wave in India is no longer confined to metropolitan centers, with nearly 50 per cent of DPIIT-recognised startups now originating from Tier II and Tier III cities, highlighting the democratization of entrepreneurship across the country.",
+        "results": [
+          {
+            "title": "Taskmo - Products, Competitors, Financials, Employees, Headquarters Locations",
+            "url": "https://www.cbinsights.com/company/taskmo",
+            "snippet": "a better ecosystem for gig workers in India. Conclusion India’s gig economy is witnessing exponential growth, and startups are at the forefront of this transformation. Platforms like Urban Company, Dunzo, Zomato, and others are not only creating job opportunities but also ensuring that gig econom...",
+            "score": 0.46016815
+          },
+          {
+            "title": "Top Aalto Entrepreneurship Society Alternatives, Competitors",
+            "url": "https://www.cbinsights.com/company/aalto-entrepreneurship-society/alternatives-competitors",
+            "snippet": "S Startup Story Startup Story is a platform that shares the journeys of startups, particularly those from tier 2, tier 3, and tier 4 cities within the Indian startup ecosystem. The company provides content formats such as articles, podcasts, storytelling, video interviews, and e-newspapers to pre...",
+            "score": 0.38345712
+          },
+          {
+            "title": "India's Coworking Revolution: Transforming Spaces for Startups to Enterprises, ETEntrepreneur",
+            "url": "https://entrepreneur.economictimes.indiatimes.com/news/opinion/from-market-gap-to-growth-story-lessons-from-indias-coworking-revolution/134725886",
+            "snippet": "Nearly two decades ago, finding office space in India was a frustrating exercise for startups and small businesses. Entrepreneurs with big ambitions often found themselves navigating a market designed for large corporations. Long lock-in periods, hefty security deposits, expensive fit-outs, and i...",
+            "score": 0.3775871
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Customer demand and pain points",
+        "query": "Office workers in Indian cities Office workers in Indian cities often lack access demand pain points",
+        "answer": "Office workers in Indian cities often face significant challenges due to the urban vulnerability context, including unplanned growth, poor housing, unventilated and crowded workplaces, and limited services. The sources highlight that employers rarely provide basic protections such as shade, cooling facilities, cool drinking water, or adequate rest, leading to persistent pain points like poor hydration and lack of restroom access. Informal workers, who lack formal recognition, experience highly exploitative and poor labor conditions, including insecurity, limited access to water and sanitation services, and physically demanding work incentivized by piece rate systems. The sources do not provide a definitive answer regarding specific cities or detailed figures on the extent of these issues.",
+        "results": [
+          {
+            "title": "Hot Cities Make Hard Work Harder",
+            "url": "https://www.peoplescourageinternational.org/pdfs/HotCitiesReport.pdf",
+            "snippet": "• The UHI effect, combined with the urban vulnerability context in South Asian and Southeast Asian cities — unplanned growth, poor housing, unventilated and crowded workplaces, limited services — means that the most vulnerable groups face the most significant impacts. • Employers rarely provide b...",
+            "score": 0.444493
+          },
+          {
+            "title": "The 10 worst cities for minimum-wage workers",
+            "url": "https://www.cnbc.com/2019/05/09/the-10-worst-cities-for-minimum-wage-workers.html",
+            "snippet": "Depending on local laws and a city's cost of living, some minimum-wage workers may be feeling the pain of their limited earnings more acutely — and it might not be in the locations you'd expect.",
+            "score": 0.15186892
+          },
+          {
+            "title": "How Often Workers Go to the Office in Global Business Hubs: Study - Business Insider",
+            "url": "https://www.businessinsider.com/return-to-office-global-business-hubs-new-york-london-study-2024-9",
+            "snippet": "Centre for Cities conducted a survey that targeted around 1,000 workers and 250 decision-makers in city-center offices in London, New York, Paris, Sydney, and Toronto in June 2024. In Singapore, about 400 workers and 100 decision-makers were targeted. Here's how each city fared: Toronto's return...",
+            "score": 0.12337643
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Recent news and funding",
+        "query": "Food & Beverage startups funding news recent",
+        "answer": "In 2026, the food and beverage sector has seen significant funding, with $2.26B invested in startups that year alone. The VCBacked database tracks 2,904 recently funded food and beverage companies, highlighting Monteforte Group as an example developing premium protein truffles. Tracxn reports that over the last decade, the sector has attracted $2.12B in seed stage funding, $12.7B in early stage, and $10.7B in late stage. The United States leads in funding with $46.3B over the past 10 years, followed by the United Kingdom and India. Notable recent funding includes Feast & Fettle with $1.4M in seed funding and Kula Bio with €32.5M in Series B funding.",
+        "results": [
+          {
+            "title": "2,904 Food and Beverage Startups (2026) — Recently Funded | VCBacked",
+            "url": "https://www.vcbacked.co/directory/industries/food-and-beverage",
+            "snippet": "# Food and Beverage Startups Companies in the food and beverage sector developing innovative solutions and technologies. Explore 2,904 recently funded food and beverage companies with verified founder contact information and fundraising data. ### Top Cities for Food and Beverage ## Recently Funde...",
+            "score": 0.8706085
+          },
+          {
+            "title": "Food & Beverage Products - 2026 Market & Investments Trends - Tracxn",
+            "url": "https://tracxn.com/d/sectors/food-beverage-products/__bKw24LdPLKFQ6X4V_4YxvZNraWRmfUCCs0tExyUG-Zg",
+            "snippet": "Over the last 10 years, the Food & Beverage Products sector have seen $2.12B into Seed Stage funding rounds, $12.7B into Early Stage funding rounds and $10.7B go into Late Stage funding rounds. | Funding Stage | Total Funding | --- | | Debt | $54.7B | | Early Stage | $12.7B | | Late Stage | $10.7...",
+            "score": 0.8536326
+          },
+          {
+            "title": "Top 100 Food and Beverage Startups to Watch in 2026",
+            "url": "https://www.failory.com/startups/food-and-beverage",
+            "snippet": "| Feast & Fettle logo Feast & Fettle | Logistics | 2016 | $1.4M | Seed | | David logo David | Sports | 2023 | $85M | Series A | | Chef Robotics logo Chef Robotics | AI | 2019 | $65.6M | Debt Financing | | Metalchemy logo Metalchemy | Biotech | 2019 | £1.6M | Equity Crowdfunding | | NuCicer logo N...",
+            "score": 0.8235701
+          }
+        ],
+        "error": null
+      }
+    ],
+    "total_results": 12,
+    "queries_failed": 0
+  },
+  "warnings": [],
+  "errors": [],
+  "timings": {
+    "extraction": 5.98,
+    "search": 13.451,
+    "total": 19.431
+  }
+}

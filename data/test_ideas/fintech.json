@@ -1,0 +1,6 @@
+{
+  "idea_description": "A credit scoring service for gig workers that reads their UPI transaction history with consent and estimates repayment ability. Lenders get a score for people who have no formal credit record.",
+  "industry": "Finance / FinTech",
+  "target_customers": "Gig workers in Indian cities and the lenders serving them",
+  "relevant_details": "Talking to two NBFCs about a pilot. Consent and data privacy are the main concerns."
+}

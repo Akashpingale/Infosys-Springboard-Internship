@@ -1,0 +1,6 @@
+{
+  "idea_description": "A tele-physiotherapy app that guides elderly patients through their home exercises with video and voice prompts. It tracks whether each exercise was completed and reports progress back to the clinic.",
+  "industry": "Healthcare / HealthTech",
+  "target_customers": "Elderly patients recovering at home and their physiotherapy clinics",
+  "relevant_details": "Pilot with two clinics in Pune. Needs to work on low-end Android phones."
+}

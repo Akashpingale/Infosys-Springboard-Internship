@@ -1,9 +1,13 @@
 # Secrets
 .env
+.env.*
+!.env.example
 
 # Python
 venv/
+.venv/
 __pycache__/
+.pytest_cache/
 *.pyc
 
 # OS / editor

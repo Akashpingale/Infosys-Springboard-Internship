@@ -173,7 +173,7 @@ cp .env.example .env
 Open `.env` and set:
 
 ```
-TAVILY_API_KEY=tvly-your-real-key
+TAVILY_API_KEY=your_tavily_api_key_here
 ```
 
 ### Packages
