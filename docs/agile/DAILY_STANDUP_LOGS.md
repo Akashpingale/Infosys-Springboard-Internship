@@ -68,13 +68,6 @@ Each working day includes:
 | Task 4: Multi-agent architecture and orchestration | A basic ordered pipeline connects extraction and web search; architecture/orchestration documentation and tests are present. Future analysis agents remain planned for later milestones. |
 | Task 5: Integration and testing | Latest recorded automated run: **293 passed, 1 deprecation warning**. Live checks were completed with AgriTech, FinTech, FoodTech, and HealthTech sample ideas. |
 
-## Outstanding Items / Notes
-
-- Confirm the dates and descriptions against the team's actual stand-up notes before submitting this as an official record. Do not claim a daily activity that the team did not perform.
-- Review and publish the latest frontend changes (`frontend/app.py`) and `.streamlit/` configuration after checking their contents and Git status.
-- Ensure the final feature work is reviewed and merged into the team's required `main` branch according to the team's repository process.
-- Keep API keys out of tracked files and rotate any key that may have been exposed in repository history.
-- Complete mentor-provided Agile workbook/template updates if required by the team's Definition of Done.
 
 ---
 
