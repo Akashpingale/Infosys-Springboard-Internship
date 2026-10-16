@@ -40,7 +40,7 @@ Status values: `DONE`, `IN PROGRESS`, `PLANNED`. Statuses reflect the progress d
 | Planned Sprint | Actual Sprint | US ID | User Story | MoSCoW | Dependency | Assignee | Status |
 |:---:|:---:|:---|:---|:---:|:---|:---|:---:|
 | 1 | 1 | **US-FND-01** | *As a team member, I want notes on startup validation and one sample idea so that the team shares the same understanding.* (`docs/01_project_understanding.md`) | MUST | - | Anil Kumar | DONE |
-| 1 | 1 | **US-FND-02** | *As a team member, I want agent roles and responsibilities defined so that each module has a clear responsibility.* (`docs/02_multi_agent_system.md`) | MUST | US-FND-01 | TBD | DONE |
+| 1 | 1 | **US-FND-02** | *As a team member, I want agent roles and responsibilities defined so that each module has a clear responsibility.* (`docs/02_multi_agent_system.md`) | MUST | US-FND-01 | Deepika | DONE |
 | 1 | 1 | **US-FND-03** | *As a developer, I want a system architecture and information flow so that implementation follows one design.* (`docs/03_system_architecture.md`) | MUST | US-FND-02 | Kanukula Devi | DONE |
 | 1 | 1 | **US-FND-04** | *As a founder, I want a submission-module wireframe and structured output format so that an idea can be represented consistently.* (`docs/04_startup_idea_submission_module.md`) | MUST | US-FND-03 | Chandana B | DONE |
 | 1 | 1 | **US-FND-05** | *As a developer, I want a working Tavily web-search test so that the project can retrieve live information.* (`src/web_search/`, `docs/05_web_search_api.md`) | MUST | US-FND-03 | Akash Pingale | DONE |
