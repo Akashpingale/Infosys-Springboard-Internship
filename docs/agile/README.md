@@ -67,7 +67,7 @@ Meeting days and times are set by the team and recorded in the Excel Stand-up an
 | Sprint | Week | Primary Focus Area | Planned Features | Stories | Status |
 |:---:|:---:|:---|:---|:---:|:---:|
 | **SP-01** | W1 (Days 01-05) | Understanding & Design Foundations | Project understanding notes with sample idea, six agent roles, architecture diagram, submission wireframe and sample structured output, Tavily search test | 5 | Done |
-| **SP-02** | W2 (Days 06-10) | Idea Submission & Web Search | Submission form, LLM structuring into a validated idea object, review screen, Web Search Agent with query generation, filtering, and source URLs | 7 | Planned |
+| **SP-02** | W2 (Days 06-10) | Idea Submission & Web Search | Submission form, LLM structuring into a validated idea object, review screen, Web Search Agent with query generation, filtering, and source URLs | 7 | Done |
 | **SP-03** | W3 (Days 11-15) | To be planned | - | - | - |
 | **SP-04** | W4 (Days 16-20) | To be planned | - | - | - |
 | **SP-05** | W5 (Days 21-25) | To be planned | - | - | - |
