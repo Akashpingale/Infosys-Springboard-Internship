@@ -40,6 +40,119 @@ ICON_WARN = "⚠️"
 ICON_FAIL = "❌"
 ICON_INFO = "ℹ️"
 
+PAGE_MAX_WIDTH = "1040px"
+
+STYLES = f"""
+<style>
+/* ---- page shell: light neutral background, centred responsive container ---- */
+[data-testid="stAppViewContainer"] {{ background-color: #f6f7f9; }}
+[data-testid="stHeader"] {{ background: transparent; }}
+
+.block-container,
+[data-testid="stMainBlockContainer"] {{
+    max-width: {PAGE_MAX_WIDTH};
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2.25rem;
+    padding-bottom: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}}
+
+/* ---- typography and hierarchy ---- */
+h1 {{ font-size: 2.1rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.35rem; }}
+h2 {{ font-size: 1.35rem; font-weight: 650; margin-top: 0.25rem; }}
+h3 {{ font-size: 1.1rem; font-weight: 650; }}
+[data-testid="stCaptionContainer"] p {{ color: #6b7280; font-size: 0.82rem; margin-bottom: 0; }}
+
+/* ---- the form card ---- */
+[data-testid="stForm"] {{
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1.6rem 1.75rem 1.35rem;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+}}
+
+/* uniform label styling and spacing */
+[data-testid="stWidgetLabel"] p {{
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #111827;
+    margin-bottom: 0.3rem;
+}}
+
+/* consistent full-width inputs, heights and radii */
+.stTextInput input,
+.stTextArea textarea,
+[data-baseweb="select"] > div {{
+    border-radius: 10px !important;
+    border-color: #d7dbe0 !important;
+    background-color: #ffffff !important;
+    font-size: 0.95rem !important;
+    box-shadow: none !important;
+}}
+.stTextInput input {{ min-height: 2.6rem; }}
+[data-baseweb="select"] > div {{ min-height: 2.6rem; }}
+.stTextArea textarea {{ line-height: 1.55; padding: 0.7rem 0.8rem; }}
+.stTextInput, .stTextArea, .stSelectbox {{ width: 100% !important; }}
+
+/* placeholders clearly distinct from typed text */
+input::placeholder, textarea::placeholder {{
+    color: #9aa1ac !important;
+    opacity: 1 !important;
+    font-style: italic;
+}}
+
+/* ---- buttons ---- */
+.stButton > button,
+[data-testid="stFormSubmitButton"] button {{
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.93rem;
+    min-height: 2.6rem;
+    padding: 0.5rem 1.25rem;
+    box-shadow: none;
+}}
+[data-testid="stFormSubmitButton"] button {{ margin-top: 0.35rem; }}
+.stButton > button:hover {{ border-color: #2563eb; color: #2563eb; }}
+
+/* ---- notices, errors and results ---- */
+[data-testid="stAlert"] {{
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    font-size: 0.92rem;
+}}
+[data-testid="stExpander"] {{
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    margin-bottom: 0.6rem;
+}}
+[data-testid="stExpander"] summary {{ font-weight: 600; font-size: 0.94rem; }}
+[data-testid="stVerticalBlockBorderWrapper"] {{
+    background: #ffffff;
+    border-radius: 14px;
+}}
+hr {{ margin: 2rem 0 1.5rem; border-color: #e5e7eb; }}
+
+/* ---- responsive behaviour ---- */
+@media (max-width: 1120px) {{
+    .block-container, [data-testid="stMainBlockContainer"] {{ max-width: 100%; }}
+}}
+@media (max-width: 640px) {{
+    .block-container, [data-testid="stMainBlockContainer"] {{
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1.5rem;
+    }}
+    [data-testid="stForm"] {{ padding: 1.1rem 1.1rem 0.9rem; }}
+    h1 {{ font-size: 1.7rem; }}
+    .stButton > button, [data-testid="stFormSubmitButton"] button {{ width: 100%; }}
+}}
+</style>
+"""
+
 STATUS_BANNERS = {
     "complete": (ICON_OK, "Complete", "Your idea was structured and researched.", st.success),
     "partial": (ICON_WARN, "Partial", "Part of the run did not finish. Everything we found is below.", st.warning),
@@ -179,7 +292,8 @@ def clear_form() -> None:
 
 
 def main() -> None:
-    st.set_page_config(page_title="Startup Idea Validator", page_icon="🚀", layout="centered")
+    st.set_page_config(page_title="Startup Idea Validator", page_icon="🚀", layout="wide")
+    st.markdown(STYLES, unsafe_allow_html=True)
     st.title("Startup Idea Validator")
     st.write(
         "Describe your startup idea in two or three lines. We structure it, then search the web "
@@ -187,7 +301,7 @@ def main() -> None:
     )
 
     values, submitted = read_form()
-    st.button("Clear form", on_click=clear_form)
+    st.button("Clear form", type="secondary", on_click=clear_form)
 
     if submitted:
         st.session_state.pop(RESULT_KEY, None)
@@ -207,7 +321,9 @@ def main() -> None:
 
     result = st.session_state.get(RESULT_KEY)
     if result is not None:
-        show_result(result)
+        st.divider()
+        with st.container(border=True):
+            show_result(result)
     elif not errors:
         st.info(
             "Fill in the form above and press **Validate my idea**. "
