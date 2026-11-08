@@ -57,7 +57,10 @@ def test_the_expected_industries_are_covered() -> None:
         "Healthcare / HealthTech",
         "Finance / FinTech",
     } <= industries
-    assert len(industries) == len(IDEA_FILES), "each idea should use a different industry"
+    # Milestone 2, Task 4 (Section 10.1) adds a second Finance / FinTech idea and a second
+    # Food & Beverage idea, so an industry may now appear twice. Three or more distinct
+    # industries still have to be covered, which is what this check is for.
+    assert len(industries) >= 3, f"expected 3+ distinct industries, found {sorted(industries)}"
 
 
 @pytest.mark.parametrize("path", IDEA_FILES, ids=IDEA_NAMES)

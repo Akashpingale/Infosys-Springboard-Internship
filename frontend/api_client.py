@@ -23,6 +23,7 @@ from models.schemas import (
 )
 
 VALIDATE_PATH = "/api/validate"
+ANALYSIS_PARAM = "include_analysis"
 REQUEST_TIMEOUT_S = 90
 
 OTHER_INDUSTRY = "Other"
@@ -125,6 +126,11 @@ def backend_url() -> str:
     return get_settings().backend_url
 
 
+def pipeline_timeout_s() -> float:
+    """PIPELINE_TIMEOUT_S: how long the UI waits for the full pipeline with the analysis stages."""
+    return get_settings().pipeline_timeout_s
+
+
 def _error_message(status_code: int, body: object) -> str:
     message = ""
     if isinstance(body, dict) and isinstance(body.get("error"), dict):
@@ -135,16 +141,27 @@ def _error_message(status_code: int, body: object) -> str:
 
 
 def validate_idea(
-    submission: IdeaSubmission, *, url: str | None = None, timeout: float = REQUEST_TIMEOUT_S
+    submission: IdeaSubmission,
+    *,
+    url: str | None = None,
+    timeout: float | None = None,
+    include_analysis: bool = False,
 ) -> PipelineResult:
     """Send the submission to the backend pipeline and return the parsed result.
 
+    With `include_analysis`, the backend also runs the market and competitor stages and the
+    default wait is PIPELINE_TIMEOUT_S; otherwise it is REQUEST_TIMEOUT_S, as in Milestone 1.
     Raises BackendError with a plain-English message for every failure, so the UI
     never has to interpret an exception or show a stack trace.
     """
+    if timeout is None:
+        timeout = pipeline_timeout_s() if include_analysis else REQUEST_TIMEOUT_S
     target = f"{url or backend_url()}{VALIDATE_PATH}"
+    params = {ANALYSIS_PARAM: "true"} if include_analysis else None
     try:
-        response = requests.post(target, json=submission.model_dump(mode="json"), timeout=timeout)
+        response = requests.post(
+            target, json=submission.model_dump(mode="json"), params=params, timeout=timeout
+        )
     except requests.Timeout:
         raise BackendError(MSG_TIMEOUT) from None
     except requests.ConnectionError:

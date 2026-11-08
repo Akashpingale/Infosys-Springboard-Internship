@@ -6,6 +6,7 @@ from typing import Any
 import requests
 
 from config import get_settings
+from utils.deadline import call_timeout, raise_if_stopped
 from utils.errors import SearchAPIError, SearchConfigError
 
 logger = logging.getLogger(__name__)
@@ -21,6 +22,7 @@ MSG_UNREACHABLE = "Could not reach the web search service. Check your internet c
 MSG_BAD_REPLY = "The web search service sent a reply that could not be read."
 MSG_BUSY = "The web search service is busy right now. Please try again in a minute."
 MSG_REJECTED_QUERY = "The web search service rejected this query."
+MSG_TIME_LIMIT = "This web search was not run because the request reached its time limit."
 
 
 def _message_for_status(status_code: int) -> str:
@@ -44,11 +46,17 @@ def search(
 
     The key is read at call time and sent in a header, never in the URL or a log.
     Raises SearchConfigError when the key is missing and SearchAPIError for any
-    transport, status or body problem.
+    transport, status or body problem, or when the run's time limit has passed
+    (utils/deadline.py), in which case nothing is sent.
     """
     settings = get_settings()
     if not settings.tavily_api_key:
         raise SearchConfigError()
+    raise_if_stopped()
+    timeout = call_timeout(settings.search_timeout_s)
+    if timeout <= 0:
+        logger.warning("Tavily request not sent: the time limit was reached")
+        raise SearchAPIError(MSG_TIME_LIMIT)
 
     try:
         response = requests.post(
@@ -60,7 +68,7 @@ def search(
                 "max_results": max_results,
                 "include_answer": include_answer,
             },
-            timeout=settings.search_timeout_s,
+            timeout=timeout,
         )
     except requests.Timeout:
         logger.warning("Tavily request timed out")

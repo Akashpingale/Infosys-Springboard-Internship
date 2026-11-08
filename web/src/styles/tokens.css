@@ -1,0 +1,130 @@
+/*
+ * Design tokens (KIRO_UI_UPGRADE_SPEC.md Section 6.2). The one place colours are defined.
+ *
+ * Dark is the default theme; the light values are defined now and switched on in Phase 7 (P2) by
+ * setting data-theme="light" on <html>.
+ *
+ * Four values differ from Section 6.2, each by lightness only, so the palette reads as specified
+ * while meeting the Section 6.9 floor (text 4.5:1, interface parts 3:1). They are marked ADJUSTED
+ * with the measured ratio.
+ */
+
+:root,
+[data-theme='dark'] {
+  --canvas: #0a0e1a;
+  --surface: #0e1526;
+  --raised: #131c32;
+  /* One step softer than --raised, for a zebra row and a quiet panel. A token rather than
+     `bg-raised/40`: Tailwind emits no rule at all for an opacity modifier on a variable that holds
+     a whole colour, so that class painted nothing. */
+  --raised-soft: #111a2e;
+
+  /* Hairlines and dividers: decorative, so the specified value is unchanged. */
+  --border: #26344d;
+  /* ADJUSTED, new token: the edge of an input, select or chip input, which identifies the control.
+     #26344D measured 1.46:1. This is 3.25:1 on the surface and 3.02:1 on the raised fill. */
+  --border-strong: #4c6899;
+
+  --text: #f1f5f9;
+  --text-secondary: #a7b3c7;
+  --text-muted: #7c8aa5;
+
+  --primary: #38bdf8;
+  --primary-hover: #7dd3fc;
+  --primary-contrast: #04111f;
+  --focus-ring: #7dd3fc;
+
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #38bdf8;
+  --success-bg: rgb(52 211 153 / 12%);
+  --warning-bg: rgb(251 191 36 / 12%);
+  --danger-bg: rgb(248 113 113 / 12%);
+  --info-bg: rgb(56 189 248 / 12%);
+  --success-border: rgb(52 211 153 / 32%);
+  --warning-border: rgb(251 191 36 / 32%);
+  --danger-border: rgb(248 113 113 / 32%);
+  --info-border: rgb(56 189 248 / 32%);
+
+  /* Stage timings (Section 9, chart 3): one hue in four steps. They are real tokens rather than an
+     opacity modifier on --primary, because Tailwind cannot apply an opacity to a variable that
+     holds a whole colour and silently emits no rule at all, which left the bar invisible. */
+  --chart-step-1: #bae6fd;
+  --chart-step-2: #7dd3fc;
+  --chart-step-3: #38bdf8;
+  --chart-step-4: #0284c7;
+
+  /* Evidence basis. Never reused for anything else (Section 6.2). */
+  /* ADJUSTED: #3987E5 measured 4.32:1 as label text on its own tint; this is 4.52:1. */
+  --basis-sourced: #3f8be6;
+  /* ADJUSTED: #D95926 measured 4.20:1; this is 4.52:1. */
+  --basis-interpretation: #db6434;
+  --basis-provided: #199e70;
+  --basis-assumption: #c98500;
+  --basis-sourced-bg: rgb(63 139 230 / 12%);
+  --basis-interpretation-bg: rgb(219 100 52 / 12%);
+  --basis-provided-bg: rgb(25 158 112 / 12%);
+  --basis-assumption-bg: rgb(201 133 0 / 12%);
+  /* The chip edge, at the same 40% the status tints use. Tokens for the same reason as above. */
+  --basis-sourced-border: rgb(63 139 230 / 40%);
+  --basis-interpretation-border: rgb(219 100 52 / 40%);
+  --basis-provided-border: rgb(25 158 112 / 40%);
+  --basis-assumption-border: rgb(201 133 0 / 40%);
+}
+
+[data-theme='light'] {
+  --canvas: #f6f8fb;
+  --surface: #ffffff;
+  --raised: #f1f5f9;
+  --raised-soft: #f8fafc;
+
+  --border: #d8e0ec;
+  /* ADJUSTED, new token: #D8E0EC measured 1.33:1. This is 3.29:1 on white and 3.01:1 on the fill. */
+  --border-strong: #738fbb;
+
+  --text: #0f172a;
+  --text-secondary: #475569;
+  /* ADJUSTED: #64748B measured 4.47:1 on the light canvas, just under the floor; this is 4.54:1. */
+  --text-muted: #63738a;
+
+  --primary: #0369a1;
+  --primary-hover: #075985;
+  --primary-contrast: #ffffff;
+  --focus-ring: #0369a1;
+
+  --success: #047857;
+  --warning: #92400e;
+  --danger: #b91c1c;
+  --info: #0369a1;
+  --success-bg: rgb(4 120 87 / 10%);
+  --warning-bg: rgb(146 64 14 / 10%);
+  --danger-bg: rgb(185 28 28 / 10%);
+  --info-bg: rgb(3 105 161 / 10%);
+  --success-border: rgb(4 120 87 / 28%);
+  --warning-border: rgb(146 64 14 / 28%);
+  --danger-border: rgb(185 28 28 / 28%);
+  --info-border: rgb(3 105 161 / 28%);
+
+  /* The same four steps, darkened so they read on a white surface. */
+  --chart-step-1: #0ea5e9;
+  --chart-step-2: #0284c7;
+  --chart-step-3: #0369a1;
+  --chart-step-4: #075985;
+
+  /* Section 6.2 states that two of these fall below 3:1 on white in light mode, so the icon and the
+     word carry the meaning there and a table view is offered. The chip label itself is rendered in
+     the normal text colour (see BasisChip), never in these colours. */
+  --basis-sourced: #2a78d6;
+  --basis-interpretation: #eb6834;
+  --basis-provided: #1baf7a;
+  --basis-assumption: #eda100;
+  --basis-sourced-bg: rgb(42 120 214 / 12%);
+  --basis-interpretation-bg: rgb(235 104 52 / 12%);
+  --basis-provided-bg: rgb(27 175 122 / 12%);
+  --basis-assumption-bg: rgb(237 161 0 / 12%);
+  --basis-sourced-border: rgb(42 120 214 / 40%);
+  --basis-interpretation-border: rgb(235 104 52 / 40%);
+  --basis-provided-border: rgb(27 175 122 / 40%);
+  --basis-assumption-border: rgb(237 161 0 / 40%);
+}

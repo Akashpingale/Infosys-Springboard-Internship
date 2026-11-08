@@ -1,0 +1,84 @@
+/* Global styles (KIRO_UI_UPGRADE_SPEC.md Sections 6.1, 6.4, 6.6 and 6.9). */
+
+@import './tokens.css';
+@import './print.css';
+
+/* Self-hosted fonts: no request ever leaves the machine (Section 3.1). */
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-sans-condensed/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-canvas text-content font-sans text-body antialiased;
+  }
+
+  /* Section 6.9: a visible focus ring on everything interactive, 2 px with a 2 px offset. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Section 6.3: headings are condensed and sentence case. Never all caps. */
+  h1 {
+    @apply font-condensed text-h1 text-content;
+  }
+
+  h2 {
+    @apply font-condensed text-h2 text-content;
+  }
+
+  h3 {
+    @apply font-sans text-h3 text-content;
+  }
+
+  /* Section 6.4: numbers in tables are tabular and right-aligned. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Section 6.6: motion only answers an action. With reduced motion, changes are instant. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Section 6.9: a skip link, visible once focused. */
+  .skip-link {
+    @apply absolute left-4 z-50 -translate-y-20 rounded-control bg-surface px-4 py-2 text-body
+      text-content focus-visible:translate-y-4;
+    transition: transform 120ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link {
+      transition: none;
+    }
+  }
+}

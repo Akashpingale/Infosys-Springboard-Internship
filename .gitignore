@@ -16,3 +16,19 @@ Thumbs.db
 .vscode/
 
 src/web_search/.env
+
+# Local run history (SQLite, written by POST /api/runs). Never commit a run database.
+data/runs.db
+data/runs.db-journal
+data/runs.db-wal
+data/runs.db-shm
+
+# New web interface (KIRO_UI_UPGRADE_SPEC.md Section 11). Build output and packages stay local.
+web/node_modules/
+web/dist/
+web/coverage/
+web/.vite/
+web/src/api/types.gen.ts
+web/test-results/
+web/playwright-report/
+web/e2e-results.json

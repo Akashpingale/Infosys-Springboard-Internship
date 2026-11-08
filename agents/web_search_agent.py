@@ -3,7 +3,8 @@
 import logging
 import re
 import time
-from typing import Any
+from functools import partial
+from typing import Any, Callable
 
 from models.schemas import SNIPPET_MAX, ExtractedIdea, SearchBundle, SearchResult, SearchSection
 from utils.errors import SearchAPIError, SearchError
@@ -64,11 +65,19 @@ def _snippet(content: str) -> str:
     return text[: SNIPPET_MAX - 3].rstrip() + "..."
 
 
+def _focus(builder: Callable[[str, str], str], query: str, content: str) -> str:
+    """A caller's snippet for this query, or the default one if it is empty or too long."""
+    chosen = " ".join(builder(content, query).split())
+    return chosen if chosen and len(chosen) <= SNIPPET_MAX else _snippet(content)
+
+
 def _score(raw: Any) -> float | None:
     return raw if isinstance(raw, (int, float)) and 0 <= raw <= 1 else None
 
 
-def _normalize(raw_results: Any, seen_urls: set[str]) -> list[SearchResult]:
+def _normalize(
+    raw_results: Any, seen_urls: set[str], make_snippet: Callable[[str], str] = _snippet
+) -> list[SearchResult]:
     """Keep results that have both a URL and content, drop URLs already shown."""
     results = []
     for item in raw_results if isinstance(raw_results, list) else []:
@@ -83,7 +92,7 @@ def _normalize(raw_results: Any, seen_urls: set[str]) -> list[SearchResult]:
             SearchResult(
                 title=str(item.get("title") or "").strip() or url,
                 url=url,
-                snippet=_snippet(content),
+                snippet=make_snippet(content),
                 score=_score(item.get("score")),
             )
         )
@@ -96,22 +105,35 @@ def _answer(raw: Any) -> str | None:
 
 
 def run_web_search(idea: ExtractedIdea) -> SearchBundle:
-    """Run the four queries and collect the results.
+    """Run the four template queries for an idea and collect the results."""
+    return run_queries(generate_queries(idea))
+
+
+def run_queries(
+    queries: list[tuple[str, str]],
+    *,
+    max_results: int | None = None,
+    depth: str | None = None,
+    snippet: Callable[[str, str], str] | None = None,
+) -> SearchBundle:
+    """Run any list of (label, query) pairs and return one normalised, de-duplicated bundle.
 
     A query that fails records its message in its own section and the others continue.
     If every query fails, SearchAPIError is raised because there is nothing to show.
+    `snippet(content, query)` may choose what part of each result's content becomes its snippet
+    (at most SNIPPET_MAX characters); by default it is the first characters, as in Milestone 1.
     """
     started = time.perf_counter()
     sections: list[SearchSection] = []
     seen_urls: set[str] = set()
     queries_failed = 0
 
-    for label, query in generate_queries(idea):
+    for label, query in queries:
         try:
             body = search(
                 query,
-                max_results=DEFAULT_MAX_RESULTS,
-                depth=DEFAULT_DEPTH,
+                max_results=DEFAULT_MAX_RESULTS if max_results is None else max_results,
+                depth=DEFAULT_DEPTH if depth is None else depth,
                 include_answer=True,
             )
         except SearchError as exc:
@@ -119,7 +141,8 @@ def run_web_search(idea: ExtractedIdea) -> SearchBundle:
             sections.append(SearchSection(label=label, query=query, error=exc.user_message))
             continue
 
-        results = _normalize(body.get("results"), seen_urls)
+        make_snippet = _snippet if snippet is None else partial(_focus, snippet, query)
+        results = _normalize(body.get("results"), seen_urls, make_snippet)
         sections.append(
             SearchSection(
                 label=label,
@@ -130,7 +153,7 @@ def run_web_search(idea: ExtractedIdea) -> SearchBundle:
             )
         )
 
-    if queries_failed == len(sections):
+    if sections and queries_failed == len(sections):
         logger.warning("all %d search queries failed", queries_failed)
         raise SearchAPIError(MSG_ALL_QUERIES_FAILED)
 

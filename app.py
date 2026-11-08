@@ -1,15 +1,21 @@
 import logging
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from config import setup_logging
+from config import get_settings, setup_logging
 from routes.health_routes import router as health_router
 from routes.idea_routes import router as idea_router
+from routes.meta_routes import router as meta_router
+from routes.run_routes import router as run_router
 from utils.errors import AppError, InputValidationError
+from utils.run_manager import shutdown_default_manager
 
 logger = logging.getLogger(__name__)
 
@@ -53,15 +59,36 @@ async def handle_unexpected_error(request: Request, exc: Exception) -> JSONRespo
     )
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    """On shutdown, ask every background run to stop so the server does not hang waiting for one."""
+    yield
+    shutdown_default_manager()
+
+
 def create_app() -> FastAPI:
     setup_logging()
-    app = FastAPI(title="AI Startup Idea Validator", version="0.1.0")
+    app = FastAPI(title="AI Startup Idea Validator", version="0.1.0", lifespan=lifespan)
     app.add_exception_handler(AppError, handle_app_error)
     app.add_exception_handler(RequestValidationError, handle_validation_error)
     app.add_exception_handler(StarletteHTTPException, handle_http_error)
     app.add_exception_handler(Exception, handle_unexpected_error)
+    # The new front end runs on its own origin in development (CORS_ORIGINS). A wildcard is never
+    # used, and no credentials are allowed, so a page on another site cannot call the API as a user.
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=list(get_settings().cors_origins),
+        allow_credentials=False,
+        allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["Content-Type"],
+        expose_headers=["Content-Disposition"],
+    )
     app.include_router(health_router)
+    app.include_router(meta_router)
     app.include_router(idea_router)
+    app.include_router(run_router)
+    # Built on first use (routes/run_routes.get_manager), so no database file is created here.
+    app.state.run_manager = None
     return app
 
 

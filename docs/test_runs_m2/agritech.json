@@ -1,0 +1,698 @@
+{
+  "status": "complete",
+  "idea": {
+    "idea_title": "AI-Powered Crop Disease Detection and Treatment App for Small Farmers",
+    "problem": "Small farmers often face long wait times for expert visits to diagnose crop diseases, which can lead to significant crop loss. Additionally, expert advice is frequently unavailable in the farmer's local language.",
+    "solution": "A mobile application that provides instant crop disease diagnosis by analyzing photos of leaves and suggesting appropriate treatments. The app delivers information in the user's local language to ensure accessibility and timely action.",
+    "target_customers": [
+      "Small farmers in India",
+      "Farming cooperatives"
+    ],
+    "industry": "Agriculture / AgriTech",
+    "key_features": [
+      "Photo-based disease detection",
+      "Instant diagnosis",
+      "Treatment suggestions",
+      "Local language support",
+      "Mobile-first interface"
+    ]
+  },
+  "search": {
+    "sections": [
+      {
+        "label": "Market size and trends",
+        "query": "Agriculture / AgriTech A mobile application that provides instant crop disease market size growth trends",
+        "answer": "The AI-based crop disease detection market was valued at $1.8 billion in 2025 and is projected to reach $7.6 billion by 2034, expanding at a compound annual growth rate (CAGR) of 17.3% from 2026 to 2034. The Agritech market size is valued at USD 2.23 billion in 2026 and is forecast to reach USD 6.27 billion by 2031 at a 22.97% CAGR over 2026-2031. The global Agritech market size is valued at USD 31.9 billion in 2025 and is predicted to reach USD 121.2 billion by 2035 at a 14.4% CAGR during the forecast period for 2026 to 2035.",
+        "results": [
+          {
+            "title": "AI-Based Crop Disease Detection Market Size, Share & Forecast Report 2025 to 2034 | Dataintelo",
+            "url": "https://dataintelo.com/report/ai-based-crop-disease-detection-market",
+            "snippet": "The AI-based crop disease detection market is forecast to grow from $1.8 billion in 2025 to $7.6 billion by 2034, representing a CAGR of 17.3% over the 2026-2034 forecast period. Growth will be driven by expanding adoption in emerging markets, integration with precision agriculture ecosystems, im...",
+            "score": 0.7318455
+          },
+          {
+            "title": "Agritech Market Share, Size & Growth Outlook to 2031",
+            "url": "https://www.mordorintelligence.com/industry-reports/global-agritech-market",
+            "snippet": "Agritech Market Snapshot & Metrics Overview | Study Period | 2021 - 2031 | | Market Size (2026) | USD 2.23 Billion | | Market Size (2031) | USD 6.27 Billion | | Growth Rate (2026 - 2031) | 22.97 % | | Fastest Growing Market | Asia Pacific | | Largest Market | North America | | Market Concentratio...",
+            "score": 0.7173491
+          },
+          {
+            "title": "Agritech Market Size, Trends and Forecast 2026 to 2035",
+            "url": "https://www.insightaceanalytic.com/report/agritech-market/2546",
+            "snippet": "Global Agritech Market Size is valued at USD 31.9 Bn in 2025 and is predicted to reach USD 121.2 Bn by the year 2035 at a 14.4% CAGR during the forecast period for 2026 to 2035. Agritech Market Size, Share & Trends Analysis Report By Type (Biotechnology and Biochemicals, Big Data and Analytics, S...",
+            "score": 0.68140936
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitors",
+        "query": "Small farmers often face long wait times for competitors alternatives startups",
+        "answer": "Small farmers often face challenges in adopting new technologies due to high costs, uncertain return on investment, and the complexity of integrating new systems into traditional practices. Reports indicate that many farmers hesitate to adopt tools that do not immediately show cost savings. Additionally, there is a noted gap between agri-startups and farmers, with startups often failing to understand farmers' contexts and tailor solutions accordingly. This results in technologies that are not ready for real-world application without constant internet connectivity and perfect adoption.",
+        "results": [
+          {
+            "title": "AgTech's Promise vs Reality: Bridging the Farm-to-Future Gap",
+            "url": "https://www.dialventures.com/library/agtechs-promise-vs-reality-bridging-the-farm-to-future-gap",
+            "snippet": "The road for AgTech startups is far from smooth. While the sector’s innovations hold transformative potential, adoption among farmers remains a hurdle. Despite its promise, high-tech agriculture tools face reluctance from farmers due to high costs, uncertain return on investment (ROI), and the co...",
+            "score": 0.38069043
+          },
+          {
+            "title": "High-Tech, Low-Touch: The Growing Gap between Agri-Startups and Farmers | AESA",
+            "url": "https://aesanetwork.org/high-tech-low-touch-the-growing-gap-between-agri-startups-and-farmers",
+            "snippet": "Another frequently cited constraint is limited engagement with farmers. The absolute failure lies in our inability to understand farmers’ contexts and tailor solutions accordingly. Rather than acknowledging this gap, responsibility is often shifted onto farmers—labelled as uneducated, small-scale...",
+            "score": 0.37360206
+          },
+          {
+            "title": "Small-Scale Farming in the United States: Challenges and Pathways to Enhanced Productivity and Profitability",
+            "url": "https://www.mdpi.com/2071-1050/17/15/6752",
+            "snippet": "farmers. Those that adopt often use previously owned equipment that takes time to appear in the resale market . To make technology cost-effective at small-scale levels, more research is required. [...] Small-scale and new farmers face challenges in accessing farmland [32,53]. Therefore, they eith...",
+            "score": 0.30557346
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Customer demand and pain points",
+        "query": "Small farmers in India Small farmers often face long wait times for demand pain points",
+        "answer": "Small farmers in India often face long wait times for their demand pain points, particularly regarding guaranteed minimum support prices for their produce to shield them from market fluctuations. They are also demanding loan waivers, pensions, increased wages, guaranteed employment, and India's withdrawal from the World Trade Organization. While some economists argue these demands are not economically viable, farmers continue to protest, especially in Punjab state, as elections approach. Additionally, small farmers are involved in the dairy industry, which sustains them during erratic monsoon seasons, and there is private equity investment in small organic farms to support their sustainability and marketing efforts.",
+        "results": [
+          {
+            "title": "India elections: Will farmers' protests hurt Modi’s reelection campaign?",
+            "url": "https://www.cnbc.com/2024/04/26/india-elections-will-farmers-protests-hurt-modis-reelection-campaign-.html",
+            "snippet": "Other key demands include loan waivers, pensions for all farmers above the age of 60, a sharp increase in wages — nearly two to three times the current rates — as well as guaranteed employment for 200 days. They are also insisting that India withdraw from the World Trade Organization. Several eco...",
+            "score": 0.12972236
+          },
+          {
+            "title": "Why has India vowed to protect its farmers in the face of tariff threats?",
+            "url": "https://www.investing.com/news/economic-indicators/explainerwhy-has-india-vowed-to-protect-its-farmers-in-the-face-of-tariff-threats-4165178",
+            "snippet": "Like GM crops, dairy is also a highly sensitive issue, as it provides a livelihood for millions of farmers, including many who are landless or smallholders. The dairy industry helps sustain farmers even during erratic monsoon seasons, which can cause significant fluctuations in crop production. [...",
+            "score": 0.1208016
+          },
+          {
+            "title": "Why private equity is investing in small organic farmers",
+            "url": "https://www.cnbc.com/2015/05/27/why-private-equity-is-investing-in-small-organic-farmers.html",
+            "snippet": "Getting more consumers to see the value of small, sustainable farms will ultimately require more farmers to embrace something far from the work they do in the fields: marketing. [...] Against this backdrop, more farm owners are realizing that as leaders of their teams, they need to focus more on...",
+            "score": 0.09954918
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Recent news and funding",
+        "query": "Agriculture / AgriTech startups funding news recent",
+        "answer": "The AgriTech sector is seeing sustained investor interest, with global funding projected to exceed $40 billion in 2025, a 15% increase from the previous year. Recent funding highlights include Computomics securing €6.3M in Series B funding on 2026-08-18, Replenish Nutrients raising $15M in strategic funding on 2026-07-20, and Sabanto receiving Series B funding on 2026-07-14. Venture capital investment in agriculture technology has matured, focusing on proven business models and clear paths to profitability, with AgTech making up 1.82% of total venture capital funding in 2024.",
+        "results": [
+          {
+            "title": "Seed Funding for AgriTech Startups: Grants & Investors",
+            "url": "https://qubit.capital/blog/seed-funding-options-agritech-startups",
+            "snippet": "The good news? The AgriTech sector is experiencing sustained investor interest. Global agritech funding is projected to exceed $40 billion in 2025, representing a 15% increase from the previous year. However, recent market shifts tell a more nuanced story. While overall deal values in 2024 decrea...",
+            "score": 0.9288814
+          },
+          {
+            "title": "AgTech Recently Funded Startups | ProjectStartups",
+            "url": "https://projectstartups.com/pages/agtech",
+            "snippet": "# AgTech Recently Funded Startups 45 recently funded companies Recently funded AgTech & Agricultural Technology & Agriculture Tech & Agriculture & Farming Tech & Smart Farming companies. Browse all startups → Get all Funded startups → ### Computomics Series B €6.3M · 2026-08-18 Investors: Convent...",
+            "score": 0.89302075
+          },
+          {
+            "title": "976+ Funded Agriculture Startups 2026 | AgTech Database & Contacts - Growth List",
+            "url": "https://growthlist.co/agriculture-startups",
+            "snippet": "Venture capital investment in agriculture technology has matured significantly, with investors moving beyond early enthusiasm toward more selective deployment focused on proven business models and clear paths to profitability. According to CropLife’s 2024 AgTech report, AgTech made up 1.82% of to...",
+            "score": 0.8430832
+          }
+        ],
+        "error": null
+      }
+    ],
+    "total_results": 12,
+    "queries_failed": 0
+  },
+  "warnings": [
+    "Market opportunity: market_demand.customer_problems[2]: it is not about the problem this idea solves, so it was removed",
+    "Market opportunity: segments[0].pain_points[0]: it is not about the problem this idea solves, so it was removed",
+    "Competitor analysis: Phase A: the candidate search failed (The AI service is busy right now. Please try again in a minute.), so only the generic searches were used",
+    "Competitor analysis: competitors[0].strengths[0]: removed strength 'Demonstrated massive scale with smallholder farmers.'; it had no valid source",
+    "Competitor analysis: competitors[0]: removed 'Plantix'; the founder did not name it in the submission",
+    "Competitor analysis: competitors[2]: removed 'Crop Disease Detection App (AI4D)'; it is not named in its cited sources"
+  ],
+  "errors": [],
+  "timings": {
+    "extraction": 5.965,
+    "search": 14.903,
+    "market_opportunity": 22.01,
+    "competitor_analysis": 116.46,
+    "capture": 0.0,
+    "total": 159.34
+  },
+  "market": {
+    "industry_overview": {
+      "summary": "The AI-based crop disease detection market is a rapidly growing sector within the broader Agritech industry, driven by the adoption of computer vision and mobile platforms. While the global market is expanding, significant hurdles remain regarding the cost-effectiveness of high-tech tools for small-scale farmers and the need for solutions tailored to local contexts.",
+      "market_category": "AI-based crop disease detection",
+      "developments": [
+        {
+          "text": "Rapid adoption of AI, computer vision, drones, and mobile platforms for disease identification in precision agriculture.",
+          "basis": "sourced",
+          "source_ids": [
+            "S10"
+          ]
+        },
+        {
+          "text": "Asia Pacific is identified as the fastest-growing market for Agritech.",
+          "basis": "sourced",
+          "source_ids": [
+            "S2"
+          ]
+        }
+      ]
+    },
+    "market_demand": {
+      "summary": "There is significant demand for mobile-based disease detection, evidenced by high user engagement with existing platforms. However, adoption is hindered by high costs and a perceived gap between startup solutions and the actual context of small farmers.",
+      "demand_evidence": [
+        {
+          "text": "The Plantix app, which uses AI for pest and disease detection, has been downloaded 135 million times worldwide and serves nearly 10 million farmers annually.",
+          "basis": "sourced",
+          "source_ids": [
+            "S12"
+          ]
+        }
+      ],
+      "customer_problems": [
+        {
+          "text": "Small farmers face long wait times for expert visits to diagnose crop diseases, leading to crop loss.",
+          "basis": "user_provided",
+          "source_ids": []
+        },
+        {
+          "text": "Expert advice is often unavailable in the farmer's local language.",
+          "basis": "user_provided",
+          "source_ids": []
+        }
+      ],
+      "interest_signals": [
+        {
+          "text": "Expanding adoption of AI-based detection in emerging markets and integration with precision agriculture ecosystems.",
+          "basis": "sourced",
+          "source_ids": [
+            "S1"
+          ]
+        }
+      ]
+    },
+    "market_size": {
+      "tam": {
+        "value": "USD 1.8 billion",
+        "status": "sourced",
+        "source_ids": [
+          "S1"
+        ],
+        "note": "Global AI-based crop disease detection market in 2025.",
+        "scope": "idea_market"
+      },
+      "sam": {
+        "value": null,
+        "status": "unavailable",
+        "source_ids": [],
+        "note": null,
+        "scope": null
+      },
+      "som": {
+        "value": null,
+        "status": "unavailable",
+        "source_ids": [],
+        "note": null,
+        "scope": null
+      }
+    },
+    "broader_markets": [
+      {
+        "value": "USD 2.23 billion",
+        "status": "sourced",
+        "source_ids": [
+          "S2"
+        ],
+        "note": "Global Agritech market in 2026.",
+        "scope": "broader_market"
+      },
+      {
+        "value": "USD 31.9 billion",
+        "status": "sourced",
+        "source_ids": [
+          "S3"
+        ],
+        "note": "Global Agritech market in 2025.",
+        "scope": "broader_market"
+      },
+      {
+        "value": "USD 7.5 billion",
+        "status": "sourced",
+        "source_ids": [
+          "S9"
+        ],
+        "note": "Global AI in agriculture market in 2026.",
+        "scope": "broader_market"
+      }
+    ],
+    "trends": [
+      {
+        "trend": "Integration of disease detection with precision agriculture ecosystems",
+        "category": "technology",
+        "basis": "sourced",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "trend": "Shift toward mobile-first interfaces for smallholder farmer accessibility",
+        "category": "consumer",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S10",
+          "S11"
+        ]
+      },
+      {
+        "trend": "Increasing demand for AI-based agricultural technology to minimize crop losses",
+        "category": "business",
+        "basis": "sourced",
+        "source_ids": [
+          "S9"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "name": "Smallholder Farmers",
+        "description": "Farmers with limited land who require low-cost tools to identify and respond to crop disease before harvest devastation.",
+        "segmentation_basis": "needs",
+        "needs": [
+          "Instant disease identification via smartphone",
+          "Cost-effective technology",
+          "Local language support"
+        ],
+        "pain_points": [
+          {
+            "text": "Vulnerability to erratic monsoon seasons affecting crop production.",
+            "basis": "sourced",
+            "source_ids": [
+              "S8"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S8",
+          "S11"
+        ]
+      },
+      {
+        "name": "Farming Cooperatives",
+        "description": "Groups of farmers working together to share resources and improve market access.",
+        "segmentation_basis": "business_type",
+        "needs": [
+          "Scalable disease monitoring across multiple member farms",
+          "Standardized treatment advice"
+        ],
+        "pain_points": [
+          {
+            "text": "Coordinating expert advice across many small-scale members.",
+            "basis": "ai_interpretation",
+            "source_ids": [
+              "S0"
+            ]
+          }
+        ],
+        "source_ids": []
+      }
+    ],
+    "priority_segment": {
+      "segment_name": "Smallholder Farmers",
+      "rationale": "This segment directly faces the core problem of expert unavailability and language barriers, and existing solutions like Plantix have already demonstrated massive scale with this demographic.",
+      "risks": [
+        "High price sensitivity and uncertain ROI for digital tools",
+        "Potential lack of trust if solutions are not tailored to local contexts"
+      ]
+    },
+    "opportunities": [
+      {
+        "text": "The Asia Pacific region is the fastest-growing market for Agritech, providing a strong tailwind for an India-focused startup.",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S2"
+        ]
+      },
+      {
+        "text": "The AI-based crop disease detection market is projected to reach $7.6 billion by 2034.",
+        "basis": "sourced",
+        "source_ids": [
+          "S1"
+        ]
+      }
+    ],
+    "limitations": [
+      {
+        "text": "Startups often fail to understand farmers' contexts, leading to a 'high-tech, low-touch' gap.",
+        "basis": "sourced",
+        "source_ids": [
+          "S5"
+        ]
+      },
+      {
+        "text": "Indian farmers are currently focused on broader economic issues like loan waivers and guaranteed wages, which may distract from technology adoption.",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S7"
+        ]
+      }
+    ],
+    "data_quality": {
+      "evidence_level": "limited",
+      "notes": [
+        "There is a significant discrepancy between sources S2 and S3 regarding the total Agritech market size ($2.23B vs $31.9B).",
+        "No specific market size figures were available for the Indian crop disease detection market specifically.",
+        "Evidence for the 'Farming Cooperatives' segment is largely based on the user-provided idea rather than search data."
+      ]
+    },
+    "sources": [
+      {
+        "id": "S1",
+        "title": "AI-Based Crop Disease Detection Market Size, Share & Forecast Report 2025 to 2034 | Dataintelo",
+        "url": "https://dataintelo.com/report/ai-based-crop-disease-detection-market"
+      },
+      {
+        "id": "S2",
+        "title": "Agritech Market Share, Size & Growth Outlook to 2031",
+        "url": "https://www.mordorintelligence.com/industry-reports/global-agritech-market"
+      },
+      {
+        "id": "S3",
+        "title": "Agritech Market Size, Trends and Forecast 2026 to 2035",
+        "url": "https://www.insightaceanalytic.com/report/agritech-market/2546"
+      },
+      {
+        "id": "S5",
+        "title": "High-Tech, Low-Touch: The Growing Gap between Agri-Startups and Farmers | AESA",
+        "url": "https://aesanetwork.org/high-tech-low-touch-the-growing-gap-between-agri-startups-and-farmers"
+      },
+      {
+        "id": "S7",
+        "title": "India elections: Will farmers' protests hurt Modi’s reelection campaign?",
+        "url": "https://www.cnbc.com/2024/04/26/india-elections-will-farmers-protests-hurt-modis-reelection-campaign-.html"
+      },
+      {
+        "id": "S8",
+        "title": "Why has India vowed to protect its farmers in the face of tariff threats?",
+        "url": "https://www.investing.com/news/economic-indicators/explainerwhy-has-india-vowed-to-protect-its-farmers-in-the-face-of-tariff-threats-4165178"
+      },
+      {
+        "id": "S9",
+        "title": "AI Crop Disease Detection App Development Guide 2026",
+        "url": "https://technobrains.io/crop-disease-detection-app-development-guide"
+      },
+      {
+        "id": "S10",
+        "title": "Crop Disease Detection Market Size & Industry Growth 2032",
+        "url": "https://www.futuredatastats.com/crop-disease-detection-market"
+      },
+      {
+        "id": "S11",
+        "title": "Crop Disease Detection App",
+        "url": "https://www.ai4d.ai/innovations/crop-disease-detection-app"
+      },
+      {
+        "id": "S12",
+        "title": "Detecting and managing crop pests and diseases with AI: Insights from Plantix | Mobile for Development",
+        "url": "https://www.gsma.com/solutions-and-impact/connectivity-for-good/mobile-for-development/programme/agritech/detecting-and-managing-crop-pests-and-diseases-with-ai-insights-from-plantix"
+      }
+    ],
+    "caveats": [
+      "Market figures are evidence-dependent and need verification."
+    ]
+  },
+  "competitors": {
+    "competitors": [
+      {
+        "name": "Crop Doctor",
+        "type": "direct",
+        "relevance_note": "A national-level Android application in India providing disease and nutrient information to farmers.",
+        "website": null,
+        "source_ids": [
+          "S3"
+        ],
+        "offering": "Android-based mobile application for crop information.",
+        "target_segment": "Farmers at a national level in India",
+        "key_features": [
+          "Disease information",
+          "Insect information",
+          "Nutrient deficiency information"
+        ],
+        "value_proposition": "Disseminates critical crop health and nutrient information to farmers via mobile.",
+        "pricing_model": {
+          "value": null,
+          "status": "unavailable",
+          "source_ids": [],
+          "note": null
+        },
+        "strengths": [
+          {
+            "text": "Provides a broad range of information including insects and nutrients.",
+            "basis": "sourced",
+            "source_ids": [
+              "S3"
+            ]
+          },
+          {
+            "text": "Operates at a national level.",
+            "basis": "sourced",
+            "source_ids": [
+              "S3"
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "text": "Evidence does not specify photo-based scanning or instant AI diagnosis capabilities.",
+            "basis": "ai_interpretation",
+            "source_ids": [
+              "S3"
+            ]
+          }
+        ],
+        "positioning": "Informational resource for national-level crop management.",
+        "differentiation_vs_startup": "Focuses on information dissemination rather than instant AI-powered photo diagnosis.",
+        "basis": "sourced",
+        "info_completeness": "complete"
+      }
+    ],
+    "comparison": {
+      "features": [
+        "Photo-based disease detection",
+        "Instant diagnosis",
+        "Treatment suggestions",
+        "Local language support",
+        "Mobile-first interface",
+        "Insect information",
+        "Disease information",
+        "Nutrient deficiency information"
+      ],
+      "rows": [
+        {
+          "competitor": "Crop Doctor",
+          "cells": [
+            {
+              "feature": "Photo-based disease detection",
+              "status": "no_evidence_found",
+              "source_ids": [
+                "S3"
+              ]
+            },
+            {
+              "feature": "Instant diagnosis",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Treatment suggestions",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Local language support",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Mobile-first interface",
+              "status": "evidence_found",
+              "source_ids": [
+                "S3"
+              ]
+            },
+            {
+              "feature": "Insect information",
+              "status": "evidence_found",
+              "source_ids": [
+                "S3"
+              ]
+            },
+            {
+              "feature": "Disease information",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Nutrient deficiency information",
+              "status": "unclear",
+              "source_ids": []
+            }
+          ]
+        }
+      ],
+      "feature_coverage": [
+        {
+          "feature": "Photo-based disease detection",
+          "competitors_with_evidence": 0
+        },
+        {
+          "feature": "Instant diagnosis",
+          "competitors_with_evidence": 0
+        },
+        {
+          "feature": "Treatment suggestions",
+          "competitors_with_evidence": 0
+        },
+        {
+          "feature": "Local language support",
+          "competitors_with_evidence": 0
+        },
+        {
+          "feature": "Mobile-first interface",
+          "competitors_with_evidence": 1
+        },
+        {
+          "feature": "Insect information",
+          "competitors_with_evidence": 1
+        },
+        {
+          "feature": "Disease information",
+          "competitors_with_evidence": 0
+        },
+        {
+          "feature": "Nutrient deficiency information",
+          "competitors_with_evidence": 0
+        }
+      ]
+    },
+    "market_gaps": [
+      {
+        "description": "Lack of tailored engagement and understanding of smallholder farmers' specific contexts in current AgTech solutions.",
+        "related_features": [
+          "Local language support",
+          "Mobile-first interface"
+        ],
+        "basis": "sourced",
+        "source_ids": [
+          "S11"
+        ],
+        "confidence": "medium",
+        "caveat": "Absence from search results does not prove a competitor or a gap does not exist."
+      },
+      {
+        "description": "High costs and uncertain ROI are significant barriers to adoption for small-scale farmers.",
+        "related_features": [
+          "Treatment suggestions"
+        ],
+        "basis": "sourced",
+        "source_ids": [
+          "S10",
+          "S12"
+        ],
+        "confidence": "medium",
+        "caveat": "Absence from search results does not prove a competitor or a gap does not exist."
+      },
+      {
+        "description": "Potential gap in localized language support, as existing evidence focuses on technical capabilities rather than linguistic accessibility.",
+        "related_features": [
+          "Local language support"
+        ],
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S3",
+          "S5",
+          "S11"
+        ],
+        "confidence": "low",
+        "caveat": "Absence from search results does not prove a competitor or a gap does not exist."
+      }
+    ],
+    "differentiation_opportunities": [
+      {
+        "text": "Prioritize local language support to overcome the engagement gap identified in the market.",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S11"
+        ]
+      },
+      {
+        "text": "Integrate nutrient deficiency and insect detection to provide a more comprehensive health suite similar to Crop Doctor but with AI photo analysis.",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S1",
+          "S3"
+        ]
+      },
+      {
+        "text": "Focus on low-cost or high-ROI treatment suggestions to address farmer reluctance toward high-tech tools.",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S10"
+        ]
+      }
+    ],
+    "queries_used": [
+      "A mobile application that provides instant crop disease alternatives substitutes Small farmers in India",
+      "Agriculture / AgriTech A mobile application that provides instant crop disease emerging startups new approaches"
+    ],
+    "sources": [
+      {
+        "id": "S1",
+        "title": "AI Crop Disease Detection App Development Guide 2026",
+        "url": "https://technobrains.io/crop-disease-detection-app-development-guide"
+      },
+      {
+        "id": "S3",
+        "title": "MANAGE",
+        "url": "https://www.manage.gov.in/fpoacademy/portalsapps.asp"
+      },
+      {
+        "id": "S5",
+        "title": "Crop Disease Detection App",
+        "url": "https://www.ai4d.ai/innovations/crop-disease-detection-app"
+      },
+      {
+        "id": "S10",
+        "title": "AgTech's Promise vs Reality: Bridging the Farm-to-Future Gap",
+        "url": "https://www.dialventures.com/library/agtechs-promise-vs-reality-bridging-the-farm-to-future-gap"
+      },
+      {
+        "id": "S11",
+        "title": "High-Tech, Low-Touch: The Growing Gap between Agri-Startups and Farmers | AESA",
+        "url": "https://aesanetwork.org/high-tech-low-touch-the-growing-gap-between-agri-startups-and-farmers"
+      },
+      {
+        "id": "S12",
+        "title": "Small-Scale Farming in the United States: Challenges and Pathways to Enhanced Productivity and Profitability",
+        "url": "https://www.mdpi.com/2071-1050/17/15/6752"
+      }
+    ],
+    "data_quality": {
+      "evidence_level": "limited",
+      "notes": [
+        "Specific pricing for competitors was not found in the evidence.",
+        "Local language support details for existing competitors were not explicitly stated in the snippets.",
+        "The 'Plantix' competitor was primarily identified from the user-provided idea context rather than the search evidence."
+      ]
+    },
+    "caveats": [
+      "Absence from search results does not prove a competitor or a gap does not exist."
+    ]
+  }
+}

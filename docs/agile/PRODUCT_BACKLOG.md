@@ -105,3 +105,73 @@ Status values: `DONE`, `IN PROGRESS`, `PLANNED`. Statuses reflect the progress d
 - The progress snapshot reflects the information available through **2026-10-16** and should be checked against the current repository before formal submission.
 - Keep all API keys and other secrets in environment variables; do not commit real `.env` files or credentials.
 - Later milestones should add their own backlog stories for market analysis, competitor analysis, SWOT/risk analysis, MVP recommendations, go-to-market strategy, conversational advising, and report generation.
+
+---
+
+## 6. Addendum: new web interface (verified facts)
+
+This addendum sits **outside the Milestone 1 scope** of the backlog above. It records what has been
+built and measured for the React interface in `web/`, so the backlog is not silently out of date.
+Sprint numbers, dates, stand-ups and retrospectives are deliberately absent: those belong in the
+mentor's Excel sheets and in the sprint and retrospective documents, written by the team.
+
+Reference: `KIRO_UI_UPGRADE_SPEC.md` for the specification, and
+[`docs/10_ui_design_system.md`](../10_ui_design_system.md) for what was built.
+
+### Stories
+
+Status values as in the tables above. `VERIFIED WITH FAKES` means the behaviour is covered by
+automated tests against saved results, with no live provider call made.
+
+| US ID | User Story | MoSCoW | Dependency | Status |
+|:---|:---|:---:|:---|:---:|
+| **US-WEB2-01** | *As a developer, I want background runs, run history and a metadata route added to the API so that a browser client can start a validation, poll it and reopen it later, without changing any existing route.* | MUST | US-ORC-01 | DONE |
+| **US-WEB2-02** | *As a founder, I want a submission form that states every limit the backend enforces, so that I am not rejected after submitting.* | MUST | US-WEB2-01 | DONE |
+| **US-WEB2-03** | *As a founder, I want to review and correct the extracted idea before the expensive stages run.* (closes the intent of US-SUB-05) | MUST | US-WEB2-02 | DONE |
+| **US-WEB2-04** | *As a founder, I want to watch the four stages progress and to cancel a run, instead of watching one spinner for two minutes.* | MUST | US-WEB2-01 | DONE |
+| **US-WEB2-05** | *As a founder, I want every claim to carry the sources it rests on, and a drawer that shows what rests on a given source.* | MUST | US-WEB2-01 | DONE |
+| **US-WEB2-06** | *As a founder, I want the market analysis, the competitor comparison, the sources and the run's own record on separate tabs so that one screen has one job.* | MUST | US-WEB2-05 | DONE |
+| **US-WEB2-07** | *As a founder, I want to export a result as Markdown, JSON or PDF so that I can share it.* | SHOULD | US-WEB2-06 | DONE |
+| **US-WEB2-08** | *As a founder, I want my past validations listed so that I can reopen, rename or delete one.* | SHOULD | US-WEB2-01 | DONE |
+| **US-WEB2-09** | *As a founder, I want to see whether the backend and each provider are configured, without any key being shown.* | SHOULD | US-WEB2-01 | DONE |
+| **US-WEB2-10** | *As a reader using a phone, a tablet or a desktop, I want every screen to work at 390, 820 and 1440 px with targets I can hit.* | MUST | US-WEB2-06 | DONE |
+| **US-WEB2-11** | *As a reader using a keyboard or a screen reader, I want no serious or critical accessibility violation on any screen.* | MUST | US-WEB2-10 | DONE |
+| **US-WEB2-12** | *As a developer, I want the new interface covered by automated tests that never call a provider, so that the suite can run on any machine without credits.* | MUST | US-WEB2-06 | DONE |
+| **US-WEB2-13** | *As a team member, I want one real validation run started from the new interface so that parity with Streamlit is confirmed.* | MUST | US-WEB2-12 | **PLANNED** (needs real API credits; not yet run) |
+| **US-WEB2-14** | *As a team member, I want the Streamlit interface kept working until that parity is confirmed.* | MUST | US-WEB2-13 | DONE (unchanged, still runs) |
+
+### Measured results
+
+Every figure below comes from the final verification run of this phase, using the named command. No
+live provider call was made for any of them. Re-run them before formal submission and update the
+numbers if they move.
+
+| Check | Command | Result |
+|---|---|---|
+| Backend regression | `python -m pytest` | **1636 passed**, 1 deprecation warning. Unchanged by the interface work |
+| Front-end unit and component tests | `npm test` (in `web/`) | **295 passed** in 20 files |
+| TypeScript | `npm run typecheck` | Passes for the application and for the browser tests |
+| Production build | `npm run build` | Succeeds. Entry bundle **268.78 kB**, 85.54 kB gzipped, no size warning |
+| Browser tests | `npm run test:e2e` | **183 passed** in Chromium at 390, 820 and 1440 px |
+| Accessibility | `npm run test:e2e:a11y` | **0 serious or critical** axe violations across 27 screens × 3 widths |
+| Screenshots | `npm run test:shots` | **81** written to `docs/assets/ui_v2/` |
+
+### Definition of Done, as applied here
+
+The DoD in section 2 was used unchanged, with two clarifications for front-end work:
+
+- **Tests** means the `vitest` suite for behaviour and the Playwright suite for the browser, in
+  addition to `pytest` for anything touching the backend.
+- **Security** also means that no secret may reach the browser bundle: the front end reads only
+  `VITE_API_URL`, and `GET /health` and `GET /api/meta` report whether a provider is configured
+  without returning a key or a key's length.
+
+### What is not done
+
+- **US-WEB2-13 is open.** No validation has been run live from the React interface. Everything
+  verified so far replays the saved 27 October live results or seeded history rows.
+- Streamlit is therefore **not retired** and should not be, until US-WEB2-13 is closed.
+- The light theme exists in the tokens but is not switchable from the interface.
+- Two accessibility exceptions are accepted and documented in `docs/10`: inline citation chips are
+  24 px (WCAG 2.5.8 exempts a target inside a sentence) and the verify-next checkboxes are 20 px
+  boxes with 44 px labels.

@@ -1,0 +1,250 @@
+{
+  "industry_overview": {
+    "summary": "The Agritech sector is transitioning from early-stage enthusiasm to a more mature market focused on proven business models and digital platform integration. While the overall market is growing, the funding environment has become more selective.",
+    "market_category": "AgriTech / Digital Farm Management",
+    "developments": [
+      {
+        "text": "The global agritech market is projected to grow at a CAGR of 14.4% from 2026 to 2035.",
+        "basis": "sourced",
+        "source_ids": [
+          "S1"
+        ]
+      },
+      {
+        "text": "Venture capital investment is shifting toward startups with clear paths to profitability and established business models.",
+        "basis": "sourced",
+        "source_ids": [
+          "S8"
+        ]
+      }
+    ]
+  },
+  "market_demand": {
+    "summary": "Smallholder farmers face critical delays in disease diagnosis and lack access to expert advice, which is exacerbated by financial constraints and poor infrastructure.",
+    "demand_evidence": [
+      {
+        "text": "Small farmers often face significant delays waiting for expert visits to diagnose crop diseases, leading to untreated infections.",
+        "basis": "user_provided",
+        "source_ids": []
+      },
+      {
+        "text": "Smallholder farmers are vulnerable to supply chain issues and often lack sufficient funds for traditional expert consultations.",
+        "basis": "sourced",
+        "source_ids": [
+          "S6"
+        ]
+      }
+    ],
+    "customer_problems": [
+      {
+        "text": "Lack of immediate information leading to crop loss.",
+        "basis": "user_provided",
+        "source_ids": []
+      },
+      {
+        "text": "Barriers in accessing profitable markets and reliance on intermediaries who offer low prices.",
+        "basis": "sourced",
+        "source_ids": [
+          "S5"
+        ]
+      }
+    ],
+    "interest_signals": [
+      {
+        "text": "Global agritech funding is projected to exceed $40 billion in 2025, indicating sustained investor interest in the sector.",
+        "basis": "sourced",
+        "source_ids": [
+          "S7"
+        ]
+      }
+    ]
+  },
+  "market_size": {
+    "tam": {
+      "value": "USD 31.9 billion",
+      "status": "sourced",
+      "source_ids": [
+        "S1"
+      ],
+      "note": "Global Agritech Market value estimated for 2025."
+    },
+    "sam": {
+      "value": "USD 18.9 billion",
+      "status": "estimate_needs_verification",
+      "source_ids": [
+        "S0"
+      ],
+      "note": "Global agritech platform market projected for 2026."
+    },
+    "som": {
+      "value": null,
+      "status": "unavailable",
+      "source_ids": [],
+      "note": "Specific market size for AI-based disease detection in India was not provided in the evidence."
+    }
+  },
+  "trends": [
+    {
+      "trend": "Integration of AI, automation, and data-driven insights in agriculture.",
+      "category": "technology",
+      "basis": "sourced",
+      "source_ids": [
+        "S9"
+      ]
+    },
+    {
+      "trend": "Growth of digital farm management platforms to optimize agricultural operations.",
+      "category": "industry",
+      "basis": "ai_interpretation",
+      "source_ids": [
+        "S2"
+      ]
+    },
+    {
+      "trend": "Increased focus on regenerative and resilient farming practices among smallholders.",
+      "category": "consumer",
+      "basis": "sourced",
+      "source_ids": [
+        "S4"
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "name": "Smallholder Farmers in India",
+      "description": "Individual farmers managing small plots who receive a low share of final crop prices and lack direct market access.",
+      "segmentation_basis": "demographic",
+      "needs": [
+        "Instant disease diagnosis",
+        "Local language support",
+        "Low-cost solutions"
+      ],
+      "pain_points": [
+        {
+          "text": "High reliance on intermediaries and low earnings.",
+          "basis": "sourced",
+          "source_ids": [
+            "S5"
+          ]
+        }
+      ],
+      "source_ids": [
+        "S5",
+        "S6"
+      ]
+    },
+    {
+      "name": "Farming Cooperatives",
+      "description": "Groups of farmers organized to share resources and improve market leverage.",
+      "segmentation_basis": "business_type",
+      "needs": [
+        "Scalable diagnostic tools for members",
+        "Improved crop yield across the collective"
+      ],
+      "pain_points": [
+        {
+          "text": "Coordinating expert visits for numerous small-scale members.",
+          "basis": "assumption",
+          "source_ids": []
+        }
+      ],
+      "source_ids": []
+    }
+  ],
+  "priority_segment": {
+    "segment_name": "Smallholder Farmers in India",
+    "rationale": "This segment faces the most acute need for immediate, low-cost diagnostic tools due to their vulnerability to crop loss and lack of financial resources to hire experts. The evidence highlights that Indian farmers receive a small fraction of crop value, making productivity-saving tools essential.",
+    "risks": [
+      "Limited ability to pay for premium services",
+      "Potential lack of smartphone or internet infrastructure in remote areas"
+    ]
+  },
+  "opportunities": [
+    {
+      "text": "Providing multi-language support to overcome accessibility barriers for non-English speaking farmers.",
+      "basis": "user_provided",
+      "source_ids": []
+    },
+    {
+      "text": "Leveraging the projected growth in the agritech platform market to capture early adopters in emerging economies.",
+      "basis": "ai_interpretation",
+      "source_ids": [
+        "S0"
+      ]
+    }
+  ],
+  "limitations": [
+    {
+      "text": "The funding climate for agtech has become 'drier,' with total funding well below the 2021 peak.",
+      "basis": "sourced",
+      "source_ids": [
+        "S9"
+      ]
+    },
+    {
+      "text": "Smallholders may experience reduced productivity or labor increases when transitioning to new technological or regenerative practices.",
+      "basis": "sourced",
+      "source_ids": [
+        "S4"
+      ]
+    }
+  ],
+  "data_quality": {
+    "evidence_level": "limited",
+    "notes": [
+      "Specific market size for India was not available.",
+      "Revenue models for smallholder-focused apps were not detailed in the evidence.",
+      "The distinction between general agritech and AI-specific diagnostic tools in market sizing is not clearly defined."
+    ]
+  },
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Agritech Market Size, Trends and Forecast 2026 to 2035",
+      "url": "https://www.insightaceanalytic.com/report/agritech-market/2546"
+    },
+    {
+      "id": "S2",
+      "title": "Agritech Platform Market Size & Growth Trends, 2033",
+      "url": "https://www.persistencemarketresearch.com/market-research/agritech-platform-market.asp"
+    },
+    {
+      "id": "S4",
+      "title": "The Challenges Facing Smallholder Farmers and Nature-Based Solutions - Nature For Justice",
+      "url": "https://nature4justice.earth/challenges-facing-smallholder-farmers"
+    },
+    {
+      "id": "S5",
+      "title": "Smallholder Farmers in Asia: Challenges and Opportunities",
+      "url": "https://earth.org/smallholder-farmers-in-asia-challenges-opportunities-and-the-path-to-sustainable-food-production"
+    },
+    {
+      "id": "S6",
+      "title": "What Are the Challenges of Smallholder Farmers Around the World? - Bread for the World",
+      "url": "https://www.bread.org/article/challenges-of-smallholder-farmers"
+    },
+    {
+      "id": "S7",
+      "title": "Seed Funding for AgriTech Startups: Grants & Investors",
+      "url": "https://qubit.capital/blog/seed-funding-options-agritech-startups"
+    },
+    {
+      "id": "S8",
+      "title": "976+ Funded Agriculture Startups 2026 | AgTech Database & Contacts - Growth List",
+      "url": "https://growthlist.co/agriculture-startups"
+    },
+    {
+      "id": "S9",
+      "title": "Sector Snapshot: Agtech Startups Face A Drier Funding Climate",
+      "url": "https://news.crunchbase.com/agtech-foodtech/startup-vc-funding-ai-automation-data"
+    }
+  ],
+  "caveats": [
+    "Market figures are evidence-dependent and need verification."
+  ]
+}
+
+Warnings:
+- none
+
+Integrity check: no violations

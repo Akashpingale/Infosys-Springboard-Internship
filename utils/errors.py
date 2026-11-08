@@ -52,3 +52,56 @@ class SearchAPIError(SearchError):
     code = "search_api_error"
     status_code = 502
     default_message = "The web search service is not responding. Please try again."
+
+
+class InsufficientEvidenceError(AppError):
+    code = "insufficient_evidence"
+    status_code = 502
+    default_message = (
+        "Not enough reliable information was found online to analyse this idea. "
+        "Please try again later."
+    )
+
+
+# --- UI upgrade (KIRO_UI_UPGRADE_SPEC.md Section 10): background runs and their history ---------
+
+
+class RunNotFoundError(AppError):
+    code = "run_not_found"
+    status_code = 404
+    default_message = "This validation could not be found. It may have been deleted."
+
+
+class RunLimitError(AppError):
+    code = "run_limit_reached"
+    status_code = 409
+    default_message = "A validation is already running. Try again when it has finished."
+
+
+class RunActiveError(AppError):
+    code = "run_active"
+    status_code = 409
+    default_message = "This validation is still running. Cancel it first, then try again."
+
+
+class ReportNotReadyError(AppError):
+    code = "report_not_ready"
+    status_code = 409
+    default_message = "The report is not ready yet. Try again when the validation has finished."
+
+
+class RunCancelledError(AppError):
+    """Raised before an outside call once the run was cancelled. It becomes a stage error."""
+
+    code = "run_cancelled"
+    status_code = 409
+    default_message = "The run was cancelled before this step finished."
+
+
+class HistoryUnavailableError(AppError):
+    code = "history_unavailable"
+    status_code = 503
+    default_message = (
+        "Saved validations are not available right now. Check that the data folder can be written, "
+        "then restart the server."
+    )

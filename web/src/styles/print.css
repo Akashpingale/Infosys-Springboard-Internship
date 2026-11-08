@@ -1,0 +1,123 @@
+/*
+ * Print stylesheet (KIRO_UI_UPGRADE_SPEC.md Section 7.4, export menu).
+ *
+ * "Export as PDF" is the browser's own print dialogue, so the PDF is whatever this stylesheet
+ * leaves on the page: A4, light colours, no navigation and no controls.
+ *
+ * The colours are the light theme tokens from tokens.css, set here rather than by switching the
+ * theme, so printing never changes what is on screen. Surfaces go white because a dark panel would
+ * otherwise print as a solid block of ink.
+ */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+
+  :root,
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --canvas: #ffffff;
+    --surface: #ffffff;
+    --raised: #f1f5f9;
+
+    --border: #d8e0ec;
+    --border-strong: #94a3b8;
+
+    --text: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #52637a;
+
+    --primary: #0369a1;
+    --primary-hover: #075985;
+    --primary-contrast: #ffffff;
+
+    --success: #047857;
+    --warning: #92400e;
+    --danger: #b91c1c;
+    --info: #0369a1;
+    --success-bg: #ffffff;
+    --warning-bg: #ffffff;
+    --danger-bg: #ffffff;
+    --info-bg: #ffffff;
+
+    --chart-step-1: #0ea5e9;
+    --chart-step-2: #0284c7;
+    --chart-step-3: #0369a1;
+    --chart-step-4: #075985;
+
+    --basis-sourced: #1f5fa8;
+    --basis-interpretation: #b4451d;
+    --basis-provided: #156b4e;
+    --basis-assumption: #8a5d00;
+    --basis-sourced-bg: #ffffff;
+    --basis-interpretation-bg: #ffffff;
+    --basis-provided-bg: #ffffff;
+    --basis-assumption-bg: #ffffff;
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    background: #ffffff;
+    color: #0f172a;
+  }
+
+  /* The navigation, the tabs and every control belong to the screen, not to the page. */
+  header,
+  nav,
+  dialog,
+  .skip-link,
+  [role='tablist'],
+  [data-print-hide] {
+    display: none !important;
+  }
+
+  /* Citation chips stay: a printed finding without its source number loses its point. */
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  /* Panels print as outlined blocks rather than filled ones. */
+  [class*='bg-surface'],
+  [class*='bg-raised'],
+  [class*='bg-canvas'] {
+    background: #ffffff !important;
+  }
+
+  /* Nothing is cut in half across a page if it can be helped. */
+  section,
+  table,
+  tr,
+  li,
+  details,
+  article,
+  figure {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  /* A scrolling region has no scroll bar on paper, so it is shown whole. */
+  [class*='overflow-x-auto'],
+  [class*='overflow-y-auto'],
+  [class*='overflow-auto'] {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  /* A link's address is worth having on paper, where it cannot be clicked. */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.7rem;
+    word-break: break-all;
+  }
+}

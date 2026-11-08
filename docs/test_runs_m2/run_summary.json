@@ -1,0 +1,118 @@
+{
+  "generated": "2026-10-27 15:37",
+  "model": "gemini-3-flash-preview",
+  "ideas_attempted": 3,
+  "ideas_executed": 3,
+  "runs": [
+    {
+      "idea": "agritech",
+      "file": "agritech.json",
+      "executed": true,
+      "industry": "Agriculture / AgriTech",
+      "status": "complete",
+      "timings": {
+        "extraction": 5.965,
+        "search": 14.903,
+        "market_opportunity": 22.01,
+        "competitor_analysis": 116.46,
+        "total": 159.34
+      },
+      "counts": {
+        "search_results": 12,
+        "queries_failed": 0,
+        "segments": 2,
+        "market_sources": 10,
+        "broader_market_figures": 3,
+        "competitors": 1,
+        "comparison_features": 8,
+        "market_gaps": 3,
+        "competitor_sources": 6,
+        "targeted_competitor_queries": 2
+      },
+      "warnings": [
+        "Market opportunity: market_demand.customer_problems[2]: it is not about the problem this idea solves, so it was removed",
+        "Market opportunity: segments[0].pain_points[0]: it is not about the problem this idea solves, so it was removed",
+        "Competitor analysis: Phase A: the candidate search failed (The AI service is busy right now. Please try again in a minute.), so only the generic searches were used",
+        "Competitor analysis: competitors[0].strengths[0]: removed strength 'Demonstrated massive scale with smallholder farmers.'; it had no valid source",
+        "Competitor analysis: competitors[0]: removed 'Plantix'; the founder did not name it in the submission",
+        "Competitor analysis: competitors[2]: removed 'Crop Disease Detection App (AI4D)'; it is not named in its cited sources"
+      ],
+      "errors": [],
+      "integrity_violations": {
+        "market_opportunity": [],
+        "competitor_analysis": []
+      }
+    },
+    {
+      "idea": "fintech_cashflow",
+      "file": "fintech_cashflow.json",
+      "executed": true,
+      "industry": "Finance / FinTech",
+      "status": "complete",
+      "timings": {
+        "extraction": 13.948,
+        "search": 14.682,
+        "market_opportunity": 26.43,
+        "competitor_analysis": 47.425,
+        "total": 102.486
+      },
+      "counts": {
+        "search_results": 12,
+        "queries_failed": 0,
+        "segments": 3,
+        "market_sources": 10,
+        "broader_market_figures": 3,
+        "competitors": 5,
+        "comparison_features": 8,
+        "market_gaps": 2,
+        "competitor_sources": 11,
+        "targeted_competitor_queries": 5
+      },
+      "warnings": [
+        "Market opportunity: market_demand.demand_evidence[1]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "Market opportunity: limitations[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "Competitor analysis: differentiation_opportunities[2]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation"
+      ],
+      "errors": [],
+      "integrity_violations": {
+        "market_opportunity": [],
+        "competitor_analysis": []
+      }
+    },
+    {
+      "idea": "foodtech_surplus",
+      "file": "foodtech_surplus.json",
+      "executed": true,
+      "industry": "Food & Beverage",
+      "status": "complete",
+      "timings": {
+        "extraction": 5.592,
+        "search": 15.851,
+        "market_opportunity": 22.449,
+        "competitor_analysis": 85.898,
+        "total": 129.791
+      },
+      "counts": {
+        "search_results": 12,
+        "queries_failed": 0,
+        "segments": 3,
+        "market_sources": 11,
+        "broader_market_figures": 3,
+        "competitors": 4,
+        "comparison_features": 8,
+        "market_gaps": 2,
+        "competitor_sources": 6,
+        "targeted_competitor_queries": 5
+      },
+      "warnings": [
+        "Competitor analysis: competitors[3]: removed 'Foodealz'; the founder did not name it in the submission",
+        "Competitor analysis: competitors[5]: removed 'Food banks and charities'; it is not named in its cited sources"
+      ],
+      "errors": [],
+      "integrity_violations": {
+        "market_opportunity": [],
+        "competitor_analysis": []
+      }
+    }
+  ]
+}

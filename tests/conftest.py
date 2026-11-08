@@ -12,7 +12,8 @@ FAKE_ENV = {
     "LLM_API_KEY": "test-llm-key",
     "LLM_MODEL": "test-model",
 }
-OPTIONAL_ENV = ("BACKEND_URL", "LLM_TIMEOUT_S", "SEARCH_TIMEOUT_S")
+# GROQ_API_KEY is cleared too: a real key in .env must never switch on the Groq fallback in a test.
+OPTIONAL_ENV = ("BACKEND_URL", "LLM_TIMEOUT_S", "SEARCH_TIMEOUT_S", "GROQ_API_KEY")
 LOCAL_HOSTS = {"127.0.0.1", "::1", "localhost"}
 
 

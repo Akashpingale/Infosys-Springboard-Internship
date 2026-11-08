@@ -1,0 +1,9 @@
+{
+  "//": "The browser tests are checked separately from the application: they run in Node under Playwright, so they need Node's types and must not see vitest's globals.",
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "noEmit": true
+  },
+  "include": [".", "../playwright.config.ts"]
+}

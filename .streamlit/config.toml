@@ -1,13 +1,20 @@
-# Theme for the Startup Idea Validator UI.
+# Theme for the Startup Idea Validator UI: a dark research-console palette.
 # Read automatically when Streamlit is run from the project root.
 
 [theme]
-base = "light"
-primaryColor = "#2563eb"
-backgroundColor = "#f6f7f9"
-secondaryBackgroundColor = "#ffffff"
-textColor = "#111827"
+base = "dark"
+primaryColor = "#38BDF8"
+backgroundColor = "#0A0E1A"
+secondaryBackgroundColor = "#0E1526"
+textColor = "#F1F5F9"
 font = "sans serif"
+linkColor = "#7DD3FC"
+borderColor = "#26344D"
+showWidgetBorder = true
+baseRadius = "10px"
+buttonRadius = "10px"
+dataframeBorderColor = "#22304A"
+dataframeHeaderBackgroundColor = "#131C2F"
 
 [client]
 toolbarMode = "minimal"
