@@ -23,6 +23,8 @@ export const queryKeys = {
   health: ['health'] as const,
   runs: ['runs'] as const,
   run: (id: string) => ['runs', id] as const,
+  /** Milestone 3: a run's Advisor conversation. */
+  chat: (id: string) => ['chat', id] as const,
 };
 
 /** The form limits, industries, examples, stage labels and provider status. */

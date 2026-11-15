@@ -1,0 +1,297 @@
+
+> startup-idea-validator-web@0.1.0 test
+> vitest run
+
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web[39m
+
+(node:13824) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:6544) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:10704) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16684) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13052) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4468) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4328) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22108) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7392) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2556) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8420) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/lib/runDetails.test.ts [2m([22m[2m23 tests[22m[2m)[22m[90m 125[2mms[22m[39m
+(node:22704) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+stderr | src/features/history/HistoryPage.test.tsx > History: the list > shows each saved validation with its industry, status, date and duration
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/new-validation/ConstraintsPanel.test.tsx > Review step: the strategy switch > is on by default and says what it costs
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/new-validation/NewValidationPage.test.tsx > New validation: the form > shows the limits the backend reported, rather than its own numbers
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/run/RunPage.test.tsx > Run page: while it runs > shows each stage with its status and time, and nothing as finished early
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/results/RunDetailsTab.test.tsx > Run details: stage timings > shows a bar and a table of the four stages
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/results/MarketTab.test.tsx > Market tab: the saved live agritech result > lists every section in the navigation and jumps to it
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/strategy/StrategyTab.test.tsx > Strategy tab: header > says what the strategy was built from, how much of it is linked, and that it is an interpretation
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/results/CompetitorsTab.test.tsx > Competitors tab: the saved live fintech result > offers filter chips with counts taken from the competitors kept
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/results/RunDetailsTab.test.tsx > Run details: the raw JSON > saves it as a file named after the run
+Error: Not implemented: navigation (except hash changes)
+    at module.exports (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\jsdom\lib\jsdom\browser\not-implemented.js:9:17)
+    at navigateFetch (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\jsdom\lib\jsdom\living\window\navigation.js:77:3)
+    at exports.navigate (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\jsdom\lib\jsdom\living\window\navigation.js:55:3)
+    at Timeout._onTimeout (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\jsdom\lib\jsdom\living\nodes\HTMLHyperlinkElementUtils-impl.js:81:7)
+    at listOnTimeout (node:internal/timers:685:17)
+    at processTimers (node:internal/timers:618:7) undefined
+
+ [32mΓ£ô[39m src/features/results/RunDetailsTab.test.tsx [2m([22m[2m20 tests[22m[2m)[22m[33m 1529[2mms[22m[39m
+stderr | src/features/results/SourcesTab.test.tsx > Sources tab: the table > lists every source with the number its citation chips use
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/strategy/StrategyTab.test.tsx > Strategy tab: no strategy yet > offers nothing to generate when there is no analysis to build on
+Warning: An update to StrategyEmpty inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at StrategyEmpty (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\features\strategy\StrategyStates.tsx:246:26)
+    at StrategyTab (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\features\strategy\StrategyTab.tsx:109:24)
+    at Router (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1203:17)
+    at MemoryRouter (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1097:7)
+    at QueryClientProvider (file:///C:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:41:32)
+    at Providers (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\app\providers.tsx:31:3)
+Warning: An update to StrategyTab inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at StrategyTab (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\features\strategy\StrategyTab.tsx:109:24)
+    at Router (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1203:17)
+    at MemoryRouter (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1097:7)
+    at QueryClientProvider (file:///C:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:41:32)
+    at Providers (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\app\providers.tsx:31:3)
+
+stderr | src/features/strategy/MvpSection.test.tsx > MVP plan in the Strategy tab > renders the MVP plan as its own section
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ [32mΓ£ô[39m src/features/results/MarketTab.test.tsx [2m([22m[2m21 tests[22m[2m)[22m[33m 1954[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Market tab: the saved live agritech result[2m > [22mlists every section in the navigation and jumps to it [33m410[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Market tab: in the run page[2m > [22mopens from the tab bar and opens the source drawer on a citation [33m378[2mms[22m[39m
+stderr | src/features/strategy/StrategyTab.test.tsx > Strategy tab: no strategy yet > offers no button when the backend cannot run strategy
+Warning: An update to StrategyEmpty inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at StrategyEmpty (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\features\strategy\StrategyStates.tsx:246:26)
+    at StrategyTab (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\features\strategy\StrategyTab.tsx:109:24)
+    at Router (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1203:17)
+    at MemoryRouter (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1097:7)
+    at QueryClientProvider (file:///C:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:41:32)
+    at Providers (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\app\providers.tsx:31:3)
+Warning: An update to StrategyTab inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at StrategyTab (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\features\strategy\StrategyTab.tsx:109:24)
+    at Router (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1203:17)
+    at MemoryRouter (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\node_modules\react-router\dist\umd\react-router.development.js:1097:7)
+    at QueryClientProvider (file:///C:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:41:32)
+    at Providers (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\src\app\providers.tsx:31:3)
+
+ [32mΓ£ô[39m src/features/strategy/MvpSection.test.tsx [2m([22m[2m21 tests[22m[2m)[22m[33m 2517[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m MVP plan: capacity[2m > [22mshows the planned effort against the capacity, in words, with the assumptions behind it [33m315[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m MVP plan in the Strategy tab[2m > [22mlists an MVP feature in the drawer of the source it cites [33m410[2mms[22m[39m
+ [32mΓ£ô[39m src/features/history/HistoryPage.test.tsx [2m([22m[2m17 tests[22m[2m)[22m[33m 3786[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m History: the list[2m > [22mshows each saved validation with its industry, status, date and duration [33m324[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m History: renaming[2m > [22mrenames in place and keeps the new title [33m981[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m History: renaming[2m > [22mleaves the title alone on Escape and on Cancel [33m321[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m History: on a narrow screen[2m > [22mrenames from a card, and deletes after asking [33m398[2mms[22m[39m
+(node:22860) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/results/CompetitorsTab.test.tsx [2m([22m[2m31 tests[22m[2m)[22m[33m 4403[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Competitors tab: the saved live fintech result[2m > [22moffers filter chips with counts taken from the competitors kept [33m480[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Competitors tab: the saved live fintech result[2m > [22mfilters the cards by type and announces how many are shown [33m492[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Competitors tab: the comparison matrix[2m > [22mcan be scrolled sideways by keyboard, and says so on a narrow screen [33m382[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Competitors tab: in the run page[2m > [22mopens from the tab bar and opens the source drawer on a competitor source [33m445[2mms[22m[39m
+stderr | src/features/run/strategyRun.test.tsx > Results tabs: seven of them > lists the seven tabs in the planned order
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ [32mΓ£ô[39m src/features/results/SourcesTab.test.tsx [2m([22m[2m28 tests[22m[2m)[22m[33m 4698[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Sources tab: the table[2m > [22mlists every source with the number its citation chips use [33m445[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Sources tab: searching[2m > [22mmatches the domain as well as the title [33m406[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Sources tab: sorting[2m > [22mturns a column around on the second click [33m369[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Sources tab: opening a source[2m > [22mshows the page and what rests on it, through the real drawer [33m329[2mms[22m[39m
+(node:22924) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22988) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/strategy/StrategyTab.test.tsx [2m([22m[2m19 tests[22m[2m)[22m[33m 5866[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab: header[2m > [22msays what the strategy was built from, how much of it is linked, and that it is an interpretation [33m774[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab: no strategy yet[2m > [22msends only the resources that were filled in [33m332[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab: change resources and regenerate[2m > [22mopens the resources on the stored values, confirms that all three parts are replaced, and sends mode all [33m782[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab: change resources and regenerate[2m > [22msends nothing when the confirmation is declined [33m755[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab: no internal names[2m > [22mshows no ids, refs or field names on a wide screen [33m617[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab: no internal names[2m > [22mshows none on a narrow screen either [33m524[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab on the run page[2m > [22mopens a SWOT pointΓÇÖs source in the drawer, which lists that point among what cites it [33m376[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Strategy tab on the run page[2m > [22mlists a risk in the drawer of the source it cites [33m456[2mms[22m[39m
+(node:23052) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/advisor/useChat.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 1010[2mms[22m[39m
+(node:23124) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/new-validation/schema.test.ts [2m([22m[2m13 tests[22m[2m)[22m[90m 18[2mms[22m[39m
+(node:23184) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/lib/results.test.ts [2m([22m[2m17 tests[22m[2m)[22m[90m 16[2mms[22m[39m
+(node:16464) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/strategy/RisksSection.test.tsx [2m([22m[2m9 tests[22m[2m)[22m[33m 796[2mms[22m[39m
+stderr | src/features/status/StatusPage.test.tsx > Status: the backend > says it is reachable, with the version it reports
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+(node:4720) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/styles/tokens.test.ts [2m([22m[2m3 tests[22m[2m)[22m[90m 43[2mms[22m[39m
+(node:22568) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22564) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/status/StatusPage.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 696[2mms[22m[39m
+ [32mΓ£ô[39m src/lib/strategyClaims.test.ts [2m([22m[2m5 tests[22m[2m)[22m[90m 16[2mms[22m[39m
+stderr | src/features/results/ExportMenu.test.tsx > Export menu > offers Markdown, JSON and PDF, and says what each one is
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ [32mΓ£ô[39m src/features/run/RunPage.test.tsx [2m([22m[2m37 tests[22m[2m)[22m[33m 11863[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: while it runs[2m > [22mkeeps polling until the run ends, then stops [33m5624[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: the finished result[2m > [22mmoves between tabs with the arrow keys [33m501[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: partial, failed and lost connection[2m > [22msays it is retrying when the connection drops, and keeps the run on screen [33m1535[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: printing for a PDF[2m > [22mlays every section out and opens the folded panels, then prints and puts them back [33m371[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: printing for a PDF[2m > [22mleaves the raw JSON folded, so a printed page is not tens of thousands of characters [33m328[2mms[22m[39m
+(node:17248) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/results/ExportMenu.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 1409[2mms[22m[39m
+(node:4860) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/lib/useMediaQuery.test.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 34[2mms[22m[39m
+ [32mΓ£ô[39m src/api/client.test.ts [2m([22m[2m8 tests[22m[2m)[22m[90m 94[2mms[22m[39m
+(node:8992) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/components/Field.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[90m 70[2mms[22m[39m
+(node:22484) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/lib/strategy.test.ts [2m([22m[2m4 tests[22m[2m)[22m[90m 8[2mms[22m[39m
+stderr | src/app/AppShell.test.tsx > App shell > offers a skip link that points at the main region
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+Warning: A suspended resource finished loading inside a test, but the event was not wrapped in act(...).
+
+When testing, code that resolves suspended data should be wrapped into act(...):
+
+act(() => {
+  /* finish loading suspended data */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+
+ [32mΓ£ô[39m src/app/AppShell.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 4303[2mms[22m[39m
+ [32mΓ£ô[39m src/features/run/strategyRun.test.tsx [2m([22m[2m11 tests[22m[2m)[22m[33m 9560[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Results tabs: seven of them[2m > [22mmoves through all seven with the arrow keys, wrapping at both ends, with one tab tabbable [33m739[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Polling after a strategy request[2m > [22mstays quiet on a finished run, then polls again until the strategy job ends [33m7642[2mms[22m[39m
+(node:17544) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/lib/format.test.ts [2m([22m[2m8 tests[22m[2m)[22m[90m 21[2mms[22m[39m
+ [32mΓ£ô[39m src/features/strategy/SwotSection.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 359[2mms[22m[39m
+(node:16580) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4540) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/components/BasisChip.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[90m 62[2mms[22m[39m
+ [32mΓ£ô[39m src/components/ui/button.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[90m 207[2mms[22m[39m
+ [32mΓ£ô[39m src/features/new-validation/ConstraintsPanel.test.tsx [2m([22m[2m16 tests[22m[2m)[22m[33m 20306[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: the strategy switch[2m > [22mis on by default and says what it costs [33m2646[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: the strategy switch[2m > [22msends the switch and no constraints when none was given [33m2183[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: the strategy switch[2m > [22msends neither strategy nor constraints when it is switched off [33m2312[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: the strategy switch[2m > [22mis not offered when the backend has no strategy, and the request is the one sent before [33m2111[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: the strategy switch[2m > [22mis not offered when the backend reports strategy as unavailable [33m2034[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: resources and goals[2m > [22mis closed by default and states the assumption [33m1986[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: resources and goals[2m > [22moffers the fields and choices the plan names [33m2006[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: resources and goals[2m > [22msends only the fields that were filled, trimmed and typed as the backend expects [33m2440[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Review step: resources and goals[2m > [22mtakes its options and limits from /api/meta, and refuses what they do not allow [33m2296[2mms[22m[39m
+ [32mΓ£ô[39m src/features/new-validation/NewValidationPage.test.tsx [2m([22m[2m27 tests[22m[2m)[22m[33m 27549[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the form[2m > [22mtells the founder when the idea is too short [33m486[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the industry combobox[2m > [22maccepts an industry that is not on the list [33m2347[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the industry combobox[2m > [22msearches the list [33m338[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the customer chips[2m > [22mturns what is typed into chips and removes them again [33m579[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the customer chips[2m > [22mrefuses a duplicate [33m539[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the customer chips[2m > [22mjoins the chips into the one field the backend takes [33m2167[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the review step[2m > [22mshows what was written beside what was understood, and starts the run with the edited idea [33m2428[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the review step[2m > [22msays how long the analysis takes before it starts [33m1920[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the review step[2m > [22mlets a feature be added and removed within the allowed range [33m2036[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the review step[2m > [22mwill not let the minimum number of features be broken [33m1914[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: the review step[2m > [22mgoes back to the form with what was typed still there [33m1968[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: failures[2m > [22msays how to start the server when it cannot be reached [33m1907[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: failures[2m > [22mpasses on the backend's own words when the form slips past the browser [33m1847[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: failures[2m > [22mreports a failed extraction without a stack trace, and stays on the form [33m1874[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: failures[2m > [22mexplains the concurrency limit and keeps the review open so the run can be retried [33m1912[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m New validation: failures[2m > [22mblocks a second submission while the first is in flight [33m2092[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m29 passed[39m[22m[90m (29)[39m
+[2m      Tests [22m [1m[32m394 passed[39m[22m[90m (394)[39m
+[2m   Start at [22m 16:09:26
+[2m   Duration [22m 37.24s[2m (transform 1.89s, setup 21.23s, collect 88.33s, tests 103.32s, environment 48.76s, prepare 5.59s)[22m
+

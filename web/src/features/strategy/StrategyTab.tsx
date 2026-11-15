@@ -1,0 +1,319 @@
+import { RefreshCw } from 'lucide-react';
+import * as React from 'react';
+
+import { useMeta } from '@/api/queries';
+import { Alert } from '@/components/Alert';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { Chip } from '@/components/Chip';
+import { Button } from '@/components/ui/button';
+import { ADVISOR_QUESTIONS, AskAdvisorButton } from '@/features/advisor/AdvisorTab';
+import { useGenerateStrategy, type RunDetail } from '@/features/run/useRun';
+import { GtmSection } from '@/features/strategy/GtmSection';
+import { MvpSection } from '@/features/strategy/MvpSection';
+import { RisksSection } from '@/features/strategy/RisksSection';
+import {
+  COPY,
+  ResourcesForm,
+  STRATEGY_PARTS,
+  StrategyEmpty,
+  StrategyFailed,
+  StrategyLoading,
+  StrategySkipped,
+  errorText,
+  hasAnyStrategy,
+  partState,
+  type PartState,
+} from '@/features/strategy/StrategyStates';
+import { SwotSection } from '@/features/strategy/SwotSection';
+import { cn } from '@/lib/cn';
+import type { PipelineResult, SourceRecord } from '@/lib/results';
+import type { StrategyConstraints } from '@/lib/strategy';
+
+type Quality = NonNullable<NonNullable<PipelineResult['swot']>['quality']>;
+type Input = NonNullable<Quality['inputs_used']>[number];
+
+export const SECTIONS = [
+  { id: 'strategy-swot', label: 'SWOT' },
+  { id: 'strategy-risks', label: 'Risks' },
+  { id: 'strategy-mvp', label: 'MVP plan' },
+  { id: 'strategy-gtm', label: 'Go-to-market' },
+] as const;
+
+export const CAVEAT = 'These are AI interpretations of your results, not predictions.';
+export const REPLACE_NOTE =
+  'Regenerating replaces all three parts: the SWOT and risk review, the MVP plan and the go-to-market plan. This uses 3 AI requests.';
+
+const INPUT_WORDS: Record<Input, string> = {
+  idea: 'idea',
+  market: 'market analysis',
+  competitors: 'competitor analysis',
+  swot: 'risk analysis',
+  mvp: 'feature plan',
+};
+const BASE_INPUTS: Input[] = ['idea', 'market', 'competitors'];
+const INPUT_ORDER: Input[] = ['idea', 'market', 'competitors', 'swot', 'mvp'];
+
+const ASSUMED_DEFAULTS = { team_size: 2, months_to_mvp: 3 } as const;
+
+function qualities(result: PipelineResult): Quality[] {
+  return STRATEGY_PARTS.map((part) => result[part.field]?.quality).filter((entry): entry is Quality => Boolean(entry));
+}
+
+export function basisLine(result: PipelineResult): { used: string; missing: string | null } | null {
+  const blocks = qualities(result);
+  if (blocks.length === 0) {
+    return null;
+  }
+  const used = new Set(blocks.flatMap((entry) => entry.inputs_used ?? []));
+  const missing = new Set(blocks.flatMap((entry) => entry.inputs_missing ?? []));
+  const built = BASE_INPUTS.filter((input) => used.has(input)).map((input) => INPUT_WORDS[input]);
+  const notUsed = INPUT_ORDER.filter((input) => missing.has(input)).map((input) => INPUT_WORDS[input]);
+  return {
+    used: `Built from: ${built.join(', ')}.`,
+    missing: notUsed.length > 0 ? `Not used: ${notUsed.join(', ')}.` : null,
+  };
+}
+
+export function grounding(result: PipelineResult): string | null {
+  let linked = 0;
+  let total = 0;
+  for (const entry of qualities(result)) {
+    const points = Object.values(entry.basis_counts ?? {}).reduce((sum, value) => sum + value, 0);
+    total += points;
+    linked += Math.round(entry.grounded_share * points);
+  }
+  if (total === 0) {
+    return null;
+  }
+  return `${linked} of ${total} ${total === 1 ? 'point is' : 'points are'} linked to a finding from your analysis.`;
+}
+
+export function assumedChips(result: PipelineResult): string[] {
+  const assumed = new Set(qualities(result).flatMap((entry) => entry.constraints_assumed ?? []));
+  const used = result.mvp?.constraints_used;
+  const chips: string[] = [];
+  if (assumed.has('team_size')) {
+    chips.push(`Assumed: team of ${used?.team_size ?? ASSUMED_DEFAULTS.team_size}`);
+  }
+  if (assumed.has('months_to_mvp')) {
+    const months = used?.months_to_mvp ?? ASSUMED_DEFAULTS.months_to_mvp;
+    chips.push(`Assumed: ${months} ${months === 1 ? 'month' : 'months'}`);
+  }
+  return chips;
+}
+
+function Section({
+  id,
+  title,
+  ask,
+  children,
+}: {
+  id: string;
+  title: string;
+  ask?: (() => void) | undefined;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} aria-labelledby={`${id}-heading`} className="scroll-mt-6 space-y-4">
+      <h2 id={`${id}-heading`} tabIndex={-1} className="outline-none">
+        {title}
+      </h2>
+      {children}
+      {ask ? <AskAdvisorButton onClick={ask} describedBy={`${id}-heading`} /> : null}
+    </section>
+  );
+}
+
+export interface StrategyTabProps {
+  run: RunDetail;
+  result: PipelineResult;
+  sources: Map<string, SourceRecord>;
+  onOpenSource: (key: string) => void;
+  onAsk?: (question: string) => void;
+}
+
+export function StrategyTab({ run, result, sources, onOpenSource, onAsk }: StrategyTabProps) {
+  const generate = useGenerateStrategy(run.id);
+  const meta = useMeta();
+  const strategy = meta.data?.strategy?.available ? meta.data.strategy : null;
+  const [changing, setChanging] = React.useState(false);
+  const [replacing, setReplacing] = React.useState<{ constraints: StrategyConstraints | null } | null>(null);
+
+  if (!hasAnyStrategy(run, result)) {
+    return (
+      <StrategyEmpty
+        run={run}
+        result={result}
+        busy={generate.isPending}
+        error={generate.error}
+        onGenerate={(constraints) => generate.mutate({ mode: 'missing', constraints })}
+      />
+    );
+  }
+
+  const swot = result.swot ?? null;
+  const swotState = partState(run, result, 'swot_risk');
+  const mvp = result.mvp ?? null;
+  const mvpState = partState(run, result, 'mvp_recommendation');
+  const gtm = result.gtm ?? null;
+  const gtmState = partState(run, result, 'go_to_market');
+  const retry = () => generate.mutate({ mode: 'missing' });
+  const asker = (question: string, ready: boolean) => (onAsk && ready ? () => onAsk(question) : undefined);
+  const basis = basisLine(result);
+  const grounded = grounding(result);
+  const chips = assumedChips(result);
+
+  function jump(id: string): void {
+    const target = document.getElementById(id);
+    if (!target) {
+      return;
+    }
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    document.getElementById(`${id}-heading`)?.focus({ preventScroll: true });
+  }
+
+  function notReady(state: PartState, withRetry: boolean): React.ReactNode {
+    switch (state.kind) {
+      case 'loading':
+        return <StrategyLoading label="This part is being prepared." />;
+      case 'skipped':
+        return <StrategySkipped reason={state.reason} />;
+      case 'failed':
+        return (
+          <StrategyFailed
+            reason={state.reason}
+            busy={generate.isPending}
+            {...(withRetry ? { onRetry: retry } : {})}
+          />
+        );
+      default:
+        return <StrategyFailed reason={null} busy={generate.isPending} {...(withRetry ? { onRetry: retry } : {})} />;
+    }
+  }
+
+  return (
+    <div className="space-y-8">
+      <div className="space-y-3 rounded-panel border border-line bg-surface p-6">
+        {basis ? (
+          <p className="max-w-prose text-body text-content">
+            {basis.used}
+            {basis.missing ? <span className="text-content-secondary"> {basis.missing}</span> : null}
+          </p>
+        ) : null}
+        {grounded ? <p className="max-w-prose text-body text-content-secondary">{grounded}</p> : null}
+        {chips.length > 0 ? (
+          <ul aria-label="Assumptions" className="flex flex-wrap gap-2">
+            {chips.map((chip) => (
+              <li key={chip}>
+                <Chip>{chip}</Chip>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        <p className="max-w-prose text-small text-content-muted">{CAVEAT}</p>
+        {strategy ? (
+          <div data-print-hide className="space-y-4 border-t border-line pt-4">
+            <Button
+              variant="secondary"
+              size="small"
+              aria-expanded={changing}
+              onClick={() => setChanging((value) => !value)}
+            >
+              <RefreshCw aria-hidden="true" />
+              {COPY.regenerate}
+            </Button>
+            {changing ? (
+              <ResourcesForm
+                limits={strategy.constraints}
+                constraints={run.constraints}
+                submitLabel="Regenerate strategy"
+                defaultOpen
+                busy={generate.isPending}
+                onCancel={() => setChanging(false)}
+                onSubmit={(constraints) => setReplacing({ constraints })}
+              >
+                <p className="max-w-prose text-small text-content-muted">{REPLACE_NOTE}</p>
+              </ResourcesForm>
+            ) : null}
+          </div>
+        ) : null}
+        {generate.isError ? (
+          <Alert tone="error" title="The strategy was not started">
+            {errorText(generate.error)}
+          </Alert>
+        ) : null}
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <nav aria-label="Strategy sections" className="min-w-0 lg:sticky lg:top-6 lg:self-start">
+          <ul className="flex gap-1 overflow-x-auto lg:flex-col">
+            {SECTIONS.map((section) => (
+              <li key={section.id} className="shrink-0">
+                <a
+                  href={`#${section.id}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    jump(section.id);
+                  }}
+                  className={cn(
+                    'flex min-h-[44px] items-center rounded-control px-3 text-small text-content-secondary sm:min-h-9',
+                    'transition-colors duration-tab hover:bg-raised hover:text-content',
+                  )}
+                >
+                  {section.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="min-w-0 space-y-12">
+          <Section id="strategy-swot" title="SWOT" ask={asker(ADVISOR_QUESTIONS.swot, Boolean(swot))}>
+            {swot ? <SwotSection swot={swot} sources={sources} onOpenSource={onOpenSource} /> : notReady(swotState, true)}
+          </Section>
+          <Section id="strategy-risks" title="Risks" ask={asker(ADVISOR_QUESTIONS.risks, Boolean(swot))}>
+            {swot ? <RisksSection swot={swot} sources={sources} onOpenSource={onOpenSource} /> : notReady(swotState, false)}
+          </Section>
+          <Section id="strategy-mvp" title="MVP plan" ask={asker(ADVISOR_QUESTIONS.mvp, Boolean(mvp))}>
+            {mvp ? (
+              <MvpSection mvp={mvp} swot={swot} sources={sources} onOpenSource={onOpenSource} />
+            ) : (
+              notReady(mvpState, true)
+            )}
+          </Section>
+          <Section id="strategy-gtm" title="Go-to-market" ask={asker(ADVISOR_QUESTIONS.gtm, Boolean(gtm))}>
+            {gtm ? (
+              <GtmSection gtm={gtm} mvp={mvp} swot={swot} sources={sources} onOpenSource={onOpenSource} />
+            ) : (
+              notReady(gtmState, true)
+            )}
+          </Section>
+        </div>
+      </div>
+
+      <ConfirmDialog
+        open={replacing !== null}
+        title="Replace the whole strategy?"
+        confirmLabel="Replace it"
+        busy={generate.isPending}
+        onCancel={() => setReplacing(null)}
+        onConfirm={() => {
+          const constraints = replacing?.constraints ?? null;
+          generate.mutate(
+            { mode: 'all', constraints },
+            {
+              onSuccess: () => {
+                setReplacing(null);
+                setChanging(false);
+              },
+              onError: () => setReplacing(null),
+            },
+          );
+        }}
+      >
+        <p>{REPLACE_NOTE}</p>
+      </ConfirmDialog>
+    </div>
+  );
+}

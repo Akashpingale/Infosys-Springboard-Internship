@@ -140,9 +140,14 @@ def response_format(reply_model: type[BaseModel] | None) -> dict[str, Any]:
 
 
 def request_body(
-    system_prompt: str, user_prompt: str, temperature: float, reply_model: type[BaseModel] | None = None
+    system_prompt: str,
+    user_prompt: str,
+    temperature: float,
+    reply_model: type[BaseModel] | None = None,
+    max_completion_tokens: int | None = None,
 ) -> dict[str, Any]:
-    """The same system and user prompts as the Gemini call, with the reply held to `reply_model`."""
+    """The same system and user prompts as the Gemini call, with the reply held to `reply_model`.
+    `max_completion_tokens` replaces MAX_COMPLETION_TOKENS for one call (a strategy stage's)."""
     return {
         "model": MODEL,
         "messages": [
@@ -153,7 +158,7 @@ def request_body(
         "response_format": response_format(reply_model),
         "reasoning_effort": REASONING_EFFORT,
         "include_reasoning": False,
-        "max_completion_tokens": MAX_COMPLETION_TOKENS,
+        "max_completion_tokens": MAX_COMPLETION_TOKENS if max_completion_tokens is None else max_completion_tokens,
     }
 
 
@@ -224,9 +229,11 @@ def generate_json(
     timeout_s: float,
     temperature: float,
     reply_model: type[BaseModel] | None = None,
+    max_completion_tokens: int | None = None,
 ) -> str:
     """One chat completion. Returns the reply text, as Gemini's generate_json does. With
     `reply_model`, the reply is held to that model's strict JSON schema; without it, to JSON object mode.
+    `max_completion_tokens` (None: MAX_COMPLETION_TOKENS) is the output-token limit of this call.
 
     Waits at most `timeout_s`: the caller applies the run's time limit. Never retries; the caller
     bounds the attempts. Raises GroqError without a key, and for any transport, status or reply problem.
@@ -240,7 +247,7 @@ def generate_json(
         response = requests.post(
             API_URL,
             headers={"Authorization": f"Bearer {settings.groq_api_key}"},
-            json=request_body(system_prompt, user_prompt, temperature, reply_model),
+            json=request_body(system_prompt, user_prompt, temperature, reply_model, max_completion_tokens),
             timeout=timeout_s,
         )
     except requests.Timeout:

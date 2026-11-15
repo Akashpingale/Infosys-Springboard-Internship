@@ -76,6 +76,16 @@
     display: none !important;
   }
 
+  /*
+   * Milestone 3: the page opens every button-folded panel before printing (the risk register's
+   * detail rows), so the "Hide details" buttons that fold them again have nothing to do on paper.
+   * The Advisor tab is never laid out for printing, and the Strategy tab's own controls (regenerate,
+   * sort, "Ask the advisor about this") carry data-print-hide.
+   */
+  button[aria-expanded][aria-controls] {
+    display: none !important;
+  }
+
   /* Citation chips stay: a printed finding without its source number loses its point. */
   main {
     max-width: none !important;

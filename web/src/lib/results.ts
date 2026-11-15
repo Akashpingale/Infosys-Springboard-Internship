@@ -25,6 +25,9 @@ export type VerifyItem = components['schemas']['VerifyItem'];
 /** Which analysis a source id belongs to. */
 export type AnalysisKey = 'market' | 'competitors';
 
+/** Milestone 3: a strategy item names its sources with their analysis, since it may cite both. */
+export type StrategySourceKey = components['schemas']['StrategySourceKey'];
+
 /** agents/evidence.py: S0 is the search engine's own summary and has no URL. */
 export const SUMMARY_ID = 'S0';
 export const SUMMARY_CHIP_LABEL = 'Search summary';
@@ -51,7 +54,8 @@ export interface SourceRecord {
 export interface Claim {
   text: string;
   basis: Basis | null;
-  analysis: AnalysisKey;
+  /** `strategy` for a strategy item, whose sources may come from both analyses. */
+  analysis: AnalysisKey | 'strategy';
   sourceKeys: string[];
   /** Where it sits, for the drawer: "Market demand", "Competitor: Khatabook". */
   where: string;
@@ -142,6 +146,108 @@ function place(path: string[]): string {
   return path.length > 0 ? 'Analysis' : 'Analysis';
 }
 
+/** Milestone 3: the SWOT quadrants, in the order of Section 14.4, with the drawer's place names. */
+export const SWOT_QUADRANTS = [
+  { key: 'strengths', label: 'Strengths' },
+  { key: 'weaknesses', label: 'Weaknesses' },
+  { key: 'opportunities', label: 'Opportunities' },
+  { key: 'threats', label: 'Threats' },
+] as const;
+
+export function strategySourceKeys(refs: StrategySourceKey[] | undefined): string[] {
+  return (refs ?? []).map((ref) => sourceKey(ref.analysis, ref.id));
+}
+
+/** The sources a strategy item cites, as records, skipping any the result does not list. */
+export function resolveStrategySources(
+  index: Map<string, SourceRecord>,
+  refs: StrategySourceKey[] | undefined,
+): SourceRecord[] {
+  const found: SourceRecord[] = [];
+  for (const key of strategySourceKeys(refs)) {
+    const record = index.get(key);
+    if (record && !found.includes(record)) {
+      found.push(record);
+    }
+  }
+  return found;
+}
+
+/**
+ * The SWOT items, the risks, the MVP features and the go-to-market positioning, channels and
+ * early-customer tactics, as claims (Milestone 3, Section 17.5).
+ */
+function strategyClaims(result: PipelineResult): Claim[] {
+  const swot = result.swot;
+  const claims: Claim[] = [];
+  for (const quadrant of SWOT_QUADRANTS) {
+    for (const item of swot?.[quadrant.key] ?? []) {
+      claims.push({
+        text: item.text,
+        basis: item.basis,
+        analysis: 'strategy',
+        sourceKeys: strategySourceKeys(item.sources),
+        where: `SWOT: ${quadrant.label}`,
+      });
+    }
+  }
+  for (const risk of swot?.risks ?? []) {
+    claims.push({
+      text: risk.title,
+      basis: risk.basis,
+      analysis: 'strategy',
+      sourceKeys: strategySourceKeys(risk.sources),
+      where: 'Risks',
+    });
+  }
+  for (const feature of result.mvp?.features ?? []) {
+    claims.push({
+      text: feature.name,
+      basis: feature.basis,
+      analysis: 'strategy',
+      sourceKeys: strategySourceKeys(feature.sources),
+      where: 'MVP plan',
+    });
+  }
+  const gtm = result.gtm;
+  if (gtm?.positioning) {
+    claims.push({
+      text: gtm.positioning.statement,
+      basis: gtm.positioning.basis,
+      analysis: 'strategy',
+      sourceKeys: strategySourceKeys(gtm.positioning.sources),
+      where: 'Go-to-market: Positioning',
+    });
+  }
+  for (const channel of gtm?.channels ?? []) {
+    claims.push({
+      text: channel.name,
+      basis: channel.basis,
+      analysis: 'strategy',
+      sourceKeys: strategySourceKeys(channel.sources),
+      where: 'Go-to-market: Channels',
+    });
+  }
+  for (const tactic of gtm?.early_customers ?? []) {
+    claims.push({
+      text: tactic.tactic,
+      basis: tactic.basis,
+      analysis: 'strategy',
+      sourceKeys: strategySourceKeys(tactic.sources),
+      where: 'Go-to-market: Early customers',
+    });
+  }
+  return claims;
+}
+
+export interface CollectOptions {
+  /**
+   * Milestone 3: add the strategy items, for the source drawer. Left off for the evidence mix and
+   * the Sources tab, which count the two analyses only (Section 14.5 keeps them unchanged).
+   */
+  strategy?: boolean;
+}
+
 /**
  * Every labelled claim in the two analyses, with the sources it cites.
  *
@@ -149,7 +255,7 @@ function place(path: string[]): string {
  * (agents/derived.labeled_bases), so the counts shown in the evidence mix are the counts the
  * evidence strength was calculated from.
  */
-export function collectClaims(result: PipelineResult): Claim[] {
+export function collectClaims(result: PipelineResult, options: CollectOptions = {}): Claim[] {
   const claims: Claim[] = [];
 
   function walk(node: unknown, analysis: AnalysisKey, path: string[]): void {
@@ -189,7 +295,7 @@ export function collectClaims(result: PipelineResult): Claim[] {
 
   walk(result.market, 'market', []);
   walk(result.competitors, 'competitors', []);
-  return claims;
+  return options.strategy ? [...claims, ...strategyClaims(result)] : claims;
 }
 
 /** How many labelled claims carry each basis, in the fixed order of Section 9. */

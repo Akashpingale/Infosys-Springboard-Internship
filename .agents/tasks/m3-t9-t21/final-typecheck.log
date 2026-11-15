@@ -1,0 +1,5 @@
+
+> startup-idea-validator-web@0.1.0 typecheck
+> tsc --noEmit && tsc --noEmit -p e2e/tsconfig.json
+
+exit 0, started 16:49:51, ended 16:50:02

@@ -1,0 +1,139 @@
+--- doc line 54: I-01
+  agents/base.py:21: class AgentContext:
+  agents/base.py:47: class Agent(Protocol):
+  agents/base.py:40: constraints: StrategyConstraints | None = None
+  agents/base.py:43: gtm: GtmResult | None = None
+--- doc line 55: I-02
+  orchestrator.py:82: class ExtractionStage:
+  orchestrator.py:92: class WebSearchStage:
+  orchestrator.py:114: class AnalysisStage:
+  orchestrator.py:174: class StrategyStage:
+  orchestrator.py:151: STAGES: list[Agent] = [ExtractionStage(), WebSearchStage()]
+  orchestrator.py:156: FULL_STAGES: list[Agent] = [
+  orchestrator.py:214: STRATEGY_ONLY_STAGES: list[Agent] = [
+  orchestrator.py:219: STRATEGY_STAGES: list[Agent] = [*FULL_STAGES, *STRATEGY_ONLY_STAGES]
+  orchestrator.py:263: def _status(context: AgentContext, errors: list[StageError], skipped: list[str]) -> str:
+--- doc line 56: I-03
+  orchestrator.py:223: class StageEvent:
+  agents/notices.py:44: STAGE_TITLES = {
+  agents/notices.py:37: STRATEGY_TITLES = {
+  utils/run_manager.py:67: TITLES = {**STAGE_TITLES, **STRATEGY_TITLES}
+--- doc line 57: I-04
+  utils/deadline.py:25: def time_limit(seconds: float | None) -> Iterator[None]:
+  utils/deadline.py:36: def extra_time(seconds: float | None) -> Iterator[None]:
+  utils/deadline.py:48: def time_left() -> float | None:
+  utils/deadline.py:54: def call_timeout(configured: float) -> float:
+  utils/run_manager.py:114: def run_time_limit_s() -> float:
+  orchestrator.py:249: def analysis_time_limit_s() -> float:
+  orchestrator.py:70: TIME_LIMIT_SHARE = 0.9
+--- doc line 58: I-05
+  utils/structured.py:57: def call_structured(
+  utils/groq_client.py:124: def strict_schema(model: type[BaseModel]) -> dict[str, Any]:
+--- doc line 59: I-06
+  utils/llm_client.py:373: def generate_json(system_prompt: str, user_prompt: str) -> str:
+  utils/llm_client.py:406: def generate_text(prompt: str) -> str:
+  utils/llm_client.py:104: def output_token_limit(tokens: int | None) -> Iterator[None]:
+  utils/llm_client.py:234: def _falls_back(exc: Exception) -> bool:
+  utils/llm_client.py:258: def _call_groq(primary: Exception, system_prompt: str, user_prompt: str, *, again: bool = False) -> str:
+  utils/errors.py:22: class LLMConfigError(AppError):
+  utils/errors.py:28: class LLMAPIError(AppError):
+  utils/errors.py:34: class LLMInvalidResponseError(AppError):
+  utils/groq_client.py:34: MAX_COMPLETION_TOKENS = 4096
+  orchestrator.py:76: STRATEGY_MAX_OUTPUT_TOKENS = 6144
+--- doc line 60: I-07
+  models/schemas.py:248: class MarketOpportunityResult(MarketOpportunityDraft):
+  models/schemas.py:368: class CompetitorAnalysisResult(BaseModel):
+  models/schemas.py:147: class LabeledItem(BaseModel):
+  models/schemas.py:128: class Basis(str, Enum):
+  models/schemas.py:141: class SourceRef(BaseModel):
+  models/schemas.py:225: class DataQuality(BaseModel):
+  models/schemas.py:396: class Notice(BaseModel):
+  models/schemas.py:424: class SummaryLine(BaseModel):
+  models/schemas.py:436: class VerifyItem(BaseModel):
+  models/schemas.py:445: class PipelineResult(BaseModel):
+  models/schemas.py:483: STRATEGY_BASES = ("ai_interpretation", "assumption", "user_provided")
+  models/schemas.py:729: PipelineResult.model_rebuild()
+--- doc line 61: I-08
+  agents/evidence.py:122: def build_evidence(
+  agents/evidence.py:155: id=f"S{number}",
+  agents/evidence.py:10: SUMMARY_ID = "S0"
+--- doc line 62: I-09
+  agents/figures.py:317: def check_claim(text: str | None, cited_texts: Iterable[str]) -> str:
+  agents/figures.py:67: STOP_WORDS = frozenset(
+  agents/figures.py:165: def singular(word: str) -> str:
+--- doc line 63: I-10
+  agents/notices.py:561: def build_notices(
+  agents/notices.py:80: CODE_FALLBACK = "quality_adjusted"
+  agents/notices.py:492: def leaks(message: str) -> bool:
+  agents/notices.py:334: STRATEGY_RULES: tuple[_StrategyRule, ...] = (
+--- doc line 64: I-11
+  agents/derived.py:104: def evidence_strength(result: PipelineResult) -> EvidenceStrength | None:
+  agents/derived.py:170: def executive_summary(result: PipelineResult) -> list[SummaryLine]:
+  agents/derived.py:323: def verify_next(result: PipelineResult) -> list[VerifyItem]:
+  agents/derived.py:373: def with_derived_fields(result: PipelineResult) -> PipelineResult:
+  agents/derived.py:77: def labeled_bases(model: BaseModel | None) -> list[str]:
+  agents/derived.py:252: def strategy_summary(result: PipelineResult) -> list[SummaryLine]:
+  agents/derived.py:281: def strategy_verify_next(result: PipelineResult) -> list[VerifyItem]:
+--- doc line 65: I-12
+  utils/run_manager.py:221: class RunManager:
+  utils/run_manager.py:323: def start(
+  utils/run_manager.py:365: def start_strategy(
+  utils/run_manager.py:508: def _work(self, run: _Run) -> None:
+  utils/run_manager.py:553: def _on_event(self, run: _Run, event: StageEvent) -> None:
+  utils/run_manager.py:580: def _finish(self, run: _Run, result: PipelineResult | None, failure: str | None = None) -> None:
+  utils/run_manager.py:62: MAX_CONCURRENT_RUNS = 2
+  utils/run_manager.py:627: def default_manager() -> RunManager:
+--- doc line 66: I-13
+  utils/run_store.py:95: def ensure_schema(connection: sqlite3.Connection) -> None:
+  utils/run_store.py:153: def _clean(self, value: Any) -> Any:
+  utils/run_store.py:190: def delete(self, run_id: str) -> bool:
+  utils/run_manager.py:293: def _detail_from_row(row: dict[str, Any]) -> RunDetail:
+  utils/chat_store.py:7: class ChatStore:
+--- doc line 67: I-14
+  routes/run_routes.py:42: def start_run(body: RunRequest, manager: RunManager = Depends(get_manager)) -> RunStarted:
+  models/api.py:166: class RunStarted(BaseModel):
+  models/api.py:143: class RunRequest(BaseModel):
+  models/api.py:182: class RunDetail(BaseModel):
+  models/api.py:205: class RunSummary(BaseModel):
+--- doc line 68: I-15
+  routes/meta_routes.py:132: def meta() -> MetaResponse:
+  routes/meta_routes.py:110: def strategy_info() -> StrategyInfo:
+  routes/meta_routes.py:126: def chat_limits() -> ChatLimits:
+--- doc line 69: I-16
+  frontend/analysis_views.py:372: def report_markdown(result: PipelineResult, *, full: bool = False) -> str:
+  frontend/analysis_views.py:227: def report_file_name(result: PipelineResult) -> str:
+  frontend/analysis_views.py:636: def strategy_markdown(result: PipelineResult) -> list[str]:
+--- doc line 70: I-17
+  config.py:44: class Settings:
+  config.py:180: def get_settings() -> Settings:
+  config.py:142: def _bounded_int_env(name: str, default: int, bounds: tuple[int, int]) -> int:
+  config.py:127: def _bounded_float_env(name: str, default: float, bounds: tuple[float, float]) -> float:
+--- doc line 71: I-18
+  web/src/features/results/ResultsHeader.tsx:18: export const TABS = [
+  web/src/features/run/StageTracker.tsx:64: {run.stages.map((stage) => {
+  web/src/features/run/useRun.ts:25: export const POLL_INTERVAL_MS = 1500;
+  web/src/features/run/useRun.ts:26: const ACTIVE: RunState[] = ['queued', 'running'];
+  web/src/components/Claim.tsx:32: export function ClaimItem({ item, analysis, sources, onOpenSource, className }: ClaimItemProps) {
+  web/src/lib/results.ts:258: export function collectClaims(result: PipelineResult, options: CollectOptions = {}): Claim[] {
+  web/src/features/run/RunPage.tsx:47: const PRINTED_TABS = TABS.filter((entry) => entry.key !== 'advisor');
+--- doc line 72: I-19
+  web/src/test/setup.ts:42: beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+  web/e2e/mockApi.ts:652: throw new Error('A browser test tried to start a validation. These tests must never do that.');
+--- doc line 73: I-20
+  tests/conftest.py:21: def fake_env(monkeypatch: pytest.MonkeyPatch) -> None:
+  tests/conftest.py:30: def block_network(monkeypatch: pytest.MonkeyPatch) -> None:
+--- doc line 122:   `orchestrator.py:56`). After the time 
+  orchestrator.py:56: SKIP_NO_ANALYSIS = "{label}: skipped because it needs at least one finished analysis."
+--- doc line 143: `RunManager.start_strategy` (`utils/run_
+  utils/run_manager.py:365: def start_strategy(
+--- doc line 300: ### Severity (`agents/swot_risk_agent.py
+  agents/swot_risk_agent.py:161: def severity(likelihood: str, impact: str) -> str:
+--- doc line 315: ### MVP score, rank, capacity and tiers 
+  agents/mvp_agent.py:196: def feature_score(customer_need: int, differentiation: int, feasibility: int) -> float:
+  agents/mvp_agent.py:201: def capacity_person_months(constraints: StrategyConstraints) -> float:
+  agents/mvp_agent.py:353: def assign_tiers(
+--- doc line 329: ### Go-to-market (`agents/gtm_agent.py:1
+  agents/gtm_agent.py:103: STATEMENT = (
+  agents/gtm_agent.py:251: def positioning_statement(product: str, parts: Positioning | PositioningDraft) -> str:
+  agents/gtm_agent.py:255: def channel_rank_key(audience_fit: int, cost_level: str, speed: str, number: int) -> tuple[int, int, int, int]
+total refs 113

@@ -1,0 +1,24 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "findings": [
+    {
+      "id": "B-1",
+      "file": "docs/12_milestone3_test_report.md",
+      "lines": "101-102",
+      "problem": "States that two RunPage.test.tsx tests gained MSW handlers; only one did.",
+      "evidence": "git diff HEAD -- web/src/features/run/RunPage.test.tsx adds server.use handlers (the /api/meta handler from T14 and chatThreadOk(() => EMPTY_THREAD) from T17) only in 'moves between tabs with the arrow keys'; no other test uses META or chatThreadOk (T14 report l.68, T17 report l.77).",
+      "consequence": "The test report lists the existing-test edits (plan 20.4) wrongly, against T21's 'only verified facts' requirement and X-12.",
+      "correction": "Write: \"One of its tests, `moves between tabs with the arrow keys`, gained two MSW handlers (`/api/meta` and the chat thread), as setup only, for the requests the new tabs make.\""
+    },
+    {
+      "id": "B-2",
+      "file": "docs/12_milestone3_test_report.md; docs/10_ui_design_system.md",
+      "lines": "docs/12: 23 and 119-120; docs/10: 359",
+      "problem": "Says the Playwright specs were run 'one at a time'; four of them ran together in one invocation.",
+      "evidence": "m3-t19/pw-gate.log: 'Running 204 tests using 1 worker', '204 passed (5.2m)', covering accessibility-m3 (42), keyboard-m3 (60), accessibility (81) and keyboard (21). The 288 results come from three runs: pw-screens-3.log (42), pw-gate.log (204), resume-pw-focus.log (42).",
+      "consequence": "The test report and design doc describe a verification procedure that was not followed.",
+      "correction": "In all three places, say the specs were named on the command line, never run as the whole suite, in three runs (screens-m3; accessibility-m3, keyboard-m3, accessibility and keyboard together; focus-m3), so the ui_v2 screenshot spec never ran. Re-run the link and count checks afterwards."
+    }
+  ],
+  "reviewDoc": "c:\\Users\\akash\\OneDrive\\Pictures\\Infosys-Springboard-Internship\\.agents\\tasks\\m3-t21\\review.md"
+}

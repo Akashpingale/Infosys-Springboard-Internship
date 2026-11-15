@@ -24,6 +24,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { SourceDrawer } from '@/components/SourceDrawer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ADVISOR_QUESTIONS, AdvisorTab, AskAdvisorButton } from '@/features/advisor/AdvisorTab';
 import { CompetitorsTab } from '@/features/results/CompetitorsTab';
 import { ExportMenu } from '@/features/results/ExportMenu';
 import { MarketTab } from '@/features/results/MarketTab';
@@ -32,9 +33,18 @@ import { ResultsHeader, TABS, type TabKey } from '@/features/results/ResultsHead
 import { RunDetailsTab } from '@/features/results/RunDetailsTab';
 import { SourcesTab } from '@/features/results/SourcesTab';
 import { StageTracker } from '@/features/run/StageTracker';
+import { hasAnyStrategy } from '@/features/strategy/StrategyStates';
+import { StrategyTab } from '@/features/strategy/StrategyTab';
 import { isActive, useCancelRun, useRun, type RunDetail } from '@/features/run/useRun';
 import { MESSAGES } from '@/lib/format';
 import { buildSourceIndex, claimsCiting, collectClaims } from '@/lib/results';
+
+/**
+ * The tabs a printed page lays out. The Advisor is a conversation on the screen, not part of the
+ * result, so it is never printed (Milestone 3 plan 14.7). Strategy is printed when the run has any
+ * of it; a run without one would otherwise print the "generate" offer and its form.
+ */
+const PRINTED_TABS = TABS.filter((entry) => entry.key !== 'advisor');
 
 /**
  * How a run's closing message is shown: a failure is an error, anything part-finished or stopped is
@@ -60,20 +70,42 @@ export function RunPage() {
   const [tab, setTab] = React.useState<TabKey>('overview');
   const [openSource, setOpenSource] = React.useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = React.useState(false);
-  const [printing, setPrinting] = React.useState(false);
+  const [printing, setPrinting] = React.useState<'layout' | 'print' | null>(null);
+  const printedRef = React.useRef<HTMLDivElement>(null);
+  const [advisorDraft, setAdvisorDraft] = React.useState('');
+  const [focusComposer, setFocusComposer] = React.useState(false);
 
   const result = run.data?.result ?? null;
   const sources = React.useMemo(() => (result ? buildSourceIndex(result) : new Map()), [result]);
   const claims = React.useMemo(() => (result ? collectClaims(result) : []), [result]);
+  // The drawer also lists the strategy items that cite a source; the evidence mix does not count them.
+  const citing = React.useMemo(() => (result ? collectClaims(result, { strategy: true }) : []), [result]);
 
   /*
    * Printing happens after the page has rendered every section, so the effect runs once `printing`
    * is set rather than inside the click. The folded panels are opened first and closed again
    * afterwards, except the raw JSON, which is tens of thousands of characters and is marked to stay
    * shut.
+   *
+   * Some panels fold with a button rather than a details element (the risk register's detail rows),
+   * so their content is not on the page until the button is pressed. The first step presses every
+   * such button in the printed layout and the second prints once that has rendered. The printed
+   * layout is thrown away afterwards, so the open tab keeps its own folds.
    */
   React.useEffect(() => {
-    if (!printing) {
+    if (printing !== 'layout') {
+      return;
+    }
+    for (const toggle of printedRef.current?.querySelectorAll<HTMLButtonElement>(
+      'button[aria-expanded="false"][aria-controls]',
+    ) ?? []) {
+      toggle.click();
+    }
+    setPrinting('print');
+  }, [printing]);
+
+  React.useEffect(() => {
+    if (printing !== 'print') {
       return;
     }
     const opened: HTMLDetailsElement[] = [];
@@ -91,7 +123,7 @@ export function RunPage() {
     for (const node of opened) {
       node.open = false;
     }
-    setPrinting(false);
+    setPrinting(null);
   }, [printing]);
 
   // A run not found is final; anything else may be a connection that comes back.
@@ -138,6 +170,24 @@ export function RunPage() {
   const active = isActive(detail.state);
   const source = openSource ? (sources.get(openSource) ?? null) : null;
 
+  /** Milestone 3: "Ask the advisor about this" opens the Advisor with the question written in, not sent. */
+  function ask(question: string): void {
+    setAdvisorDraft(question);
+    setFocusComposer(true);
+    setTab('advisor');
+  }
+
+  function withAsk(content: React.ReactNode, question: string | null): React.ReactNode {
+    return question ? (
+      <div className="space-y-8">
+        {content}
+        <AskAdvisorButton onClick={() => ask(question)} />
+      </div>
+    ) : (
+      content
+    );
+  }
+
   /** One tab's content. Used for the open tab, and for all of them when printing. */
   function panel(key: TabKey): React.ReactNode {
     if (!result) {
@@ -147,9 +197,33 @@ export function RunPage() {
       case 'overview':
         return <OverviewTab result={result} sources={sources} claims={claims} onOpenSource={setOpenSource} />;
       case 'market':
-        return <MarketTab result={result} sources={sources} onOpenSource={setOpenSource} />;
+        return withAsk(
+          <MarketTab result={result} sources={sources} onOpenSource={setOpenSource} />,
+          result.market ? ADVISOR_QUESTIONS.market : null,
+        );
       case 'competitors':
-        return <CompetitorsTab result={result} sources={sources} onOpenSource={setOpenSource} />;
+        return withAsk(
+          <CompetitorsTab result={result} sources={sources} onOpenSource={setOpenSource} />,
+          result.competitors ? ADVISOR_QUESTIONS.competitors : null,
+        );
+      case 'strategy':
+        return (
+          <StrategyTab run={detail} result={result} sources={sources} onOpenSource={setOpenSource} onAsk={ask} />
+        );
+      case 'advisor':
+        return (
+          <AdvisorTab
+            run={detail}
+            result={result}
+            sources={sources}
+            onOpenSource={setOpenSource}
+            draft={advisorDraft}
+            onDraftChange={setAdvisorDraft}
+            focusComposer={focusComposer}
+            onComposerFocused={() => setFocusComposer(false)}
+            onShowOverview={() => setTab('overview')}
+          />
+        );
       case 'sources':
         return <SourcesTab result={result} sources={sources} claims={claims} onOpenSource={setOpenSource} />;
       case 'details':
@@ -160,10 +234,12 @@ export function RunPage() {
   const actions = (
     <>
       {/* The default button size, so these are 44 px on a touch screen (Section 6.9). */}
-      <ExportMenu run={detail} result={result} onPrint={() => setPrinting(true)} />
+      <ExportMenu run={detail} result={result} onPrint={() => setPrinting('layout')} />
       <Button
         variant="secondary"
-        onClick={() => navigate('/', { state: { prefill: detail.submission } })}
+        onClick={() =>
+          navigate('/', { state: { prefill: detail.submission, constraints: detail.constraints ?? null } })
+        }
       >
         Edit and re-run
       </Button>
@@ -232,12 +308,14 @@ export function RunPage() {
 
           {printing ? (
             // Every section at once, for the printed page. No tab roles: there are no tabs here.
-            <div className="space-y-12">
-              {TABS.map((entry) => (
-                <section key={entry.key} aria-label={entry.label}>
-                  {panel(entry.key)}
-                </section>
-              ))}
+            <div ref={printedRef} className="space-y-12">
+              {PRINTED_TABS.filter((entry) => entry.key !== 'strategy' || hasAnyStrategy(detail, result)).map(
+                (entry) => (
+                  <section key={entry.key} aria-label={entry.label}>
+                    {panel(entry.key)}
+                  </section>
+                ),
+              )}
             </div>
           ) : active ? (
             <div>{panel('overview')}</div>
@@ -257,7 +335,7 @@ export function RunPage() {
 
       <SourceDrawer
         source={source}
-        citedBy={source ? claimsCiting(claims, source.key) : []}
+        citedBy={source ? claimsCiting(citing, source.key) : []}
         onClose={() => setOpenSource(null)}
       />
 

@@ -22,6 +22,13 @@ from utils.errors import HistoryUnavailableError
 
 logger = logging.getLogger(__name__)
 
+# Columns added after the first release (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 13.1). An
+# older file gains them in place when it is opened; its rows read the column's default.
+ADDED_COLUMNS = (
+    ("constraints_json", "TEXT"),
+    ("include_strategy", "INTEGER NOT NULL DEFAULT 0"),
+)
+COLUMN_DEFAULTS = {"include_strategy": 0}
 COLUMNS = (
     "id",
     "title",
@@ -39,6 +46,7 @@ COLUMNS = (
     "submission_json",
     "idea_override_json",
     "result_json",
+    *(name for name, _ in ADDED_COLUMNS),
 )
 LIST_COLUMNS = ("id", "title", "industry", "state", "result_status", "created_at", "duration_s")
 SCHEMA = """
@@ -61,6 +69,19 @@ CREATE TABLE IF NOT EXISTS runs (
     result_json TEXT
 )
 """
+# One row per Advisor message. Deleting a run deletes its messages in the same transaction (delete).
+CHAT_SCHEMA = """
+CREATE TABLE IF NOT EXISTS chat_messages (
+    id TEXT PRIMARY KEY,
+    run_id TEXT NOT NULL,
+    seq INTEGER NOT NULL,
+    role TEXT NOT NULL,
+    content_json TEXT NOT NULL,
+    status TEXT NOT NULL,
+    created_at TEXT NOT NULL
+)
+"""
+CHAT_INDEX = "CREATE INDEX IF NOT EXISTS chat_messages_run_seq ON chat_messages (run_id, seq)"
 REDACTED = "[redacted]"
 MIN_SECRET_CHARS = 8
 BUSY_TIMEOUT_S = 10
@@ -69,6 +90,21 @@ MSG_INTERRUPTED = "The server stopped before this validation finished."
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="milliseconds")
+
+
+def ensure_schema(connection: sqlite3.Connection) -> None:
+    """Create what is missing and nothing else, so it can run on every opening.
+
+    Existing rows are never rewritten: a column is only ever added, never changed or dropped.
+    """
+    connection.execute(SCHEMA)
+    present = {column[1] for column in connection.execute("PRAGMA table_info(runs)")}
+    for name, declaration in ADDED_COLUMNS:
+        if name not in present:
+            connection.execute(f"ALTER TABLE runs ADD COLUMN {name} {declaration}")
+            logger.info("run history: added column %s", name)
+    connection.execute(CHAT_SCHEMA)
+    connection.execute(CHAT_INDEX)
 
 
 class RunStore:
@@ -80,7 +116,7 @@ class RunStore:
         try:
             self.path.parent.mkdir(parents=True, exist_ok=True)
             with self._connection() as connection:
-                connection.execute(SCHEMA)
+                ensure_schema(connection)
                 # A run that was going when the server stopped can never finish now.
                 interrupted = connection.execute(
                     "UPDATE runs SET state = 'failed', message = ?, finished_at = COALESCE(finished_at, ?) "
@@ -122,7 +158,7 @@ class RunStore:
         return value
 
     def insert(self, row: dict[str, Any]) -> None:
-        values = [self._clean(row.get(column)) for column in COLUMNS]
+        values = [self._clean(row.get(column, COLUMN_DEFAULTS.get(column))) for column in COLUMNS]
         with self._use() as connection:
             connection.execute(
                 f"INSERT INTO runs ({', '.join(COLUMNS)}) VALUES ({', '.join('?' for _ in COLUMNS)})", values
@@ -152,5 +188,7 @@ class RunStore:
         return [dict(row) for row in rows]
 
     def delete(self, run_id: str) -> bool:
+        """Delete the run and its Advisor messages together, without relying on foreign keys."""
         with self._use() as connection:
+            connection.execute("DELETE FROM chat_messages WHERE run_id = ?", (run_id,))
             return connection.execute("DELETE FROM runs WHERE id = ?", (run_id,)).rowcount > 0

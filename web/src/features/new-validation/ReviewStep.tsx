@@ -13,14 +13,28 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, X } from 'lucide-react';
 import * as React from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form';
 
 import type { MetaResponse } from '@/api/queries';
 import type { ExtractedIdea, IdeaSubmission } from '@/api/mutations';
 import { ChipInput } from '@/components/ChipInput';
 import { Field, TextArea, TextInput } from '@/components/Field';
 import { Button } from '@/components/ui/button';
-import { type ReviewFormValues, reviewFormSchema } from '@/features/new-validation/schema';
+import { ConstraintsPanel } from '@/features/new-validation/ConstraintsPanel';
+import {
+  type ReviewStepValues,
+  fromConstraints,
+  reviewStepSchema,
+  toConstraints,
+} from '@/features/new-validation/schema';
+import type { StrategyConstraints } from '@/lib/strategy';
+
+/** Milestone 3 (Section 14.2): whether to run the strategy stages, and with which resources. */
+export interface StrategyChoice {
+  include_strategy: boolean;
+  /** Only the fields the founder filled, or null. */
+  constraints: StrategyConstraints | null;
+}
 
 export interface ReviewStepProps {
   meta: MetaResponse;
@@ -28,7 +42,10 @@ export interface ReviewStepProps {
   submission: IdeaSubmission;
   /** What extraction returned. */
   idea: ExtractedIdea;
-  onRunAnalysis: (idea: ExtractedIdea) => void;
+  /** Constraints carried back by "Edit and re-run". They open the panel. */
+  constraints?: StrategyConstraints | null;
+  /** The strategy choice is passed only when the backend offers strategy. */
+  onRunAnalysis: (idea: ExtractedIdea, strategy?: StrategyChoice) => void;
   onBack: () => void;
   busy?: boolean;
 }
@@ -42,15 +59,22 @@ function Wrote({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function ReviewStep({ meta, submission, idea, onRunAnalysis, onBack, busy = false }: ReviewStepProps) {
+export function ReviewStep({
+  meta,
+  submission,
+  idea,
+  constraints,
+  onRunAnalysis,
+  onBack,
+  busy = false,
+}: ReviewStepProps) {
   const limits = meta.limits;
-  const schema = React.useMemo(() => reviewFormSchema(limits), [limits]);
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ReviewFormValues>({
+  // Strategy is offered only when the backend says every strategy stage can run.
+  const strategy = meta.strategy?.available ? meta.strategy : null;
+  const constraintLimits = strategy?.constraints ?? null;
+  const schema = React.useMemo(() => reviewStepSchema(limits, constraintLimits), [limits, constraintLimits]);
+  const carried = React.useMemo(() => fromConstraints(constraints), [constraints]);
+  const methods = useForm<ReviewStepValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       idea_title: idea.idea_title,
@@ -59,25 +83,43 @@ export function ReviewStep({ meta, submission, idea, onRunAnalysis, onBack, busy
       industry: idea.industry,
       target_customers: [...idea.target_customers],
       key_features: [...idea.key_features],
+      include_strategy: strategy !== null,
+      constraints: carried,
     },
     mode: 'onBlur',
   });
+  const {
+    control,
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = methods;
   const features = useFieldArray({ control, name: 'key_features' as never });
   const featureLimits = limits.extracted_idea.key_features;
+  const includeStrategy = watch('include_strategy');
 
   return (
     <form
       noValidate
-      onSubmit={handleSubmit((values) =>
-        onRunAnalysis({
+      onSubmit={handleSubmit((values) => {
+        const reviewed: ExtractedIdea = {
           idea_title: values.idea_title.trim(),
           problem: values.problem.trim(),
           solution: values.solution.trim(),
           industry: values.industry.trim(),
           target_customers: values.target_customers.map((entry) => entry.trim()),
           key_features: values.key_features.map((entry) => entry.trim()),
-        }),
-      )}
+        };
+        if (!strategy) {
+          onRunAnalysis(reviewed);
+          return;
+        }
+        onRunAnalysis(reviewed, {
+          include_strategy: values.include_strategy,
+          constraints: values.include_strategy ? toConstraints(values.constraints) : null,
+        });
+      })}
       className="space-y-6"
     >
       <div className="grid gap-6 lg:grid-cols-2">
@@ -190,6 +232,42 @@ export function ReviewStep({ meta, submission, idea, onRunAnalysis, onBack, busy
           </fieldset>
         </section>
       </div>
+
+      {strategy ? (
+        <section aria-labelledby="strategy-heading" className="space-y-4 rounded-panel border border-line bg-surface p-6">
+          <h2 id="strategy-heading">Strategy</h2>
+          <div className="space-y-1">
+            <label
+              htmlFor="include_strategy"
+              className="inline-flex min-h-[44px] cursor-pointer items-center gap-3 text-body font-medium text-content"
+            >
+              <input
+                id="include_strategy"
+                type="checkbox"
+                role="switch"
+                aria-describedby="include_strategy-helper"
+                className="size-5 accent-primary"
+                disabled={busy}
+                {...register('include_strategy')}
+              />
+              Include strategy
+            </label>
+            <p id="include_strategy-helper" className="max-w-prose text-small text-content-muted">
+              Adds a SWOT and risk review, an MVP plan and a go-to-market plan. Uses 3 more AI requests and
+              about 1 to 2 minutes.
+            </p>
+          </div>
+          {includeStrategy ? (
+            <FormProvider {...methods}>
+              <ConstraintsPanel
+                limits={strategy.constraints}
+                defaultOpen={toConstraints(carried) !== null}
+                disabled={busy}
+              />
+            </FormProvider>
+          ) : null}
+        </section>
+      ) : null}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <Button type="submit" loading={busy} full className="sm:w-auto">

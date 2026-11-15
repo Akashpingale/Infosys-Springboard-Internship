@@ -1,0 +1,8 @@
+checked at 2026-11-13 18:46:01
+npm-test.log lines matching 'unhandled' (any case): 0
+npm-test.log lines matching 'onUnhandledRequest': 0
+npm-test.log lines matching 'MSW': 0
+npm-test.log lines matching 'not wrapped in act': 5
+ui_v2 PNGs: before 81, now 81, differing 0
+data/runs.db: 00A4F85940CEA543823EC25AC4C5FF35B002FD10E1BCAD356D84EF44FEA8337D size 311296 LastWriteTimeUtc 2026-11-08T15:31:17Z
+npm-test.log summary: Test Files 35 passed (35) / Tests 477 passed (477) / Start at 18:04:26

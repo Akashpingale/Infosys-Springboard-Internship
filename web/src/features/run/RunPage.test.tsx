@@ -15,6 +15,7 @@ import { describe, expect, it } from 'vitest';
 import { API_URL } from '@/api/client';
 import { RunPage, messageTone } from '@/features/run/RunPage';
 import type { RunDetail } from '@/features/run/useRun';
+import { META } from '@/test/fixtures';
 import { renderWithApp } from '@/test/render';
 import {
   CANCELLED,
@@ -28,6 +29,7 @@ import {
   RUNNING,
 } from '@/test/runFixtures';
 import { server } from '@/test/server';
+import { EMPTY_THREAD, chatThreadOk } from '@/test/strategyHandlers';
 
 const RUN_URL = `${API_URL}/api/runs/run-123`;
 
@@ -137,7 +139,7 @@ describe('Run page: cancelling', () => {
 });
 
 describe('Run page: the finished result', () => {
-  it('shows the header, the status and the five tabs', async () => {
+  it('shows the header, the status and the seven tabs', async () => {
     server.use(show(DONE));
     open();
 
@@ -145,14 +147,18 @@ describe('Run page: the finished result', () => {
     expect(screen.getByText('Agriculture / AgriTech')).toBeInTheDocument();
     expect(screen.getByText('Complete')).toBeInTheDocument();
     expect(screen.getByText(/took/i)).toHaveTextContent('1:48');
-    for (const tab of ['Overview', 'Market', 'Competitors', 'Sources', 'Run details']) {
+    for (const tab of ['Overview', 'Market', 'Competitors', 'Strategy', 'Advisor', 'Sources', 'Run details']) {
       expect(screen.getByRole('tab', { name: new RegExp(tab, 'i') })).toBeInTheDocument();
     }
     expect(screen.getByRole('tab', { name: 'Overview' })).toHaveAttribute('aria-selected', 'true');
   });
 
   it('moves between tabs with the arrow keys', async () => {
-    server.use(show(DONE));
+    server.use(
+      show(DONE),
+      http.get(`${API_URL}/api/meta`, () => HttpResponse.json(META)),
+      chatThreadOk(() => EMPTY_THREAD),
+    );
     const user = userEvent.setup();
     open();
 
@@ -168,6 +174,12 @@ describe('Run page: the finished result', () => {
     expect(screen.getByRole('tab', { name: 'Competitors' })).toHaveAttribute('aria-selected', 'true');
     // Prompt H built this tab, so the panel now holds the competitor filters.
     expect(within(screen.getByRole('tabpanel')).getByRole('radiogroup', { name: /by type/i })).toBeInTheDocument();
+
+    await user.keyboard('{ArrowRight}');
+    expect(screen.getByRole('tab', { name: 'Strategy' })).toHaveAttribute('aria-selected', 'true');
+
+    await user.keyboard('{ArrowRight}');
+    expect(screen.getByRole('tab', { name: 'Advisor' })).toHaveAttribute('aria-selected', 'true');
 
     await user.keyboard('{ArrowRight}');
     expect(screen.getByRole('tab', { name: 'Sources' })).toHaveAttribute('aria-selected', 'true');
@@ -603,7 +615,7 @@ describe('Run page: a run with no result', () => {
     open();
 
     expect(await screen.findByRole('tab', { name: 'Overview' })).toBeInTheDocument();
-    expect(screen.getAllByRole('tab')).toHaveLength(5);
+    expect(screen.getAllByRole('tab')).toHaveLength(7);
   });
 
   it('warns rather than alarms when a run only finished part-way', async () => {

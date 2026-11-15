@@ -1,0 +1,19 @@
+final-npm-test.log: 353 lines
+unhandled                  0
+onUnhandledRequest         0
+MSW                        0
+matching request handler   0
+not wrapped in act         5
+stderr \|                  21
+FAIL                       7
+Error:                     1
+
+case-sensitive FAIL lines: 
+0
+compared with m3-t19\npm-test.log (same 477 tests, 13 Nov):
+Not implemented: navigation    T19 log=1 this run=1
+not wrapped in act             T19 log=5 this run=5
+stderr \|                      T19 log=21 this run=21
+unhandled                      T19 log=0 this run=0
+onUnhandledRequest             T19 log=0 this run=0
+MSW                            T19 log=0 this run=0

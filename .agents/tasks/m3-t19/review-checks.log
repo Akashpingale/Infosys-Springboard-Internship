@@ -1,0 +1,36 @@
+checked at 2026-11-13 19:03:37
+
+[1] git-status files now 138, in T19 start baseline 89
+    differing from baseline: 49
+    new web/e2e/accessibility-m3.spec.ts
+    new web/e2e/focus-m3.spec.ts
+    new web/e2e/keyboard-m3.spec.ts
+    new web/e2e/mockApi.ts
+    new web/e2e/screens-m3.spec.ts
+    new web/e2e/screensM3.ts
+    new web/playwright.config.ts
+    plus 42 docs/assets/ui_v3 entries, kinds: ['new']
+
+[2] resume-final-hashes.txt entries 54, mismatching now 0
+    e2e files now 11, ui_v3 files now 42, not in the tested list: []
+    resume-tested vs resume-final differ: ['web/e2e/focus-m3.spec.ts']
+
+[3] ui_v2 PNGs before 81, now 81, differing 0 []
+    ui_v2 entries 81, newest write 2026-11-02 17:49:47.877876
+
+[4] newest writes per area
+    web/src: 2026-11-13 17:14:16 web/src/features/run/exportRun.test.tsx
+    web/e2e: 2026-11-13 18:39:06 web/e2e/focus-m3.spec.ts
+    docs/assets/ui_v3: 2026-11-13 18:02:39 docs/assets/ui_v3/advisor-full-1440.png
+    web/playwright.config.ts: 2026-11-13 17:30:08 web/playwright.config.ts
+    web/package.json: 2026-10-30 21:58:55 web/package.json
+    web/vite.config.ts: 2026-10-30 11:13:06 web/vite.config.ts
+    agents: 2026-11-13 12:31:31 agents/advisor_agent.py
+    models: 2026-11-13 10:53:15 models/api.py
+    routes: 2026-11-13 12:49:32 routes/chat_routes.py
+    src: 2026-10-13 22:43:12 src/web_search/.env.example
+    utils: 2026-11-13 10:54:16 utils/run_manager.py
+    tests: 2026-11-13 14:37:22 tests/test_m3_no_secrets.py
+    frontend: 2026-11-13 11:57:04 frontend/analysis_views.py
+    scripts: 2026-11-13 14:41:45 scripts/check_m3_contracts.py
+    docs: 2026-11-13 18:02:39 docs/assets/ui_v3/advisor-full-1440.png

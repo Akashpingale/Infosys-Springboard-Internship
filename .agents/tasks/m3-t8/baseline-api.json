@@ -1,0 +1,451 @@
+{
+  "checks": {
+    "importing_and_creating_app_created_RUNS_DB_PATH_file": false,
+    "openapi_paths": [
+      "/api/ideas/extract",
+      "/api/meta",
+      "/api/runs",
+      "/api/runs/{run_id}",
+      "/api/runs/{run_id}/cancel",
+      "/api/runs/{run_id}/report.md",
+      "/api/search",
+      "/api/validate",
+      "/health"
+    ],
+    "openapi_schemas": [
+      "Basis",
+      "Channel",
+      "Comparison",
+      "ComparisonCell",
+      "ComparisonRow",
+      "Competitor",
+      "CompetitorAnalysisResult",
+      "CompetitorCandidate",
+      "CountLimit",
+      "DataQuality",
+      "EarlyCustomerTactic",
+      "ErrorDetail",
+      "ErrorResponse",
+      "EvidenceComponent",
+      "EvidenceStrength",
+      "ExampleIdea",
+      "ExtractedIdea",
+      "ExtractedIdeaLimits",
+      "FeatureCoverage",
+      "FormLimits",
+      "GtmResult",
+      "HTTPValidationError",
+      "IdeaSubmission",
+      "IndustryOverview",
+      "KeyMessage",
+      "LabeledItem",
+      "LaunchPhase",
+      "MarketDemand",
+      "MarketFigure",
+      "MarketGap",
+      "MarketOpportunityResult",
+      "MarketSize",
+      "MetaResponse",
+      "MvpFeature",
+      "MvpMetric",
+      "MvpResult",
+      "Notice",
+      "PipelineResult",
+      "Positioning",
+      "PrioritySegment",
+      "ProviderStatus",
+      "Providers",
+      "QuantEstimate",
+      "RiskItem",
+      "RunDetail",
+      "RunLimits",
+      "RunList",
+      "RunRename",
+      "RunRequest",
+      "RunStage",
+      "RunStarted",
+      "RunSummary",
+      "SearchBundle",
+      "SearchResult",
+      "SearchSection",
+      "Segment",
+      "SourceRef",
+      "StageError",
+      "StageInfo",
+      "StrategyConstraints",
+      "StrategyQuality",
+      "StrategySourceKey",
+      "SummaryLine",
+      "SwotItem",
+      "SwotRiskResult",
+      "TextLimit",
+      "Trend",
+      "ValidationError",
+      "VerifyItem"
+    ],
+    "openapi_status_code": 200,
+    "real_runs_db_mtime_unchanged": true
+  },
+  "label": "baseline",
+  "meta": {
+    "body": {
+      "app_name": "AI Startup Idea Validator",
+      "examples": [
+        {
+          "key": "agritech",
+          "label": "Agritech",
+          "submission": {
+            "idea_description": "A mobile app that detects crop diseases from a photo of a leaf and suggests a treatment. Small farmers get an instant diagnosis in their own language instead of waiting for an expert visit.",
+            "industry": "Agriculture / AgriTech",
+            "relevant_details": "Pilot planned in Maharashtra with two farming cooperatives. Pre-seed stage, no funding yet.",
+            "target_customers": "Small farmers in India"
+          }
+        },
+        {
+          "key": "fintech_cashflow",
+          "label": "Fintech",
+          "submission": {
+            "idea_description": "A cash-flow and expense management platform for small businesses. It reads bank and UPI statements with consent, sorts every expense into categories, and shows the owner how much cash is left and which bills fall due next. Owners who track this in spreadsheets today get a weekly forecast instead.",
+            "industry": "Finance / FinTech",
+            "relevant_details": "Pilot planned with twelve shops in Pune. We know Khatabook is used widely for ledgers.",
+            "target_customers": "Small business owners in Indian cities"
+          }
+        },
+        {
+          "key": "foodtech_surplus",
+          "label": "Foodtech",
+          "submission": {
+            "idea_description": "A surplus food marketplace that cuts food waste. Restaurants and grocery stores list unsold stock at a discount each evening, and nearby shoppers collect it before closing. Listings expire automatically so nothing unsafe is offered, and each shop sees how much waste it avoided.",
+            "industry": "Food & Beverage",
+            "relevant_details": "Starting with two neighbourhoods in Bengaluru. Shops told us they discard unsold stock nightly.",
+            "target_customers": "Restaurants and grocery stores in Indian cities"
+          }
+        }
+      ],
+      "industries": [
+        "Agriculture / AgriTech",
+        "Healthcare / HealthTech",
+        "Education / EdTech",
+        "Finance / FinTech",
+        "E-commerce / Retail",
+        "Food & Beverage",
+        "Travel & Hospitality",
+        "Logistics & Supply Chain",
+        "Real Estate / PropTech",
+        "Energy & Climate",
+        "Entertainment & Media",
+        "SaaS / B2B Software",
+        "Other"
+      ],
+      "limits": {
+        "extracted_idea": {
+          "key_features": {
+            "max_items": 6,
+            "min_items": 3
+          },
+          "target_customers": {
+            "max_items": 5,
+            "min_items": 1
+          },
+          "title_max_chars": 80
+        },
+        "idea_description": {
+          "max_chars": 2000,
+          "min_chars": 30,
+          "min_words": 3
+        },
+        "industry": {
+          "max_chars": 60,
+          "min_chars": 2,
+          "min_words": null
+        },
+        "relevant_details": {
+          "max_chars": 1500,
+          "min_chars": null,
+          "min_words": null
+        },
+        "target_customers": {
+          "max_chars": 300,
+          "min_chars": 3,
+          "min_words": null
+        }
+      },
+      "providers": {
+        "fallback_llm": {
+          "configured": false,
+          "model": "openai/gpt-oss-120b",
+          "name": "Groq"
+        },
+        "llm": {
+          "configured": true,
+          "model": "test-model",
+          "name": "Gemini"
+        },
+        "search": {
+          "configured": true,
+          "model": null,
+          "name": "Tavily"
+        }
+      },
+      "run_limits": {
+        "competitor_max_extra_queries": 5,
+        "competitor_results_per_query": 3,
+        "evidence_max_items": 12,
+        "max_concurrent_runs": 2,
+        "time_limit_s": 162.0
+      },
+      "stages": [
+        {
+          "key": "extraction",
+          "label": "Understanding your idea"
+        },
+        {
+          "key": "search",
+          "label": "Searching the web"
+        },
+        {
+          "key": "market_opportunity",
+          "label": "Analysing the market"
+        },
+        {
+          "key": "competitor_analysis",
+          "label": "Comparing competitors"
+        }
+      ],
+      "version": "0.1.0"
+    },
+    "status_code": 200,
+    "top_level_keys": [
+      "app_name",
+      "examples",
+      "industries",
+      "limits",
+      "providers",
+      "run_limits",
+      "stages",
+      "version"
+    ]
+  },
+  "post_runs": {
+    "body": {
+      "run_id": "<RUN_ID>",
+      "state": "queued"
+    },
+    "keys": [
+      "run_id",
+      "state"
+    ],
+    "status_code": 202
+  },
+  "run_detail": {
+    "body": {
+      "cancel_requested": false,
+      "created_at": "<TIMESTAMP>",
+      "duration_s": 3.0,
+      "elapsed_s": 3.0,
+      "finished_at": "<TIMESTAMP>",
+      "id": "<RUN_ID>",
+      "idea_override": null,
+      "industry": "Agriculture / AgriTech",
+      "message": null,
+      "result": {
+        "competitor_candidates": [],
+        "competitor_search": null,
+        "competitors": null,
+        "constraints": null,
+        "errors": [],
+        "evidence_strength": null,
+        "executive_summary": [],
+        "gtm": null,
+        "idea": {
+          "idea_title": "CropScan: AI crop disease detection",
+          "industry": "Agriculture / AgriTech",
+          "key_features": [
+            "Photo-based diagnosis",
+            "Treatment advice",
+            "Local language support"
+          ],
+          "problem": "Small farmers in India lose crops because diseases are spotted too late.",
+          "solution": "A phone app that detects crop diseases from a photo and suggests treatment.",
+          "target_customers": [
+            "Small farmers in India",
+            "Agricultural cooperatives"
+          ]
+        },
+        "market": null,
+        "market_search": null,
+        "mvp": null,
+        "notices": [],
+        "search": null,
+        "status": "complete",
+        "swot": null,
+        "timings": {
+          "extraction": 1.0,
+          "search": 2.0,
+          "total": 3.0
+        },
+        "verify_next": [],
+        "warnings": []
+      },
+      "stages": [
+        {
+          "duration_s": 1.0,
+          "elapsed_s": 1.0,
+          "key": "extraction",
+          "label": "Understanding your idea",
+          "message": null,
+          "started_at": "<TIMESTAMP>",
+          "status": "done"
+        },
+        {
+          "duration_s": 1.0,
+          "elapsed_s": 1.0,
+          "key": "search",
+          "label": "Searching the web",
+          "message": null,
+          "started_at": "<TIMESTAMP>",
+          "status": "done"
+        },
+        {
+          "duration_s": 1.0,
+          "elapsed_s": 1.0,
+          "key": "market_opportunity",
+          "label": "Analysing the market",
+          "message": null,
+          "started_at": "<TIMESTAMP>",
+          "status": "done"
+        },
+        {
+          "duration_s": 1.0,
+          "elapsed_s": 1.0,
+          "key": "competitor_analysis",
+          "label": "Comparing competitors",
+          "message": null,
+          "started_at": "<TIMESTAMP>",
+          "status": "done"
+        }
+      ],
+      "started_at": "<TIMESTAMP>",
+      "state": "done",
+      "submission": {
+        "idea_description": "A mobile app that detects crop diseases from a photo of a leaf for small farmers.",
+        "industry": "Agriculture / AgriTech",
+        "relevant_details": "Starting with two farming cooperatives.",
+        "target_customers": "Small farmers in Maharashtra"
+      },
+      "title": "CropScan: AI crop disease detection"
+    },
+    "pipeline_calls_kwargs": [
+      [
+        "idea",
+        "submission",
+        "time_limit_s"
+      ]
+    ],
+    "result_status": "complete",
+    "stage_entry_keys": [
+      [
+        "duration_s",
+        "elapsed_s",
+        "key",
+        "label",
+        "message",
+        "started_at",
+        "status"
+      ],
+      [
+        "duration_s",
+        "elapsed_s",
+        "key",
+        "label",
+        "message",
+        "started_at",
+        "status"
+      ],
+      [
+        "duration_s",
+        "elapsed_s",
+        "key",
+        "label",
+        "message",
+        "started_at",
+        "status"
+      ],
+      [
+        "duration_s",
+        "elapsed_s",
+        "key",
+        "label",
+        "message",
+        "started_at",
+        "status"
+      ]
+    ],
+    "stage_keys": [
+      "extraction",
+      "search",
+      "market_opportunity",
+      "competitor_analysis"
+    ],
+    "stage_labels": [
+      "Understanding your idea",
+      "Searching the web",
+      "Analysing the market",
+      "Comparing competitors"
+    ],
+    "stage_statuses": [
+      "done",
+      "done",
+      "done",
+      "done"
+    ],
+    "state": "done",
+    "status_code": 200,
+    "top_level_keys": [
+      "cancel_requested",
+      "created_at",
+      "duration_s",
+      "elapsed_s",
+      "finished_at",
+      "id",
+      "idea_override",
+      "industry",
+      "message",
+      "result",
+      "stages",
+      "started_at",
+      "state",
+      "submission",
+      "title"
+    ]
+  },
+  "run_list": {
+    "body": {
+      "runs": [
+        {
+          "created_at": "<TIMESTAMP>",
+          "duration_s": 3.0,
+          "id": "<RUN_ID>",
+          "industry": "Agriculture / AgriTech",
+          "state": "done",
+          "status": "complete",
+          "title": "CropScan: AI crop disease detection"
+        }
+      ]
+    },
+    "row_count": 1,
+    "row_keys": [
+      "created_at",
+      "duration_s",
+      "id",
+      "industry",
+      "state",
+      "status",
+      "title"
+    ],
+    "status_code": 200,
+    "top_level_keys": [
+      "runs"
+    ]
+  }
+}

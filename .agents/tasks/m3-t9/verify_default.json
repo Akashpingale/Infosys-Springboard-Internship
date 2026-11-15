@@ -1,0 +1,37 @@
+{
+ "default_with_strategy": {
+  "head": "3f7005f18b5e38b96329968efa49f021cd3393af114030436eb7981f80aefe33",
+  "now": "3f7005f18b5e38b96329968efa49f021cd3393af114030436eb7981f80aefe33",
+  "identical": true
+ },
+ "default_without_strategy": {
+  "head": "3f7005f18b5e38b96329968efa49f021cd3393af114030436eb7981f80aefe33",
+  "now": "3f7005f18b5e38b96329968efa49f021cd3393af114030436eb7981f80aefe33",
+  "identical": true
+ },
+ "full_without_strategy": {
+  "head": "3f7005f18b5e38b96329968efa49f021cd3393af114030436eb7981f80aefe33",
+  "now": "3f7005f18b5e38b96329968efa49f021cd3393af114030436eb7981f80aefe33",
+  "identical": true
+ },
+ "default_m1_only": {
+  "head": "6aedaf11e71f61ffc32dc7073b135911d4c7173e946080abe6dc32f430a67af0",
+  "now": "6aedaf11e71f61ffc32dc7073b135911d4c7173e946080abe6dc32f430a67af0",
+  "identical": true
+ },
+ "full_m1_only": {
+  "head": "ce90eb9b011a5f17195b5cf3a4b79a11317e5ab618970e856ac1762f3383a9d5",
+  "now": "ce90eb9b011a5f17195b5cf3a4b79a11317e5ab618970e856ac1762f3383a9d5",
+  "identical": true
+ },
+ "default_assumed_constraints": {
+  "head": "729ab92192a22a6846129d203401f5b79525ed64b88ce1123ebfa0341e6f64a6",
+  "now": "729ab92192a22a6846129d203401f5b79525ed64b88ce1123ebfa0341e6f64a6",
+  "identical": true
+ },
+ "file_name": {
+  "head": "c35b84b8c7a76dedcad8d72ce1c4a9b9c6ae086ad8f29d2e875a262ef1822893",
+  "now": "c35b84b8c7a76dedcad8d72ce1c4a9b9c6ae086ad8f29d2e875a262ef1822893",
+  "identical": true
+ }
+}

@@ -1,0 +1,219 @@
+(node:15152) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 204 tests using 1 worker
+
+[1A[2K(node:25160) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+[1A[2K[1/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ review-constraints has no serious or critical violation
+[1A[2K[2/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ run-progress-seven-stages has no serious or critical violation
+[1A[2K[3/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-empty has no serious or critical violation
+[1A[2K[4/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-running has no serious or critical violation
+[1A[2K[5/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-swot-risks has no serious or critical violation
+[1A[2K[6/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-mvp has no serious or critical violation
+[1A[2K[7/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-gtm has no serious or critical violation
+[1A[2K[8/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-partial has no serious or critical violation
+[1A[2K[9/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-failed has no serious or critical violation
+[1A[2K[10/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-empty has no serious or critical violation
+[1A[2K[11/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-conversation has no serious or critical violation
+[1A[2K[12/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-pending has no serious or critical violation
+[1A[2K[13/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-error has no serious or critical violation
+[1A[2K[14/204] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-full has no serious or critical violation
+[1A[2K[15/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation has no serious or critical violation
+[1A[2K[16/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-errors has no serious or critical violation
+[1A[2K[17/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-loading has no serious or critical violation
+[1A[2K[18/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-offline has no serious or critical violation
+[1A[2K[19/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ review-step has no serious or critical violation
+[1A[2K[20/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ run-progress has no serious or critical violation
+[1A[2K[21/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-overview has no serious or critical violation
+[1A[2K[22/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-market has no serious or critical violation
+[1A[2K[23/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-competitors has no serious or critical violation
+[1A[2K[24/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-sources has no serious or critical violation
+[1A[2K[25/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-details has no serious or critical violation
+[1A[2K[26/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-source-drawer has no serious or critical violation
+[1A[2K[27/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-export-menu has no serious or critical violation
+[1A[2K[28/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-delete-confirm has no serious or critical violation
+[1A[2K[29/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-agritech has no serious or critical violation
+[1A[2K[30/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-partial has no serious or critical violation
+[1A[2K[31/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-failed has no serious or critical violation
+[1A[2K[32/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-cancelled has no serious or critical violation
+[1A[2K[33/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-loading has no serious or critical violation
+[1A[2K[34/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ run-missing has no serious or critical violation
+[1A[2K[35/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history has no serious or critical violation
+[1A[2K[36/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-empty has no serious or critical violation
+[1A[2K[37/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-renaming has no serious or critical violation
+[1A[2K[38/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-loading has no serious or critical violation
+[1A[2K[39/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ status has no serious or critical violation
+[1A[2K[40/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ status-offline has no serious or critical violation
+[1A[2K[41/204] [w390] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ not-found has no serious or critical violation
+[1A[2K[42/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:56:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the seven result tabs cycle with the arrow keys, stay in view and never move the page
+[1A[2K[43/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone
+[1A[2K[44/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:158:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the composer: Shift+Enter starts a line, Enter sends, the reply is announced and focus stays
+[1A[2K[45/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:188:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ a suggested question is reached with Shift+Tab and sent with Enter
+[1A[2K[46/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:215:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the clear dialog opens on Keep it, keeps focus inside, closes with Escape and clears with Enter
+[1A[2K[47/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:258:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the regenerate confirm opens on Keep it and Escape sends nothing
+[1A[2K[48/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ review-constraints does not animate
+[1A[2K[49/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ run-progress-seven-stages does not animate
+[1A[2K[50/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-empty does not animate
+[1A[2K[51/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-running does not animate
+[1A[2K[52/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-swot-risks does not animate
+[1A[2K[53/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-mvp does not animate
+[1A[2K[54/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-gtm does not animate
+[1A[2K[55/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-partial does not animate
+[1A[2K[56/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-failed does not animate
+[1A[2K[57/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-empty does not animate
+[1A[2K[58/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-conversation does not animate
+[1A[2K[59/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-pending does not animate
+[1A[2K[60/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-error does not animate
+[1A[2K[61/204] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-full does not animate
+[1A[2K[62/204] [w390] ΓÇ║ e2e\keyboard.spec.ts:29:3 ΓÇ║ keyboard ΓÇ║ every control the Tab key reaches shows a focus ring
+[1A[2K[63/204] [w390] ΓÇ║ e2e\keyboard.spec.ts:63:3 ΓÇ║ keyboard ΓÇ║ the result tabs move with the arrow keys and only the open one is tabbable
+[1A[2K[64/204] [w390] ΓÇ║ e2e\keyboard.spec.ts:94:3 ΓÇ║ keyboard ΓÇ║ the drawer opens with Enter, traps focus and closes with Escape
+[1A[2K[65/204] [w390] ΓÇ║ e2e\keyboard.spec.ts:119:3 ΓÇ║ keyboard ΓÇ║ the industry combobox is usable with the keyboard alone
+[1A[2K[66/204] [w390] ΓÇ║ e2e\keyboard.spec.ts:136:3 ΓÇ║ keyboard ΓÇ║ the chip input adds and removes a customer with the keyboard alone
+[1A[2K[67/204] [w390] ΓÇ║ e2e\keyboard.spec.ts:158:3 ΓÇ║ reduced motion ΓÇ║ nothing on the page animates when motion is not wanted
+[1A[2K[68/204] [w390] ΓÇ║ e2e\keyboard.spec.ts:175:3 ΓÇ║ reduced motion ΓÇ║ a tab still changes instantly
+
+[1A[2K(node:25944) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[69/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ review-constraints has no serious or critical violation
+[1A[2K[70/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ run-progress-seven-stages has no serious or critical violation
+[1A[2K[71/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-empty has no serious or critical violation
+[1A[2K[72/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-running has no serious or critical violation
+[1A[2K[73/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-swot-risks has no serious or critical violation
+[1A[2K[74/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-mvp has no serious or critical violation
+[1A[2K[75/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-gtm has no serious or critical violation
+[1A[2K[76/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-partial has no serious or critical violation
+[1A[2K[77/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-failed has no serious or critical violation
+[1A[2K[78/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-empty has no serious or critical violation
+[1A[2K[79/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-conversation has no serious or critical violation
+[1A[2K[80/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-pending has no serious or critical violation
+[1A[2K[81/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-error has no serious or critical violation
+[1A[2K[82/204] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-full has no serious or critical violation
+[1A[2K[83/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation has no serious or critical violation
+[1A[2K[84/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-errors has no serious or critical violation
+[1A[2K[85/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-loading has no serious or critical violation
+[1A[2K[86/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-offline has no serious or critical violation
+[1A[2K[87/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ review-step has no serious or critical violation
+[1A[2K[88/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ run-progress has no serious or critical violation
+[1A[2K[89/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-overview has no serious or critical violation
+[1A[2K[90/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-market has no serious or critical violation
+[1A[2K[91/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-competitors has no serious or critical violation
+[1A[2K[92/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-sources has no serious or critical violation
+[1A[2K[93/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-details has no serious or critical violation
+[1A[2K[94/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-source-drawer has no serious or critical violation
+[1A[2K[95/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-export-menu has no serious or critical violation
+[1A[2K[96/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-delete-confirm has no serious or critical violation
+[1A[2K[97/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-agritech has no serious or critical violation
+[1A[2K[98/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-partial has no serious or critical violation
+[1A[2K[99/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-failed has no serious or critical violation
+[1A[2K[100/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-cancelled has no serious or critical violation
+[1A[2K[101/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-loading has no serious or critical violation
+[1A[2K[102/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ run-missing has no serious or critical violation
+[1A[2K[103/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history has no serious or critical violation
+[1A[2K[104/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-empty has no serious or critical violation
+[1A[2K[105/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-renaming has no serious or critical violation
+[1A[2K[106/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-loading has no serious or critical violation
+[1A[2K[107/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ status has no serious or critical violation
+[1A[2K[108/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ status-offline has no serious or critical violation
+[1A[2K[109/204] [w820] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ not-found has no serious or critical violation
+[1A[2K[110/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:56:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the seven result tabs cycle with the arrow keys, stay in view and never move the page
+[1A[2K[111/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone
+[1A[2K[112/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:158:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the composer: Shift+Enter starts a line, Enter sends, the reply is announced and focus stays
+[1A[2K[113/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:188:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ a suggested question is reached with Shift+Tab and sent with Enter
+[1A[2K[114/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:215:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the clear dialog opens on Keep it, keeps focus inside, closes with Escape and clears with Enter
+[1A[2K[115/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:258:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the regenerate confirm opens on Keep it and Escape sends nothing
+[1A[2K[116/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ review-constraints does not animate
+[1A[2K[117/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ run-progress-seven-stages does not animate
+[1A[2K[118/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-empty does not animate
+[1A[2K[119/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-running does not animate
+[1A[2K[120/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-swot-risks does not animate
+[1A[2K[121/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-mvp does not animate
+[1A[2K[122/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-gtm does not animate
+[1A[2K[123/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-partial does not animate
+[1A[2K[124/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-failed does not animate
+[1A[2K[125/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-empty does not animate
+[1A[2K[126/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-conversation does not animate
+[1A[2K[127/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-pending does not animate
+[1A[2K[128/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-error does not animate
+[1A[2K[129/204] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-full does not animate
+[1A[2K[130/204] [w820] ΓÇ║ e2e\keyboard.spec.ts:29:3 ΓÇ║ keyboard ΓÇ║ every control the Tab key reaches shows a focus ring
+[1A[2K[131/204] [w820] ΓÇ║ e2e\keyboard.spec.ts:63:3 ΓÇ║ keyboard ΓÇ║ the result tabs move with the arrow keys and only the open one is tabbable
+[1A[2K[132/204] [w820] ΓÇ║ e2e\keyboard.spec.ts:94:3 ΓÇ║ keyboard ΓÇ║ the drawer opens with Enter, traps focus and closes with Escape
+[1A[2K[133/204] [w820] ΓÇ║ e2e\keyboard.spec.ts:119:3 ΓÇ║ keyboard ΓÇ║ the industry combobox is usable with the keyboard alone
+[1A[2K[134/204] [w820] ΓÇ║ e2e\keyboard.spec.ts:136:3 ΓÇ║ keyboard ΓÇ║ the chip input adds and removes a customer with the keyboard alone
+[1A[2K[135/204] [w820] ΓÇ║ e2e\keyboard.spec.ts:158:3 ΓÇ║ reduced motion ΓÇ║ nothing on the page animates when motion is not wanted
+[1A[2K[136/204] [w820] ΓÇ║ e2e\keyboard.spec.ts:175:3 ΓÇ║ reduced motion ΓÇ║ a tab still changes instantly
+
+[1A[2K(node:26988) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[137/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ review-constraints has no serious or critical violation
+[1A[2K[138/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ run-progress-seven-stages has no serious or critical violation
+[1A[2K[139/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-empty has no serious or critical violation
+[1A[2K[140/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-running has no serious or critical violation
+[1A[2K[141/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-swot-risks has no serious or critical violation
+[1A[2K[142/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-mvp has no serious or critical violation
+[1A[2K[143/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-gtm has no serious or critical violation
+[1A[2K[144/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-partial has no serious or critical violation
+[1A[2K[145/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-failed has no serious or critical violation
+[1A[2K[146/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-empty has no serious or critical violation
+[1A[2K[147/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-conversation has no serious or critical violation
+[1A[2K[148/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-pending has no serious or critical violation
+[1A[2K[149/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-error has no serious or critical violation
+[1A[2K[150/204] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-full has no serious or critical violation
+[1A[2K[151/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation has no serious or critical violation
+[1A[2K[152/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-errors has no serious or critical violation
+[1A[2K[153/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-loading has no serious or critical violation
+[1A[2K[154/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ new-validation-offline has no serious or critical violation
+[1A[2K[155/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ review-step has no serious or critical violation
+[1A[2K[156/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ run-progress has no serious or critical violation
+[1A[2K[157/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-overview has no serious or critical violation
+[1A[2K[158/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-market has no serious or critical violation
+[1A[2K[159/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-competitors has no serious or critical violation
+[1A[2K[160/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-sources has no serious or critical violation
+[1A[2K[161/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-details has no serious or critical violation
+[1A[2K[162/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-source-drawer has no serious or critical violation
+[1A[2K[163/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-export-menu has no serious or critical violation
+[1A[2K[164/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-delete-confirm has no serious or critical violation
+[1A[2K[165/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-agritech has no serious or critical violation
+[1A[2K[166/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-partial has no serious or critical violation
+[1A[2K[167/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-failed has no serious or critical violation
+[1A[2K[168/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-cancelled has no serious or critical violation
+[1A[2K[169/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ results-loading has no serious or critical violation
+[1A[2K[170/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ run-missing has no serious or critical violation
+[1A[2K[171/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history has no serious or critical violation
+[1A[2K[172/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-empty has no serious or critical violation
+[1A[2K[173/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-renaming has no serious or critical violation
+[1A[2K[174/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ history-loading has no serious or critical violation
+[1A[2K[175/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ status has no serious or critical violation
+[1A[2K[176/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ status-offline has no serious or critical violation
+[1A[2K[177/204] [w1440] ΓÇ║ e2e\accessibility.spec.ts:19:3 ΓÇ║ not-found has no serious or critical violation
+[1A[2K[178/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:56:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the seven result tabs cycle with the arrow keys, stay in view and never move the page
+[1A[2K[179/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone
+[1A[2K[180/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:158:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the composer: Shift+Enter starts a line, Enter sends, the reply is announced and focus stays
+[1A[2K[181/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:188:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ a suggested question is reached with Shift+Tab and sent with Enter
+[1A[2K[182/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:215:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the clear dialog opens on Keep it, keeps focus inside, closes with Escape and clears with Enter
+[1A[2K[183/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:258:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the regenerate confirm opens on Keep it and Escape sends nothing
+[1A[2K[184/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ review-constraints does not animate
+[1A[2K[185/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ run-progress-seven-stages does not animate
+[1A[2K[186/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-empty does not animate
+[1A[2K[187/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-running does not animate
+[1A[2K[188/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-swot-risks does not animate
+[1A[2K[189/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-mvp does not animate
+[1A[2K[190/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-gtm does not animate
+[1A[2K[191/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-partial does not animate
+[1A[2K[192/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-failed does not animate
+[1A[2K[193/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-empty does not animate
+[1A[2K[194/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-conversation does not animate
+[1A[2K[195/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-pending does not animate
+[1A[2K[196/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-error does not animate
+[1A[2K[197/204] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:293:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-full does not animate
+[1A[2K[198/204] [w1440] ΓÇ║ e2e\keyboard.spec.ts:29:3 ΓÇ║ keyboard ΓÇ║ every control the Tab key reaches shows a focus ring
+[1A[2K[199/204] [w1440] ΓÇ║ e2e\keyboard.spec.ts:63:3 ΓÇ║ keyboard ΓÇ║ the result tabs move with the arrow keys and only the open one is tabbable
+[1A[2K[200/204] [w1440] ΓÇ║ e2e\keyboard.spec.ts:94:3 ΓÇ║ keyboard ΓÇ║ the drawer opens with Enter, traps focus and closes with Escape
+[1A[2K[201/204] [w1440] ΓÇ║ e2e\keyboard.spec.ts:119:3 ΓÇ║ keyboard ΓÇ║ the industry combobox is usable with the keyboard alone
+[1A[2K[202/204] [w1440] ΓÇ║ e2e\keyboard.spec.ts:136:3 ΓÇ║ keyboard ΓÇ║ the chip input adds and removes a customer with the keyboard alone
+[1A[2K[203/204] [w1440] ΓÇ║ e2e\keyboard.spec.ts:158:3 ΓÇ║ reduced motion ΓÇ║ nothing on the page animates when motion is not wanted
+[1A[2K[204/204] [w1440] ΓÇ║ e2e\keyboard.spec.ts:175:3 ΓÇ║ reduced motion ΓÇ║ a tab still changes instantly
+[1A[2K  204 passed (5.2m)

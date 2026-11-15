@@ -10,10 +10,13 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from config import get_settings, setup_logging
+from routes.chat_routes import ChatGate
+from routes.chat_routes import router as chat_router
 from routes.health_routes import router as health_router
 from routes.idea_routes import router as idea_router
 from routes.meta_routes import router as meta_router
 from routes.run_routes import router as run_router
+from routes.strategy_routes import router as strategy_router
 from utils.errors import AppError, InputValidationError
 from utils.run_manager import shutdown_default_manager
 
@@ -87,8 +90,12 @@ def create_app() -> FastAPI:
     app.include_router(meta_router)
     app.include_router(idea_router)
     app.include_router(run_router)
+    app.include_router(strategy_router)
+    app.include_router(chat_router)
     # Built on first use (routes/run_routes.get_manager), so no database file is created here.
     app.state.run_manager = None
+    # The Advisor's limits (one question in flight per run, cooldown, concurrency); memory only.
+    app.state.chat_gate = ChatGate()
     return app
 
 

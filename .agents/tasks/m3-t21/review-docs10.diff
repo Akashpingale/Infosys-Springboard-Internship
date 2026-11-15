@@ -1,0 +1,176 @@
+diff --git a/docs/10_ui_design_system.md b/docs/10_ui_design_system.md
+index 01d6116..0431c1f 100644
+--- a/docs/10_ui_design_system.md
++++ b/docs/10_ui_design_system.md
+@@ -8,7 +8,12 @@ differ from that specification and why.
+ Nothing here describes the Streamlit interface, which is unchanged and still the reference for
+ behaviour until the new interface reaches parity (see [Status and what is unverified](#9-status-and-what-is-unverified)).
+ 
++Milestone 3 added a resources panel to the review step, three more tracker rows, and two tabs,
++Strategy and Advisor. They are described in [section 11](#11-milestone-3-strategy-and-advisor-screens),
++with their own screenshots.
++
+ - Screens, as built: [screenshots](#7-screens) and the full set in [`assets/ui_v2/`](assets/ui_v2)
++- Milestone 3 screens: [section 11](#11-milestone-3-strategy-and-advisor-screens) and [`assets/ui_v3/`](assets/ui_v3)
+ - The backend routes behind them: [README API reference](../README.md#new-web-interface-api-react)
+ 
+ ---
+@@ -212,11 +217,13 @@ features editable before the expensive stages run.
+ ![The stage tracker at 1440 px](assets/ui_v2/run-progress-1440.png)
+ 
+ The four stages with status and elapsed time, polled every 1.5 s and stopped on a terminal state.
++A run with strategy shows seven rows ([section 11](#11-milestone-3-strategy-and-advisor-screens)).
+ The running stage is announced in a live region. Cancelling is cooperative, and the page says so.
+ 
+ ### Results workspace
+ 
+-Five tabs. Overview first:
++Five tabs when these screenshots were taken; Milestone 3 added Strategy and Advisor after
++Competitors, for seven ([section 11](#11-milestone-3-strategy-and-advisor-screens)). Overview first:
+ 
+ ![The overview tab at 1440 px](assets/ui_v2/results-overview-1440.png)
+ 
+@@ -261,7 +268,8 @@ not a claim that a provider works.
+   is never read the same row twice.
+ - **820 px:** two-column areas collapse to one where they would crowd; tables keep their columns.
+ - **1440 px:** the full layout, capped at 1280 px.
+-- No screen scrolls sideways at any of the three widths. This is asserted for all 27 screens.
++- No screen scrolls sideways at any of the three widths. This is asserted for all 27 screens, and
++  for the 14 Milestone 3 screens of section 11.
+ 
+ ---
+ 
+@@ -308,11 +316,24 @@ stays until parity with the React interface is confirmed. Nothing in the Milesto
+ backend was changed to make the new interface work: the additions are new routes
+ (`/api/meta`, `/api/runsΓÇª`), and `POST /api/validate` behaves exactly as before.
+ 
+-**What the React interface has not done yet:** a live validation run started from it. Every check so
+-far used saved results from the 27 October live runs, replayed through mocked responses or seeded
+-into the local history database. The pipeline itself has been run live (see
+-[docs/09](09_milestone2_test_report.md)); what is unverified is the new interface driving it
+-end to end, which needs one real run and therefore real API credits.
++**Live runs from the React interface.** Five validations have been run from the React interface
++with real API calls, and are saved in its history file, `data/runs.db`, beside four seeded
++demonstration rows (nine rows in all):
++
++| Run id | Result |
++|---|---|
++| `a7c930285cf1437780f8408b4c7c670d` | complete |
++| `3a88f83cd7464d2e9b742a55aab6e98c` | complete |
++| `1ea1af5c13fb424dadd7e10424e44448` | partial, because of a Gemini quota error |
++| `1c169d267b6a4d4ebdb3a26e2d4cdc84` | complete |
++| `a078ebf6a9514ef78e318b7b2db8aaa6` | partial |
++
++All five were run before Milestone 3 began: the file was last written on 8 November 2026 and still
++has the table layout from before Milestone 3. They are therefore four-stage runs. The live
++walkthrough of the Milestone 3 screens (check L-4 in [docs/12](12_milestone3_test_report.md)) is
++**not executed** yet.
++The pipeline itself was also run live from the command line on 27 October
++([docs/09](09_milestone2_test_report.md)).
+ 
+ Also unverified or deliberately left: the light theme is defined in tokens but not switchable from
+ the interface; `820 px` keeps the 40 px desktop action row rather than 44 px, because the `sm`
+@@ -327,12 +348,100 @@ From `web/`:
+ 
+ | Command | What it runs |
+ |---|---|
+-| `npm test` | 295 unit and component tests in 20 files, jsdom, every request mocked by MSW |
++| `npm test` | 477 unit and component tests in 35 files, jsdom, every request mocked by MSW |
+ | `npm run typecheck` | TypeScript for the application and, separately, for the browser tests |
+ | `npm run build` | `tsc --noEmit` then the production bundle |
+-| `npm run test:e2e` | 183 Playwright tests in Chromium: screenshots, axe and keyboard, at the three widths |
+-| `npm run test:e2e:a11y` | The 81 axe checks on their own |
++| `npm run test:e2e` | All 369 Playwright tests in Chromium, at the three widths: the screenshots, axe and keyboard tests of sections 7 and 8 (183) and the Milestone 3 specs of section 11 (186). It includes the screenshot spec below |
++| `npm run test:e2e:a11y` | The axe checks on their own: 81 for the screens above, 42 for the Milestone 3 screens |
+ | `npm run test:shots` | Refresh the 81 screenshots in `docs/assets/ui_v2/` |
++| `npx playwright test e2e/screens-m3.spec.ts` | Refresh the 42 Milestone 3 screenshots in `docs/assets/ui_v3/` |
++
++During Milestone 3 the specs were run one at a time and the ui_v2 screenshot spec was not run, so
++the images in `assets/ui_v2/` still show the interface before Milestone 3. The measured results are
++in [docs/12](12_milestone3_test_report.md).
+ 
+ No browser test reaches a server: `web/e2e/mockApi.ts` answers every call by route interception and
+ **throws** if anything tries to start a run, so no provider is ever called and no credit spent.
++
++---
++
++## 11. Milestone 3: strategy and Advisor screens
++
++Milestone 3 added the resources panel, three tracker rows and two tabs. Everything uses the tokens,
++type scale and components above; no colour was added. How the backend behind them works:
++[docs/11](11_milestone3_strategy_and_advisor.md).
++
++### New components
++
++In `web/src/features/` unless noted.
++
++| Component | Guarantee |
++|---|---|
++| "Include strategy" switch (`new-validation/ReviewStep.tsx`) | A native checkbox with `role="switch"`, on by default, with its cost in the helper text. It appears only when `/api/meta` reports strategy as available. Switched off, it sends `include_strategy: false` and no constraints |
++| `ConstraintsPanel` (`new-validation/`) | A native `<details>`, "Resources and goals (optional)", closed unless prefilled. Team size and months are selects, budget and skill are radios, the region is a text field with a counter. Every limit and choice comes from `/api/meta`, and only the filled fields are sent |
++| `StrategyTab` (`strategy/`) | A header with what the strategy was built from, "{n} of {m} points are linked to a finding from your analysis." (never a percentage), a chip for each assumed resource, the caveat "These are AI interpretations of your results, not predictions." and "Change resources and regenerate", which asks before replacing all three parts. A sticky section list: SWOT, Risks, MVP plan, Go-to-market |
++| `StrategyStates` (`strategy/`) | Empty ("No strategy yet." with Generate strategy and the resources panel), loading skeleton, failed ("This part could not be completed." with Try again) and skipped (with the reason). Every Try again and Generate button sends the same single request and is disabled while it is pending |
++| `SwotSection` (`strategy/`) | Two by two from the `lg` breakpoint, stacked below. Each point: its text, why it matters in muted text, one basis chip, its citation chips. The summary is labelled "AI interpretation" |
++| `RisksSection` (`strategy/`) | "{n} risks: {h} high, {m} medium, {l} low"; one chip per category, and for an empty one "None found in this run. Not checked is not the same as safe."; a table from 1024 px, cards below it, one layout in the document; severity as an icon and a word |
++| `MvpSection` (`strategy/`) | "Planned {x} of {y} person-months" with a bar and an "Over capacity" chip; "In the first release" and "Later" in the backend's order, never re-ranked; effort chips say "AI estimate"; "How the ranking works" states the formula and the constants |
++| `GtmSection` (`strategy/`) | The positioning statement exactly as returned, with its parts and a "Hypothesis" or "Supported" chip; channels in the backend's order with one "Start here" chip and a five-step fit meter that also gives its value in words; the launch plan is the only numbered list in the tab |
++| Strategy tile (`results/OverviewTab.tsx`) | A fifth `MetricTile`: the risks and first-release features in words, and "Generated", "Partly generated" or "Not generated" |
++| `AdvisorTab` (`advisor/`) | Starter questions while the thread is empty. Enter sends, Shift+Enter starts a line, and Enter is ignored while a character is being composed. A "Thinking" row with Cancel; one polite live region ("Advisor is answering", then "Advisor replied."); focus stays in the composer; the question comes back after any error; "{n} questions left" at 5 or fewer; clearing asks first, with "Keep it" focused |
++| `ChatMessageItem` (`advisor/ChatMessage.tsx`) | Questions on the right on a raised surface, answers on the left. Each paragraph has a basis chip, citation chips that open the same source drawer, and "From: ΓÇª" naming its sections. Everything is rendered as text, never as HTML or Markdown |
++| `AskAdvisorButton` (`advisor/AdvisorTab.tsx`) | "Ask the advisor about this" at the end of each Strategy section that has a result, and of the Market and Competitors tabs. It writes a question into the composer and opens the Advisor; it never sends |
++
++`web/src/lib/noRawHtml.test.ts` fails if any file in `web/src` hands raw HTML to React, as
++`tokens.test.ts` does for opacity modifiers.
++
++### Visual rules for the new elements
++
++- Severity, tiers, "Start here", the differentiator status and the over-capacity and budget notes use
++  the existing status colours (`success`, `warning`, `danger`, `info`), always with an icon and a
++  word.
++- The capacity bar and the fit meters are CSS bars, hidden from screen readers, with the same value
++  in text beside them.
++- The launch plan is the only numbered sequence. Channels are ordered but not numbered.
++- No strategy figure is shown as a percentage.
++
++### Screens
++
++The 42 screenshots are in [`assets/ui_v3/`](assets/ui_v3), named `<screen>-<width>.png` for 390, 820
++and 1440 px, produced by `web/e2e/screens-m3.spec.ts` against mocked API responses. They show the
++synthetic strategy result (`web/src/test/strategyFixture.synthetic.json`), not model output.
++
++| Screen | What it shows |
++|---|---|
++| [`review-constraints`](assets/ui_v3/review-constraints-1440.png) | The review step with "Resources and goals" open |
++| [`run-progress-seven-stages`](assets/ui_v3/run-progress-seven-stages-1440.png) | A run with strategy: the market stage running, four stages waiting |
++| [`strategy-empty`](assets/ui_v3/strategy-empty-1440.png) | A finished run without strategy: "No strategy yet." |
++| [`strategy-running`](assets/ui_v3/strategy-running-1440.png) | The MVP stage running after SWOT: the tracker and the results so far |
++| [`strategy-swot-risks`](assets/ui_v3/strategy-swot-risks-1440.png) | The whole Strategy tab, with the first risk's detail open |
++| [`strategy-mvp`](assets/ui_v3/strategy-mvp-1440.png) | The MVP plan, with "How the ranking works" open |
++| [`strategy-gtm`](assets/ui_v3/strategy-gtm-1440.png) | The go-to-market plan |
++| [`strategy-partial`](assets/ui_v3/strategy-partial-1440.png) | Go-to-market failed; SWOT and the MVP plan are shown |
++| [`strategy-failed`](assets/ui_v3/strategy-failed-1440.png) | All three strategy stages failed |
++| [`advisor-empty`](assets/ui_v3/advisor-empty-1440.png) | The starter questions |
++| [`advisor-conversation`](assets/ui_v3/advisor-conversation-1440.png) | Two exchanges and a follow-up question |
++| [`advisor-pending`](assets/ui_v3/advisor-pending-1440.png) | A question waiting for its answer |
++| [`advisor-error`](assets/ui_v3/advisor-error-1440.png) | The AI service failed; the question is back in the composer |
++| [`advisor-full`](assets/ui_v3/advisor-full-1440.png) | The question limit reached: "This conversation is full." |
++
++![The Advisor tab with two exchanges, at 1440 px](assets/ui_v3/advisor-conversation-1440.png)
++
++Each answer paragraph carries its basis chip and the sections it drew on; the citation numbers open
++the same source drawer as the other tabs.
++
++### Responsive and accessibility, measured
++
++| Requirement | Result |
++|---|---|
++| No sideways scroll | None, on all 14 screens at the three widths |
++| Seven tabs at 390 px | The tab row scrolls inside its own container and the page does not move. The arrow keys cycle all seven tabs and wrap, one tab is tabbable, and the open tab stays in view |
++| 44 px targets on new controls, at 390 px | Met for buttons, links, selects, summaries, radio and checkbox labels and tabs. Text fields keep the 42 px of every other text field, and citation chips stay 24 px (the inline exemption in section 8) |
++| Focus | A Tab walk through each screen's new controls finds a ring of at least 2 px on every stop |
++| Reduced motion | With `prefers-reduced-motion: reduce`, no transition or animation on the 14 screens lasts longer than 0.05 s |
++| Live regions | "Advisor is answering", then "Advisor replied." once, besides the stage tracker's |
++| axe: no serious or critical violations | **0 across 14 screens ├ù 3 widths**, and still 0 on the 27 screens above |
++| Print | Strategy is printed with its folded panels open, and the Advisor is never printed. Checked by unit tests in jsdom only |
++
++The test counts are in [docs/12](12_milestone3_test_report.md#23-browser-tests).

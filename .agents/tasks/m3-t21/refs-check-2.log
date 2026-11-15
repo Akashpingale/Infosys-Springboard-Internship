@@ -1,0 +1,119 @@
+docs/11_milestone3_strategy_and_advisor.md:54: agents/base.py:21: class AgentContext:
+docs/11_milestone3_strategy_and_advisor.md:54: agents/base.py:47: class Agent(Protocol):
+docs/11_milestone3_strategy_and_advisor.md:54: agents/base.py:40: constraints: StrategyConstraints | None = None
+docs/11_milestone3_strategy_and_advisor.md:54: agents/base.py:43: gtm: GtmResult | None = None
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:82: class ExtractionStage:
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:92: class WebSearchStage:
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:114: class AnalysisStage:
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:174: class StrategyStage:
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:151: STAGES: list[Agent] = [ExtractionStage(), WebSearchStage()]
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:156: FULL_STAGES: list[Agent] = [
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:214: STRATEGY_ONLY_STAGES: list[Agent] = [
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:219: STRATEGY_STAGES: list[Agent] = [*FULL_STAGES, *STRATEGY_ONLY_STAGES]
+docs/11_milestone3_strategy_and_advisor.md:55: orchestrator.py:263: def _status(context: AgentContext, errors: list[StageError], skipped: list[str]) -> str:
+docs/11_milestone3_strategy_and_advisor.md:56: orchestrator.py:223: class StageEvent:
+docs/11_milestone3_strategy_and_advisor.md:56: agents/notices.py:44: STAGE_TITLES = {
+docs/11_milestone3_strategy_and_advisor.md:56: agents/notices.py:37: STRATEGY_TITLES = {
+docs/11_milestone3_strategy_and_advisor.md:56: utils/run_manager.py:67: TITLES = {**STAGE_TITLES, **STRATEGY_TITLES}
+docs/11_milestone3_strategy_and_advisor.md:57: utils/deadline.py:25: def time_limit(seconds: float | None) -> Iterator[None]:
+docs/11_milestone3_strategy_and_advisor.md:57: utils/deadline.py:36: def extra_time(seconds: float | None) -> Iterator[None]:
+docs/11_milestone3_strategy_and_advisor.md:57: utils/deadline.py:48: def time_left() -> float | None:
+docs/11_milestone3_strategy_and_advisor.md:57: utils/deadline.py:54: def call_timeout(configured: float) -> float:
+docs/11_milestone3_strategy_and_advisor.md:57: utils/run_manager.py:114: def run_time_limit_s() -> float:
+docs/11_milestone3_strategy_and_advisor.md:57: orchestrator.py:249: def analysis_time_limit_s() -> float:
+docs/11_milestone3_strategy_and_advisor.md:57: orchestrator.py:70: TIME_LIMIT_SHARE = 0.9
+docs/11_milestone3_strategy_and_advisor.md:58: utils/structured.py:57: def call_structured(
+docs/11_milestone3_strategy_and_advisor.md:58: utils/groq_client.py:124: def strict_schema(model: type[BaseModel]) -> dict[str, Any]:
+docs/11_milestone3_strategy_and_advisor.md:59: utils/llm_client.py:373: def generate_json(system_prompt: str, user_prompt: str) -> str:
+docs/11_milestone3_strategy_and_advisor.md:59: utils/llm_client.py:406: def generate_text(prompt: str) -> str:
+docs/11_milestone3_strategy_and_advisor.md:59: utils/llm_client.py:104: def output_token_limit(tokens: int | None) -> Iterator[None]:
+docs/11_milestone3_strategy_and_advisor.md:59: utils/llm_client.py:234: def _falls_back(exc: Exception) -> bool:
+docs/11_milestone3_strategy_and_advisor.md:59: utils/llm_client.py:258: def _call_groq(primary: Exception, system_prompt: str, user_prompt: str, *, again: bool = False) -> str:
+docs/11_milestone3_strategy_and_advisor.md:59: utils/errors.py:22: class LLMConfigError(AppError):
+docs/11_milestone3_strategy_and_advisor.md:59: utils/errors.py:28: class LLMAPIError(AppError):
+docs/11_milestone3_strategy_and_advisor.md:59: utils/errors.py:34: class LLMInvalidResponseError(AppError):
+docs/11_milestone3_strategy_and_advisor.md:59: utils/groq_client.py:34: MAX_COMPLETION_TOKENS = 4096
+docs/11_milestone3_strategy_and_advisor.md:59: orchestrator.py:76: STRATEGY_MAX_OUTPUT_TOKENS = 6144
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:248: class MarketOpportunityResult(MarketOpportunityDraft):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:368: class CompetitorAnalysisResult(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:147: class LabeledItem(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:128: class Basis(str, Enum):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:141: class SourceRef(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:225: class DataQuality(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:396: class Notice(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:424: class SummaryLine(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:436: class VerifyItem(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:445: class PipelineResult(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:483: STRATEGY_BASES = ("ai_interpretation", "assumption", "user_provided")
+docs/11_milestone3_strategy_and_advisor.md:60: models/schemas.py:729: PipelineResult.model_rebuild()
+docs/11_milestone3_strategy_and_advisor.md:61: agents/evidence.py:122: def build_evidence(
+docs/11_milestone3_strategy_and_advisor.md:61: agents/evidence.py:155: id=f"S{number}",
+docs/11_milestone3_strategy_and_advisor.md:61: agents/evidence.py:10: SUMMARY_ID = "S0"
+docs/11_milestone3_strategy_and_advisor.md:62: agents/figures.py:317: def check_claim(text: str | None, cited_texts: Iterable[str]) -> str:
+docs/11_milestone3_strategy_and_advisor.md:62: agents/figures.py:67: STOP_WORDS = frozenset(
+docs/11_milestone3_strategy_and_advisor.md:62: agents/figures.py:165: def singular(word: str) -> str:
+docs/11_milestone3_strategy_and_advisor.md:63: agents/notices.py:561: def build_notices(
+docs/11_milestone3_strategy_and_advisor.md:63: agents/notices.py:80: CODE_FALLBACK = "quality_adjusted"
+docs/11_milestone3_strategy_and_advisor.md:63: agents/notices.py:492: def leaks(message: str) -> bool:
+docs/11_milestone3_strategy_and_advisor.md:63: agents/notices.py:334: STRATEGY_RULES: tuple[_StrategyRule, ...] = (
+docs/11_milestone3_strategy_and_advisor.md:64: agents/derived.py:104: def evidence_strength(result: PipelineResult) -> EvidenceStrength | None:
+docs/11_milestone3_strategy_and_advisor.md:64: agents/derived.py:170: def executive_summary(result: PipelineResult) -> list[SummaryLine]:
+docs/11_milestone3_strategy_and_advisor.md:64: agents/derived.py:323: def verify_next(result: PipelineResult) -> list[VerifyItem]:
+docs/11_milestone3_strategy_and_advisor.md:64: agents/derived.py:373: def with_derived_fields(result: PipelineResult) -> PipelineResult:
+docs/11_milestone3_strategy_and_advisor.md:64: agents/derived.py:77: def labeled_bases(model: BaseModel | None) -> list[str]:
+docs/11_milestone3_strategy_and_advisor.md:64: agents/derived.py:252: def strategy_summary(result: PipelineResult) -> list[SummaryLine]:
+docs/11_milestone3_strategy_and_advisor.md:64: agents/derived.py:281: def strategy_verify_next(result: PipelineResult) -> list[VerifyItem]:
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:221: class RunManager:
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:323: def start(
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:365: def start_strategy(
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:508: def _work(self, run: _Run) -> None:
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:553: def _on_event(self, run: _Run, event: StageEvent) -> None:
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:580: def _finish(self, run: _Run, result: PipelineResult | None, failure: str | None = None) -> None:
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:62: MAX_CONCURRENT_RUNS = 2
+docs/11_milestone3_strategy_and_advisor.md:65: utils/run_manager.py:627: def default_manager() -> RunManager:
+docs/11_milestone3_strategy_and_advisor.md:66: utils/run_store.py:95: def ensure_schema(connection: sqlite3.Connection) -> None:
+docs/11_milestone3_strategy_and_advisor.md:66: utils/run_store.py:153: def _clean(self, value: Any) -> Any:
+docs/11_milestone3_strategy_and_advisor.md:66: utils/run_store.py:190: def delete(self, run_id: str) -> bool:
+docs/11_milestone3_strategy_and_advisor.md:66: utils/run_manager.py:293: def _detail_from_row(row: dict[str, Any]) -> RunDetail:
+docs/11_milestone3_strategy_and_advisor.md:66: utils/chat_store.py:7: class ChatStore:
+docs/11_milestone3_strategy_and_advisor.md:67: routes/run_routes.py:42: def start_run(body: RunRequest, manager: RunManager = Depends(get_manager)) -> RunStarted:
+docs/11_milestone3_strategy_and_advisor.md:67: models/api.py:166: class RunStarted(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:67: models/api.py:143: class RunRequest(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:67: models/api.py:182: class RunDetail(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:67: models/api.py:205: class RunSummary(BaseModel):
+docs/11_milestone3_strategy_and_advisor.md:68: routes/meta_routes.py:132: def meta() -> MetaResponse:
+docs/11_milestone3_strategy_and_advisor.md:68: routes/meta_routes.py:110: def strategy_info() -> StrategyInfo:
+docs/11_milestone3_strategy_and_advisor.md:68: routes/meta_routes.py:126: def chat_limits() -> ChatLimits:
+docs/11_milestone3_strategy_and_advisor.md:69: frontend/analysis_views.py:372: def report_markdown(result: PipelineResult, *, full: bool = False) -> str:
+docs/11_milestone3_strategy_and_advisor.md:69: frontend/analysis_views.py:227: def report_file_name(result: PipelineResult) -> str:
+docs/11_milestone3_strategy_and_advisor.md:69: frontend/analysis_views.py:636: def strategy_markdown(result: PipelineResult) -> list[str]:
+docs/11_milestone3_strategy_and_advisor.md:70: config.py:44: class Settings:
+docs/11_milestone3_strategy_and_advisor.md:70: config.py:180: def get_settings() -> Settings:
+docs/11_milestone3_strategy_and_advisor.md:70: config.py:142: def _bounded_int_env(name: str, default: int, bounds: tuple[int, int]) -> int:
+docs/11_milestone3_strategy_and_advisor.md:70: config.py:127: def _bounded_float_env(name: str, default: float, bounds: tuple[float, float]) -> float:
+docs/11_milestone3_strategy_and_advisor.md:71: web/src/features/results/ResultsHeader.tsx:18: export const TABS = [
+docs/11_milestone3_strategy_and_advisor.md:71: web/src/features/run/StageTracker.tsx:64: {run.stages.map((stage) => {
+docs/11_milestone3_strategy_and_advisor.md:71: web/src/features/run/useRun.ts:25: export const POLL_INTERVAL_MS = 1500;
+docs/11_milestone3_strategy_and_advisor.md:71: web/src/features/run/useRun.ts:26: const ACTIVE: RunState[] = ['queued', 'running'];
+docs/11_milestone3_strategy_and_advisor.md:71: web/src/components/Claim.tsx:32: export function ClaimItem({ item, analysis, sources, onOpenSource, className }: ClaimItemProps) {
+docs/11_milestone3_strategy_and_advisor.md:71: web/src/lib/results.ts:258: export function collectClaims(result: PipelineResult, options: CollectOptions = {}): Claim[] {
+docs/11_milestone3_strategy_and_advisor.md:71: web/src/features/run/RunPage.tsx:47: const PRINTED_TABS = TABS.filter((entry) => entry.key !== 'advisor');
+docs/11_milestone3_strategy_and_advisor.md:72: web/src/test/setup.ts:42: beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+docs/11_milestone3_strategy_and_advisor.md:72: web/e2e/mockApi.ts:652: throw new Error('A browser test tried to start a validation. These tests must never do that.');
+docs/11_milestone3_strategy_and_advisor.md:73: tests/conftest.py:21: def fake_env(monkeypatch: pytest.MonkeyPatch) -> None:
+docs/11_milestone3_strategy_and_advisor.md:73: tests/conftest.py:30: def block_network(monkeypatch: pytest.MonkeyPatch) -> None:
+docs/11_milestone3_strategy_and_advisor.md:122: orchestrator.py:56: SKIP_NO_ANALYSIS = "{label}: skipped because it needs at least one finished analysis."
+docs/11_milestone3_strategy_and_advisor.md:143: utils/run_manager.py:365: def start_strategy(
+docs/11_milestone3_strategy_and_advisor.md:300: agents/swot_risk_agent.py:161: def severity(likelihood: str, impact: str) -> str:
+docs/11_milestone3_strategy_and_advisor.md:315: agents/mvp_agent.py:196: def feature_score(customer_need: int, differentiation: int, feasibility: int) -> float:
+docs/11_milestone3_strategy_and_advisor.md:315: agents/mvp_agent.py:201: def capacity_person_months(constraints: StrategyConstraints) -> float:
+docs/11_milestone3_strategy_and_advisor.md:315: agents/mvp_agent.py:353: def assign_tiers(
+docs/11_milestone3_strategy_and_advisor.md:329: agents/gtm_agent.py:103: STATEMENT = (
+docs/11_milestone3_strategy_and_advisor.md:329: agents/gtm_agent.py:251: def positioning_statement(product: str, parts: Positioning | PositioningDraft) -> str:
+docs/11_milestone3_strategy_and_advisor.md:329: agents/gtm_agent.py:255: def channel_rank_key(audience_fit: int, cost_level: str, speed: str, number: int) -> tuple[int, int, int, int]
+== docs/11_milestone3_strategy_and_advisor.md: 113 line refs, 1 test names, 0 web test titles, 31 paths
+== docs/12_milestone3_test_report.md: 0 line refs, 66 test names, 6 web test titles, 35 paths
+== README.md: 0 line refs, 0 test names, 0 web test titles, 11 paths
+== docs/10_ui_design_system.md: 0 line refs, 0 test names, 0 web test titles, 17 paths
+PROBLEM README.md: path not found: web/.env.local
+problems 1

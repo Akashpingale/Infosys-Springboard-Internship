@@ -1,0 +1,36 @@
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web[39m
+
+(node:21608) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21312) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+stderr | src/features/run/RunPage.test.tsx > Run page: while it runs > shows each stage with its status and time, and nothing as finished early
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/run/strategyRun.test.tsx > Results tabs: seven of them > lists the seven tabs in the planned order
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/run/strategyRun.test.tsx > Results tabs: seven of them > opens the Strategy tab and a placeholder for the Advisor tab
+[MSW] Error: intercepted a request without a matching request handler:
+
+  ΓÇó GET http://127.0.0.1:8000/api/meta
+
+If you still wish to intercept this unhandled request, please create a request handler for it.
+Read more: https://mswjs.io/docs/http/intercepting-requests
+
+ [32mΓ£ô[39m src/features/run/strategyRun.test.tsx [2m([22m[2m11 tests[22m[2m)[22m[33m 8846[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Results tabs: seven of them[2m > [22mmoves through all seven with the arrow keys, wrapping at both ends, with one tab tabbable [33m456[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Polling after a strategy request[2m > [22mstays quiet on a finished run, then polls again until the strategy job ends [33m7634[2mms[22m[39m
+ [32mΓ£ô[39m src/features/run/RunPage.test.tsx [2m([22m[2m37 tests[22m[2m)[22m[33m 10482[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: while it runs[2m > [22mkeeps polling until the run ends, then stops [33m5600[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: the finished result[2m > [22mmoves between tabs with the arrow keys [33m363[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: partial, failed and lost connection[2m > [22msays it is retrying when the connection drops, and keeps the run on screen [33m1541[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m48 passed[39m[22m[90m (48)[39m
+[2m   Start at [22m 15:47:30
+[2m   Duration [22m 18.53s[2m (transform 633ms, setup 1.17s, collect 9.14s, tests 19.33s, environment 2.61s, prepare 306ms)[22m
+

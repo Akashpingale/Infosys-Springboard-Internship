@@ -1,0 +1,199 @@
+(node:11632) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 102 tests using 1 worker
+
+
+[1A[2K(node:20896) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[1/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ review-constraints has no serious or critical violation
+[1A[2K[2/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ run-progress-seven-stages has no serious or critical violation
+[1A[2K[3/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-empty has no serious or critical violation
+[1A[2K[4/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-running has no serious or critical violation
+[1A[2K[5/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-swot-risks has no serious or critical violation
+[1A[2K[6/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-mvp has no serious or critical violation
+[1A[2K[7/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-gtm has no serious or critical violation
+[1A[2K[8/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-partial has no serious or critical violation
+[1A[2K[9/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-failed has no serious or critical violation
+[1A[2K[10/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-empty has no serious or critical violation
+[1A[2K[11/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-conversation has no serious or critical violation
+[1A[2K[12/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-pending has no serious or critical violation
+[1A[2K[13/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-error has no serious or critical violation
+[1A[2K[14/102] [w390] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-full has no serious or critical violation
+[1A[2K[15/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:56:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the seven result tabs cycle with the arrow keys, stay in view and never move the page
+[1A[2K[16/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone
+[1A[2K  1) [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone 
+
+    Error: Resources and goals summary has no focus ring
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: not [32m"none"[39m
+
+      19 |   });
+      20 |   expect(outline, `${what} has focus`).not.toBeNull();
+    > 21 |   expect(outline?.style, `${what} has no focus ring`).not.toBe('none');
+         |                                                           ^
+      22 |   expect(outline?.width ?? 0, `${what} focus ring too thin`).toBeGreaterThanOrEqual(2);
+      23 | }
+      24 |
+        at expectRing (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\e2e\keyboard-m3.spec.ts:21:59)
+        at C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\e2e\keyboard-m3.spec.ts:87:5
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error Context: test-results\keyboard-m3-keyboard-on-th-e672b-lls-with-the-keyboard-alone-w390\error-context.md
+
+
+
+[1A[2K(node:14540) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[17/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:156:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the composer: Shift+Enter starts a line, Enter sends, the reply is announced and focus stays
+[1A[2K[18/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:186:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ a suggested question is reached with Shift+Tab and sent with Enter
+[1A[2K[19/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:213:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the clear dialog opens on Keep it, keeps focus inside, closes with Escape and clears with Enter
+[1A[2K[20/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:256:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the regenerate confirm opens on Keep it and Escape sends nothing
+[1A[2K[21/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ review-constraints does not animate
+[1A[2K[22/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ run-progress-seven-stages does not animate
+[1A[2K[23/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-empty does not animate
+[1A[2K[24/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-running does not animate
+[1A[2K[25/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-swot-risks does not animate
+[1A[2K[26/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-mvp does not animate
+[1A[2K[27/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-gtm does not animate
+[1A[2K[28/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-partial does not animate
+[1A[2K[29/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-failed does not animate
+[1A[2K[30/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-empty does not animate
+[1A[2K[31/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-conversation does not animate
+[1A[2K[32/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-pending does not animate
+[1A[2K[33/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-error does not animate
+[1A[2K[34/102] [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-full does not animate
+
+[1A[2K(node:14144) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[35/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ review-constraints has no serious or critical violation
+[1A[2K[36/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ run-progress-seven-stages has no serious or critical violation
+[1A[2K[37/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-empty has no serious or critical violation
+[1A[2K[38/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-running has no serious or critical violation
+[1A[2K[39/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-swot-risks has no serious or critical violation
+[1A[2K[40/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-mvp has no serious or critical violation
+[1A[2K[41/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-gtm has no serious or critical violation
+[1A[2K[42/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-partial has no serious or critical violation
+[1A[2K[43/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-failed has no serious or critical violation
+[1A[2K[44/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-empty has no serious or critical violation
+[1A[2K[45/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-conversation has no serious or critical violation
+[1A[2K[46/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-pending has no serious or critical violation
+[1A[2K[47/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-error has no serious or critical violation
+[1A[2K[48/102] [w820] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-full has no serious or critical violation
+[1A[2K[49/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:56:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the seven result tabs cycle with the arrow keys, stay in view and never move the page
+[1A[2K[50/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone
+[1A[2K  2) [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone 
+
+    Error: Resources and goals summary has no focus ring
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: not [32m"none"[39m
+
+      19 |   });
+      20 |   expect(outline, `${what} has focus`).not.toBeNull();
+    > 21 |   expect(outline?.style, `${what} has no focus ring`).not.toBe('none');
+         |                                                           ^
+      22 |   expect(outline?.width ?? 0, `${what} focus ring too thin`).toBeGreaterThanOrEqual(2);
+      23 | }
+      24 |
+        at expectRing (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\e2e\keyboard-m3.spec.ts:21:59)
+        at C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\e2e\keyboard-m3.spec.ts:87:5
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error Context: test-results\keyboard-m3-keyboard-on-th-e672b-lls-with-the-keyboard-alone-w820\error-context.md
+
+
+
+[1A[2K(node:22220) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[51/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:156:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the composer: Shift+Enter starts a line, Enter sends, the reply is announced and focus stays
+[1A[2K[52/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:186:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ a suggested question is reached with Shift+Tab and sent with Enter
+[1A[2K[53/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:213:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the clear dialog opens on Keep it, keeps focus inside, closes with Escape and clears with Enter
+[1A[2K[54/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:256:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the regenerate confirm opens on Keep it and Escape sends nothing
+[1A[2K[55/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ review-constraints does not animate
+[1A[2K[56/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ run-progress-seven-stages does not animate
+[1A[2K[57/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-empty does not animate
+[1A[2K[58/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-running does not animate
+[1A[2K[59/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-swot-risks does not animate
+[1A[2K[60/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-mvp does not animate
+[1A[2K[61/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-gtm does not animate
+[1A[2K[62/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-partial does not animate
+[1A[2K[63/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-failed does not animate
+[1A[2K[64/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-empty does not animate
+[1A[2K[65/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-conversation does not animate
+[1A[2K[66/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-pending does not animate
+[1A[2K[67/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-error does not animate
+[1A[2K[68/102] [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-full does not animate
+
+[1A[2K(node:21188) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[69/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ review-constraints has no serious or critical violation
+[1A[2K[70/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ run-progress-seven-stages has no serious or critical violation
+[1A[2K[71/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-empty has no serious or critical violation
+[1A[2K[72/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-running has no serious or critical violation
+[1A[2K[73/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-swot-risks has no serious or critical violation
+[1A[2K[74/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-mvp has no serious or critical violation
+[1A[2K[75/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-gtm has no serious or critical violation
+[1A[2K[76/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-partial has no serious or critical violation
+[1A[2K[77/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ strategy-failed has no serious or critical violation
+[1A[2K[78/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-empty has no serious or critical violation
+[1A[2K[79/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-conversation has no serious or critical violation
+[1A[2K[80/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-pending has no serious or critical violation
+[1A[2K[81/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-error has no serious or critical violation
+[1A[2K[82/102] [w1440] ΓÇ║ e2e\accessibility-m3.spec.ts:7:3 ΓÇ║ advisor-full has no serious or critical violation
+[1A[2K[83/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:56:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the seven result tabs cycle with the arrow keys, stay in view and never move the page
+[1A[2K[84/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone
+[1A[2K  3) [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone 
+
+    Error: Resources and goals summary has no focus ring
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: not [32m"none"[39m
+
+      19 |   });
+      20 |   expect(outline, `${what} has focus`).not.toBeNull();
+    > 21 |   expect(outline?.style, `${what} has no focus ring`).not.toBe('none');
+         |                                                           ^
+      22 |   expect(outline?.width ?? 0, `${what} focus ring too thin`).toBeGreaterThanOrEqual(2);
+      23 | }
+      24 |
+        at expectRing (C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\e2e\keyboard-m3.spec.ts:21:59)
+        at C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\web\e2e\keyboard-m3.spec.ts:87:5
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error Context: test-results\keyboard-m3-keyboard-on-th-e672b-lls-with-the-keyboard-alone-w1440\error-context.md
+
+
+
+[1A[2K(node:16560) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[85/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:156:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the composer: Shift+Enter starts a line, Enter sends, the reply is announced and focus stays
+[1A[2K[86/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:186:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ a suggested question is reached with Shift+Tab and sent with Enter
+[1A[2K[87/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:213:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the clear dialog opens on Keep it, keeps focus inside, closes with Escape and clears with Enter
+[1A[2K[88/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:256:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the regenerate confirm opens on Keep it and Escape sends nothing
+[1A[2K[89/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ review-constraints does not animate
+[1A[2K[90/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ run-progress-seven-stages does not animate
+[1A[2K[91/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-empty does not animate
+[1A[2K[92/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-running does not animate
+[1A[2K[93/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-swot-risks does not animate
+[1A[2K[94/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-mvp does not animate
+[1A[2K[95/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-gtm does not animate
+[1A[2K[96/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-partial does not animate
+[1A[2K[97/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ strategy-failed does not animate
+[1A[2K[98/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-empty does not animate
+[1A[2K[99/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-conversation does not animate
+[1A[2K[100/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-pending does not animate
+[1A[2K[101/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-error does not animate
+[1A[2K[102/102] [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:291:5 ΓÇ║ reduced motion on the Milestone 3 screens ΓÇ║ advisor-full does not animate
+[1A[2K  3 failed
+    [w390] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone 
+    [w820] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone 
+    [w1440] ΓÇ║ e2e\keyboard-m3.spec.ts:89:3 ΓÇ║ keyboard on the Milestone 3 screens ΓÇ║ the constraints panel opens and fills with the keyboard alone 
+  99 passed (5.1m)

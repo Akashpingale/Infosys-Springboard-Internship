@@ -1,0 +1,59 @@
+git status --porcelain -uall: 521 entries
+  Streamlit (frontend/)            modified   1
+  backend: agents                  modified   3
+  backend: agents                  untracked  6
+  backend: models                  modified   2
+  backend: models                  untracked  2
+  backend: routes                  modified   2
+  backend: routes                  untracked  2
+  backend: tests                   modified   1
+  backend: tests                   untracked  20
+  backend: utils                   modified   6
+  backend: utils                   untracked  1
+  docs                             modified   1
+  docs                             untracked  3
+  docs: ui_v3 screenshots          untracked  42
+  repository root                  modified   5
+  scripts                          untracked  4
+  web: app and unit tests          modified   12
+  web: app and unit tests          untracked  28
+  web: browser tests               modified   1
+  web: browser tests               untracked  5
+  web: config                      modified   1
+  workflow notes (.agents/)        untracked  373
+modified, tracked (outside .agents/):
+  .env.example
+  README.md
+  agents/base.py
+  agents/derived.py
+  agents/notices.py
+  app.py
+  config.py
+  docs/10_ui_design_system.md
+  frontend/analysis_views.py
+  models/api.py
+  models/schemas.py
+  orchestrator.py
+  routes/meta_routes.py
+  routes/run_routes.py
+  tests/test_run_store.py
+  utils/deadline.py
+  utils/errors.py
+  utils/groq_client.py
+  utils/llm_client.py
+  utils/run_manager.py
+  utils/run_store.py
+  web/e2e/mockApi.ts
+  web/playwright.config.ts
+  web/src/api/mutations.ts
+  web/src/api/queries.ts
+  web/src/features/new-validation/NewValidationPage.tsx
+  web/src/features/new-validation/ReviewStep.tsx
+  web/src/features/new-validation/schema.ts
+  web/src/features/results/OverviewTab.tsx
+  web/src/features/results/ResultsHeader.tsx
+  web/src/features/run/RunPage.test.tsx
+  web/src/features/run/RunPage.tsx
+  web/src/features/run/useRun.ts
+  web/src/lib/results.ts
+  web/src/styles/print.css

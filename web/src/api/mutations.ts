@@ -28,6 +28,10 @@ export interface StartRunInput {
   submission: IdeaSubmission;
   /** The idea as the founder left it after the review step. */
   idea_override?: ExtractedIdea;
+  /** Milestone 3: run the three strategy stages after the analysis. */
+  include_strategy?: boolean;
+  /** Only the resources the founder filled in; left out when none was. */
+  constraints?: components['schemas']['StrategyConstraints'];
 }
 
 /** POST /api/runs: the full pipeline starts in the background and answers with a run id. */

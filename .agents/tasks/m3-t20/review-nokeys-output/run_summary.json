@@ -1,0 +1,381 @@
+{
+  "generated": "2026-11-14 14:37",
+  "fake": true,
+  "model": "fake",
+  "ideas_attempted": 3,
+  "ideas_executed": 3,
+  "runs": [
+    {
+      "idea": "agritech",
+      "file": "agritech.json",
+      "executed": true,
+      "industry": "Agriculture / AgriTech",
+      "status": "complete",
+      "seconds": {
+        "extraction": 0.0,
+        "search": 0.0,
+        "market_opportunity": 0.003,
+        "competitor_analysis": 0.005,
+        "swot_risk": 0.006,
+        "mvp_recommendation": 0.006,
+        "go_to_market": 0.008,
+        "total": 0.034
+      },
+      "strategy_seconds": 0.02,
+      "calls": {
+        "extraction": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "search": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "market_opportunity": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "competitor_analysis": {
+          "llm": 2,
+          "groq": 0,
+          "searches": 0
+        },
+        "swot_risk": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "mvp_recommendation": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "go_to_market": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "total": {
+          "llm": 7,
+          "groq": 0,
+          "searches": 0
+        }
+      },
+      "warnings": [
+        "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used",
+        "Competitor analysis: Phase A: dropped candidate 'LeafDoc': the founder did not name it in the submission",
+        "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources",
+        "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission",
+        "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results",
+        "Competitor analysis: competitors[1]: removed 'LeafDoc'; the founder did not name it in the submission",
+        "Recommending MVP features: assumed a team of 2 people and 3 months to the first release because they were not given"
+      ],
+      "errors": [],
+      "counts": {
+        "swot": {
+          "strengths": 3,
+          "weaknesses": 3,
+          "opportunities": 3,
+          "threats": 3,
+          "risks": 6,
+          "risks_by_category": {
+            "business": 1,
+            "market": 2,
+            "technical": 1,
+            "financial": 1,
+            "operational": 1
+          },
+          "coverage_gaps": []
+        },
+        "mvp": {
+          "in_scope": [
+            "Photo-based diagnosis",
+            "Treatment advice",
+            "Local language support",
+            "Photo quality guide"
+          ],
+          "deferred": [
+            "Offline photo capture",
+            "Advice update log",
+            "Cooperative dashboard",
+            "Expert chat"
+          ],
+          "capacity_person_months": 3.6,
+          "planned_person_months": 3.0,
+          "over_capacity": false,
+          "constraints_assumed": [
+            "team_size",
+            "months_to_mvp"
+          ]
+        },
+        "gtm": {
+          "target_segment": "Smallholder farmers",
+          "differentiator_status": "hypothesis",
+          "channels": [
+            "Short demo videos on a messaging app",
+            "Cooperative staff referrals",
+            "Village demo booths",
+            "Cooperative field days",
+            "Agri-input retailer counters",
+            "Radio farm shows"
+          ],
+          "start_here": "Short demo videos on a messaging app",
+          "first_experiment": "Try short demo videos on a messaging app with a few farmers for two weeks.",
+          "launch_phases": 3
+        }
+      },
+      "contract_violations": []
+    },
+    {
+      "idea": "fintech_cashflow",
+      "file": "fintech_cashflow.json",
+      "executed": true,
+      "industry": "Finance / FinTech",
+      "status": "complete",
+      "seconds": {
+        "extraction": 0.0,
+        "search": 0.0,
+        "market_opportunity": 0.002,
+        "competitor_analysis": 0.006,
+        "swot_risk": 0.006,
+        "mvp_recommendation": 0.013,
+        "go_to_market": 0.038,
+        "total": 0.078
+      },
+      "strategy_seconds": 0.057,
+      "calls": {
+        "extraction": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "search": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "market_opportunity": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "competitor_analysis": {
+          "llm": 2,
+          "groq": 0,
+          "searches": 0
+        },
+        "swot_risk": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "mvp_recommendation": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "go_to_market": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "total": {
+          "llm": 7,
+          "groq": 0,
+          "searches": 0
+        }
+      },
+      "warnings": [
+        "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used",
+        "Competitor analysis: Phase A: dropped candidate 'LeafDoc': the founder did not name it in the submission",
+        "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources",
+        "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission",
+        "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results",
+        "Competitor analysis: competitors[1]: removed 'LeafDoc'; the founder did not name it in the submission",
+        "Recommending MVP features: assumed a team of 2 people and 3 months to the first release because they were not given"
+      ],
+      "errors": [],
+      "counts": {
+        "swot": {
+          "strengths": 3,
+          "weaknesses": 3,
+          "opportunities": 3,
+          "threats": 3,
+          "risks": 6,
+          "risks_by_category": {
+            "business": 1,
+            "market": 2,
+            "technical": 1,
+            "financial": 1,
+            "operational": 1
+          },
+          "coverage_gaps": []
+        },
+        "mvp": {
+          "in_scope": [
+            "Photo-based diagnosis",
+            "Treatment advice",
+            "Local language support",
+            "Photo quality guide"
+          ],
+          "deferred": [
+            "Offline photo capture",
+            "Advice update log",
+            "Cooperative dashboard",
+            "Expert chat"
+          ],
+          "capacity_person_months": 3.6,
+          "planned_person_months": 3.0,
+          "over_capacity": false,
+          "constraints_assumed": [
+            "team_size",
+            "months_to_mvp"
+          ]
+        },
+        "gtm": {
+          "target_segment": "Smallholder farmers",
+          "differentiator_status": "hypothesis",
+          "channels": [
+            "Short demo videos on a messaging app",
+            "Cooperative staff referrals",
+            "Village demo booths",
+            "Cooperative field days",
+            "Agri-input retailer counters",
+            "Radio farm shows"
+          ],
+          "start_here": "Short demo videos on a messaging app",
+          "first_experiment": "Try short demo videos on a messaging app with a few farmers for two weeks.",
+          "launch_phases": 3
+        }
+      },
+      "contract_violations": []
+    },
+    {
+      "idea": "foodtech_surplus",
+      "file": "foodtech_surplus.json",
+      "executed": true,
+      "industry": "Food & Beverage",
+      "status": "complete",
+      "seconds": {
+        "extraction": 0.0,
+        "search": 0.0,
+        "market_opportunity": 0.002,
+        "competitor_analysis": 0.004,
+        "swot_risk": 0.005,
+        "mvp_recommendation": 0.006,
+        "go_to_market": 0.008,
+        "total": 0.03
+      },
+      "strategy_seconds": 0.019,
+      "calls": {
+        "extraction": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "search": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "market_opportunity": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "competitor_analysis": {
+          "llm": 2,
+          "groq": 0,
+          "searches": 0
+        },
+        "swot_risk": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "mvp_recommendation": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "go_to_market": {
+          "llm": 1,
+          "groq": 0,
+          "searches": 0
+        },
+        "total": {
+          "llm": 7,
+          "groq": 0,
+          "searches": 0
+        }
+      },
+      "warnings": [
+        "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used",
+        "Competitor analysis: Phase A: dropped candidate 'LeafDoc': the founder did not name it in the submission",
+        "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources",
+        "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission",
+        "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results",
+        "Competitor analysis: competitors[1]: removed 'LeafDoc'; the founder did not name it in the submission",
+        "Recommending MVP features: assumed a team of 2 people and 3 months to the first release because they were not given"
+      ],
+      "errors": [],
+      "counts": {
+        "swot": {
+          "strengths": 3,
+          "weaknesses": 3,
+          "opportunities": 3,
+          "threats": 3,
+          "risks": 6,
+          "risks_by_category": {
+            "business": 1,
+            "market": 2,
+            "technical": 1,
+            "financial": 1,
+            "operational": 1
+          },
+          "coverage_gaps": []
+        },
+        "mvp": {
+          "in_scope": [
+            "Photo-based diagnosis",
+            "Treatment advice",
+            "Local language support",
+            "Photo quality guide"
+          ],
+          "deferred": [
+            "Offline photo capture",
+            "Advice update log",
+            "Cooperative dashboard",
+            "Expert chat"
+          ],
+          "capacity_person_months": 3.6,
+          "planned_person_months": 3.0,
+          "over_capacity": false,
+          "constraints_assumed": [
+            "team_size",
+            "months_to_mvp"
+          ]
+        },
+        "gtm": {
+          "target_segment": "Smallholder farmers",
+          "differentiator_status": "hypothesis",
+          "channels": [
+            "Short demo videos on a messaging app",
+            "Cooperative staff referrals",
+            "Village demo booths",
+            "Cooperative field days",
+            "Agri-input retailer counters",
+            "Radio farm shows"
+          ],
+          "start_here": "Short demo videos on a messaging app",
+          "first_experiment": "Try short demo videos on a messaging app with a few farmers for two weeks.",
+          "launch_phases": 3
+        }
+      },
+      "contract_violations": []
+    }
+  ]
+}

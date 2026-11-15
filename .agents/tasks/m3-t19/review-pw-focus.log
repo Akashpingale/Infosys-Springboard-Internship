@@ -1,0 +1,97 @@
+(node:23296) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 42 tests using 1 worker
+
+(node:25528) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  review-constraints: 7 Tab stops for 7 controls, each with a focus ring
+  ok  1 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ review-constraints: every control the Tab key reaches shows a focus ring (1.4s)
+  run-progress-seven-stages: 1 Tab stops for 1 controls, each with a focus ring
+  ok  2 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ run-progress-seven-stages: every control the Tab key reaches shows a focus ring (666ms)
+  strategy-empty: 3 Tab stops for 3 controls, each with a focus ring
+  ok  3 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-empty: every control the Tab key reaches shows a focus ring (814ms)
+  strategy-running: 23 Tab stops for 23 controls, each with a focus ring
+  ok  4 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-running: every control the Tab key reaches shows a focus ring (1.0s)
+  strategy-swot-risks: 45 Tab stops for 45 controls, each with a focus ring
+  ok  5 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-swot-risks: every control the Tab key reaches shows a focus ring (2.0s)
+  strategy-mvp: 43 Tab stops for 43 controls, each with a focus ring
+  ok  6 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-mvp: every control the Tab key reaches shows a focus ring (2.7s)
+  strategy-gtm: 43 Tab stops for 43 controls, each with a focus ring
+  ok  7 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-gtm: every control the Tab key reaches shows a focus ring (3.0s)
+  strategy-partial: 32 Tab stops for 32 controls, each with a focus ring
+  ok  8 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-partial: every control the Tab key reaches shows a focus ring (1.5s)
+  strategy-failed: 9 Tab stops for 9 controls, each with a focus ring
+  ok  9 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-failed: every control the Tab key reaches shows a focus ring (896ms)
+  advisor-empty: 7 Tab stops for 7 controls, each with a focus ring
+  ok 10 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-empty: every control the Tab key reaches shows a focus ring (838ms)
+  advisor-conversation: 7 Tab stops for 7 controls, each with a focus ring
+  ok 11 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-conversation: every control the Tab key reaches shows a focus ring (874ms)
+  advisor-pending: 3 Tab stops for 3 controls, each with a focus ring
+  ok 12 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-pending: every control the Tab key reaches shows a focus ring (889ms)
+  advisor-error: 7 Tab stops for 7 controls, each with a focus ring
+  ok 13 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-error: every control the Tab key reaches shows a focus ring (942ms)
+  advisor-full: 4 Tab stops for 4 controls, each with a focus ring
+  ok 14 [w390] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-full: every control the Tab key reaches shows a focus ring (829ms)
+(node:3248) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  review-constraints: 7 Tab stops for 7 controls, each with a focus ring
+  ok 15 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ review-constraints: every control the Tab key reaches shows a focus ring (1.2s)
+  run-progress-seven-stages: 1 Tab stops for 1 controls, each with a focus ring
+  ok 16 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ run-progress-seven-stages: every control the Tab key reaches shows a focus ring (668ms)
+  strategy-empty: 3 Tab stops for 3 controls, each with a focus ring
+  ok 17 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-empty: every control the Tab key reaches shows a focus ring (832ms)
+  strategy-running: 23 Tab stops for 23 controls, each with a focus ring
+  ok 18 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-running: every control the Tab key reaches shows a focus ring (1.2s)
+  strategy-swot-risks: 45 Tab stops for 45 controls, each with a focus ring
+  ok 19 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-swot-risks: every control the Tab key reaches shows a focus ring (2.2s)
+  strategy-mvp: 43 Tab stops for 43 controls, each with a focus ring
+  ok 20 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-mvp: every control the Tab key reaches shows a focus ring (2.8s)
+  strategy-gtm: 43 Tab stops for 43 controls, each with a focus ring
+  ok 21 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-gtm: every control the Tab key reaches shows a focus ring (2.6s)
+  strategy-partial: 32 Tab stops for 32 controls, each with a focus ring
+  ok 22 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-partial: every control the Tab key reaches shows a focus ring (1.5s)
+  strategy-failed: 9 Tab stops for 9 controls, each with a focus ring
+  ok 23 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-failed: every control the Tab key reaches shows a focus ring (955ms)
+  advisor-empty: 7 Tab stops for 7 controls, each with a focus ring
+  ok 24 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-empty: every control the Tab key reaches shows a focus ring (850ms)
+  advisor-conversation: 7 Tab stops for 7 controls, each with a focus ring
+  ok 25 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-conversation: every control the Tab key reaches shows a focus ring (886ms)
+  advisor-pending: 3 Tab stops for 3 controls, each with a focus ring
+  ok 26 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-pending: every control the Tab key reaches shows a focus ring (881ms)
+  advisor-error: 7 Tab stops for 7 controls, each with a focus ring
+  ok 27 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-error: every control the Tab key reaches shows a focus ring (948ms)
+  advisor-full: 4 Tab stops for 4 controls, each with a focus ring
+  ok 28 [w820] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-full: every control the Tab key reaches shows a focus ring (846ms)
+(node:24944) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  review-constraints: 7 Tab stops for 7 controls, each with a focus ring
+  ok 29 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ review-constraints: every control the Tab key reaches shows a focus ring (1.3s)
+  run-progress-seven-stages: 1 Tab stops for 1 controls, each with a focus ring
+  ok 30 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ run-progress-seven-stages: every control the Tab key reaches shows a focus ring (688ms)
+  strategy-empty: 3 Tab stops for 3 controls, each with a focus ring
+  ok 31 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-empty: every control the Tab key reaches shows a focus ring (851ms)
+  strategy-running: 23 Tab stops for 23 controls, each with a focus ring
+  ok 32 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-running: every control the Tab key reaches shows a focus ring (1.1s)
+  strategy-swot-risks: 45 Tab stops for 45 controls, each with a focus ring
+  ok 33 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-swot-risks: every control the Tab key reaches shows a focus ring (2.2s)
+  strategy-mvp: 43 Tab stops for 43 controls, each with a focus ring
+  ok 34 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-mvp: every control the Tab key reaches shows a focus ring (2.9s)
+  strategy-gtm: 43 Tab stops for 43 controls, each with a focus ring
+  ok 35 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-gtm: every control the Tab key reaches shows a focus ring (2.8s)
+  strategy-partial: 32 Tab stops for 32 controls, each with a focus ring
+  ok 36 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-partial: every control the Tab key reaches shows a focus ring (1.6s)
+  strategy-failed: 9 Tab stops for 9 controls, each with a focus ring
+  ok 37 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ strategy-failed: every control the Tab key reaches shows a focus ring (933ms)
+  advisor-empty: 7 Tab stops for 7 controls, each with a focus ring
+  ok 38 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-empty: every control the Tab key reaches shows a focus ring (888ms)
+  advisor-conversation: 7 Tab stops for 7 controls, each with a focus ring
+  ok 39 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-conversation: every control the Tab key reaches shows a focus ring (856ms)
+  advisor-pending: 3 Tab stops for 3 controls, each with a focus ring
+  ok 40 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-pending: every control the Tab key reaches shows a focus ring (915ms)
+  advisor-error: 7 Tab stops for 7 controls, each with a focus ring
+  ok 41 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-error: every control the Tab key reaches shows a focus ring (964ms)
+  advisor-full: 4 Tab stops for 4 controls, each with a focus ring
+  ok 42 [w1440] ΓÇ║ e2e\focus-m3.spec.ts:71:3 ΓÇ║ advisor-full: every control the Tab key reaches shows a focus ring (843ms)
+
+  42 passed (1.0m)

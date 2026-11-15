@@ -1,0 +1,33 @@
+ M .env.example
+ M agents/base.py
+ M agents/notices.py
+ M config.py
+ M models/api.py
+ M models/schemas.py
+ M orchestrator.py
+ M tests/test_run_store.py
+ M utils/deadline.py
+ M utils/errors.py
+ M utils/groq_client.py
+ M utils/llm_client.py
+ M utils/run_manager.py
+ M utils/run_store.py
+?? .agents/
+?? agents/gtm_agent.py
+?? agents/mvp_agent.py
+?? agents/strategy_checks.py
+?? agents/strategy_context.py
+?? agents/swot_risk_agent.py
+?? models/chat.py
+?? models/strategy_drafts.py
+?? tests/m3_fakes.py
+?? tests/test_m3_checks.py
+?? tests/test_m3_digest.py
+?? tests/test_m3_gtm_agent.py
+?? tests/test_m3_mvp_agent.py
+?? tests/test_m3_orchestrator.py
+?? tests/test_m3_schemas.py
+?? tests/test_m3_store_migration.py
+?? tests/test_m3_strict_schema.py
+?? tests/test_m3_swot_agent.py
+?? utils/chat_store.py

@@ -159,4 +159,4 @@ def test_rows_are_written_with_the_declared_columns_only(tmp_path: Path) -> None
     RunStore(path).insert(row())
     with sqlite3.connect(path) as connection:
         columns = {item[1] for item in connection.execute("PRAGMA table_info(runs)")}
-    assert columns == set(row()), "the table matches the row shape the manager writes"
+    assert columns == set(row()) | {"constraints_json", "include_strategy"}, "the table matches the row shape the manager writes"

@@ -1,0 +1,13 @@
+# M3 T4 review (iteration 2)
+
+Verdict: APPROVED (no blockers)
+
+## Prior finding B-1 (stale warnings after a strategy-only job): resolved
+- orchestrator.py `_seeded(submission, prior, pipeline, constraints)` now builds `stale = tuple(f"{_stage_label(stage)}:" for stage in pipeline)` and keeps only `prior.warnings` that do not start with one of them. Errors and timings of re-run stages were already filtered by stage name in `run_pipeline`, so warnings, errors and timings now follow the same rule. Notices follow because `with_derived_fields` rebuilds them from the filtered warnings. `_stage_label` reads `StrategyStage.label`, and every strategy-stage warning (`SKIP_NO_ANALYSIS`, `SKIP_NO_TIME`, `SKIP_CANCELLED`) is formatted as `"{label}: ..."`, so the prefix match covers them. Runs without `prior` do not reach `_seeded`, so they behave as before.
+- The run manager's strategy job (`start_strategy` -> `_call_pipeline` -> `strategy_pipeline` with `prior`) goes through the same `_seeded`, so the stored run gets the fix too.
+- New test `tests/test_m3_orchestrator.py:447` `test_a_strategy_only_job_drops_the_old_warnings_of_the_stages_it_runs_again[cancelled|time_limit]` sets up both triggering paths from B-1 (cancel after SWOT; time limit passed during SWOT). It checks that the saved result does hold strategy warnings and notices before the re-run. After the re-run it asserts `complete`, that the four-stage warnings are kept (including an injected one), that no strategy-stage notice remains, and `notices == build_notices(kept, [])`.
+
+## Evidence checked
+- Diffs against `.agents/tasks/m3-t4/baseline/` for orchestrator.py and utils/run_manager.py re-read. This iteration changed only `_seeded`, its call site and the `run_pipeline` docstring. The iteration-1 requirements were verified last pass and are unchanged.
+- Coder evidence (implementation-notes.md, iteration 2): T4 file 40 passed. The full suite gave 1932 passed, 1 warning (1892 baseline + 40), with no existing test edited. The lazy `default_manager()` check passed, `/api/meta` still publishes four stages, and the secret scan found 0 hits.
+- My checks: data/runs.db `00A4F85940CEA543823EC25AC4C5FF35B002FD10E1BCAD356D84EF44FEA8337D`, 311296 bytes, LastWriteTimeUtc 2026-11-08T15:31:17Z, unchanged. All 17 T1-T3 hashes match baseline.md (0 mismatches). Branch main, HEAD a098aef, no commit. `git status` shows only the T1-T3 set plus the T4 files: agents/base.py, agents/notices.py, orchestrator.py, utils/deadline.py, utils/groq_client.py, utils/llm_client.py, utils/run_manager.py, tests/m3_fakes.py, tests/test_m3_orchestrator.py. Nothing in routes/, web/ or docs/.

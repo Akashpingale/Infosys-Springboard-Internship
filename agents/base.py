@@ -7,9 +7,13 @@ from models.schemas import (
     CompetitorAnalysisResult,
     CompetitorCandidate,
     ExtractedIdea,
+    GtmResult,
     IdeaSubmission,
     MarketOpportunityResult,
+    MvpResult,
     SearchBundle,
+    StrategyConstraints,
+    SwotRiskResult,
 )
 
 
@@ -30,6 +34,13 @@ class AgentContext:
     competitors: CompetitorAnalysisResult | None = None
     competitor_candidates: list[CompetitorCandidate] = field(default_factory=list)
     competitor_search: SearchBundle | None = None
+    # Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 5.2): the founder's resource
+    # constraints and the strategy stages' results, so a later strategy stage can build on an
+    # earlier one. None until the stage has produced one.
+    constraints: StrategyConstraints | None = None
+    swot: SwotRiskResult | None = None
+    mvp: MvpResult | None = None
+    gtm: GtmResult | None = None
 
 
 @runtime_checkable

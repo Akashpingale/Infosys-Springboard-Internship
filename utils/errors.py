@@ -1,3 +1,6 @@
+from config import DEFAULT_CHAT_MAX_MESSAGE_CHARS
+
+
 class AppError(Exception):
     """Base error. `user_message` is safe to show; it never contains keys or raw replies."""
 
@@ -105,3 +108,58 @@ class HistoryUnavailableError(AppError):
         "Saved validations are not available right now. Check that the data folder can be written, "
         "then restart the server."
     )
+
+
+# --- Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 12.4): strategy and Advisor --
+
+
+class RunNotFinishedError(AppError):
+    code = "run_not_finished"
+    status_code = 409
+    default_message = "This validation is still running."
+
+
+class StrategyNotReadyError(AppError):
+    code = "strategy_not_ready"
+    status_code = 409
+    default_message = "There is no market or competitor analysis to build a strategy on."
+
+
+class StrategyAlreadyCompleteError(AppError):
+    code = "strategy_already_complete"
+    status_code = 409
+    default_message = "This validation already has a strategy."
+
+
+class ChatUnavailableError(AppError):
+    code = "chat_unavailable"
+    status_code = 409
+    default_message = "Questions open once the validation has finished."
+
+
+class ChatLimitError(AppError):
+    code = "chat_limit_reached"
+    status_code = 409
+    default_message = "This conversation is full. Clear it to start again."
+
+
+class ChatBusyError(AppError):
+    code = "chat_busy"
+    status_code = 409
+    default_message = "Wait for the current answer first."
+
+
+class ChatCooldownError(AppError):
+    code = "chat_cooldown"
+    status_code = 429
+    default_message = "Wait a moment before the next question."
+
+
+class ChatMessageInvalidError(AppError):
+    code = "chat_message_invalid"
+    status_code = 422
+    message_template = "Write a question of up to {n} characters."
+    default_message = message_template.format(n=DEFAULT_CHAT_MAX_MESSAGE_CHARS)
+
+    def __init__(self, max_chars: int = DEFAULT_CHAT_MAX_MESSAGE_CHARS) -> None:
+        super().__init__(self.message_template.format(n=max_chars))

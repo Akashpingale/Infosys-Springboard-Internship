@@ -1,0 +1,299 @@
+/**
+ * The run page (KIRO_UI_UPGRADE_SPEC.md Sections 7.3 and 7.4).
+ *
+ * While the run goes, the stage tracker; once it ends, the results workspace. A result that arrived
+ * part-way through is shown as it is, with the sections that have not finished replaced by
+ * skeletons, so the reader sees real progress rather than an empty page.
+ *
+ * Nothing is ever shown as finished before the backend says so, and a failed or cancelled run says
+ * what happened instead of pretending to have results.
+ *
+ * Printing is the one place the tabs are set aside: a PDF of one tab would be a quarter of the
+ * result, so "Export as PDF" lays every section out, opens the folded panels, prints, and puts the
+ * page back as it was.
+ */
+
+import * as React from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+
+import { ApiError } from '@/api/client';
+import { useDeleteRun } from '@/api/mutations';
+import { Alert } from '@/components/Alert';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { EmptyState } from '@/components/EmptyState';
+import { SourceDrawer } from '@/components/SourceDrawer';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { CompetitorsTab } from '@/features/results/CompetitorsTab';
+import { ExportMenu } from '@/features/results/ExportMenu';
+import { MarketTab } from '@/features/results/MarketTab';
+import { OverviewTab } from '@/features/results/OverviewTab';
+import { ResultsHeader, TABS, type TabKey } from '@/features/results/ResultsHeader';
+import { RunDetailsTab } from '@/features/results/RunDetailsTab';
+import { SourcesTab } from '@/features/results/SourcesTab';
+import { StageTracker } from '@/features/run/StageTracker';
+import { StrategyTab } from '@/features/strategy/StrategyTab';
+import { isActive, useCancelRun, useRun, type RunDetail } from '@/features/run/useRun';
+import { MESSAGES } from '@/lib/format';
+import { buildSourceIndex, claimsCiting, collectClaims } from '@/lib/results';
+
+/**
+ * How a run's closing message is shown: a failure is an error, anything part-finished or stopped is
+ * a warning, and the rest is a note. A failed run used to say so in the informational blue, which
+ * read as though nothing had gone wrong.
+ */
+/** The tabs a printed page lays out. The two Milestone 3 tabs hold placeholders for now. */
+const PRINTED_TABS = TABS.filter((entry) => entry.key !== 'strategy' && entry.key !== 'advisor');
+
+export function messageTone(run: RunDetail): 'info' | 'warning' | 'error' {
+  if (run.state === 'failed') {
+    return 'error';
+  }
+  if (run.state === 'cancelled' || run.result?.status === 'partial') {
+    return 'warning';
+  }
+  return 'info';
+}
+
+export function RunPage() {
+  const { runId } = useParams();
+  const navigate = useNavigate();
+  const run = useRun(runId);
+  const cancel = useCancelRun(runId);
+  const remove = useDeleteRun();
+  const [tab, setTab] = React.useState<TabKey>('overview');
+  const [openSource, setOpenSource] = React.useState<string | null>(null);
+  const [confirmDelete, setConfirmDelete] = React.useState(false);
+  const [printing, setPrinting] = React.useState(false);
+
+  const result = run.data?.result ?? null;
+  const sources = React.useMemo(() => (result ? buildSourceIndex(result) : new Map()), [result]);
+  const claims = React.useMemo(() => (result ? collectClaims(result) : []), [result]);
+  // The drawer also lists the strategy items that cite a source; the evidence mix does not count them.
+  const citing = React.useMemo(() => (result ? collectClaims(result, { strategy: true }) : []), [result]);
+
+  /*
+   * Printing happens after the page has rendered every section, so the effect runs once `printing`
+   * is set rather than inside the click. The folded panels are opened first and closed again
+   * afterwards, except the raw JSON, which is tens of thousands of characters and is marked to stay
+   * shut.
+   */
+  React.useEffect(() => {
+    if (!printing) {
+      return;
+    }
+    const opened: HTMLDetailsElement[] = [];
+    for (const node of document.querySelectorAll<HTMLDetailsElement>(
+      'details:not([data-print-keep-closed])',
+    )) {
+      if (!node.open) {
+        node.open = true;
+        opened.push(node);
+      }
+    }
+    if (typeof window.print === 'function') {
+      window.print();
+    }
+    for (const node of opened) {
+      node.open = false;
+    }
+    setPrinting(false);
+  }, [printing]);
+
+  // A run not found is final; anything else may be a connection that comes back.
+  if (run.isError && !run.data) {
+    const error = run.error;
+    const missing = error instanceof ApiError && error.status === 404;
+    return (
+      <div className="mx-auto max-w-form space-y-6">
+        <h1>{missing ? 'That validation is not here' : 'Can\u2019t load this validation'}</h1>
+        <Alert
+          tone="error"
+          action={
+            missing ? (
+              <Button asChild variant="secondary" size="small">
+                <Link to="/history">Open history</Link>
+              </Button>
+            ) : (
+              <Button variant="secondary" size="small" onClick={() => void run.refetch()}>
+                Try again
+              </Button>
+            )
+          }
+        >
+          {error instanceof ApiError ? error.message : MESSAGES.backendDown}
+        </Alert>
+      </div>
+    );
+  }
+
+  if (!run.data) {
+    return (
+      <div className="space-y-6" aria-busy="true">
+        <Skeleton className="h-9 w-80" />
+        <div className="space-y-3 rounded-panel border border-line bg-surface p-6">
+          {[0, 1, 2, 3].map((row) => (
+            <Skeleton key={row} className="h-10 w-full" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const detail = run.data;
+  const active = isActive(detail.state);
+  const source = openSource ? (sources.get(openSource) ?? null) : null;
+
+  /** One tab's content. Used for the open tab, and for all of them when printing. */
+  function panel(key: TabKey): React.ReactNode {
+    if (!result) {
+      return null;
+    }
+    switch (key) {
+      case 'overview':
+        return <OverviewTab result={result} sources={sources} claims={claims} onOpenSource={setOpenSource} />;
+      case 'market':
+        return <MarketTab result={result} sources={sources} onOpenSource={setOpenSource} />;
+      case 'competitors':
+        return <CompetitorsTab result={result} sources={sources} onOpenSource={setOpenSource} />;
+      case 'strategy':
+        return <StrategyTab run={detail} result={result} sources={sources} onOpenSource={setOpenSource} />;
+      case 'advisor':
+        return <EmptyState message="Questions about this validation will be answered here." />;
+      case 'sources':
+        return <SourcesTab result={result} sources={sources} claims={claims} onOpenSource={setOpenSource} />;
+      case 'details':
+        return <RunDetailsTab run={detail} result={result} />;
+    }
+  }
+
+  const actions = (
+    <>
+      {/* The default button size, so these are 44 px on a touch screen (Section 6.9). */}
+      <ExportMenu run={detail} result={result} onPrint={() => setPrinting(true)} />
+      <Button
+        variant="secondary"
+        onClick={() =>
+          navigate('/', { state: { prefill: detail.submission, constraints: detail.constraints ?? null } })
+        }
+      >
+        Edit and re-run
+      </Button>
+      <Button
+        variant="secondary"
+        onClick={() => {
+          remove.reset();
+          setConfirmDelete(true);
+        }}
+      >
+        Delete
+      </Button>
+    </>
+  );
+
+  return (
+    <div className="space-y-8">
+      {active ? (
+        <StageTracker
+          run={detail}
+          onCancel={() => cancel.mutate()}
+          cancelling={cancel.isPending}
+          reconnecting={run.isError}
+        />
+      ) : (
+        <ResultsHeader
+          run={detail}
+          active={tab}
+          onChange={setTab}
+          actions={actions}
+          tabs={result !== null}
+        />
+      )}
+
+      {remove.isError ? (
+        <Alert tone="error" title="This validation was not deleted">
+          {remove.error instanceof ApiError ? remove.error.message : MESSAGES.backendDown}
+        </Alert>
+      ) : null}
+
+      {detail.message && !active ? <Alert tone={messageTone(detail)}>{detail.message}</Alert> : null}
+
+      {/* A run that produced nothing says so, rather than showing empty sections. */}
+      {!active && !result ? (
+        <EmptyState
+          message={
+            detail.state === 'cancelled'
+              ? 'This validation was cancelled before anything was produced.'
+              : MESSAGES.failed
+          }
+          action={
+            <Button asChild variant="secondary">
+              <Link to="/">Start a new validation</Link>
+            </Button>
+          }
+        />
+      ) : null}
+
+      {result ? (
+        <>
+          {active ? (
+            <p className="text-small text-content-muted">
+              Results so far. The rest appears as each step finishes.
+            </p>
+          ) : null}
+
+          {printing ? (
+            // Every section at once, for the printed page. No tab roles: there are no tabs here.
+            <div className="space-y-12">
+              {PRINTED_TABS.map((entry) => (
+                <section key={entry.key} aria-label={entry.label}>
+                  {panel(entry.key)}
+                </section>
+              ))}
+            </div>
+          ) : active ? (
+            <div>{panel('overview')}</div>
+          ) : (
+            <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`}>
+              {panel(tab)}
+            </div>
+          )}
+        </>
+      ) : null}
+
+      {!active && result ? (
+        <p className="sr-only">
+          {TABS.length} sections are available. Use the arrow keys on the tabs to move between them.
+        </p>
+      ) : null}
+
+      <SourceDrawer
+        source={source}
+        citedBy={source ? claimsCiting(citing, source.key) : []}
+        onClose={() => setOpenSource(null)}
+      />
+
+      <ConfirmDialog
+        open={confirmDelete}
+        title="Delete this validation?"
+        confirmLabel="Delete it"
+        busy={remove.isPending}
+        onCancel={() => setConfirmDelete(false)}
+        onConfirm={() =>
+          remove.mutate(detail.id, {
+            onSuccess: () => {
+              setConfirmDelete(false);
+              navigate('/history');
+            },
+            onError: () => setConfirmDelete(false),
+          })
+        }
+      >
+        <p>
+          <span className="text-content">{detail.title}</span> and its result will be removed from
+          this machine. This cannot be undone.
+        </p>
+      </ConfirmDialog>
+    </div>
+  );
+}

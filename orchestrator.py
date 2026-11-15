@@ -3,12 +3,15 @@
 Milestone 1 runs two stages (STAGES): extraction, then web search. Milestone 2, Task 3 appends the
 Market Opportunity and Competitor Analysis stages (FULL_STAGES). POST /api/validate runs the full
 list when the client asks for the analysis, which the UI always does; without it the Milestone 1
-pipeline runs unchanged.
+pipeline runs unchanged. Milestone 3 adds the three strategy stages after them (STRATEGY_STAGES), or
+on their own after a saved result (STRATEGY_ONLY_STAGES); only background runs that ask for strategy
+use them (utils/run_manager.py).
 """
 
 import logging
 import time
 from collections.abc import Callable
+from contextlib import ExitStack
 from dataclasses import dataclass
 from typing import Sequence
 
@@ -19,14 +22,19 @@ from agents.competitor_analysis_agent import CompetitorAnalysisAgent
 from agents.derived import with_derived_fields
 from agents.evidence import build_evidence, sourced_items
 from agents.extraction_agent import extract_idea
+from agents.gtm_agent import GtmAgent
 from agents.market_opportunity_agent import STAGE_MARKET
 from agents.market_opportunity_agent import WARNING_PREFIX as MARKET_LABEL
 from agents.market_opportunity_agent import MarketOpportunityAgent
+from agents.mvp_agent import MvpAgent
+from agents.notices import STAGE_GTM, STAGE_MVP, STAGE_SWOT, STRATEGY_TITLES
+from agents.swot_risk_agent import SwotRiskAgent
 from agents.web_search_agent import run_web_search
 from config import get_settings
-from models.schemas import ExtractedIdea, IdeaSubmission, PipelineResult, StageError
-from utils.deadline import stop_check, stop_requested, time_left, time_limit
+from models.schemas import ExtractedIdea, IdeaSubmission, PipelineResult, StageError, StrategyConstraints
+from utils.deadline import extra_time, stop_check, stop_requested, time_left, time_limit
 from utils.errors import AppError, RunCancelledError
+from utils.llm_client import output_token_limit
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +51,9 @@ SKIP_NO_TIME = "{label}: skipped because the request reached its time limit."
 SKIP_CANCELLED = "{label}: skipped because the run was cancelled."
 # Labels for the Milestone 1 stages in such a warning; the analysis stages carry their own.
 STAGE_LABELS = {STAGE_EXTRACTION: "Idea extraction", STAGE_SEARCH: "Web search"}
+# Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 5.2): a strategy stage needs the
+# idea and at least one finished analysis.
+SKIP_NO_ANALYSIS = "{label}: skipped because it needs at least one finished analysis."
 
 # Stage events for an optional `on_event` callback (UI upgrade, KIRO_UI_UPGRADE_SPEC.md 10.2).
 EVENT_STARTED = "started"
@@ -57,6 +68,15 @@ MSG_IDEA_PROVIDED = "Used the idea you reviewed."
 # reply, with everything that finished, arrives before the UI gives up. The rest covers the call
 # that is in flight at the limit and sending the reply.
 TIME_LIMIT_SHARE = 0.9
+
+# Milestone 3, Section 11.1.3: a strategy stage's reply needs about 2,000 to 3,500 tokens, and the
+# Groq model reasons before it answers, inside the same limit. So a Groq attempt inside a strategy
+# stage may use this many output tokens instead of groq_client.MAX_COMPLETION_TOKENS (4,096). Every
+# other call keeps its limit.
+STRATEGY_MAX_OUTPUT_TOKENS = 6144
+MSG_STRATEGY_PENDING = "This part of the strategy is not available yet."
+# The result field each strategy stage writes, so a strategy-only job can keep the ones it does not run.
+STRATEGY_FIELDS = {STAGE_SWOT: "swot", STAGE_MVP: "mvp", STAGE_GTM: "gtm"}
 
 
 class ExtractionStage:
@@ -140,6 +160,65 @@ FULL_STAGES: list[Agent] = [
 ]
 
 
+class PendingStrategyAgent:
+    """Stands in for a strategy agent that is not registered (tests use it). Its stage fails with
+    a plain message, so a run with strategy ends partial and keeps everything else."""
+
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+    def run(self, context: AgentContext) -> AgentContext:
+        raise AppError(MSG_STRATEGY_PENDING)
+
+
+class StrategyStage:
+    """Stages 5 to 7 (Milestone 3): a strategy agent that reasons over the idea, the founder's
+    constraints, the analyses and the earlier strategy stages. It makes no search.
+
+    It is skipped, with a warning naming it, without the idea or without at least one finished
+    analysis (Section 5.2), or when the run's time limit has passed. Its failure never stops the
+    stages after it or discards earlier results, and an unexpected exception becomes a stage error
+    with the generic safe message. In a run with strategy it draws on the extra time
+    (`uses_strategy_time`, D-11), and its LLM calls may use STRATEGY_MAX_OUTPUT_TOKENS.
+    """
+
+    stop_on_failure = False
+    uses_strategy_time = True
+
+    def __init__(self, agent: Agent, label: str) -> None:
+        self.agent = agent
+        self.name = agent.name
+        self.label = label
+
+    def skip_reason(self, context: AgentContext) -> str | None:
+        if context.idea is None or (context.market is None and context.competitors is None):
+            return SKIP_NO_ANALYSIS.format(label=self.label)
+        left = time_left()
+        if left is not None and left <= 0:
+            return SKIP_NO_TIME.format(label=self.label)
+        return None
+
+    def run(self, context: AgentContext) -> AgentContext:
+        try:
+            with output_token_limit(STRATEGY_MAX_OUTPUT_TOKENS):
+                return self.agent.run(context)
+        except AppError:
+            raise
+        except Exception as exc:
+            logger.exception("stage %s raised an unexpected error", self.name)
+            raise AppError() from exc
+
+
+# Milestone 3: SWOT and risk, then MVP, then go-to-market, each reading the ones before it.
+# STRATEGY_STAGES is a run with strategy; STRATEGY_ONLY_STAGES adds them to a saved result (prior).
+STRATEGY_ONLY_STAGES: list[Agent] = [
+    StrategyStage(SwotRiskAgent(), STRATEGY_TITLES[STAGE_SWOT]),
+    StrategyStage(MvpAgent(), STRATEGY_TITLES[STAGE_MVP]),
+    StrategyStage(GtmAgent(), STRATEGY_TITLES[STAGE_GTM]),
+]
+STRATEGY_STAGES: list[Agent] = [*FULL_STAGES, *STRATEGY_ONLY_STAGES]
+
+
 @dataclass(frozen=True)
 class StageEvent:
     """What happened to one stage. `result` is what the run has produced so far, given after the
@@ -205,7 +284,45 @@ def _result(context: AgentContext, errors: list[StageError], timings: dict[str, 
         market_search=context.market_search,
         competitor_candidates=list(context.competitor_candidates),
         competitor_search=context.competitor_search,
+        swot=context.swot,
+        mvp=context.mvp,
+        gtm=context.gtm,
+        constraints=context.constraints,
     )
+
+
+def _seeded(
+    submission: IdeaSubmission,
+    prior: PipelineResult,
+    pipeline: Sequence[Agent],
+    constraints: StrategyConstraints | None,
+) -> AgentContext:
+    """The context of a strategy-only job: everything the saved result holds, except the results and
+    the warnings of the strategy stages the job runs again (each such warning starts with the
+    stage's label)."""
+    rerun = {stage.name for stage in pipeline}
+    stale = tuple(f"{_stage_label(stage)}:" for stage in pipeline)
+    kept = {field: getattr(prior, field) for stage, field in STRATEGY_FIELDS.items() if stage not in rerun}
+    return AgentContext(
+        submission=submission,
+        idea=prior.idea,
+        search=prior.search,
+        warnings=[warning for warning in prior.warnings if not warning.startswith(stale)],
+        market=prior.market,
+        market_search=prior.market_search,
+        competitors=prior.competitors,
+        competitor_candidates=list(prior.competitor_candidates),
+        competitor_search=prior.competitor_search,
+        constraints=constraints if constraints is not None else prior.constraints,
+        **kept,
+    )
+
+
+def _earlier_stages_finished(context: AgentContext, rerun: set[str]) -> bool:
+    """In a strategy-only job, whether every stage it does not run had produced its result."""
+    produced = [context.idea, context.search, context.market, context.competitors]
+    produced += [getattr(context, field) for stage, field in STRATEGY_FIELDS.items() if stage not in rerun]
+    return all(value is not None for value in produced)
 
 
 def run_pipeline(
@@ -216,6 +333,9 @@ def run_pipeline(
     idea: ExtractedIdea | None = None,
     on_event: Callable[[StageEvent], None] | None = None,
     should_stop: Callable[[], bool] | None = None,
+    constraints: StrategyConstraints | None = None,
+    prior: PipelineResult | None = None,
+    strategy_time_limit_s: float | None = None,
 ) -> PipelineResult:
     """Run each agent in order, passing one context along, and summarise the outcome.
 
@@ -235,12 +355,27 @@ def run_pipeline(
     cancel check, asked before each stage and before each outside call (utils/deadline.py). After a
     cancel the remaining stages are skipped with a warning and what finished is returned.
     The result also carries the fields derived in code (agents/derived.py).
+
+    Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Sections 5.2 to 5.5), also optional:
+    `constraints` are the founder's, for the strategy stages. `strategy_time_limit_s` moves the time
+    limit later once the first strategy stage is reached (D-11), so the stages before it keep the
+    limit they have today. `prior` is a saved result for a strategy-only job (STRATEGY_ONLY_STAGES):
+    the run starts from it and keeps its warnings, errors and timings except those of the stages it
+    runs again; its own time is added to the saved total, and it is complete only if every
+    earlier stage had finished too.
     """
     pipeline = list(STAGES if stages is None else stages)
-    context = AgentContext(submission=submission, idea=idea)
+    rerun = {stage.name for stage in pipeline}
+    context = AgentContext(submission=submission, idea=idea, constraints=constraints)
     errors: list[StageError] = []
     skipped: list[str] = []
     timings: dict[str, float] = {}
+    earlier_total = 0.0
+    if prior is not None:
+        context = _seeded(submission, prior, pipeline, constraints)
+        errors = [error for error in prior.errors if error.stage not in rerun]
+        timings = {key: value for key, value in prior.timings.items() if key != TOTAL_KEY and key not in rerun}
+        earlier_total = prior.timings.get(TOTAL_KEY, 0.0)
     started = time.perf_counter()
 
     def snapshot() -> PipelineResult | None:
@@ -248,8 +383,12 @@ def run_pipeline(
             return None
         return with_derived_fields(_result(context, errors, timings, "failed" if context.idea is None else "partial"))
 
-    with time_limit(time_limit_s), stop_check(should_stop):
+    with time_limit(time_limit_s), stop_check(should_stop), ExitStack() as strategy_time:
+        extended = False
         for index, stage in enumerate(pipeline):
+            if not extended and getattr(stage, "uses_strategy_time", False):
+                strategy_time.enter_context(extra_time(strategy_time_limit_s))
+                extended = True
             if idea is not None and stage.name == STAGE_EXTRACTION:
                 _notify(on_event, StageEvent(stage.name, EVENT_SKIPPED, code=CODE_IDEA_PROVIDED,
                                              message=MSG_IDEA_PROVIDED, result=snapshot()))
@@ -289,8 +428,10 @@ def run_pipeline(
             timings[stage.name] = _elapsed(stage_started)
             _notify(on_event, StageEvent(stage.name, EVENT_FINISHED, duration_s=timings[stage.name], result=snapshot()))
 
-    timings[TOTAL_KEY] = _elapsed(started)
+    timings[TOTAL_KEY] = round(earlier_total + _elapsed(started), 3) if prior is not None else _elapsed(started)
     status = _status(context, errors, skipped)
+    if prior is not None and status == "complete" and not _earlier_stages_finished(context, rerun):
+        status = "partial"
     logger.info(
         "pipeline %s in %.2fs (%d warnings, %d errors)",
         status,

@@ -94,6 +94,23 @@ def structured_call(reply_model: type[BaseModel]) -> Iterator[None]:
         _structured_call.reset(token)
 
 
+# Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 11.1.3): the output-token limit of a
+# Groq attempt inside a strategy stage (orchestrator.StrategyStage). None, the default, keeps
+# groq_client.MAX_COMPLETION_TOKENS. The Gemini request sets no output limit, so it is not changed.
+_output_tokens: ContextVar[int | None] = ContextVar("output_tokens", default=None)
+
+
+@contextmanager
+def output_token_limit(tokens: int | None) -> Iterator[None]:
+    """Use `tokens` as the Groq output-token limit of every call inside the block (None: the default).
+    The previous limit is restored on exit, also when the block raises."""
+    token = _output_tokens.set(tokens)
+    try:
+        yield
+    finally:
+        _output_tokens.reset(token)
+
+
 GROQ_MESSAGES = {
     groq_client.RATE_LIMIT: MSG_RATE_LIMIT,
     groq_client.SERVER_ERROR: MSG_BUSY,
@@ -278,6 +295,7 @@ def _call_groq(primary: Exception, system_prompt: str, user_prompt: str, *, agai
             timeout_s=timeout_s,
             temperature=TEMPERATURE,
             reply_model=scope.reply_model if scope is not None else None,
+            max_completion_tokens=_output_tokens.get(),
         )
     except groq_client.GroqError as exc:
         logger.warning("Groq fallback failed (%s)", _groq_failure_note(exc))

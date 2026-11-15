@@ -35,6 +35,12 @@ function saved(name: string): Json {
 
 const FINTECH = saved('liveFintech');
 const AGRITECH = saved('liveAgritech');
+/*
+ * Milestone 3: the synthetic strategy result the unit tests use (strategyFixture.synthetic.json),
+ * an agritech result with a SWOT and risk review, an MVP plan and a go-to-market plan. It is
+ * deliberately plain test data, never evidence.
+ */
+const STRATEGY = saved('strategyFixture.synthetic');
 
 export const META: Json = {
   app_name: 'AI Startup Idea Validator',
@@ -89,6 +95,20 @@ export const META: Json = {
     fallback_llm: { name: 'Groq', configured: true, model: 'openai/gpt-oss-120b' },
     search: { name: 'Tavily', configured: true },
   },
+  // Milestone 3 (plan 12.1): the strategy stages can run, with these constraint limits, and the
+  // Advisor's limits.
+  strategy: {
+    available: true,
+    time_limit_s: 150,
+    constraints: {
+      team_size: { min_value: 1, max_value: 10 },
+      months_to_mvp: { min_value: 1, max_value: 12 },
+      launch_region: { min_chars: null, max_chars: 60, min_words: null },
+      budget_levels: ['bootstrapped', 'small', 'funded'],
+      technical_skills: ['non_technical', 'some', 'strong'],
+    },
+  },
+  chat: { max_message_chars: 1000, max_user_turns: 25 },
 };
 
 export const HEALTH: Json = { status: 'ok', llm_configured: true, search_configured: true };
@@ -111,6 +131,46 @@ const STAGES_DONE = [
   stage('market_opportunity', 'Analysing the market', 'done', 26.4),
   stage('competitor_analysis', 'Comparing competitors', 'done', 47.4),
 ];
+
+/* Milestone 3: the three strategy stages a run with strategy adds after the four above (plan 5.1). */
+const STRATEGY_STAGES = [
+  ['swot_risk', 'Assessing strengths and risks', 18.2],
+  ['mvp_recommendation', 'Recommending MVP features', 21.6],
+  ['go_to_market', 'Planning go-to-market', 19.3],
+] as const;
+
+/** The seven stages, the strategy ones in the given states (missing ones are waiting). */
+function sevenStages(first: Json[], strategy: string[], messages: (string | null)[] = []): Json[] {
+  return [
+    ...first,
+    ...STRATEGY_STAGES.map(([key, label, seconds], index) => {
+      const status = strategy[index] ?? 'waiting';
+      const elapsed = status === 'waiting' ? null : status === 'running' ? 6.4 : status === 'failed' ? 2.8 : seconds;
+      return stage(key, label, status, elapsed, messages[index] ?? null);
+    }),
+  ];
+}
+
+const STRATEGY_BUSY = 'The AI service is busy right now.';
+
+/**
+ * The strategy result with some of its parts left out, as a run still going or a failed stage
+ * leaves it. A failed part also leaves an error, and takes its own notices with it.
+ */
+function strategyResult(drop: ('swot' | 'mvp' | 'gtm')[], failed: string[] = []): Json {
+  const result = { ...STRATEGY };
+  for (const field of drop) {
+    result[field] = null;
+  }
+  if (failed.length > 0) {
+    result['status'] = 'partial';
+    result['errors'] = failed.map((key) => ({ stage: key, code: 'llm_api_error', message: STRATEGY_BUSY }));
+    result['notices'] = ((STRATEGY['notices'] as Json[]) ?? []).filter(
+      (notice) => !failed.includes(notice['stage'] as string),
+    );
+  }
+  return result;
+}
 
 const SUBMISSION: Json = {
   idea_description:
@@ -136,6 +196,7 @@ function detail(over: Json): Json {
     stages: STAGES_DONE,
     submission: SUBMISSION,
     idea_override: null,
+    constraints: null,
     result: FINTECH['result'],
     ...over,
   };
@@ -220,6 +281,183 @@ export const RUNS: Record<string, Json> = {
     ],
     result: null,
   }),
+
+  /* Milestone 3: runs with strategy, from the synthetic strategy result. */
+  'run-strategy': detail({
+    id: 'run-strategy',
+    title: 'CropScan: AI crop disease detection',
+    industry: 'Agriculture / AgriTech',
+    duration_s: 161.0,
+    elapsed_s: 161.0,
+    stages: sevenStages(STAGES_DONE, ['done', 'done', 'done']),
+    constraints: STRATEGY['constraints'],
+    result: STRATEGY,
+  }),
+
+  'run-strategy-progress': detail({
+    id: 'run-strategy-progress',
+    title: 'CropScan: AI crop disease detection',
+    industry: 'Agriculture / AgriTech',
+    state: 'running',
+    finished_at: null,
+    duration_s: null,
+    elapsed_s: 41.2,
+    stages: sevenStages(
+      [...STAGES_DONE.slice(0, 2), stage('market_opportunity', 'Analysing the market', 'running', 12.1),
+        stage('competitor_analysis', 'Comparing competitors', 'waiting')],
+      [],
+    ),
+    constraints: STRATEGY['constraints'],
+    result: null,
+  }),
+
+  'run-strategy-running': detail({
+    id: 'run-strategy-running',
+    title: 'CropScan: AI crop disease detection',
+    industry: 'Agriculture / AgriTech',
+    state: 'running',
+    finished_at: null,
+    duration_s: null,
+    elapsed_s: 127.0,
+    stages: sevenStages(STAGES_DONE, ['done', 'running']),
+    constraints: STRATEGY['constraints'],
+    result: strategyResult(['mvp', 'gtm']),
+  }),
+
+  'run-strategy-partial': detail({
+    id: 'run-strategy-partial',
+    title: 'CropScan, strategy partly generated',
+    industry: 'Agriculture / AgriTech',
+    message: 'Some parts could not be completed. What finished is shown below.',
+    duration_s: 144.5,
+    elapsed_s: 144.5,
+    stages: sevenStages(STAGES_DONE, ['done', 'done', 'failed'], [null, null, STRATEGY_BUSY]),
+    constraints: STRATEGY['constraints'],
+    result: strategyResult(['gtm'], ['go_to_market']),
+  }),
+
+  'run-strategy-failed': detail({
+    id: 'run-strategy-failed',
+    title: 'CropScan, strategy not generated',
+    industry: 'Agriculture / AgriTech',
+    message: 'Some parts could not be completed. What finished is shown below.',
+    duration_s: 110.9,
+    elapsed_s: 110.9,
+    stages: sevenStages(STAGES_DONE, ['failed', 'failed', 'failed'], [STRATEGY_BUSY, STRATEGY_BUSY, STRATEGY_BUSY]),
+    constraints: null,
+    result: strategyResult(['swot', 'mvp', 'gtm'], ['swot_risk', 'mvp_recommendation', 'go_to_market']),
+  }),
+};
+
+/* Milestone 3: the Advisor's conversation (GET /api/runs/{id}/chat), plan 11 and 14.6. */
+const QUESTION = 'Which risk should I deal with first, and how could I reduce it?';
+const SECOND_QUESTION = 'How could the MVP reduce that risk?';
+
+const STRATEGY_SECTIONS = ['market', 'competitors', 'swot', 'risks', 'mvp', 'gtm'];
+
+function userMessage(id: string, text: string, at: string): Json {
+  return { id, role: 'user', created_at: at, text, paragraphs: [], follow_ups: [], status: 'ok', used_sections: [] };
+}
+
+function advisorMessage(id: string, at: string, paragraphs: Json[], followUps: string[]): Json {
+  const sections = [...new Set(paragraphs.flatMap((paragraph) => paragraph['sections'] as string[]))];
+  return { id, role: 'assistant', created_at: at, text: null, paragraphs, follow_ups: followUps, status: 'ok', used_sections: sections };
+}
+
+export const CONVERSATION: Json[] = [
+  userMessage('msg-1', QUESTION, '2026-10-29T10:05:00.000+00:00'),
+  advisorMessage(
+    'msg-2',
+    '2026-10-29T10:05:04.000+00:00',
+    [
+      {
+        text: 'Start with "Farmers stay with the free app". It is rated high, and the competitor analysis lists free diagnosis apps that farmers already use.',
+        basis: 'sourced',
+        sections: ['risks', 'competitors'],
+        sources: [
+          { analysis: 'competitors', id: 'S1' },
+          { analysis: 'competitors', id: 'S5' },
+        ],
+      },
+      {
+        text: 'Pairing each diagnosis with treatment advice in the farmer\u2019s language is the planned way to stand apart. That is an AI interpretation of your results, not a finding.',
+        basis: 'ai_interpretation',
+        sections: ['mvp', 'gtm'],
+        sources: [],
+      },
+    ],
+    [SECOND_QUESTION, 'Which channel reaches cooperatives first?'],
+  ),
+  userMessage('msg-3', SECOND_QUESTION, '2026-10-29T10:06:10.000+00:00'),
+  advisorMessage(
+    'msg-4',
+    '2026-10-29T10:06:15.000+00:00',
+    [
+      {
+        text: 'The first release includes "Photo-based diagnosis" and "Treatment advice", which the plan links to that risk. "Local language support" is also in the first release.',
+        basis: 'ai_interpretation',
+        sections: ['mvp', 'risks'],
+        sources: [],
+      },
+    ],
+    ['What is the first experiment for the top channel?'],
+  ),
+];
+
+/** The thread a run's Advisor opens on: empty, with the starter questions. */
+function chatThread(id: string): Json {
+  const result = RUNS[id]?.['result'] as Json | null | undefined;
+  const strategy = Boolean(result?.['swot'] || result?.['mvp'] || result?.['gtm']);
+  return {
+    messages: [],
+    suggestions: strategy
+      ? [
+          'Which risk should I deal with first?',
+          'Why are these features in the first release?',
+          'Which channel should I start with?',
+          'Which competitor is closest to my idea?',
+        ]
+      : ['Which competitor is closest to my idea?', 'How big is the market for my priority segment?'],
+    available_sections: strategy ? STRATEGY_SECTIONS : ['market', 'competitors'],
+    remaining_turns: 25,
+    limits: { max_message_chars: 1000, max_user_turns: 25 },
+  };
+}
+
+/** The thread with the conversation above in it. */
+export function conversationThread(id = 'run-strategy'): Json {
+  return { ...chatThread(id), messages: CONVERSATION, remaining_turns: 23 };
+}
+
+/**
+ * A full conversation. The turn limit is lowered to two here, a setting the backend allows
+ * (CHAT_MAX_USER_TURNS), so the screen shows the full state without fifty messages.
+ */
+export function fullThread(id = 'run-strategy'): Json {
+  return {
+    ...chatThread(id),
+    messages: CONVERSATION,
+    remaining_turns: 0,
+    limits: { max_message_chars: 1000, max_user_turns: 2 },
+  };
+}
+
+/** The answer POST /api/runs/{id}/chat gives when the Advisor is asked to answer. */
+export const REPLY: Json = {
+  message: advisorMessage(
+    'msg-reply',
+    '2026-10-29T10:07:00.000+00:00',
+    [
+      {
+        text: 'The register rates "Farmers stay with the free app" highest. That is an AI interpretation of your results.',
+        basis: 'ai_interpretation',
+        sections: ['risks'],
+        sources: [],
+      },
+    ],
+    [SECOND_QUESTION],
+  ),
+  remaining_turns: 24,
 };
 
 export const HISTORY: Json = {
@@ -263,6 +501,13 @@ export interface MockOptions {
   offline?: boolean;
   /** Never answers these paths, so the screen stays in its loading state. */
   hang?: string[];
+  /** Milestone 3: the Advisor's conversation, instead of the empty one with starter questions. */
+  thread?: Json;
+  /**
+   * Milestone 3: what a question to the Advisor gets. An answer (the default), no answer at all so
+   * it stays pending, or the AI service failing.
+   */
+  ask?: 'answer' | 'hang' | 'fail';
 }
 
 function json(route: Route, body: unknown, status = 200): Promise<void> {
@@ -331,6 +576,37 @@ export async function mockApi(page: Page, options: MockOptions = {}): Promise<st
         headers: { 'Access-Control-Allow-Origin': '*' },
         body: REPORT,
       });
+    }
+
+    /*
+     * Milestone 3: the Advisor's conversation, and generating strategy for a saved run. Both are
+     * answered without any model being called.
+     */
+    const chat = path.match(/^\/api\/runs\/([^/]+)\/chat$/);
+    if (chat) {
+      const id = chat[1] ?? '';
+      if (!RUNS[id]) {
+        return error(route, 'run_not_found', 'This validation could not be found. It may have been deleted.', 404);
+      }
+      if (method === 'DELETE') {
+        return route.fulfill({ status: 204, headers: { 'Access-Control-Allow-Origin': '*' } });
+      }
+      if (method === 'POST') {
+        if (options.ask === 'hang') {
+          // Left unanswered on purpose: the question stays pending.
+          return;
+        }
+        if (options.ask === 'fail') {
+          return error(route, 'llm_api_error', 'The AI service is not responding. Please try again.', 502);
+        }
+        return json(route, REPLY);
+      }
+      return json(route, options.thread ?? chatThread(id));
+    }
+
+    const strategy = path.match(/^\/api\/runs\/([^/]+)\/strategy$/);
+    if (strategy && method === 'POST') {
+      return json(route, { run_id: strategy[1] ?? '', state: 'queued' }, 202);
     }
 
     const one = path.match(/^\/api\/runs\/([^/]+)$/);

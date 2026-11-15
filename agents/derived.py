@@ -7,18 +7,25 @@ lets a problem here fail a run.
 """
 
 import logging
+from collections import Counter
+from collections.abc import Iterable, Sequence
 from urllib.parse import urlsplit
 
 from pydantic import BaseModel
 
-from agents.notices import build_notices
+from agents.mvp_agent import ASSUMED_PARTS
+from agents.notices import STAGE_GTM, STAGE_MVP, STAGE_SWOT, build_notices
 from models.schemas import (
     Basis,
+    Channel,
     CompetitorAnalysisResult,
     EvidenceComponent,
     EvidenceStrength,
     MarketOpportunityResult,
+    MvpFeature,
     PipelineResult,
+    RiskItem,
+    StrategySourceKey,
     SummaryLine,
     VerifyItem,
 )
@@ -45,6 +52,14 @@ FIGURES = (("tam", "TAM"), ("sam", "SAM"), ("som", "SOM"))
 TYPE_ORDER = ("direct", "indirect", "emerging")
 GAP_ORDER = {"medium": 0, "low": 1}
 MSG_NO_MARKET_SIZE = "No reliable market size was found for this idea's own market."
+
+# Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 12.5): the strategy lines. A line
+# names one analysis, so a strategy item's inherited sources are given for the analysis most of
+# them come from (the first one named on a tie).
+STRATEGY_RESULTS = ((STAGE_SWOT, "swot"), (STAGE_MVP, "mvp"), (STAGE_GTM, "gtm"))
+LEVEL_RANK = {"high": 0, "medium": 1, "low": 2}
+MVP_SUMMARY_FEATURES = 3
+CONSTRAINT_WORDS = {"team_size": "team size", "months_to_mvp": "timeline"}
 
 
 # --- evidence strength (Section 8.5) ---------------------------------------------------------------
@@ -193,7 +208,109 @@ def executive_summary(result: PipelineResult) -> list[SummaryLine]:
         limitation = _first_claim(market.limitations)
         lines.append(SummaryLine(topic="limitation", text=_sentence(f"Main limitation: {limitation.text}"),
                                  basis=limitation.basis, source_ids=list(limitation.source_ids), analysis=MARKET))
+    return lines + strategy_summary(result)
+
+
+# --- strategy lines (Milestone 3, Section 12.5) -----------------------------------------------
+
+
+def _and(labels: list[str]) -> str:
+    return labels[0] if len(labels) == 1 else ", ".join(labels[:-1]) + f" and {labels[-1]}"
+
+
+def strategy_sources(sources: Iterable[StrategySourceKey]) -> tuple[str | None, list[str]]:
+    """The analysis and the source ids a strategy line carries: those of the analysis most of the
+    inherited sources come from, the first one named on a tie."""
+    keys = list(dict.fromkeys((source.analysis, source.id) for source in sources))
+    if not keys:
+        return None, []
+    counts = Counter(analysis for analysis, _ in keys)
+    analysis = max(counts, key=counts.__getitem__)
+    return analysis, [source_id for name, source_id in keys if name == analysis]
+
+
+def _shared_basis(bases: Sequence[str]) -> str:
+    return bases[0] if len(set(bases)) == 1 else Basis.ai_interpretation.value
+
+
+def top_risk(result: PipelineResult) -> RiskItem | None:
+    """The highest-severity risk, then the highest impact; the first listed on a tie."""
+    risks = result.swot.risks if result.swot is not None else []
+    return min(risks, key=lambda risk: (LEVEL_RANK[risk.severity], LEVEL_RANK[risk.impact]), default=None)
+
+
+def first_release(result: PipelineResult) -> list[MvpFeature]:
+    features = result.mvp.features if result.mvp is not None else []
+    return sorted((feature for feature in features if feature.tier == "mvp"), key=lambda feature: feature.rank)
+
+
+def start_channel(result: PipelineResult) -> Channel | None:
+    channels = result.gtm.channels if result.gtm is not None else []
+    return next((channel for channel in channels if channel.start_here), None)
+
+
+def strategy_summary(result: PipelineResult) -> list[SummaryLine]:
+    """Up to three lines, built from the stored strategy results: the highest-severity risk, the top
+    three features of the first release and the channel to start with. Nothing when there is no
+    strategy."""
+    lines: list[SummaryLine] = []
+    risk = top_risk(result)
+    if risk is not None:
+        analysis, ids = strategy_sources(risk.sources)
+        text = f"Main risk ({risk.severity} severity, {risk.category}): {risk.title}"
+        lines.append(SummaryLine(topic="top_risk", text=_sentence(text), basis=risk.basis, source_ids=ids, analysis=analysis))
+    features = first_release(result)
+    if features:
+        top = features[:MVP_SUMMARY_FEATURES]
+        names = _and([feature.name for feature in top])
+        if len(features) > len(top):
+            text = f"First release, the top {len(top)} of {len(features)} features: {names}"
+        else:
+            text = f"First release ({len(features)} {'feature' if len(features) == 1 else 'features'}): {names}"
+        analysis, ids = strategy_sources(source for feature in top for source in feature.sources)
+        basis = _shared_basis([feature.basis for feature in top])
+        lines.append(SummaryLine(topic="mvp_scope", text=_sentence(text), basis=basis, source_ids=ids, analysis=analysis))
+    channel = start_channel(result)
+    if channel is not None:
+        analysis, ids = strategy_sources(channel.sources)
+        lines.append(SummaryLine(topic="start_channel", text=_sentence(f"Go-to-market, start here: {channel.name}"),
+                                 basis=channel.basis, source_ids=ids, analysis=analysis))
     return lines
+
+
+def strategy_verify_next(result: PipelineResult) -> list[VerifyItem]:
+    """Each high-severity risk held with low confidence (its early-warning signal), the constraints
+    the MVP plan assumed, and the first experiment of the channel to start with."""
+    items: list[VerifyItem] = []
+    for risk in result.swot.risks if result.swot is not None else []:
+        if risk.severity == "high" and risk.confidence == "low":
+            analysis, ids = strategy_sources(risk.sources)
+            items.append(VerifyItem(topic="risk", analysis=analysis, source_ids=ids, text=_sentence(
+                f"Check the high-severity risk \"{risk.title}\", which has low confidence. Early warning sign: "
+                f"{risk.early_warning_signal}"
+            )))
+    mvp = result.mvp
+    assumed = [name for name in mvp.quality.constraints_assumed if name in ASSUMED_PARTS] if mvp is not None else []
+    if assumed:
+        words = _and([CONSTRAINT_WORDS[name] for name in assumed])
+        values = _and([ASSUMED_PARTS[name].format(value=getattr(mvp.constraints_used, name)) for name in assumed])
+        items.append(VerifyItem(topic="constraints", text=f"Confirm your {words}: the MVP plan assumes {values}."))
+    channel = start_channel(result)
+    if channel is not None:
+        analysis, ids = strategy_sources(channel.sources)
+        items.append(VerifyItem(topic="channel", analysis=analysis, source_ids=ids,
+                                text=_sentence(f"Run the first experiment for {channel.name}: {channel.first_experiment}")))
+    return items
+
+
+def strategy_inputs_missing(result: PipelineResult) -> dict[str, list[str]]:
+    """Per strategy stage with a result, the inputs it was written without (for its notice)."""
+    found: dict[str, list[str]] = {}
+    for stage, name in STRATEGY_RESULTS:
+        value = getattr(result, name)
+        if value is not None and value.quality.inputs_missing:
+            found[stage] = list(value.quality.inputs_missing)
+    return found
 
 
 # --- what to verify next (Section 10.4) -------------------------------------------------------
@@ -247,7 +364,7 @@ def verify_next(result: PipelineResult) -> list[VerifyItem]:
                 "Look for stronger competitor sources: the competitor evidence was rated "
                 f"{competitors.data_quality.evidence_level}."
             )))
-    return items
+    return items + strategy_verify_next(result)
 
 
 # --- all together -----------------------------------------------------------------------------
@@ -258,7 +375,7 @@ def with_derived_fields(result: PipelineResult) -> PipelineResult:
     A problem here is logged and leaves the result as it was, so it can never fail a run."""
     try:
         return result.model_copy(update={
-            "notices": build_notices(result.warnings, result.errors),
+            "notices": build_notices(result.warnings, result.errors, strategy_inputs_missing(result)),
             "evidence_strength": evidence_strength(result),
             "executive_summary": executive_summary(result),
             "verify_next": verify_next(result),

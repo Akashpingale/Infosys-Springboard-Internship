@@ -1,0 +1,66 @@
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web[39m
+
+(node:20400) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4220) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12716) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ [32mΓ£ô[39m src/features/advisor/useChat.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 937[2mms[22m[39m
+stderr | src/features/advisor/AdvisorTab.test.tsx > Advisor: header and starter questions > names the tab, says what the answers rest on and lists the sections it can use
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/advisor/advisorRun.test.tsx > Ask the advisor about this > ends every Strategy section with the button
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ [32mΓ£ô[39m src/features/advisor/advisorRun.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 3214[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Ask the advisor about this[2m > [22mends every Strategy section with the button [33m536[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Ask the advisor about this[2m > [22mopens the Advisor with the question written in and focused, and sends nothing [33m402[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Ask the advisor about this[2m > [22mwrites in the question of the section it was pressed in [33m711[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Ask the advisor about this[2m > [22mis offered at the end of the Market and Competitors tabs too [33m409[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor on the run page[2m > [22mkeeps the thread and the draft when the reader moves to another tab and back, and on a re-render [33m662[2mms[22m[39m
+ [31mΓ¥»[39m src/features/advisor/AdvisorTab.test.tsx [2m([22m[2m29 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 7395[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: asking[2m > [22msends the question, clears the composer, shows the answer and reads the thread again [33m613[2mms[22m[39m
+[31m   [31m├ù[31m Advisor: asking[2m > [22mannounces once that the advisor replied[33m 491[2mms[22m[31m[39m
+[31m     ΓåÆ expected <p aria-live="polite" ΓÇª(1)></p>
+ΓÇª(1) to have a length of 1 but got 2[39m
+   [33m[2mΓ£ô[22m[39m Advisor: asking[2m > [22msends with Enter and adds a new line with Shift+Enter [33m563[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: asking[2m > [22msends nothing for an empty or too long question, and says why [33m583[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: asking[2m > [22mshows a Thinking row while it waits, announces it, and cancels on request with the question kept [33m639[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: errors keep the draft[2m > [22msays the AI service is busy when the provider fails [33m547[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: errors keep the draft[2m > [22madds the rephrasing hint when the reply could not be read [33m554[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: errors keep the draft[2m > [22msays the connection was lost and keeps the question [33m541[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: errors keep the draft[2m > [22mpasses on the plain words for a busy thread and for the cooldown [33m589[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: limits and clearing[2m > [22mreads the thread again when the backend says the conversation is full [33m561[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Advisor: limits and clearing[2m > [22masks before clearing, with Keep it focused, and clears only on confirmation [33m305[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/features/advisor/AdvisorTab.test.tsx > Advisor: asking > announces once that the advisor replied
+AssertionError: expected <p aria-live="polite" ΓÇª(1)></p>
+ΓÇª(1) to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ Γ¥» src/features/advisor/AdvisorTab.test.tsx:267:62
+    265| 
+    266|     await waitFor(() => expect(live()).toHaveTextContent('Advisor replΓÇª
+    267|     expect(mounted.querySelectorAll('[aria-live="polite"]')).toHaveLenΓÇª
+       |                                                              ^
+    268|   });
+    269| 
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m44 passed[39m[22m[90m (45)[39m
+[2m   Start at [22m 16:54:04
+[2m   Duration [22m 15.21s[2m (transform 744ms, setup 1.91s, collect 9.53s, tests 11.55s, environment 4.21s, prepare 775ms)[22m
+

@@ -1,5 +1,6 @@
 """Shared data models and validation limits. Backend, UI and tests import from here."""
 
+import re
 from enum import Enum
 from typing import Annotated, Literal
 
@@ -467,3 +468,262 @@ class PipelineResult(BaseModel):
     evidence_strength: EvidenceStrength | None = None
     executive_summary: list[SummaryLine] = Field(default_factory=list)
     verify_next: list[VerifyItem] = Field(default_factory=list)
+    # Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 6.5): the strategy stages'
+    # results and the founder's resource constraints. Optional, so every saved result still validates.
+    swot: "SwotRiskResult | None" = None
+    mvp: "MvpResult | None" = None
+    gtm: "GtmResult | None" = None
+    constraints: "StrategyConstraints | None" = None
+
+
+# --- Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 6): strategy results ----------
+# Built in code from the LLM drafts (models/strategy_drafts.py). Strategy items are judgments, so
+# their basis is never `sourced`; their sources are inherited from the findings they cite.
+
+STRATEGY_BASES = ("ai_interpretation", "assumption", "user_provided")
+STRATEGY_INPUTS = ("idea", "market", "competitors", "swot", "mvp")
+CONSTRAINT_FIELDS = ("team_size", "months_to_mvp", "budget_level", "technical_skill", "launch_region")
+BUDGET_LEVELS = ("bootstrapped", "small", "funded")
+TECHNICAL_SKILLS = ("non_technical", "some", "strong")
+TEAM_SIZE_RANGE = (1, 10)
+MONTHS_TO_MVP_RANGE = (1, 12)
+LAUNCH_REGION_MAX = 60
+
+RISK_CATEGORIES = ("business", "market", "technical", "financial", "operational")
+RISK_LEVELS = ("low", "medium", "high")
+RISK_CONFIDENCES = ("low", "medium")
+RISK_CONFIDENCES_DRAFT = ("low", "medium", "high")
+SWOT_QUADRANT_MAX = 5
+RISKS_MAX = 10
+
+FEATURE_ORIGINS = ("founder_listed", "gap_opportunity", "suggested")
+EFFORT_SIZES = ("S", "M", "L")
+FEATURE_TIERS = ("mvp", "later")
+RATING_RANGE = (1, 5)
+FEATURES_MAX = 12
+METRICS_MAX = 5
+
+CHANNEL_KINDS = ("digital", "community", "partnership", "offline", "direct_sales", "product_led")
+CHANNEL_ROLES = ("acquisition", "distribution", "both")
+COST_LEVELS = ("low", "medium", "high")
+SPEEDS = ("days", "weeks", "months")
+DIFFERENTIATOR_STATUSES = ("hypothesis", "supported")
+LAUNCH_PHASE_NAMES = ("Before launch", "Launch", "First 90 days")
+CHANNELS_MAX = 6
+EARLY_CUSTOMERS_MAX = 5
+LAUNCH_ACTIONS_MAX = 4
+KEY_MESSAGES_MAX = 4
+
+STRATEGY_SUMMARY_MAX = 400
+SWOT_TEXT_MAX = 280
+WHY_IT_MATTERS_MAX = 200
+RISK_TITLE_MAX = 100
+RISK_TEXT_MAX = 300
+EARLY_WARNING_MAX = 200
+FEATURE_NAME_MAX = 80
+FEATURE_DESCRIPTION_MAX = 240
+USER_PROBLEM_MAX = 200
+RATIONALE_MAX = 300
+METRIC_NAME_MAX = 80
+METRIC_TEXT_MAX = 200
+POSITIONING_PART_MAX = 160
+CHANNEL_NAME_MAX = 60
+CHANNEL_EXPERIMENT_MAX = 250
+CHANNEL_SIGNAL_MAX = 200
+TACTIC_TEXT_MAX = 220
+PHASE_TEXT_MAX = 200
+MESSAGE_TEXT_MAX = 200
+PROOF_NEEDED_MAX = 160
+
+_CONTROL_CHARACTERS = re.compile(r"[\x00-\x1f\x7f-\x9f]")
+
+StrategyBasis = Literal[STRATEGY_BASES]
+
+
+class StrategySourceKey(BaseModel):
+    analysis: Literal[ANALYSES]
+    id: NonEmptyStr
+
+
+class StrategyConstraints(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    team_size: int | None = Field(default=None, ge=TEAM_SIZE_RANGE[0], le=TEAM_SIZE_RANGE[1])
+    months_to_mvp: int | None = Field(default=None, ge=MONTHS_TO_MVP_RANGE[0], le=MONTHS_TO_MVP_RANGE[1])
+    budget_level: Literal[BUDGET_LEVELS] | None = None
+    technical_skill: Literal[TECHNICAL_SKILLS] | None = None
+    launch_region: str | None = Field(default=None, max_length=LAUNCH_REGION_MAX)
+
+    @field_validator("launch_region", mode="before")
+    @classmethod
+    def _printable_region(cls, value: object) -> object:
+        if not isinstance(value, str):
+            return value
+        cleaned = " ".join(_CONTROL_CHARACTERS.sub(" ", value).split())
+        return cleaned or None
+
+
+class StrategyQuality(BaseModel):
+    inputs_used: list[Literal[STRATEGY_INPUTS]] = Field(default_factory=list)
+    inputs_missing: list[Literal[STRATEGY_INPUTS]] = Field(default_factory=list)
+    constraints_provided: list[Literal[CONSTRAINT_FIELDS]] = Field(default_factory=list)
+    constraints_assumed: list[Literal[CONSTRAINT_FIELDS]] = Field(default_factory=list)
+    basis_counts: dict[StrategyBasis, int] = Field(default_factory=dict)
+    grounded_share: float = Field(default=0.0, ge=0, le=1)
+    warnings_count: int = Field(default=0, ge=0)
+
+
+class SwotItem(BaseModel):
+    id: NonEmptyStr
+    text: NonEmptyStr = Field(max_length=SWOT_TEXT_MAX)
+    why_it_matters: str = Field(default="", max_length=WHY_IT_MATTERS_MAX)
+    basis: StrategyBasis
+    based_on: list[str] = Field(default_factory=list)
+    sources: list[StrategySourceKey] = Field(default_factory=list)
+
+
+class RiskItem(BaseModel):
+    id: NonEmptyStr
+    category: Literal[RISK_CATEGORIES]
+    title: NonEmptyStr = Field(max_length=RISK_TITLE_MAX)
+    description: NonEmptyStr = Field(max_length=RISK_TEXT_MAX)
+    likelihood: Literal[RISK_LEVELS]
+    impact: Literal[RISK_LEVELS]
+    severity: Literal[RISK_LEVELS]
+    mitigation: NonEmptyStr = Field(max_length=RISK_TEXT_MAX)
+    early_warning_signal: NonEmptyStr = Field(max_length=EARLY_WARNING_MAX)
+    confidence: Literal[RISK_CONFIDENCES]
+    basis: StrategyBasis
+    based_on: list[str] = Field(default_factory=list)
+    sources: list[StrategySourceKey] = Field(default_factory=list)
+
+
+class SwotRiskResult(BaseModel):
+    summary: str = Field(default="", max_length=STRATEGY_SUMMARY_MAX)
+    strengths: list[SwotItem] = Field(default_factory=list, max_length=SWOT_QUADRANT_MAX)
+    weaknesses: list[SwotItem] = Field(default_factory=list, max_length=SWOT_QUADRANT_MAX)
+    opportunities: list[SwotItem] = Field(default_factory=list, max_length=SWOT_QUADRANT_MAX)
+    threats: list[SwotItem] = Field(default_factory=list, max_length=SWOT_QUADRANT_MAX)
+    risks: list[RiskItem] = Field(default_factory=list, max_length=RISKS_MAX)
+    risk_category_coverage: dict[Literal[RISK_CATEGORIES], int] = Field(default_factory=dict)
+    coverage_gaps: list[Literal[RISK_CATEGORIES]] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+    quality: StrategyQuality = Field(default_factory=StrategyQuality)
+    warnings: list[str] = Field(default_factory=list)
+
+
+class MvpFeature(BaseModel):
+    id: NonEmptyStr
+    name: NonEmptyStr = Field(max_length=FEATURE_NAME_MAX)
+    description: str = Field(default="", max_length=FEATURE_DESCRIPTION_MAX)
+    user_problem: str = Field(default="", max_length=USER_PROBLEM_MAX)
+    origin: Literal[FEATURE_ORIGINS]
+    essential: bool = False
+    customer_need: int = Field(ge=RATING_RANGE[0], le=RATING_RANGE[1])
+    differentiation: int = Field(ge=RATING_RANGE[0], le=RATING_RANGE[1])
+    feasibility: int = Field(ge=RATING_RANGE[0], le=RATING_RANGE[1])
+    effort: Literal[EFFORT_SIZES]
+    score: float = Field(ge=RATING_RANGE[0], le=RATING_RANGE[1])
+    tier: Literal[FEATURE_TIERS]
+    rank: int = Field(ge=1)
+    rationale: str = Field(default="", max_length=RATIONALE_MAX)
+    mitigates_risk_ids: list[str] = Field(default_factory=list)
+    basis: StrategyBasis
+    based_on: list[str] = Field(default_factory=list)
+    sources: list[StrategySourceKey] = Field(default_factory=list)
+
+
+class MvpMetric(BaseModel):
+    name: NonEmptyStr = Field(max_length=METRIC_NAME_MAX)
+    how_to_measure: NonEmptyStr = Field(max_length=METRIC_TEXT_MAX)
+    suggested_target: str | None = Field(default=None, max_length=METRIC_TEXT_MAX)
+    basis: StrategyBasis
+
+
+class MvpResult(BaseModel):
+    summary: str = Field(default="", max_length=STRATEGY_SUMMARY_MAX)
+    features: list[MvpFeature] = Field(default_factory=list, max_length=FEATURES_MAX)
+    capacity_person_months: float = Field(ge=0)
+    planned_person_months: float = Field(ge=0)
+    over_capacity: bool = False
+    constraints_used: StrategyConstraints
+    deferred_reasons: dict[str, str] = Field(default_factory=dict)
+    success_metrics: list[MvpMetric] = Field(default_factory=list, max_length=METRICS_MAX)
+    limitations: list[str] = Field(default_factory=list)
+    quality: StrategyQuality = Field(default_factory=StrategyQuality)
+    warnings: list[str] = Field(default_factory=list)
+
+
+class Positioning(BaseModel):
+    target_segment: NonEmptyStr = Field(max_length=POSITIONING_PART_MAX)
+    for_whom: NonEmptyStr = Field(max_length=POSITIONING_PART_MAX)
+    problem: NonEmptyStr = Field(max_length=POSITIONING_PART_MAX)
+    category: NonEmptyStr = Field(max_length=POSITIONING_PART_MAX)
+    key_benefit: NonEmptyStr = Field(max_length=POSITIONING_PART_MAX)
+    alternative: NonEmptyStr = Field(max_length=POSITIONING_PART_MAX)
+    differentiator: NonEmptyStr = Field(max_length=POSITIONING_PART_MAX)
+    statement: NonEmptyStr
+    differentiator_status: Literal[DIFFERENTIATOR_STATUSES]
+    basis: StrategyBasis
+    based_on: list[str] = Field(default_factory=list)
+    sources: list[StrategySourceKey] = Field(default_factory=list)
+
+
+class Channel(BaseModel):
+    id: NonEmptyStr
+    name: NonEmptyStr = Field(max_length=CHANNEL_NAME_MAX)
+    kind: Literal[CHANNEL_KINDS]
+    role: Literal[CHANNEL_ROLES]
+    fit_rationale: str = Field(default="", max_length=RATIONALE_MAX)
+    audience_fit: int = Field(ge=RATING_RANGE[0], le=RATING_RANGE[1])
+    cost_level: Literal[COST_LEVELS]
+    speed_to_first_result: Literal[SPEEDS]
+    first_experiment: NonEmptyStr = Field(max_length=CHANNEL_EXPERIMENT_MAX)
+    success_signal: NonEmptyStr = Field(max_length=CHANNEL_SIGNAL_MAX)
+    priority: int = Field(ge=1)
+    start_here: bool = False
+    budget_conflict: bool = False
+    uses_feature_ids: list[str] = Field(default_factory=list)
+    addresses_risk_ids: list[str] = Field(default_factory=list)
+    basis: StrategyBasis
+    based_on: list[str] = Field(default_factory=list)
+    sources: list[StrategySourceKey] = Field(default_factory=list)
+
+
+class EarlyCustomerTactic(BaseModel):
+    tactic: NonEmptyStr = Field(max_length=TACTIC_TEXT_MAX)
+    where_to_find_them: NonEmptyStr = Field(max_length=TACTIC_TEXT_MAX)
+    offer: NonEmptyStr = Field(max_length=TACTIC_TEXT_MAX)
+    how_to_measure: NonEmptyStr = Field(max_length=TACTIC_TEXT_MAX)
+    basis: StrategyBasis
+    based_on: list[str] = Field(default_factory=list)
+    sources: list[StrategySourceKey] = Field(default_factory=list)
+
+
+class LaunchPhase(BaseModel):
+    name: Literal[LAUNCH_PHASE_NAMES]
+    goal: NonEmptyStr = Field(max_length=PHASE_TEXT_MAX)
+    actions: list[Annotated[NonEmptyStr, Field(max_length=PHASE_TEXT_MAX)]] = Field(
+        default_factory=list, max_length=LAUNCH_ACTIONS_MAX
+    )
+
+
+class KeyMessage(BaseModel):
+    audience: NonEmptyStr = Field(max_length=MESSAGE_TEXT_MAX)
+    message: NonEmptyStr = Field(max_length=MESSAGE_TEXT_MAX)
+    proof_needed: str = Field(default="", max_length=PROOF_NEEDED_MAX)
+
+
+class GtmResult(BaseModel):
+    summary: str = Field(default="", max_length=STRATEGY_SUMMARY_MAX)
+    positioning: Positioning
+    channels: list[Channel] = Field(default_factory=list, max_length=CHANNELS_MAX)
+    early_customers: list[EarlyCustomerTactic] = Field(default_factory=list, max_length=EARLY_CUSTOMERS_MAX)
+    launch_phases: list[LaunchPhase] = Field(default_factory=list, max_length=len(LAUNCH_PHASE_NAMES))
+    key_messages: list[KeyMessage] = Field(default_factory=list, max_length=KEY_MESSAGES_MAX)
+    limitations: list[str] = Field(default_factory=list)
+    quality: StrategyQuality = Field(default_factory=StrategyQuality)
+    warnings: list[str] = Field(default_factory=list)
+
+
+PipelineResult.model_rebuild()

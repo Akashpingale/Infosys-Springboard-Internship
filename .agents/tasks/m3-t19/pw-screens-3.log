@@ -1,0 +1,57 @@
+(node:15628) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 42 tests using 1 worker
+
+
+[1A[2K(node:14512) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[1/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ review-constraints
+[1A[2K[2/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ run-progress-seven-stages
+[1A[2K[3/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-empty
+[1A[2K[4/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-running
+[1A[2K[5/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-swot-risks
+[1A[2K[6/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-mvp
+[1A[2K[7/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-gtm
+[1A[2K[8/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-partial
+[1A[2K[9/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-failed
+[1A[2K[10/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-empty
+[1A[2K[11/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-conversation
+[1A[2K[12/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-pending
+[1A[2K[13/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-error
+[1A[2K[14/42] [w390] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-full
+
+[1A[2K(node:23356) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[15/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ review-constraints
+[1A[2K[16/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ run-progress-seven-stages
+[1A[2K[17/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-empty
+[1A[2K[18/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-running
+[1A[2K[19/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-swot-risks
+[1A[2K[20/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-mvp
+[1A[2K[21/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-gtm
+[1A[2K[22/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-partial
+[1A[2K[23/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-failed
+[1A[2K[24/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-empty
+[1A[2K[25/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-conversation
+[1A[2K[26/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-pending
+[1A[2K[27/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-error
+[1A[2K[28/42] [w820] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-full
+
+[1A[2K(node:24304) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[1A[2K[29/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ review-constraints
+[1A[2K[30/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ run-progress-seven-stages
+[1A[2K[31/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-empty
+[1A[2K[32/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-running
+[1A[2K[33/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-swot-risks
+[1A[2K[34/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-mvp
+[1A[2K[35/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-gtm
+[1A[2K[36/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-partial
+[1A[2K[37/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ strategy-failed
+[1A[2K[38/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-empty
+[1A[2K[39/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-conversation
+[1A[2K[40/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-pending
+[1A[2K[41/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-error
+[1A[2K[42/42] [w1440] ΓÇ║ e2e\screens-m3.spec.ts:51:3 ΓÇ║ advisor-full
+[1A[2K  42 passed (1.1m)

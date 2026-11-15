@@ -1,0 +1,15 @@
+baseline entries: 138; current uncommitted entries: 144
+differences vs baseline:
+  new docs/test_runs_m3/README.md
+  new scripts/check_advisor_live.py
+  new scripts/run_m3_live.py
+  new scripts/run_m3_retro_live.py
+  new tests/m3_live_fakes.py
+  new tests/test_m3_live_scripts.py
+new files vs tested-hashes.txt:
+  same 3a0873b499f04ba9 lines=449 mtime=2026-11-14 14:08:15 scripts/run_m3_live.py
+  same 958bc01cf3a8f5c0 lines=155 mtime=2026-11-14 14:01:43 scripts/run_m3_retro_live.py
+  same da56b331a456de9a lines=215 mtime=2026-11-14 13:54:26 scripts/check_advisor_live.py
+  same 36b44c0a54fdf3ea lines=54 mtime=2026-11-14 14:07:10 docs/test_runs_m3/README.md
+  same 568b05f82bab4122 lines=54 mtime=2026-11-14 13:51:47 tests/m3_live_fakes.py
+  same 0487f09e9ab93df5 lines=504 mtime=2026-11-14 14:17:04 tests/test_m3_live_scripts.py

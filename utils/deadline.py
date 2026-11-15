@@ -32,6 +32,19 @@ def time_limit(seconds: float | None) -> Iterator[None]:
         _deadline.reset(token)
 
 
+@contextmanager
+def extra_time(seconds: float | None) -> Iterator[None]:
+    """Move the current limit `seconds` later inside the block, for the strategy stages of a run
+    with strategy (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md D-11). Without a limit, or with None,
+    nothing changes. The previous limit is restored on exit, also when the block raises."""
+    deadline = _deadline.get()
+    token = _deadline.set(deadline if deadline is None or seconds is None else deadline + seconds)
+    try:
+        yield
+    finally:
+        _deadline.reset(token)
+
+
 def time_left() -> float | None:
     """Seconds until the current limit (zero or less once it has passed); None without one."""
     deadline = _deadline.get()

@@ -1,0 +1,364 @@
+{
+  "status": "partial",
+  "idea": {
+    "idea_title": "CropScan: AI crop disease detection",
+    "problem": "Small farmers in India lose crops because diseases are spotted too late.",
+    "solution": "A phone app that detects crop diseases from a photo and suggests treatment.",
+    "target_customers": [
+      "Small farmers in India",
+      "Agricultural cooperatives"
+    ],
+    "industry": "Agriculture / AgriTech",
+    "key_features": [
+      "Photo-based diagnosis",
+      "Treatment advice",
+      "Local language support"
+    ]
+  },
+  "search": {
+    "sections": [
+      {
+        "label": "Market size and trends",
+        "query": "Market size and trends query",
+        "answer": "Plantix and Fasal are widely used crop advisory apps in India.",
+        "results": [
+          {
+            "title": "Crop AI market report",
+            "url": "https://reports.example/crop-ai-market",
+            "snippet": "The AI crop disease detection market was valued at USD 1.8 billion in 2025.",
+            "score": 0.9
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitors",
+        "query": "Competitors query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Plantix crop doctor app",
+            "url": "https://plantix.example/about",
+            "snippet": "Plantix offers photo-based crop disease diagnosis in 18 languages and is free to download.",
+            "score": 0.9
+          },
+          {
+            "title": "Top Agrio Alternatives, Competitors",
+            "url": "https://directory.example/agrio/alternatives",
+            "snippet": "Top Agrio alternatives include Plantix, Fasal and Map My Crop, which offer crop monitoring and advisory.",
+            "score": 0.8
+          },
+          {
+            "title": "CropSense launches drone scouting",
+            "url": "https://news.example/cropsense-launch",
+            "snippet": "CropSense, a new startup, launched drone-based disease scouting for farming cooperatives in 2026.",
+            "score": 0.7
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Customer demand and pain points",
+        "query": "Customer demand and pain points query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Farmer survey",
+            "url": "https://farmers.example/survey",
+            "snippet": "Most small farmers say they lose crops because diseases are spotted late.",
+            "score": 0.6
+          }
+        ],
+        "error": null
+      }
+    ],
+    "total_results": 5,
+    "queries_failed": 0
+  },
+  "warnings": [
+    "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used",
+    "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources",
+    "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission",
+    "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results"
+  ],
+  "errors": [],
+  "timings": {
+    "extraction": 2.0,
+    "search": 3.0,
+    "total": 5.0
+  },
+  "market": null,
+  "competitors": null,
+  "market_search": {
+    "sections": [
+      {
+        "label": "Market size for this idea",
+        "query": "Market size for this idea query",
+        "answer": null,
+        "results": [],
+        "error": "No live results found for this query."
+      },
+      {
+        "label": "Market size for the target customers",
+        "query": "Market size for the target customers query",
+        "answer": null,
+        "results": [],
+        "error": "No live results found for this query."
+      }
+    ],
+    "total_results": 0,
+    "queries_failed": 0
+  },
+  "competitor_candidates": [
+    {
+      "name": "Plantix",
+      "type": "direct",
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "Fasal",
+      "type": "indirect",
+      "source_ids": [
+        "S3"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "Map My Crop",
+      "type": "indirect",
+      "source_ids": [
+        "S3"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "CropSense",
+      "type": "emerging",
+      "source_ids": [
+        "S4"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "LeafDoc",
+      "type": "direct",
+      "source_ids": [],
+      "basis": "user_provided"
+    }
+  ],
+  "competitor_search": {
+    "sections": [
+      {
+        "label": "Competitor: LeafDoc",
+        "query": "Competitor: LeafDoc query",
+        "answer": null,
+        "results": [
+          {
+            "title": "LeafDoc pricing",
+            "url": "https://leafdoc.example/pricing",
+            "snippet": "LeafDoc charges 5 USD a month for unlimited photo diagnosis and expert chat.",
+            "score": 0.9
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitor: Plantix",
+        "query": "Competitor: Plantix query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Plantix pricing",
+            "url": "https://plantix.example/pricing",
+            "snippet": "Plantix is free for farmers; Plantix Pro costs INR 499 a year and adds expert chat.",
+            "score": 0.9
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitor: CropSense",
+        "query": "Competitor: CropSense query",
+        "answer": null,
+        "results": [],
+        "error": "No live results found for this query."
+      },
+      {
+        "label": "Alternatives and substitutes",
+        "query": "Alternatives and substitutes query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Kisan call centre helpline",
+            "url": "https://helpline.example/kisan",
+            "snippet": "Kisan call centres give free phone advice on crop diseases in local languages.",
+            "score": 0.8
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Emerging approaches",
+        "query": "Emerging approaches query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Drone scouting research",
+            "url": "https://research.example/drone-scouting",
+            "snippet": "Startups are testing drone imaging for early crop disease detection.",
+            "score": 0.7
+          }
+        ],
+        "error": null
+      }
+    ],
+    "total_results": 4,
+    "queries_failed": 0
+  },
+  "notices": [
+    {
+      "stage": "market_opportunity",
+      "code": "search_empty",
+      "severity": "warning",
+      "message": "The market-size searches found no results, so only the main search results were used.",
+      "detail": "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used"
+    },
+    {
+      "stage": "competitor_analysis",
+      "code": "candidate_dropped",
+      "severity": "info",
+      "message": "AgroGhost was not searched further because its sources do not name it.",
+      "detail": "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources"
+    },
+    {
+      "stage": "competitor_analysis",
+      "code": "candidate_dropped",
+      "severity": "info",
+      "message": "KisanBot was not searched further because it was listed as named by you, but your submission does not mention it.",
+      "detail": "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission"
+    },
+    {
+      "stage": "competitor_analysis",
+      "code": "search_empty",
+      "severity": "warning",
+      "message": "One competitor search found no results.",
+      "detail": "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results"
+    }
+  ],
+  "evidence_strength": {
+    "label": "strong",
+    "score": 0.7475,
+    "components": [
+      {
+        "key": "sourced_share",
+        "label": "Sourced share",
+        "weight": 0.4,
+        "value": 0.65,
+        "detail": "13 of 20 labelled claims are backed by a cited source."
+      },
+      {
+        "key": "source_breadth",
+        "label": "Source breadth",
+        "weight": 0.3,
+        "value": 0.875,
+        "detail": "7 distinct source websites, counted up to 8."
+      },
+      {
+        "key": "evidence_level",
+        "label": "Evidence level",
+        "weight": 0.3,
+        "value": 0.75,
+        "detail": "Market evidence rated limited; Competitor evidence rated strong."
+      }
+    ],
+    "caption": "How well the findings are backed by sources. This is not a prediction of success."
+  },
+  "executive_summary": [
+    {
+      "topic": "market_size",
+      "text": "Market size (TAM): USD 1.8 billion (AI crop disease detection market, 2025).",
+      "basis": "sourced",
+      "source_ids": [
+        "S1"
+      ],
+      "analysis": "market"
+    },
+    {
+      "topic": "demand",
+      "text": "Demand: Most small farmers say they lose crops because diseases are spotted late.",
+      "basis": "sourced",
+      "source_ids": [
+        "S5"
+      ],
+      "analysis": "market"
+    },
+    {
+      "topic": "priority_segment",
+      "text": "Priority segment: Smallholder farmers. They feel the crop losses most directly.",
+      "basis": "ai_interpretation",
+      "source_ids": [
+        "S5"
+      ],
+      "analysis": "market"
+    },
+    {
+      "topic": "competitors",
+      "text": "5 competitors found: 2 direct, 2 indirect and 1 emerging.",
+      "basis": null,
+      "source_ids": [],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "gap",
+      "text": "Possible gap (medium confidence, a hypothesis): Few competitors show treatment advice tailored to the diagnosed disease.",
+      "basis": "ai_interpretation",
+      "source_ids": [],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "limitation",
+      "text": "Main limitation: A free photo diagnosis app is already available.",
+      "basis": "sourced",
+      "source_ids": [
+        "S2"
+      ],
+      "analysis": "market"
+    }
+  ],
+  "verify_next": [
+    {
+      "topic": "market_size",
+      "text": "Find a reliable market size for this idea's own market: no source confirmed the SAM or SOM.",
+      "source_ids": [],
+      "analysis": "market"
+    },
+    {
+      "topic": "evidence",
+      "text": "Look for stronger market sources: the market evidence was rated limited.",
+      "source_ids": [],
+      "analysis": "market"
+    },
+    {
+      "topic": "competitor",
+      "text": "Find out more about Fasal: the sources gave little detail.",
+      "source_ids": [
+        "S2"
+      ],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "gap",
+      "text": "Test the low-confidence gap: No competitor in the results mentions offline diagnosis.",
+      "source_ids": [],
+      "analysis": "competitors"
+    }
+  ],
+  "swot": null,
+  "mvp": null,
+  "gtm": null,
+  "constraints": null
+}

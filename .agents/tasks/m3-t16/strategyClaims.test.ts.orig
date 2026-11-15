@@ -1,0 +1,79 @@
+import { describe, expect, it } from 'vitest';
+
+import {
+  basisCounts,
+  buildSourceIndex,
+  claimsCiting,
+  collectClaims,
+  resolveStrategySources,
+  sourceKey,
+} from '@/lib/results';
+import { COMPLETE_RESULT } from '@/test/runFixtures';
+import { SYNTHETIC_STRATEGY_RESULT } from '@/test/strategyHandlers';
+
+describe('claims with strategy', () => {
+  it('leaves the two analyses alone unless strategy is asked for, so the evidence mix is unchanged', () => {
+    const plain = collectClaims(SYNTHETIC_STRATEGY_RESULT);
+    const withoutStrategy = collectClaims({ ...SYNTHETIC_STRATEGY_RESULT, swot: null, mvp: null, gtm: null });
+
+    expect(plain).toEqual(withoutStrategy);
+    expect(plain.some((claim) => claim.analysis === 'strategy')).toBe(false);
+    expect(basisCounts(plain)).toEqual(basisCounts(withoutStrategy));
+  });
+
+  it('adds every SWOT point, every risk and every MVP feature, after the analyses', () => {
+    const plain = collectClaims(SYNTHETIC_STRATEGY_RESULT);
+    const all = collectClaims(SYNTHETIC_STRATEGY_RESULT, { strategy: true });
+    const added = all.slice(plain.length);
+
+    expect(all.slice(0, plain.length)).toEqual(plain);
+    expect(added).toHaveLength(26);
+    expect(added.every((claim) => claim.analysis === 'strategy')).toBe(true);
+    expect(added.map((claim) => claim.where)).toEqual([
+      ...Array(3).fill('SWOT: Strengths'),
+      ...Array(3).fill('SWOT: Weaknesses'),
+      ...Array(3).fill('SWOT: Opportunities'),
+      ...Array(3).fill('SWOT: Threats'),
+      ...Array(6).fill('Risks'),
+      ...Array(8).fill('MVP plan'),
+    ]);
+    expect(added[6]).toEqual({
+      text: 'Late diagnosis is a widely reported farmer problem.',
+      basis: 'ai_interpretation',
+      analysis: 'strategy',
+      sourceKeys: [sourceKey('market', 'S5')],
+      where: 'SWOT: Opportunities',
+    });
+    expect(added[12]?.text).toBe('Farmers stay with the free app');
+  });
+
+  it('lists a strategy point among the claims citing its source, from either analysis', () => {
+    const all = collectClaims(SYNTHETIC_STRATEGY_RESULT, { strategy: true });
+
+    const plantix = claimsCiting(all, sourceKey('competitors', 'S1')).filter((claim) => claim.analysis === 'strategy');
+    expect(plantix.map((claim) => claim.text)).toEqual([
+      'An established free diagnosis app already serves farmers.',
+      'Farmers stay with the free app',
+      'Local language support',
+    ]);
+    const plantixMarket = claimsCiting(all, sourceKey('market', 'S2')).filter((claim) => claim.analysis === 'strategy');
+    expect(plantixMarket.map((claim) => claim.where)).toEqual(['SWOT: Opportunities', 'SWOT: Threats']);
+  });
+
+  it('adds nothing for a result without SWOT', () => {
+    expect(collectClaims(COMPLETE_RESULT, { strategy: true })).toEqual(collectClaims(COMPLETE_RESULT));
+  });
+
+  it('resolves strategy sources by analysis, once each, skipping any the result does not list', () => {
+    const index = buildSourceIndex(SYNTHETIC_STRATEGY_RESULT);
+    const found = resolveStrategySources(index, [
+      { analysis: 'competitors', id: 'S1' },
+      { analysis: 'market', id: 'S99' },
+      { analysis: 'competitors', id: 's1' },
+      { analysis: 'market', id: 'S2' },
+    ]);
+
+    expect(found.map((record) => record.key)).toEqual([sourceKey('competitors', 'S1'), sourceKey('market', 'S2')]);
+    expect(resolveStrategySources(index, undefined)).toEqual([]);
+  });
+});

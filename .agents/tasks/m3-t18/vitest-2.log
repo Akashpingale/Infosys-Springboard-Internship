@@ -1,0 +1,20 @@
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web[39m
+
+(node:13076) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+stderr | src/features/run/exportRun.test.tsx > Printing: Strategy is laid out, the Advisor is not > prints every Strategy section with its folded panels open, and no Advisor
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ [32mΓ£ô[39m src/features/run/exportRun.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 3146[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Printing: Strategy is laid out, the Advisor is not[2m > [22mprints every Strategy section with its folded panels open, and no Advisor [33m725[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Printing: Strategy is laid out, the Advisor is not[2m > [22mputs the page back afterwards: one tab, panels folded, risk details hidden again [33m866[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Printing: Strategy is laid out, the Advisor is not[2m > [22mprints the Advisor nowhere even when it was the open tab [33m427[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Edit and re-run with constraints, end to end[2m > [22mcarries the run, its constraints and the strategy choice back to a new run [33m330[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m8 passed[39m[22m[90m (8)[39m
+[2m   Start at [22m 17:12:51
+[2m   Duration [22m 11.29s[2m (transform 766ms, setup 629ms, collect 4.78s, tests 3.15s, environment 1.30s, prepare 922ms)[22m
+

@@ -1,12 +1,14 @@
 /**
  * Results header and tabs (KIRO_UI_UPGRADE_SPEC.md Section 7.4).
  *
- * The title, the industry, the run's status and how long it took, then the five tabs.
+ * The title, the industry, the run's status and how long it took, then the seven tabs.
  *
  * The actions beside the title are composed by the page, because exporting, re-running and
  * deleting all need the run itself and the router; the header only places them, and marks them so
  * the print stylesheet leaves them out of a PDF.
  */
+
+import * as React from 'react';
 
 import { StatusChip, type StatusKind } from '@/components/StatusChip';
 import { cn } from '@/lib/cn';
@@ -17,6 +19,9 @@ export const TABS = [
   { key: 'overview', label: 'Overview' },
   { key: 'market', label: 'Market' },
   { key: 'competitors', label: 'Competitors' },
+  // Milestone 3 (Section 14.1).
+  { key: 'strategy', label: 'Strategy' },
+  { key: 'advisor', label: 'Advisor' },
   { key: 'sources', label: 'Sources' },
   { key: 'details', label: 'Run details' },
 ] as const;
@@ -48,7 +53,7 @@ export interface ResultsHeaderProps {
   actions?: React.ReactNode;
   /**
    * False for a run that produced nothing. A failed run has no market, no competitors and no
-   * sources, so offering five tabs that each open an empty panel would be worse than offering none.
+   * sources, so offering seven tabs that each open an empty panel would be worse than offering none.
    */
   tabs?: boolean;
 }
@@ -56,8 +61,28 @@ export interface ResultsHeaderProps {
 export function ResultsHeader({ run, active, onChange, counts, actions, tabs = true }: ResultsHeaderProps) {
   const status = statusFor(run);
 
+  /*
+   * Seven tabs scroll inside their own row on a narrow screen, never the page. The open one is
+   * kept in view by scrolling that row only, so the page does not jump vertically.
+   */
+  const list = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const row = list.current;
+    const tab = document.getElementById(`tab-${active}`);
+    if (!row || !tab) {
+      return;
+    }
+    const box = row.getBoundingClientRect();
+    const item = tab.getBoundingClientRect();
+    if (item.left < box.left) {
+      row.scrollLeft -= box.left - item.left;
+    } else if (item.right > box.right) {
+      row.scrollLeft += item.right - box.right;
+    }
+  }, [active, tabs]);
+
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       <div className="space-y-3">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <h1 className="min-w-0 font-condensed text-display">{run.title}</h1>
@@ -78,7 +103,12 @@ export function ResultsHeader({ run, active, onChange, counts, actions, tabs = t
 
       {/* Section 6.5: underline tabs, moved through with the arrow keys. */}
       {tabs ? (
-      <div role="tablist" aria-label="Result sections" className="flex gap-1 overflow-x-auto border-b border-line">
+      <div
+        ref={list}
+        role="tablist"
+        aria-label="Result sections"
+        className="flex min-w-0 max-w-full gap-1 overflow-x-auto border-b border-line"
+      >
         {TABS.map((tab, index) => {
           const selected = tab.key === active;
           const count = counts?.[tab.key];

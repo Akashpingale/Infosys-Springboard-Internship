@@ -1,0 +1,82 @@
+$ python scripts/run_m3_live.py --help -> exit 0
+usage: run_m3_live.py [-h] [--yes | --fake] [--out OUT]
+
+Run the three Milestone 2 ideas through all seven stages, strategy included,
+and save the evidence (plan L-1).
+
+options:
+...
+              no key is needed, no credit is spent
+  --out OUT   folder for the files (default: docs/test_runs_m3, or a new
+              temporary folder with --fake)
+
+$ python scripts/run_m3_retro_live.py --help -> exit 0
+usage: run_m3_retro_live.py [-h] [--yes | --fake] [--out OUT] [--saved SAVED]
+
+Add the strategy stages to a saved run, reusing its idea and analyses, with no
+search (plan L-2).
+
+options:
+...
+                 temporary folder with --fake)
+  --saved SAVED  the saved PipelineResult JSON to add the strategy to
+                 (default: docs/test_runs_m2/agritech.json)
+
+$ python scripts/check_advisor_live.py --help -> exit 0
+usage: check_advisor_live.py [-h] [--yes | --fake] [--out OUT] [--saved SAVED]
+
+Ask the Advisor the fixed question set about a saved run (plan L-3).
+
+options:
+  -h, --help     show this help message and exit
+...
+                 temporary folder with --fake)
+  --saved SAVED  the saved PipelineResult JSON to ask about (default:
+                 docs/test_runs_m3/agritech.json from run_m3_live.py)
+
+$ python scripts/run_m3_live.py -> exit 1
+This script makes real API calls and spends credits. Nothing has been run.
+Re-run it with --yes once you are ready:
+    python scripts/run_m3_live.py --yes
+or try it offline with the fake clients of the test suite:
+    python scripts/run_m3_live.py --fake
+No result or summary file was written.
+
+$ python scripts/run_m3_live.py --fake --out cli-output -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Running 3 ideas through the seven stages.
+
+agritech           complete  total=0.1 s strategy=0.1 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for agritech (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+...
+
+Saved 3 of 3 runs to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\cli-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\cli-output\run_summary.json
+
+$ python scripts/run_m3_retro_live.py --fake --out cli-output -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Adding 3 strategy stage(s) to docs/test_runs_m2/agritech.json.
+
+agritech           complete  total=0.1 s strategy=0.1 s llm=3 groq=0 searches=0 warnings=14 errors=0 violations=0
+A strategy job on a saved run makes no search: 0 search request(s) were counted.
+The strategy part of the L-1 run of this idea took 0.1 s.
+...
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\cli-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\cli-output\retro_summary.json
+
+$ python scripts/check_advisor_live.py --fake --out cli-output --saved agritech.json -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Asking 8 questions about .agents/tasks/m3-t20/cli-output/agritech.json.
+
+1. market             ok            paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+2. competitor         ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+3. risk               ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+...
+  [ ] 7. Advisor answers cite results; the out-of-scope and injection questions are refused cleanly. Measured: 1 market ok; 2 competitor ok; 3 risk ok; 4 mvp_priority ok; 5 gtm_first_channel ok; 6 out_of_scope out_of_scope; 7 injection out_of_scope; 8 missing_section no_evidence.
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\cli-output
+
+files: ['advisor_agritech.json', 'advisor_agritech.md', 'agritech.json', 'agritech.md', 'fintech_cashflow.json', 'fintech_cashflow.md', 'foodtech_surplus.json', 'foodtech_surplus.md', 'retro_agritech.json', 'retro_agritech.md', 'retro_summary.json', 'run_summary.json']
+store file created: False

@@ -1,0 +1,78 @@
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90mC:/Users/akash/OneDrive/Pictures/Infosys-Springboard-Internship/web[39m
+
+(node:20688) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:21436) ExperimentalWarning: localStorage is not available because --localstorage-file was not provided.
+(Use `node --trace-warnings ...` to show where the warning was created)
+stderr | src/features/run/RunPage.test.tsx > Run page: while it runs > shows each stage with its status and time, and nothing as finished early
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/run/strategyRun.test.tsx > Results tabs: seven of them > lists the seven tabs in the planned order
+ΓÜá∩╕Å React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+ΓÜá∩╕Å React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | src/features/run/strategyRun.test.tsx > Results tabs: seven of them > moves through all seven with the arrow keys, wrapping at both ends, with one tab tabbable
+[MSW] Error: intercepted a request without a matching request handler:
+
+  ΓÇó GET http://127.0.0.1:8000/api/meta
+
+If you still wish to intercept this unhandled request, please create a request handler for it.
+Read more: https://mswjs.io/docs/http/intercepting-requests
+
+stderr | src/features/run/strategyRun.test.tsx > Results tabs: seven of them > opens a placeholder for the Strategy and Advisor tabs
+[MSW] Error: intercepted a request without a matching request handler:
+
+  ΓÇó GET http://127.0.0.1:8000/api/meta
+
+If you still wish to intercept this unhandled request, please create a request handler for it.
+Read more: https://mswjs.io/docs/http/intercepting-requests
+
+stderr | src/features/run/RunPage.test.tsx > Run page: the finished result > moves between tabs with the arrow keys
+[MSW] Error: intercepted a request without a matching request handler:
+
+  ΓÇó GET http://127.0.0.1:8000/api/meta
+
+If you still wish to intercept this unhandled request, please create a request handler for it.
+Read more: https://mswjs.io/docs/http/intercepting-requests
+
+ [31mΓ¥»[39m src/features/run/strategyRun.test.tsx [2m([22m[2m11 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 8796[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Results tabs: seven of them[2m > [22mmoves through all seven with the arrow keys, wrapping at both ends, with one tab tabbable [33m459[2mms[22m[39m
+[31m   [31m├ù[31m Results tabs: seven of them[2m > [22mopens a placeholder for the Strategy and Advisor tabs[90m 106[2mms[22m[31m[39m
+[31m     ΓåÆ [2mexpect([22m[31melement[31m[2m).toHaveTextContent()[22m
+
+Expected element to have text content:
+[32m  The strategy for this validation will be shown here.[31m
+Received:
+[31m  StrategyNo strategy yet. Generate a SWOT and risk review, an MVP plan and a go-to-market plan from these results. This uses 3 AI requests.[31m[39m
+   [33m[2mΓ£ô[22m[39m Polling after a strategy request[2m > [22mstays quiet on a finished run, then polls again until the strategy job ends [33m7643[2mms[22m[39m
+ [32mΓ£ô[39m src/features/run/RunPage.test.tsx [2m([22m[2m37 tests[22m[2m)[22m[33m 10308[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: while it runs[2m > [22mkeeps polling until the run ends, then stops [33m5587[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: the finished result[2m > [22mmoves between tabs with the arrow keys [33m371[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m Run page: partial, failed and lost connection[2m > [22msays it is retrying when the connection drops, and keeps the run on screen [33m1542[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 1 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  src/features/run/strategyRun.test.tsx > Results tabs: seven of them > opens a placeholder for the Strategy and Advisor tabs
+Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  The strategy for this validation will be shown here.
+Received:
+  StrategyNo strategy yet. Generate a SWOT and risk review, an MVP plan and a go-to-market plan from these results. This uses 3 AI requests.
+ Γ¥» src/features/run/strategyRun.test.tsx:112:42
+    110| 
+    111|     await user.click(await screen.findByRole('tab', { name: 'Strategy'ΓÇª
+    112|     expect(screen.getByRole('tabpanel')).toHaveTextContent('The strateΓÇª
+       |                                          ^
+    113| 
+    114|     await user.click(screen.getByRole('tab', { name: 'Advisor' }));
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m47 passed[39m[22m[90m (48)[39m
+[2m   Start at [22m 15:43:00
+[2m   Duration [22m 17.76s[2m (transform 586ms, setup 1.13s, collect 8.62s, tests 19.10s, environment 2.51s, prepare 1.74s)[22m
+

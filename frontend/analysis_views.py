@@ -8,18 +8,23 @@ that is not known is shown as not available rather than filled in.
 from agents.web_search_agent import render_markdown
 from models.schemas import (
     COMPETITOR_TYPES,
+    RISK_CATEGORIES,
     Competitor,
     CompetitorAnalysisResult,
     ComparisonCell,
     DataQuality,
     ExtractedIdea,
+    GtmResult,
     LabeledItem,
     MarketGap,
     MarketOpportunityResult,
+    MvpResult,
     PipelineResult,
     QuantEstimate,
     Segment,
     SourceRef,
+    StrategySourceKey,
+    SwotRiskResult,
     Trend,
 )
 
@@ -407,4 +412,236 @@ def report_markdown(result: PipelineResult, *, full: bool = False) -> str:
         lines += competitor_markdown(result.competitors)
     else:
         lines += ["## Competitors", "", MSG_NO_COMPETITORS, ""]
+    if full and has_strategy(result):
+        lines += strategy_markdown(result)
     return "\n".join(lines)
+
+
+# --- Milestone 3: the strategy sections (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md D-14) ---------
+# Only the full report (GET /api/runs/{id}/report.md) carries them, and only when a strategy part
+# exists, so the default report and the Streamlit download stay exactly as they were. The Advisor
+# conversation is not part of a result and is never exported. A strategy item's sources are those
+# of the findings it is based on, named with their analysis ("market S3").
+
+MSG_STRATEGY_CAVEAT = "These are AI interpretations of your results, not predictions."
+MSG_NO_SWOT = "No SWOT and risk analysis is available for this run. Any reason is listed in the notes at the top."
+MSG_NO_MVP = "No MVP recommendation is available for this run. Any reason is listed in the notes at the top."
+MSG_NO_GTM = "No go-to-market plan is available for this run. Any reason is listed in the notes at the top."
+MSG_NONE_IN_RUN = "None found in this run."
+MSG_COVERAGE_GAP = "Not checked is not the same as safe."
+MSG_OVER_CAPACITY = "The essential features need more effort than the team and time allow."
+MSG_BUDGET_CONFLICT = "May cost more than a bootstrapped budget."
+SWOT_QUADRANTS = (
+    ("strengths", "Strengths"),
+    ("weaknesses", "Weaknesses"),
+    ("opportunities", "Opportunities"),
+    ("threats", "Threats"),
+)
+SEVERITIES = ("high", "medium", "low")
+CONSTRAINT_TEXT = (
+    ("team_size", "Team size"),
+    ("months_to_mvp", "Months to the first release"),
+    ("budget_level", "Budget"),
+    ("technical_skill", "Technical skill"),
+    ("launch_region", "Launch region"),
+)
+CONSTRAINT_VALUES = {
+    "bootstrapped": "Bootstrapped",
+    "small": "Small budget",
+    "funded": "Funded",
+    "non_technical": "Non-technical",
+    "some": "Some technical",
+    "strong": "Strong technical team",
+}
+ORIGIN_TEXT = {
+    "founder_listed": "Your feature",
+    "gap_opportunity": "Suggested from a possible gap",
+    "suggested": "Suggested",
+}
+TIER_HEADINGS = (("mvp", "In the first release"), ("later", "Later"))
+
+
+def has_strategy(result: PipelineResult) -> bool:
+    return result.swot is not None or result.mvp is not None or result.gtm is not None
+
+
+def strategy_cited(sources: list[StrategySourceKey]) -> list[str]:
+    """Inherited sources named with their analysis, for example 'market S3'."""
+    return [f"{source.analysis} {source.id}" for source in sources]
+
+
+def strategy_line(text: str, basis: str, sources: list[StrategySourceKey]) -> str:
+    return _labelled(text, basis_text(basis), strategy_cited(sources))
+
+
+def _words(value: str) -> str:
+    return value.replace("_", " ").capitalize()
+
+
+def _basis_facts(basis: str, sources: list[StrategySourceKey]) -> list[str]:
+    return [f"- Basis: {basis_text(basis)}", f"- Sources: {cited(strategy_cited(sources)) or NO_IDS}"]
+
+
+def _strings(title: str, values: list[str]) -> list[str]:
+    return [f"**{title}**", "", *[f"- {value}" for value in values], ""] if values else []
+
+
+def _summary(text: str) -> list[str]:
+    return [_labelled(text, basis_text("ai_interpretation"), []), ""] if text else []
+
+
+def swot_markdown(swot: SwotRiskResult) -> list[str]:
+    lines = ["## SWOT and risks", "", MSG_STRATEGY_CAVEAT, "", *_summary(swot.summary)]
+    for name, title in SWOT_QUADRANTS:
+        lines += [f"**{title}**", ""]
+        for item in getattr(swot, name):
+            lines.append(f"- {strategy_line(item.text, item.basis, item.sources)}")
+            if item.why_it_matters:
+                lines.append(f"  - Why it matters: {item.why_it_matters}")
+        lines += [""] if getattr(swot, name) else [MSG_NONE_IN_RUN, ""]
+
+    counts = ", ".join(f"{sum(1 for risk in swot.risks if risk.severity == level)} {level}" for level in SEVERITIES)
+    lines += [f"### Risks ({len(swot.risks)})", "", f"{len(swot.risks)} risks: {counts}.", ""]
+    coverage = "; ".join(f"{category} {swot.risk_category_coverage.get(category, 0)}" for category in RISK_CATEGORIES)
+    lines += [f"Risk categories: {coverage}.", ""]
+    if swot.coverage_gaps:
+        lines += [f"No {' or '.join(swot.coverage_gaps)} risk was found. {MSG_COVERAGE_GAP}", ""]
+    for risk in swot.risks:
+        lines += [f"**{risk.title}** ({risk.severity.capitalize()} severity, {risk.category})", ""]
+        lines += [
+            f"- What could happen: {risk.description}",
+            f"- Likelihood: {risk.likelihood.capitalize()}. Impact: {risk.impact.capitalize()}. "
+            f"Confidence: {risk.confidence.capitalize()}.",
+            f"- Mitigation: {risk.mitigation}",
+            f"- Early warning sign: {risk.early_warning_signal}",
+            *_basis_facts(risk.basis, risk.sources),
+            "",
+        ]
+    return lines + _strings("Limitations", swot.limitations)
+
+
+def _constraint_lines(mvp: MvpResult) -> list[str]:
+    used = mvp.constraints_used
+    lines = []
+    for name, label in CONSTRAINT_TEXT:
+        value = getattr(used, name)
+        if value is not None:
+            assumed = " (assumed)" if name in mvp.quality.constraints_assumed else ""
+            lines.append(f"- {label}: {CONSTRAINT_VALUES.get(str(value), value)}{assumed}")
+    return ["**Resources the plan is built on**", "", *lines, ""] if lines else []
+
+
+def mvp_markdown(mvp: MvpResult, swot: SwotRiskResult | None) -> list[str]:
+    risks = {risk.id: risk.title for risk in swot.risks} if swot is not None else {}
+    lines = ["## MVP recommendation", "", MSG_STRATEGY_CAVEAT, "", *_summary(mvp.summary)]
+    lines += [f"Planned {mvp.planned_person_months:g} of {mvp.capacity_person_months:g} person-months.", ""]
+    if mvp.over_capacity:
+        lines += [MSG_OVER_CAPACITY, ""]
+    lines += _constraint_lines(mvp)
+    for tier, heading in TIER_HEADINGS:
+        features = sorted((feature for feature in mvp.features if feature.tier == tier), key=lambda feature: feature.rank)
+        lines += [f"### {heading} ({len(features)})", ""]
+        if not features:
+            lines += [MSG_NONE_IN_RUN, ""]
+        for feature in features:
+            lines += [f"**Rank {feature.rank}: {feature.name}** ({ORIGIN_TEXT.get(feature.origin, feature.origin)})", ""]
+            if feature.description:
+                lines.append(f"- {feature.description}")
+            if feature.user_problem:
+                lines.append(f"- User problem: {feature.user_problem}")
+            lines += [
+                f"- Score: {feature.score:g} (need {feature.customer_need}, differentiation {feature.differentiation}, "
+                f"feasibility {feature.feasibility})",
+                f"- Effort: {feature.effort}, AI estimate",
+            ]
+            if feature.rationale:
+                lines.append(f"- Why: {feature.rationale}")
+            linked = [risks[risk_id] for risk_id in feature.mitigates_risk_ids if risk_id in risks]
+            if linked:
+                lines.append(f"- Lowers the risks: {'; '.join(linked)}")
+            if feature.id in mvp.deferred_reasons:
+                lines.append(f"- Why later: {mvp.deferred_reasons[feature.id]}")
+            lines += [*_basis_facts(feature.basis, feature.sources), ""]
+    lines += ["### Success metrics", ""]
+    for metric in mvp.success_metrics:
+        target = f" Suggested target: {metric.suggested_target.rstrip('.')}." if metric.suggested_target else ""
+        text = f"{metric.name}: {metric.how_to_measure.rstrip('.')}.{target}"
+        lines.append(f"- {_labelled(text, basis_text(metric.basis), [])}")
+    lines += [""] if mvp.success_metrics else [MSG_NONE_IN_RUN, ""]
+    return lines + _strings("Limitations", mvp.limitations)
+
+
+def gtm_markdown(gtm: GtmResult, mvp: MvpResult | None, swot: SwotRiskResult | None) -> list[str]:
+    features = {feature.id: feature.name for feature in mvp.features} if mvp is not None else {}
+    risks = {risk.id: risk.title for risk in swot.risks} if swot is not None else {}
+    stated = gtm.positioning
+    lines = ["## Go-to-market plan", "", MSG_STRATEGY_CAVEAT, "", *_summary(gtm.summary)]
+    lines += ["### Positioning", "", stated.statement, ""]
+    lines += [
+        f"- Target segment: {stated.target_segment}",
+        f"- For: {stated.for_whom}",
+        f"- Problem: {stated.problem}",
+        f"- Category: {stated.category}",
+        f"- Key benefit: {stated.key_benefit}",
+        f"- Alternative: {stated.alternative}",
+        f"- Differentiator ({stated.differentiator_status.capitalize()}): {stated.differentiator}",
+        *_basis_facts(stated.basis, stated.sources),
+        "",
+    ]
+    lines += [f"### Channels ({len(gtm.channels)})", ""]
+    for channel in sorted(gtm.channels, key=lambda entry: entry.priority):
+        start = " (Start here)" if channel.start_here else ""
+        lines += [f"**Rank {channel.priority}: {channel.name}**{start}", ""]
+        lines += [
+            f"- Kind: {_words(channel.kind)}. Role: {_words(channel.role)}.",
+            f"- Audience fit: {channel.audience_fit} of 5. Cost: {channel.cost_level.capitalize()}. "
+            f"Time to a first result: {channel.speed_to_first_result.capitalize()}.",
+        ]
+        if channel.fit_rationale:
+            lines.append(f"- Why it fits: {channel.fit_rationale}")
+        lines += [f"- First experiment: {channel.first_experiment}", f"- Success signal: {channel.success_signal}"]
+        used = [features[feature_id] for feature_id in channel.uses_feature_ids if feature_id in features]
+        if used:
+            lines.append(f"- Uses the features: {'; '.join(used)}")
+        addressed = [risks[risk_id] for risk_id in channel.addresses_risk_ids if risk_id in risks]
+        if addressed:
+            lines.append(f"- Addresses the risks: {'; '.join(addressed)}")
+        if channel.budget_conflict:
+            lines.append(f"- Budget: {MSG_BUDGET_CONFLICT}")
+        lines += [*_basis_facts(channel.basis, channel.sources), ""]
+    lines += ["### Early customers", ""]
+    for tactic in gtm.early_customers:
+        lines += [f"**{tactic.tactic}**", ""]
+        lines += [
+            f"- Where to find them: {tactic.where_to_find_them}",
+            f"- Offer: {tactic.offer}",
+            f"- How to measure: {tactic.how_to_measure}",
+            *_basis_facts(tactic.basis, tactic.sources),
+            "",
+        ]
+    if not gtm.early_customers:
+        lines += [MSG_NONE_IN_RUN, ""]
+    lines += ["### Launch plan", ""]
+    for number, phase in enumerate(gtm.launch_phases, 1):
+        lines.append(f"{number}. **{phase.name}**: {phase.goal}")
+        lines += [f"   - {action}" for action in phase.actions]
+    lines += [""]
+    lines += ["### Key messages", ""]
+    rows = [{"Audience": entry.audience, "Message": entry.message, "Proof needed": entry.proof_needed}
+            for entry in gtm.key_messages]
+    lines += _table(rows) or [MSG_NONE_IN_RUN, ""]
+    return lines + _strings("Limitations", gtm.limitations)
+
+
+def strategy_markdown(result: PipelineResult) -> list[str]:
+    """The three strategy sections, each saying so when its part is missing."""
+    lines = swot_markdown(result.swot) if result.swot is not None else ["## SWOT and risks", "", MSG_NO_SWOT, ""]
+    if result.mvp is not None:
+        lines += mvp_markdown(result.mvp, result.swot)
+    else:
+        lines += ["## MVP recommendation", "", MSG_NO_MVP, ""]
+    if result.gtm is not None:
+        lines += gtm_markdown(result.gtm, result.mvp, result.swot)
+    else:
+        lines += ["## Go-to-market plan", "", MSG_NO_GTM, ""]
+    return lines

@@ -1,0 +1,401 @@
+/**
+ * Reading a finished result (KIRO_UI_UPGRADE_SPEC.md Sections 8.5, 8.6 and 9).
+ *
+ * Everything here only reads what the backend already checked. No figure, claim or source is
+ * invented, combined or re-worded: a claim keeps the text, basis and source ids the agents left on
+ * it.
+ *
+ * One thing needs care. The market and the competitor analyses number their evidence separately,
+ * so "S1" in the market analysis and "S1" in the competitor analysis are usually different pages.
+ * Every source and every claim is therefore keyed by its analysis as well as its id, and the small
+ * numbers shown on a citation chip are assigned here rather than taken from the id.
+ */
+
+import type { components } from '@/api/types.gen';
+import type { Basis } from '@/components/BasisChip';
+import { domainOf } from '@/lib/format';
+
+export type PipelineResult = components['schemas']['PipelineResult'];
+export type SourceRef = components['schemas']['SourceRef'];
+export type Notice = components['schemas']['Notice'];
+export type EvidenceStrength = components['schemas']['EvidenceStrength'];
+export type SummaryLine = components['schemas']['SummaryLine'];
+export type VerifyItem = components['schemas']['VerifyItem'];
+
+/** Which analysis a source id belongs to. */
+export type AnalysisKey = 'market' | 'competitors';
+
+/** Milestone 3: a strategy item names its sources with their analysis, since it may cite both. */
+export type StrategySourceKey = components['schemas']['StrategySourceKey'];
+
+/** agents/evidence.py: S0 is the search engine's own summary and has no URL. */
+export const SUMMARY_ID = 'S0';
+export const SUMMARY_CHIP_LABEL = 'Search summary';
+export const SUMMARY_EXPLANATION =
+  'This is the search engine\u2019s own summary of the results, not a page we can link to. A claim ' +
+  'resting only on it counts as an AI interpretation, never as sourced.';
+
+export const BASIS_ORDER: Basis[] = ['sourced', 'ai_interpretation', 'user_provided', 'assumption'];
+
+export interface SourceRecord {
+  /** `market:S1`, unique across both analyses. */
+  key: string;
+  analysis: AnalysisKey;
+  id: string;
+  /** The small number shown to the user, in place of the id. */
+  number: number;
+  title: string;
+  url: string;
+  domain: string;
+  /** True for S0, which has no page behind it. */
+  isSummary: boolean;
+}
+
+export interface Claim {
+  text: string;
+  basis: Basis | null;
+  /** `strategy` for a strategy item, whose sources may come from both analyses. */
+  analysis: AnalysisKey | 'strategy';
+  sourceKeys: string[];
+  /** Where it sits, for the drawer: "Market demand", "Competitor: Khatabook". */
+  where: string;
+}
+
+export function sourceKey(analysis: AnalysisKey, id: string): string {
+  return `${analysis}:${id.trim().toUpperCase()}`;
+}
+
+function isBasis(value: unknown): value is Basis {
+  return typeof value === 'string' && (BASIS_ORDER as string[]).includes(value);
+}
+
+/**
+ * Every source the result cites, numbered for display.
+ *
+ * The numbers follow evidence order: the market analysis first, then the competitor analysis. They
+ * stay the same however the page is re-rendered, so a chip never changes its number under the
+ * reader.
+ */
+export function buildSourceIndex(result: PipelineResult): Map<string, SourceRecord> {
+  const index = new Map<string, SourceRecord>();
+  let next = 1;
+  const groups: [AnalysisKey, SourceRef[]][] = [
+    ['market', result.market?.sources ?? []],
+    ['competitors', result.competitors?.sources ?? []],
+  ];
+  for (const [analysis, sources] of groups) {
+    for (const source of sources) {
+      const key = sourceKey(analysis, source.id);
+      if (index.has(key)) {
+        continue;
+      }
+      index.set(key, {
+        key,
+        analysis,
+        id: source.id,
+        number: next,
+        title: source.title || source.url,
+        url: source.url,
+        domain: domainOf(source.url),
+        isSummary: source.id.trim().toUpperCase() === SUMMARY_ID,
+      });
+      next += 1;
+    }
+  }
+  return index;
+}
+
+/** The text of a labelled object, whatever the field is called in its own model. */
+function claimText(node: Record<string, unknown>): string | null {
+  for (const field of ['text', 'trend', 'description'] as const) {
+    const value = node[field];
+    if (typeof value === 'string' && value.trim()) {
+      return value;
+    }
+  }
+  return null;
+}
+
+/** Field names that read well as a place, for the drawer's "cited by" list. */
+const PLACES: Record<string, string> = {
+  developments: 'Industry developments',
+  demand_evidence: 'Customer demand',
+  customer_problems: 'Customer problems',
+  interest_signals: 'Interest signals',
+  trends: 'Trends',
+  segments: 'Customer segments',
+  pain_points: 'Pain points',
+  opportunities: 'Opportunities',
+  limitations: 'Limitations',
+  market_gaps: 'Possible gaps',
+  differentiation_opportunities: 'Differentiation',
+  strengths: 'Competitor strengths',
+  weaknesses: 'Competitor weaknesses',
+  competitors: 'Competitors',
+  industry_overview: 'Industry overview',
+  market_demand: 'Market demand',
+  broader_markets: 'Broader markets',
+};
+
+function place(path: string[]): string {
+  for (const part of [...path].reverse()) {
+    if (PLACES[part]) {
+      return PLACES[part];
+    }
+  }
+  return path.length > 0 ? 'Analysis' : 'Analysis';
+}
+
+/** Milestone 3: the SWOT quadrants, in the order of Section 14.4, with the drawer's place names. */
+export const SWOT_QUADRANTS = [
+  { key: 'strengths', label: 'Strengths' },
+  { key: 'weaknesses', label: 'Weaknesses' },
+  { key: 'opportunities', label: 'Opportunities' },
+  { key: 'threats', label: 'Threats' },
+] as const;
+
+export function strategySourceKeys(refs: StrategySourceKey[] | undefined): string[] {
+  return (refs ?? []).map((ref) => sourceKey(ref.analysis, ref.id));
+}
+
+/** The sources a strategy item cites, as records, skipping any the result does not list. */
+export function resolveStrategySources(
+  index: Map<string, SourceRecord>,
+  refs: StrategySourceKey[] | undefined,
+): SourceRecord[] {
+  const found: SourceRecord[] = [];
+  for (const key of strategySourceKeys(refs)) {
+    const record = index.get(key);
+    if (record && !found.includes(record)) {
+      found.push(record);
+    }
+  }
+  return found;
+}
+
+/** The SWOT items, the risks and the MVP features, as claims (Milestone 3, Section 17.5). */
+function strategyClaims(result: PipelineResult): Claim[] {
+  const swot = result.swot;
+  const claims: Claim[] = [];
+  for (const quadrant of SWOT_QUADRANTS) {
+    for (const item of swot?.[quadrant.key] ?? []) {
+      claims.push({
+        text: item.text,
+        basis: item.basis,
+        analysis: 'strategy',
+        sourceKeys: strategySourceKeys(item.sources),
+        where: `SWOT: ${quadrant.label}`,
+      });
+    }
+  }
+  for (const risk of swot?.risks ?? []) {
+    claims.push({
+      text: risk.title,
+      basis: risk.basis,
+      analysis: 'strategy',
+      sourceKeys: strategySourceKeys(risk.sources),
+      where: 'Risks',
+    });
+  }
+  for (const feature of result.mvp?.features ?? []) {
+    claims.push({
+      text: feature.name,
+      basis: feature.basis,
+      analysis: 'strategy',
+      sourceKeys: strategySourceKeys(feature.sources),
+      where: 'MVP plan',
+    });
+  }
+  return claims;
+}
+
+export interface CollectOptions {
+  /**
+   * Milestone 3: add the strategy items, for the source drawer. Left off for the evidence mix and
+   * the Sources tab, which count the two analyses only (Section 14.5 keeps them unchanged).
+   */
+  strategy?: boolean;
+}
+
+/**
+ * Every labelled claim in the two analyses, with the sources it cites.
+ *
+ * This walks the checked result the same way the backend's own counter does
+ * (agents/derived.labeled_bases), so the counts shown in the evidence mix are the counts the
+ * evidence strength was calculated from.
+ */
+export function collectClaims(result: PipelineResult, options: CollectOptions = {}): Claim[] {
+  const claims: Claim[] = [];
+
+  function walk(node: unknown, analysis: AnalysisKey, path: string[]): void {
+    if (Array.isArray(node)) {
+      for (const item of node) {
+        walk(item, analysis, path);
+      }
+      return;
+    }
+    if (typeof node !== 'object' || node === null) {
+      return;
+    }
+    const record = node as Record<string, unknown>;
+    const basis = record['basis'];
+    if (isBasis(basis)) {
+      const text = claimText(record) ?? (typeof record['name'] === 'string' ? record['name'] : null);
+      if (text) {
+        const ids = Array.isArray(record['source_ids']) ? (record['source_ids'] as unknown[]) : [];
+        claims.push({
+          text,
+          basis,
+          analysis,
+          sourceKeys: ids
+            .filter((id): id is string => typeof id === 'string')
+            .map((id) => sourceKey(analysis, id)),
+          where: place(path),
+        });
+      }
+    }
+    for (const [field, value] of Object.entries(record)) {
+      if (field === 'sources' || field === 'caveats') {
+        continue;
+      }
+      walk(value, analysis, [...path, field]);
+    }
+  }
+
+  walk(result.market, 'market', []);
+  walk(result.competitors, 'competitors', []);
+  return options.strategy ? [...claims, ...strategyClaims(result)] : claims;
+}
+
+/** How many labelled claims carry each basis, in the fixed order of Section 9. */
+export function basisCounts(claims: Claim[]): { basis: Basis; count: number }[] {
+  return BASIS_ORDER.map((basis) => ({ basis, count: claims.filter((claim) => claim.basis === basis).length }));
+}
+
+/** The claims that cite one source, for the drawer (Section 8.6). */
+export function claimsCiting(claims: Claim[], key: string): Claim[] {
+  return claims.filter((claim) => claim.sourceKeys.includes(key));
+}
+
+/** The sources a claim or summary line cites, as records, skipping ids the result does not list. */
+export function resolveSources(
+  index: Map<string, SourceRecord>,
+  analysis: AnalysisKey | null | undefined,
+  ids: string[] | undefined,
+): SourceRecord[] {
+  if (!analysis || !ids) {
+    return [];
+  }
+  const found: SourceRecord[] = [];
+  for (const id of ids) {
+    const record = index.get(sourceKey(analysis, id));
+    if (record && !found.includes(record)) {
+      found.push(record);
+    }
+  }
+  return found;
+}
+
+export interface CompetitorCounts {
+  total: number;
+  direct: number;
+  indirect: number;
+  emerging: number;
+}
+
+/** Competitors by type, counted from the result rather than taken from any text. */
+export function competitorCounts(result: PipelineResult): CompetitorCounts {
+  const competitors = result.competitors?.competitors ?? [];
+  return {
+    total: competitors.length,
+    direct: competitors.filter((entry) => entry.type === 'direct').length,
+    indirect: competitors.filter((entry) => entry.type === 'indirect').length,
+    emerging: competitors.filter((entry) => entry.type === 'emerging').length,
+  };
+}
+
+export const FIGURE_LABELS: [keyof NonNullable<PipelineResult['market']>['market_size'], string][] = [
+  ['tam', 'TAM'],
+  ['sam', 'SAM'],
+  ['som', 'SOM'],
+];
+
+export interface MarketSizeSummary {
+  /** The first figure a source confirms, if any. */
+  sourced: { label: string; value: string; note: string | null } | null;
+  /** Labels whose status is `unavailable`. */
+  unavailable: string[];
+  /** Labels marked as an estimate that still needs checking. */
+  estimated: string[];
+}
+
+/** What is actually known about the market size, with nothing filled in (Section 6.8). */
+export function marketSizeSummary(result: PipelineResult): MarketSizeSummary {
+  const size = result.market?.market_size;
+  const summary: MarketSizeSummary = { sourced: null, unavailable: [], estimated: [] };
+  if (!size) {
+    return summary;
+  }
+  for (const [field, label] of FIGURE_LABELS) {
+    const figure = size[field];
+    if (!figure) {
+      continue;
+    }
+    if (figure.status === 'sourced' && figure.value && !summary.sourced) {
+      summary.sourced = { label, value: figure.value, note: figure.note ?? null };
+    } else if (figure.status === 'unavailable') {
+      summary.unavailable.push(label);
+    } else if (figure.status === 'estimate_needs_verification') {
+      summary.estimated.push(label);
+    }
+  }
+  return summary;
+}
+
+/** An evidence id written into free text, such as "S2" in "sources S2 and S3". */
+const EVIDENCE_ID = /\bS\d{1,3}\b/g;
+
+/**
+ * Text split around the evidence ids it names, so each id can be shown as a citation chip. The
+ * words between the ids are returned unchanged.
+ */
+export function splitEvidenceIds(text: string): (string | { id: string })[] {
+  const parts: (string | { id: string })[] = [];
+  let last = 0;
+  for (const match of text.matchAll(EVIDENCE_ID)) {
+    const start = match.index ?? 0;
+    if (start > last) {
+      parts.push(text.slice(last, start));
+    }
+    parts.push({ id: match[0] });
+    last = start + match[0].length;
+  }
+  if (last < text.length) {
+    parts.push(text.slice(last));
+  }
+  return parts;
+}
+
+export type StageKey = 'extraction' | 'search' | 'market_opportunity' | 'competitor_analysis';
+
+/**
+ * Why a stage left nothing behind (Section 6.8: "Section failed or skipped"): its stage error if
+ * it failed, otherwise the warning that says it was skipped. Null when the result says nothing.
+ */
+export function stageProblem(result: PipelineResult, stage: StageKey): string | null {
+  const error = (result.errors ?? []).find((entry) => entry.stage === stage);
+  if (error) {
+    return error.message;
+  }
+  const notice = (result.notices ?? []).find((entry) => entry.stage === stage && entry.severity !== 'info');
+  return notice ? notice.message : null;
+}
+
+/** The notices worth a badge: anything the checks changed or could not finish. */
+export function noticeCounts(notices: Notice[]): { info: number; warning: number; error: number } {
+  return {
+    info: notices.filter((notice) => notice.severity === 'info').length,
+    warning: notices.filter((notice) => notice.severity === 'warning').length,
+    error: notices.filter((notice) => notice.severity === 'error').length,
+  };
+}

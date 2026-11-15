@@ -20,6 +20,24 @@ DEFAULT_PIPELINE_TIMEOUT_S = 180.0
 # history is kept.
 DEFAULT_CORS_ORIGINS = ("http://localhost:5173", "http://127.0.0.1:5173")
 DEFAULT_RUNS_DB_PATH = ROOT_DIR / "data" / "runs.db"
+# Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 12.6): defaults and the inclusive
+# range each setting must fall in. A value outside its range falls back to the default.
+DEFAULT_STRATEGY_TIME_LIMIT_S = 150.0
+DEFAULT_STRATEGY_DIGEST_MAX_CHARS = 24000
+DEFAULT_CHAT_MAX_USER_TURNS = 25
+DEFAULT_CHAT_MAX_MESSAGE_CHARS = 1000
+DEFAULT_CHAT_HISTORY_TURNS = 6
+DEFAULT_CHAT_CONTEXT_MAX_CHARS = 30000
+DEFAULT_CHAT_MAX_CONCURRENT = 2
+DEFAULT_CHAT_COOLDOWN_S = 2.0
+STRATEGY_TIME_LIMIT_S_RANGE = (30.0, 900.0)
+STRATEGY_DIGEST_MAX_CHARS_RANGE = (4000, 100000)
+CHAT_MAX_USER_TURNS_RANGE = (1, 100)
+CHAT_MAX_MESSAGE_CHARS_RANGE = (100, 4000)
+CHAT_HISTORY_TURNS_RANGE = (1, 20)
+CHAT_CONTEXT_MAX_CHARS_RANGE = (4000, 120000)
+CHAT_MAX_CONCURRENT_RANGE = (1, 8)
+CHAT_COOLDOWN_S_RANGE = (0.0, 60.0)
 
 
 @dataclass(frozen=True)
@@ -43,6 +61,16 @@ class Settings:
     pipeline_time_limit_s: float | None = None
     # The SQLite file for run history (RUNS_DB_PATH); a relative path is read from the project root.
     runs_db_path: Path = DEFAULT_RUNS_DB_PATH
+    # Milestone 3: the extra time of a run with strategy, the strategy digest cap, and the Advisor's
+    # limits. Read here only; nothing uses them yet.
+    strategy_time_limit_s: float = DEFAULT_STRATEGY_TIME_LIMIT_S
+    strategy_digest_max_chars: int = DEFAULT_STRATEGY_DIGEST_MAX_CHARS
+    chat_max_user_turns: int = DEFAULT_CHAT_MAX_USER_TURNS
+    chat_max_message_chars: int = DEFAULT_CHAT_MAX_MESSAGE_CHARS
+    chat_history_turns: int = DEFAULT_CHAT_HISTORY_TURNS
+    chat_context_max_chars: int = DEFAULT_CHAT_CONTEXT_MAX_CHARS
+    chat_max_concurrent: int = DEFAULT_CHAT_MAX_CONCURRENT
+    chat_cooldown_s: float = DEFAULT_CHAT_COOLDOWN_S
 
 
 def _text_env(name: str) -> str | None:
@@ -96,6 +124,36 @@ def _optional_float_env(name: str) -> float | None:
     return value
 
 
+def _bounded_float_env(name: str, default: float, bounds: tuple[float, float]) -> float:
+    raw = os.getenv(name, "").strip()
+    if not raw:
+        return default
+    try:
+        value = float(raw)
+    except ValueError:
+        logger.warning("%s is not a number; using %s", name, default)
+        return default
+    if not bounds[0] <= value <= bounds[1]:
+        logger.warning("%s must be between %s and %s; using %s", name, bounds[0], bounds[1], default)
+        return default
+    return value
+
+
+def _bounded_int_env(name: str, default: int, bounds: tuple[int, int]) -> int:
+    raw = os.getenv(name, "").strip()
+    if not raw:
+        return default
+    try:
+        value = int(raw)
+    except ValueError:
+        logger.warning("%s is not a whole number; using %s", name, default)
+        return default
+    if not bounds[0] <= value <= bounds[1]:
+        logger.warning("%s must be between %s and %s; using %s", name, bounds[0], bounds[1], default)
+        return default
+    return value
+
+
 def _origins_env(name: str, default: tuple[str, ...]) -> tuple[str, ...]:
     """Comma-separated http(s) origins. A wildcard is never accepted, so access stays narrow."""
     raw = os.getenv(name, "").strip()
@@ -140,6 +198,28 @@ def get_settings() -> Settings:
         cors_origins=_origins_env("CORS_ORIGINS", DEFAULT_CORS_ORIGINS),
         pipeline_time_limit_s=_optional_float_env("PIPELINE_TIME_LIMIT_S"),
         runs_db_path=_path_env("RUNS_DB_PATH", DEFAULT_RUNS_DB_PATH),
+        strategy_time_limit_s=_bounded_float_env(
+            "STRATEGY_TIME_LIMIT_S", DEFAULT_STRATEGY_TIME_LIMIT_S, STRATEGY_TIME_LIMIT_S_RANGE
+        ),
+        strategy_digest_max_chars=_bounded_int_env(
+            "STRATEGY_DIGEST_MAX_CHARS", DEFAULT_STRATEGY_DIGEST_MAX_CHARS, STRATEGY_DIGEST_MAX_CHARS_RANGE
+        ),
+        chat_max_user_turns=_bounded_int_env(
+            "CHAT_MAX_USER_TURNS", DEFAULT_CHAT_MAX_USER_TURNS, CHAT_MAX_USER_TURNS_RANGE
+        ),
+        chat_max_message_chars=_bounded_int_env(
+            "CHAT_MAX_MESSAGE_CHARS", DEFAULT_CHAT_MAX_MESSAGE_CHARS, CHAT_MAX_MESSAGE_CHARS_RANGE
+        ),
+        chat_history_turns=_bounded_int_env(
+            "CHAT_HISTORY_TURNS", DEFAULT_CHAT_HISTORY_TURNS, CHAT_HISTORY_TURNS_RANGE
+        ),
+        chat_context_max_chars=_bounded_int_env(
+            "CHAT_CONTEXT_MAX_CHARS", DEFAULT_CHAT_CONTEXT_MAX_CHARS, CHAT_CONTEXT_MAX_CHARS_RANGE
+        ),
+        chat_max_concurrent=_bounded_int_env(
+            "CHAT_MAX_CONCURRENT", DEFAULT_CHAT_MAX_CONCURRENT, CHAT_MAX_CONCURRENT_RANGE
+        ),
+        chat_cooldown_s=_bounded_float_env("CHAT_COOLDOWN_S", DEFAULT_CHAT_COOLDOWN_S, CHAT_COOLDOWN_S_RANGE),
     )
 
 

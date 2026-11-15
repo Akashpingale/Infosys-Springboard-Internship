@@ -1,0 +1,394 @@
+import { screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { http, HttpResponse } from 'msw';
+import { Route, Routes } from 'react-router-dom';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+
+import { API_URL } from '@/api/client';
+import { RunPage } from '@/features/run/RunPage';
+import type { RunDetail } from '@/features/run/useRun';
+import { CAVEAT, StrategyTab } from '@/features/strategy/StrategyTab';
+import { buildSourceIndex, type PipelineResult } from '@/lib/results';
+import { NARROW } from '@/lib/useMediaQuery';
+import { META } from '@/test/fixtures';
+import { renderWithApp } from '@/test/render';
+import { DONE } from '@/test/runFixtures';
+import { server } from '@/test/server';
+import {
+  STRATEGY_DONE,
+  SYNTHETIC_STRATEGY_RESULT,
+  metaWithStrategy,
+  runUrl,
+  sevenStages,
+  strategyOk,
+} from '@/test/strategyHandlers';
+
+const RESULT = SYNTHETIC_STRATEGY_RESULT;
+const WIDE_MATCH_MEDIA = window.matchMedia;
+
+function show(run: RunDetail, result: PipelineResult = run.result!) {
+  const opened = vi.fn();
+  renderWithApp(
+    <StrategyTab run={run} result={result} sources={buildSourceIndex(result)} onOpenSource={opened} />,
+  );
+  return opened;
+}
+
+function withResult(result: PipelineResult, extra: Partial<RunDetail> = {}): RunDetail {
+  return { ...STRATEGY_DONE, result, ...extra };
+}
+
+const SWOT_FAILED: RunDetail = withResult(
+  {
+    ...RESULT,
+    status: 'partial',
+    swot: null,
+    errors: [{ stage: 'swot_risk', code: 'llm_api_error', message: 'The AI service is busy right now.' }],
+  },
+  { stages: sevenStages(['failed', 'done', 'done']) },
+);
+
+afterEach(() => {
+  Object.defineProperty(window, 'matchMedia', { writable: true, configurable: true, value: WIDE_MATCH_MEDIA });
+});
+
+describe('Strategy tab: header', () => {
+  it('says what the strategy was built from, how much of it is linked, and that it is an interpretation', async () => {
+    server.use(metaWithStrategy());
+    show(STRATEGY_DONE);
+
+    expect(screen.getByText('Built from: idea, market analysis, competitor analysis.')).toBeInTheDocument();
+    expect(screen.queryByText(/Not used/)).not.toBeInTheDocument();
+    expect(screen.getByText('32 of 37 points are linked to a finding from your analysis.')).toBeInTheDocument();
+    expect(screen.getByText(CAVEAT)).toHaveTextContent('These are AI interpretations of your results, not predictions.');
+    expect(document.body.textContent).not.toMatch(/\d+(\.\d+)?\s?%/);
+    expect(await screen.findByRole('button', { name: 'Change resources and regenerate' })).toBeInTheDocument();
+  });
+
+  it('names an analysis that was not used', () => {
+    server.use(metaWithStrategy());
+    const swot = RESULT.swot!;
+    show(
+      withResult({
+        ...RESULT,
+        mvp: null,
+        gtm: null,
+        swot: { ...swot, quality: { ...swot.quality!, inputs_used: ['idea', 'competitors'], inputs_missing: ['market'] } },
+      }),
+    );
+
+    expect(screen.getByText(/^Built from: idea, competitor analysis\./)).toHaveTextContent(
+      'Built from: idea, competitor analysis. Not used: market analysis.',
+    );
+    expect(screen.getByText('17 of 18 points are linked to a finding from your analysis.')).toBeInTheDocument();
+  });
+
+  it('shows a chip for each assumed constraint, with the value the plan used', () => {
+    server.use(metaWithStrategy());
+    const assumed = { constraints_assumed: ['team_size', 'months_to_mvp'] as ('team_size' | 'months_to_mvp')[] };
+    show(
+      withResult({
+        ...RESULT,
+        swot: { ...RESULT.swot!, quality: { ...RESULT.swot!.quality!, ...assumed } },
+        mvp: {
+          ...RESULT.mvp!,
+          constraints_used: { ...RESULT.mvp!.constraints_used!, team_size: 2, months_to_mvp: 3 },
+          quality: { ...RESULT.mvp!.quality!, ...assumed },
+        },
+      }),
+    );
+
+    const chips = within(screen.getByRole('list', { name: 'Assumptions' })).getAllByRole('listitem');
+    expect(chips.map((chip) => chip.textContent)).toEqual(['Assumed: team of 2', 'Assumed: 3 months']);
+  });
+
+  it('shows no assumption chips when the founder gave the resources', () => {
+    server.use(metaWithStrategy());
+    show(STRATEGY_DONE);
+
+    expect(screen.queryByRole('list', { name: 'Assumptions' })).not.toBeInTheDocument();
+  });
+
+  it('has a section list that moves focus to the section chosen', async () => {
+    server.use(metaWithStrategy());
+    const user = userEvent.setup();
+    show(STRATEGY_DONE);
+
+    const nav = screen.getByRole('navigation', { name: 'Strategy sections' });
+    expect(within(nav).getAllByRole('link').map((link) => link.textContent)).toEqual(['SWOT', 'Risks']);
+
+    await user.click(within(nav).getByRole('link', { name: 'Risks' }));
+    expect(screen.getByRole('heading', { level: 2, name: 'Risks' })).toHaveFocus();
+  });
+});
+
+describe('Strategy tab: no strategy yet', () => {
+  it('explains what generating does and costs, and sends the request when asked', async () => {
+    const bodies: unknown[] = [];
+    server.use(metaWithStrategy(), strategyOk((body) => bodies.push(body)));
+    const user = userEvent.setup();
+    show(DONE);
+
+    expect(
+      screen.getByText(
+        'No strategy yet. Generate a SWOT and risk review, an MVP plan and a go-to-market plan from these results. This uses 3 AI requests.',
+      ),
+    ).toBeInTheDocument();
+    const details = (await screen.findByText('Resources and goals (optional)')).closest('details')!;
+    expect(details.open).toBe(false);
+
+    await user.click(screen.getByRole('button', { name: 'Generate strategy' }));
+
+    await waitFor(() => expect(bodies).toEqual([{ mode: 'missing' }]));
+  });
+
+  it('sends only the resources that were filled in', async () => {
+    const bodies: unknown[] = [];
+    server.use(metaWithStrategy(), strategyOk((body) => bodies.push(body)));
+    const user = userEvent.setup();
+    show(DONE);
+
+    await user.click(await screen.findByText('Resources and goals (optional)'));
+    await user.selectOptions(screen.getByLabelText('Team size'), '3');
+    await user.click(screen.getByLabelText('Bootstrapped'));
+    await user.click(screen.getByRole('button', { name: 'Generate strategy' }));
+
+    await waitFor(() =>
+      expect(bodies).toEqual([{ mode: 'missing', constraints: { team_size: 3, budget_level: 'bootstrapped' } }]),
+    );
+  });
+
+  it('shows the backend\u2019s reason when the request is refused', async () => {
+    server.use(
+      metaWithStrategy(),
+      http.post(`${runUrl()}/strategy`, () =>
+        HttpResponse.json(
+          { error: { code: 'run_limit_reached', message: 'Two validations are already running. Wait for one to finish.' } },
+          { status: 409 },
+        ),
+      ),
+    );
+    const user = userEvent.setup();
+    show(DONE);
+
+    await user.click(await screen.findByRole('button', { name: 'Generate strategy' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('The strategy was not started');
+  });
+
+  it('offers nothing to generate when there is no analysis to build on', async () => {
+    server.use(metaWithStrategy());
+    show(DONE, { ...DONE.result!, market: null, competitors: null });
+
+    expect(
+      screen.getByText('There is no market or competitor analysis to build a strategy on.'),
+    ).toBeInTheDocument();
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(screen.queryByRole('button', { name: 'Generate strategy' })).not.toBeInTheDocument();
+  });
+
+  it('offers no button when the backend cannot run strategy', async () => {
+    server.use(http.get(`${API_URL}/api/meta`, () => HttpResponse.json(META)));
+    show(DONE);
+
+    expect(screen.getByText(/^No strategy yet\./)).toBeInTheDocument();
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(screen.queryByRole('button', { name: 'Generate strategy' })).not.toBeInTheDocument();
+  });
+});
+
+describe('Strategy tab: partial, failed, skipped and loading', () => {
+  it('says the SWOT part could not be completed, why, and offers one retry for the missing part', async () => {
+    const bodies: unknown[] = [];
+    server.use(metaWithStrategy(), strategyOk((body) => bodies.push(body)));
+    const user = userEvent.setup();
+    show(SWOT_FAILED);
+
+    const swot = screen.getByRole('region', { name: 'SWOT' });
+    expect(within(swot).getByText('This part could not be completed.')).toBeInTheDocument();
+    expect(swot).toHaveTextContent('The AI service is busy right now.');
+    expect(swot).toHaveTextContent('The rest of the strategy is below.');
+    expect(within(screen.getByRole('region', { name: 'Risks' })).getByText('This part could not be completed.')).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Try again' })).toHaveLength(1);
+    expect(screen.getByText('Built from: idea, market analysis, competitor analysis.')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Try again' }));
+
+    await waitFor(() => expect(bodies).toEqual([{ mode: 'missing' }]));
+  });
+
+  it('gives the reason a part was skipped', () => {
+    server.use(metaWithStrategy());
+    show(
+      withResult(
+        {
+          ...RESULT,
+          status: 'partial',
+          swot: null,
+          notices: [
+            {
+              stage: 'swot_risk',
+              code: 'strategy_stage_skipped',
+              severity: 'warning',
+              message: 'This part was skipped because no analysis was available to build on.',
+              detail: 'Assessing strengths and risks: skipped',
+            },
+          ],
+        },
+        { stages: sevenStages(['skipped', 'done', 'done']) },
+      ),
+    );
+
+    const swot = screen.getByRole('region', { name: 'SWOT' });
+    expect(within(swot).getByText('Skipped')).toBeInTheDocument();
+    expect(swot).toHaveTextContent('This part was skipped because no analysis was available to build on.');
+    expect(screen.queryByRole('button', { name: 'Try again' })).not.toBeInTheDocument();
+  });
+
+  it('shows a placeholder while the part is still being prepared', () => {
+    server.use(metaWithStrategy());
+    show(
+      withResult(
+        { ...RESULT, swot: null, mvp: null, gtm: null },
+        { state: 'running', stages: sevenStages(['running', 'waiting', 'waiting']) },
+      ),
+    );
+
+    const swot = screen.getByRole('region', { name: 'SWOT' });
+    expect(within(swot).getByText('This part is being prepared.').parentElement).toHaveAttribute('aria-busy', 'true');
+    expect(screen.queryByText(/^Built from/)).not.toBeInTheDocument();
+  });
+});
+
+describe('Strategy tab: change resources and regenerate', () => {
+  it('opens the resources on the stored values, confirms that all three parts are replaced, and sends mode all', async () => {
+    const bodies: unknown[] = [];
+    server.use(metaWithStrategy(), strategyOk((body) => bodies.push(body)));
+    const user = userEvent.setup();
+    show(STRATEGY_DONE);
+
+    const open = await screen.findByRole('button', { name: 'Change resources and regenerate' });
+    expect(open).toHaveAttribute('aria-expanded', 'false');
+    await user.click(open);
+    expect(open).toHaveAttribute('aria-expanded', 'true');
+
+    const details = screen.getByText('Resources and goals (optional)').closest('details')!;
+    expect(details.open).toBe(true);
+    expect(screen.getByLabelText('Team size')).toHaveValue('2');
+    expect(screen.getByLabelText('Months to first release')).toHaveValue('4');
+    await user.selectOptions(screen.getByLabelText('Team size'), '4');
+    await user.click(screen.getByRole('button', { name: 'Regenerate strategy' }));
+
+    const dialog = await screen.findByRole('dialog', { name: 'Replace the whole strategy?' });
+    expect(dialog).toHaveTextContent(
+      'Regenerating replaces all three parts: the SWOT and risk review, the MVP plan and the go-to-market plan. This uses 3 AI requests.',
+    );
+    expect(within(dialog).getByRole('button', { name: 'Keep it' })).toHaveFocus();
+    expect(bodies).toEqual([]);
+
+    await user.click(within(dialog).getByRole('button', { name: 'Replace it' }));
+
+    await waitFor(() =>
+      expect(bodies).toEqual([
+        { mode: 'all', constraints: { team_size: 4, months_to_mvp: 4, budget_level: 'bootstrapped' } },
+      ]),
+    );
+  });
+
+  it('sends nothing when the confirmation is declined', async () => {
+    const bodies: unknown[] = [];
+    server.use(metaWithStrategy(), strategyOk((body) => bodies.push(body)));
+    const user = userEvent.setup();
+    show(STRATEGY_DONE);
+
+    await user.click(await screen.findByRole('button', { name: 'Change resources and regenerate' }));
+    await user.click(screen.getByRole('button', { name: 'Regenerate strategy' }));
+    await user.click(await screen.findByRole('button', { name: 'Keep it' }));
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(bodies).toEqual([]);
+  });
+});
+
+describe('Strategy tab: no internal names', () => {
+  const ID = /\b(SW|R|F|CH|S)\d+\b|\b(IDEA|MKT|CMP|RSK|CON|MVP)\.\d+|[a-z]+_[a-z]+/;
+
+  async function expandAll(user: ReturnType<typeof userEvent.setup>) {
+    for (const button of screen.getAllByRole('button', { name: /Show details/ })) {
+      await user.click(button);
+    }
+  }
+
+  it('shows no ids, refs or field names on a wide screen', async () => {
+    server.use(metaWithStrategy());
+    const user = userEvent.setup();
+    show(STRATEGY_DONE);
+    await expandAll(user);
+
+    expect(document.body.textContent).not.toMatch(ID);
+  });
+
+  it('shows none on a narrow screen either', async () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      configurable: true,
+      value: (query: string) => ({
+        matches: query === NARROW,
+        media: query,
+        onchange: null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: () => false,
+      }),
+    });
+    server.use(metaWithStrategy());
+    const user = userEvent.setup();
+    show(STRATEGY_DONE);
+    await expandAll(user);
+
+    expect(document.body.textContent).not.toMatch(ID);
+  });
+});
+
+describe('Strategy tab on the run page', () => {
+  function open() {
+    return renderWithApp(
+      <Routes>
+        <Route path="/runs/:runId" element={<RunPage />} />
+      </Routes>,
+      { route: '/runs/run-123' },
+    );
+  }
+
+  it('opens a SWOT point\u2019s source in the drawer, which lists that point among what cites it', async () => {
+    server.use(metaWithStrategy(), http.get(runUrl(), () => HttpResponse.json(STRATEGY_DONE)));
+    const user = userEvent.setup();
+    open();
+
+    await user.click(await screen.findByRole('tab', { name: 'Strategy' }));
+    const opportunities = screen.getByRole('region', { name: 'Opportunities' });
+    const late = within(opportunities).getAllByRole('listitem')[0]!;
+    await user.click(within(late).getByRole('button', { name: /^Source 4: Farmer survey/ }));
+
+    const drawer = await screen.findByRole('dialog', { name: 'Farmer survey' });
+    const cited = within(drawer).getByText('SWOT: Opportunities').parentElement!;
+    expect(cited).toHaveTextContent('Late diagnosis is a widely reported farmer problem.');
+    expect(within(cited).getByText('AI interpretation')).toBeInTheDocument();
+  });
+
+  it('lists a risk in the drawer of the source it cites', async () => {
+    server.use(metaWithStrategy(), http.get(runUrl(), () => HttpResponse.json(STRATEGY_DONE)));
+    const user = userEvent.setup();
+    open();
+
+    await user.click(await screen.findByRole('tab', { name: 'Strategy' }));
+    await user.click(screen.getByRole('button', { name: /^Show details\s*for Farmers stay with the free app$/ }));
+    const row = screen.getAllByRole('row').find((entry) => entry.id && entry.textContent?.includes('wide reach'))!;
+    await user.click(within(row).getByRole('button', { name: /^Source 5: Plantix crop doctor app/ }));
+
+    const drawer = await screen.findByRole('dialog', { name: 'Plantix crop doctor app' });
+    expect(within(drawer).getAllByText('Risks')).toHaveLength(1);
+    expect(drawer).toHaveTextContent('Farmers stay with the free app');
+    expect(drawer).toHaveTextContent('An established free diagnosis app already serves farmers.');
+  });
+});

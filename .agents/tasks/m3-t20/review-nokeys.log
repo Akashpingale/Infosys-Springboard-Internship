@@ -1,0 +1,54 @@
+$ python scripts/run_m3_live.py --yes --out yes -> exit 1
+This script needs real keys in the project root .env.
+Missing: LLM_API_KEY, LLM_MODEL, TAVILY_API_KEY
+Copy .env.example to .env and fill in your own values, then run this again.
+No result or summary file was written.
+
+$ python scripts/run_m3_live.py --fake --out review-nokeys-output -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Running 3 ideas through the seven stages.
+
+agritech           complete  total=0.0 s strategy=0.0 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for agritech (record the outcome in docs/12; nothing here is ticked for you):
+
+fintech_cashflow   complete  total=0.1 s strategy=0.1 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for fintech_cashflow (record the outcome in docs/12; nothing here is ticked for you):
+
+foodtech_surplus   complete  total=0.0 s strategy=0.0 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for foodtech_surplus (record the outcome in docs/12; nothing here is ticked for you):
+
+Saved 3 of 3 runs to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-nokeys-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-nokeys-output\run_summary.json
+
+$ python scripts/run_m3_retro_live.py --fake --out review-nokeys-output -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Adding 3 strategy stage(s) to docs/test_runs_m2/agritech.json.
+
+agritech           complete  total=0.0 s strategy=0.0 s llm=3 groq=0 searches=0 warnings=14 errors=0 violations=0
+A strategy job on a saved run makes no search: 0 search request(s) were counted.
+The strategy part of the L-1 run of this idea took 0.0 s.
+
+Review checklist for the strategy on docs/test_runs_m2/agritech.json (record the outcome in docs/12; nothing here is ticked for you):
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-nokeys-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-nokeys-output\retro_summary.json
+
+$ python scripts/check_advisor_live.py --fake --out review-nokeys-output --saved agritech.json -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Asking 8 questions about .agents/tasks/m3-t20/review-nokeys-output/agritech.json.
+
+1. market             ok            paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+2. competitor         ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+3. risk               ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+4. mvp_priority       ok            paragraphs=1 sources=1 llm=1 groq=0 searches=0 0.0 s
+5. gtm_first_channel  ok            paragraphs=1 sources=1 llm=1 groq=0 searches=0 0.0 s
+6. out_of_scope       out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+7. injection          out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+8. missing_section    no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+
+Review checklist for the Advisor on .agents/tasks/m3-t20/review-nokeys-output/agritech.json (record the outcome in docs/12; nothing here is ticked for you):
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-nokeys-output
+
+statuses: ['complete', 'complete', 'complete'] yes-folder exists: False
+store file created: False

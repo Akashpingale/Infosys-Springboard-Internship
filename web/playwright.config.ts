@@ -19,6 +19,8 @@ export const BASE_URL = `http://127.0.0.1:${PREVIEW_PORT}`;
 
 /** Where Section 6.9's screenshots are written, outside web/ as the specification asks. */
 export const SHOTS_DIR = '../docs/assets/ui_v2';
+/** Milestone 3's screens (plan T19) go to their own folder, so the ui_v2 set is never rewritten. */
+export const SHOTS_DIR_M3 = '../docs/assets/ui_v3';
 
 export default defineConfig({
   testDir: './e2e',

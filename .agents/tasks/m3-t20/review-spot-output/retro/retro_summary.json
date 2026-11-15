@@ -1,0 +1,73 @@
+{
+  "generated": "2026-11-14 14:35",
+  "fake": true,
+  "model": "fake",
+  "saved": ".agents/tasks/m3-t20/review-spot-output/saved/agritech.json",
+  "idea": "agritech",
+  "stages_run": [
+    "swot_risk",
+    "mvp_recommendation",
+    "go_to_market"
+  ],
+  "executed": true,
+  "status": "partial",
+  "seconds": {
+    "swot_risk": 1.5,
+    "mvp_recommendation": 1.5,
+    "go_to_market": 1.5,
+    "total": 4.5
+  },
+  "strategy_seconds": 4.5,
+  "calls": {
+    "swot_risk": {
+      "llm": 0,
+      "groq": 0,
+      "searches": 0
+    },
+    "mvp_recommendation": {
+      "llm": 0,
+      "groq": 0,
+      "searches": 0
+    },
+    "go_to_market": {
+      "llm": 0,
+      "groq": 0,
+      "searches": 0
+    },
+    "total": {
+      "llm": 0,
+      "groq": 0,
+      "searches": 0
+    }
+  },
+  "warnings": [
+    "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used",
+    "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources",
+    "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission",
+    "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results"
+  ],
+  "errors": [
+    {
+      "stage": "swot_risk",
+      "code": "llm_api_error",
+      "message": "The AI service is busy right now. Please try again in a minute."
+    },
+    {
+      "stage": "mvp_recommendation",
+      "code": "llm_api_error",
+      "message": "The AI service is busy right now. Please try again in a minute."
+    },
+    {
+      "stage": "go_to_market",
+      "code": "llm_api_error",
+      "message": "The AI service is busy right now. Please try again in a minute."
+    }
+  ],
+  "counts": {
+    "swot": null,
+    "mvp": null,
+    "gtm": null
+  },
+  "contract_violations": [],
+  "full_run_strategy_seconds": null
+}

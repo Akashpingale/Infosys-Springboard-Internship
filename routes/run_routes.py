@@ -41,8 +41,11 @@ def get_manager(request: Request) -> RunManager:
 )
 def start_run(body: RunRequest, manager: RunManager = Depends(get_manager)) -> RunStarted:
     """Start a run and answer immediately. With `idea_override`, the idea the founder reviewed is
-    used and the extraction stage is not run again. A third concurrent run is refused with 409."""
-    run = manager.start(body.submission, body.idea_override)
+    used and the extraction stage is not run again. With `include_strategy` (Milestone 3) the three
+    strategy stages follow, using `constraints`. A third concurrent run is refused with 409."""
+    run = manager.start(
+        body.submission, body.idea_override, include_strategy=body.include_strategy, constraints=body.constraints
+    )
     return RunStarted(run_id=run.id, state=run.state)
 
 

@@ -20,9 +20,10 @@ import { Alert } from '@/components/Alert';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { IdeaForm } from '@/features/new-validation/IdeaForm';
-import { ReviewStep } from '@/features/new-validation/ReviewStep';
+import { ReviewStep, type StrategyChoice } from '@/features/new-validation/ReviewStep';
 import { type IdeaFormValues, joinCustomers, splitCustomers } from '@/features/new-validation/schema';
 import { MESSAGES } from '@/lib/format';
+import type { StrategyConstraints } from '@/lib/strategy';
 
 /**
  * "Edit and re-run" sends the saved submission here through the router's state (Section 7.4), so
@@ -73,7 +74,11 @@ export function NewValidationPage() {
   const extract = useExtractIdea();
   const startRun = useStartRun();
 
-  const prefill = (location.state as { prefill?: IdeaSubmission } | null)?.prefill;
+  const carried = location.state as {
+    prefill?: IdeaSubmission;
+    constraints?: StrategyConstraints | null;
+  } | null;
+  const prefill = carried?.prefill;
   const [values, setValues] = React.useState<IdeaFormValues | null>(
     prefill ? fromSubmission(prefill) : null,
   );
@@ -87,12 +92,19 @@ export function NewValidationPage() {
     });
   }
 
-  function onRunAnalysis(idea: ExtractedIdea): void {
+  function onRunAnalysis(idea: ExtractedIdea, strategy?: StrategyChoice): void {
     if (!reviewing) {
       return;
     }
+    // Milestone 3: the strategy switch and only the constraints the founder filled.
+    const extra = strategy
+      ? {
+          include_strategy: strategy.include_strategy,
+          ...(strategy.constraints ? { constraints: strategy.constraints } : {}),
+        }
+      : {};
     startRun.mutate(
-      { submission: reviewing.submission, idea_override: idea },
+      { submission: reviewing.submission, idea_override: idea, ...extra },
       { onSuccess: (started) => navigate(`/runs/${started.run_id}`) },
     );
   }
@@ -151,6 +163,7 @@ export function NewValidationPage() {
           meta={meta.data}
           submission={reviewing.submission}
           idea={reviewing.idea}
+          constraints={carried?.constraints ?? null}
           busy={startRun.isPending}
           onRunAnalysis={onRunAnalysis}
           onBack={() => {

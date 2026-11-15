@@ -12,12 +12,15 @@
 import { useMutation, useQuery, useQueryClient, type UseQueryResult } from '@tanstack/react-query';
 
 import { request } from '@/api/client';
+import type { RunStarted } from '@/api/mutations';
 import { queryKeys } from '@/api/queries';
 import type { components } from '@/api/types.gen';
+import type { StrategyConstraints } from '@/lib/strategy';
 
 export type RunDetail = components['schemas']['RunDetail'];
 export type RunStage = components['schemas']['RunStage'];
 export type RunState = RunDetail['state'];
+export type StrategyRequest = components['schemas']['StrategyRequest'];
 
 export const POLL_INTERVAL_MS = 1500;
 const ACTIVE: RunState[] = ['queued', 'running'];
@@ -38,6 +41,36 @@ export function useRun(runId: string | undefined): UseQueryResult<RunDetail> {
     staleTime: 0,
     // The run's own state is the thing being watched, so a stale snapshot is better than none.
     placeholderData: (previous) => previous,
+  });
+}
+
+export interface GenerateStrategyInput {
+  /** `missing` (the default) runs only the strategy stages without a result; `all` replaces all three. */
+  mode?: StrategyRequest['mode'];
+  constraints?: StrategyConstraints | null;
+}
+
+/**
+ * POST /api/runs/{id}/strategy (Milestone 3, Section 12.2): strategy for a saved run.
+ *
+ * The finished run is queued again, so its cached state is moved to the one the backend answered
+ * with; polling then starts again by the usual rule and stops when the strategy job ends.
+ */
+export function useGenerateStrategy(runId: string | undefined) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ mode = 'missing', constraints }: GenerateStrategyInput = {}) =>
+      request<RunStarted>(`/api/runs/${encodeURIComponent(runId ?? '')}/strategy`, {
+        method: 'POST',
+        body: constraints ? { mode, constraints } : { mode },
+      }),
+    onSuccess: (started) => {
+      queryClient.setQueryData<RunDetail>(queryKeys.run(started.run_id), (previous) =>
+        previous ? { ...previous, state: started.state } : previous,
+      );
+      void queryClient.invalidateQueries({ queryKey: queryKeys.run(started.run_id) });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.runs, exact: true });
+    },
   });
 }
 

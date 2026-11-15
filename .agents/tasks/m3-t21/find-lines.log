@@ -1,0 +1,303 @@
+== agents/base.py /^class AgentContext/ (52 lines)
+  21: class AgentContext:
+== agents/base.py /^class Agent\b/ (52 lines)
+  47: class Agent(Protocol):
+== agents/base.py /constraints:/ (52 lines)
+  40: constraints: StrategyConstraints | None = None
+== agents/base.py /swot:/ (52 lines)
+  41: swot: SwotRiskResult | None = None
+== agents/base.py /mvp:/ (52 lines)
+  42: mvp: MvpResult | None = None
+== orchestrator.py /^class ExtractionStage/ (442 lines)
+  82: class ExtractionStage:
+== orchestrator.py /^class WebSearchStage/ (442 lines)
+  92: class WebSearchStage:
+== orchestrator.py /^class AnalysisStage/ (442 lines)
+  114: class AnalysisStage:
+== orchestrator.py /^STAGES:/ (442 lines)
+  151: STAGES: list[Agent] = [ExtractionStage(), WebSearchStage()]
+== orchestrator.py /^FULL_STAGES/ (442 lines)
+  156: FULL_STAGES: list[Agent] = [
+== orchestrator.py /^class StrategyStage/ (442 lines)
+  174: class StrategyStage:
+== orchestrator.py /^STRATEGY_ONLY_STAGES/ (442 lines)
+  214: STRATEGY_ONLY_STAGES: list[Agent] = [
+== orchestrator.py /^STRATEGY_STAGES/ (442 lines)
+  219: STRATEGY_STAGES: list[Agent] = [*FULL_STAGES, *STRATEGY_ONLY_STAGES]
+== orchestrator.py /^class StageEvent/ (442 lines)
+  223: class StageEvent:
+== orchestrator.py /^def _status/ (442 lines)
+  263: def _status(context: AgentContext, errors: list[StageError], skipped: list[str]) -> str:
+== orchestrator.py /^def _seeded/ (442 lines)
+  294: def _seeded(
+== orchestrator.py /^def run_pipeline/ (442 lines)
+  328: def run_pipeline(
+== orchestrator.py /^TIME_LIMIT_SHARE/ (442 lines)
+  70: TIME_LIMIT_SHARE = 0.9
+== orchestrator.py /^def analysis_time_limit_s/ (442 lines)
+  249: def analysis_time_limit_s() -> float:
+== orchestrator.py /^STRATEGY_MAX_OUTPUT_TOKENS/ (442 lines)
+  76: STRATEGY_MAX_OUTPUT_TOKENS = 6144
+== orchestrator.py /^SKIP_NO_ANALYSIS/ (442 lines)
+  56: SKIP_NO_ANALYSIS = "{label}: skipped because it needs at least one finished analysis."
+== utils/deadline.py /^def / (80 lines)
+  25: def time_limit(seconds: float | None) -> Iterator[None]:
+  36: def extra_time(seconds: float | None) -> Iterator[None]:
+  48: def time_left() -> float | None:
+  54: def call_timeout(configured: float) -> float:
+  61: def stop_check(check: Callable[[], bool] | None) -> Iterator[None]:
+  71: def stop_requested() -> bool:
+  76: def raise_if_stopped() -> None:
+== utils/structured.py /^def / (93 lines)
+  30: def strip_code_fences(reply: str) -> str:
+  36: def describe_validation_error(exc: ValidationError) -> str:
+  45: def issue_locations(exc: ValidationError) -> str:
+  57: def call_structured(
+== utils/groq_client.py /^def strict_schema/ (265 lines)
+  124: def strict_schema(model: type[BaseModel]) -> dict[str, Any]:
+== utils/groq_client.py /MAX_COMPLETION_TOKENS\s*=/ (265 lines)
+  34: MAX_COMPLETION_TOKENS = 4096
+== utils/llm_client.py /^def generate_json/ (442 lines)
+  373: def generate_json(system_prompt: str, user_prompt: str) -> str:
+== utils/llm_client.py /output_token_limit/ (442 lines)
+  104: def output_token_limit(tokens: int | None) -> Iterator[None]:
+== utils/llm_client.py /^class |^def / (442 lines)
+  75: class _StructuredCall:
+  86: def structured_call(reply_model: type[BaseModel]) -> Iterator[None]:
+  104: def output_token_limit(tokens: int | None) -> Iterator[None]:
+  122: def _settings_or_raise() -> Settings:
+  129: def _make_client(settings: Settings, timeout_s: float) -> genai.Client:
+  144: def _close_quietly(client: genai.Client) -> None:
+  154: def _status_code(exc: Exception) -> int | None:
+  158: def _is_timeout(exc: Exception) -> bool:
+  162: def _is_transient(exc: Exception) -> bool:
+  168: def _is_key_error(exc: genai_errors.APIError) -> bool:
+  176: def _repeats_prompt(text: str, prompts: tuple[str, ...]) -> bool:
+  183: def provider_message(
+  205: def _raise_safe(
+  234: def _falls_back(exc: Exception) -> bool:
+  240: def _failure_category(exc: Exception) -> str:
+  248: def _groq_failure_note(exc: groq_client.GroqError) -> str:
+  258: def _call_groq(primary: Exception, system_prompt: str, user_prompt: str, *, again: bool = False) -> str:
+  310: def _call_provider(
+  373: def generate_json(system_prompt: str, user_prompt: str) -> str:
+  406: def generate_text(prompt: str) -> str:
+  420: def short_model_name(name: str) -> str:
+  424: def list_text_models() -> list[str]:
+  437: def model_exists(model_name: str) -> bool:
+== models/schemas.py /^class MarketOpportunityResult/ (729 lines)
+  248: class MarketOpportunityResult(MarketOpportunityDraft):
+== models/schemas.py /^class CompetitorAnalysisResult/ (729 lines)
+  368: class CompetitorAnalysisResult(BaseModel):
+== models/schemas.py /^class LabeledItem/ (729 lines)
+  147: class LabeledItem(BaseModel):
+== models/schemas.py /^Basis\b/ (729 lines)
+== models/schemas.py /^class SourceRef/ (729 lines)
+  141: class SourceRef(BaseModel):
+== models/schemas.py /^class DataQuality/ (729 lines)
+  225: class DataQuality(BaseModel):
+== models/schemas.py /^class SummaryLine/ (729 lines)
+  424: class SummaryLine(BaseModel):
+== models/schemas.py /^class VerifyItem/ (729 lines)
+  436: class VerifyItem(BaseModel):
+== models/schemas.py /^class Notice/ (729 lines)
+  396: class Notice(BaseModel):
+== models/schemas.py /^class PipelineResult/ (729 lines)
+  445: class PipelineResult(BaseModel):
+== models/schemas.py /^PipelineResult.model_rebuild/ (729 lines)
+  729: PipelineResult.model_rebuild()
+== agents/evidence.py /^def / (299 lines)
+  35: def _letter(char: str) -> str:
+  41: def _tag_pattern(names: tuple[str, ...]) -> re.Pattern[str]:
+  58: def is_summary_id(source_id: str) -> bool:
+  62: def domain_of(url_or_domain: str) -> str:
+  78: def normalize_url(url: str) -> str:
+  99: def _clip(text: str) -> str:
+  104: def _ranked(section: SearchSection) -> list[SearchResult]:
+  109: def _summary_item(search: SearchBundle) -> EvidenceItem | None:
+  122: def build_evidence(
+  165: def sourced_items(evidence: list[EvidenceItem]) -> list[EvidenceItem]:
+  170: def merge_bundles(*bundles: SearchBundle) -> SearchBundle:
+  180: def clean_prompt_text(text: str | None) -> str:
+  196: def render_evidence_for_prompt(items: list[EvidenceItem]) -> str:
+  234: def text_words(text: str | None) -> set[str]:
+  239: def _states_amount(sentence: str) -> bool:
+  243: def _rank(sentence: str, terms: set[str]) -> int:
+  247: def _joined(sentences: list[str], chosen: list[int]) -> str:
+  261: def _window(sentence: str, limit: int) -> str:
+  279: def focused_snippet(content: str, query: str = "") -> str:
+== agents/figures.py /^def check_claim|^STOP_WORDS|^def singular/ (334 lines)
+  67: STOP_WORDS = frozenset(
+  165: def singular(word: str) -> str:
+  317: def check_claim(text: str | None, cited_texts: Iterable[str]) -> str:
+== agents/notices.py /^def build_notices|^CODE_FALLBACK|^def leaks|^STRATEGY_RULES|^STAGE_TITLES|^STRATEGY_TITLES/ (600 lines)
+  37: STRATEGY_TITLES = {
+  44: STAGE_TITLES = {
+  80: CODE_FALLBACK = "quality_adjusted"
+  334: STRATEGY_RULES: tuple[_StrategyRule, ...] = (
+  492: def leaks(message: str) -> bool:
+  561: def build_notices(
+== agents/derived.py /^def / (385 lines)
+  68: def strength_label(score: float) -> str:
+  77: def labeled_bases(model: BaseModel | None) -> list[str]:
+  94: def source_domain(url: str) -> str:
+  99: def _domains(market: MarketOpportunityResult | None, competitors: CompetitorAnalysisResult | None) -> set[str]:
+  104: def evidence_strength(result: PipelineResult) -> EvidenceStrength | None:
+  145: def _sentence(text: str) -> str:
+  150: def _market_size_line(market: MarketOpportunityResult) -> SummaryLine:
+  166: def _first_claim(items: list) -> object | None:
+  170: def executive_summary(result: PipelineResult) -> list[SummaryLine]:
+  217: def _and(labels: list[str]) -> str:
+  221: def strategy_sources(sources: Iterable[StrategySourceKey]) -> tuple[str | None, list[str]]:
+  232: def _shared_basis(bases: Sequence[str]) -> str:
+  236: def top_risk(result: PipelineResult) -> RiskItem | None:
+  242: def first_release(result: PipelineResult) -> list[MvpFeature]:
+  247: def start_channel(result: PipelineResult) -> Channel | None:
+  252: def strategy_summary(result: PipelineResult) -> list[SummaryLine]:
+  281: def strategy_verify_next(result: PipelineResult) -> list[VerifyItem]:
+  306: def strategy_inputs_missing(result: PipelineResult) -> dict[str, list[str]]:
+  319: def _join(labels: list[str]) -> str:
+  323: def verify_next(result: PipelineResult) -> list[VerifyItem]:
+  373: def with_derived_fields(result: PipelineResult) -> PipelineResult:
+== utils/run_manager.py /^class RunManager|^MAX_CONCURRENT_RUNS|    def start\(|    def start_strategy|    def _work|    def _on_event|    def _finish|    def _detail_from_row|^def default_manager|^def strategy_pipeline|^def run_time_limit_s|^def strategy_time_limit_s|^TITLES/ (647 lines)
+  62: MAX_CONCURRENT_RUNS = 2
+  67: TITLES = {**STAGE_TITLES, **STRATEGY_TITLES}
+  93: def strategy_pipeline(
+  114: def run_time_limit_s() -> float:
+  120: def strategy_time_limit_s() -> float:
+  221: class RunManager:
+  293: def _detail_from_row(row: dict[str, Any]) -> RunDetail:
+  323: def start(
+  365: def start_strategy(
+  508: def _work(self, run: _Run) -> None:
+  553: def _on_event(self, run: _Run, event: StageEvent) -> None:
+  580: def _finish(self, run: _Run, result: PipelineResult | None, failure: str | None = None) -> None:
+  627: def default_manager() -> RunManager:
+== utils/run_store.py /^def ensure_schema|^ADDED_COLUMNS|^CHAT_SCHEMA|^LIST_COLUMNS|    def _clean|    def delete|^REDACTED/ (194 lines)
+  27: ADDED_COLUMNS = (
+  51: LIST_COLUMNS = ("id", "title", "industry", "state", "result_status", "created_at", "duration_s")
+  73: CHAT_SCHEMA = """
+  85: REDACTED = "[redacted]"
+  95: def ensure_schema(connection: sqlite3.Connection) -> None:
+  153: def _clean(self, value: Any) -> Any:
+  190: def delete(self, run_id: str) -> bool:
+== utils/chat_store.py /^class ChatStore|    def / (52 lines)
+  7: class ChatStore:
+  8: def __init__(self, store: RunStore) -> None:
+  11: def append(self, run_id: str, *messages: ChatMessage) -> bool:
+  34: def list(self, run_id: str) -> list[ChatMessage]:
+  41: def count(self, run_id: str, role: str | None = None) -> int:
+  50: def clear(self, run_id: str) -> int:
+== routes/run_routes.py /^def |@router/ (104 lines)
+  29: def get_manager(request: Request) -> RunManager:
+  36: @router.post(
+  42: def start_run(body: RunRequest, manager: RunManager = Depends(get_manager)) -> RunStarted:
+  52: @router.get("", response_model=RunList, responses=HISTORY)
+  53: def list_runs(manager: RunManager = Depends(get_manager)) -> RunList:
+  58: @router.get("/{run_id}", response_model=RunDetail, responses={**NOT_FOUND, **HISTORY})
+  59: def get_run(run_id: str, manager: RunManager = Depends(get_manager)) -> RunDetail:
+  64: @router.post("/{run_id}/cancel", response_model=RunDetail, responses={**NOT_FOUND, **HISTORY})
+  65: def cancel_run(run_id: str, manager: RunManager = Depends(get_manager)) -> RunDetail:
+  72: @router.patch("/{run_id}", response_model=RunSummary, responses={**NOT_FOUND, **HISTORY})
+  73: def rename_run(run_id: str, body: RunRename, manager: RunManager = Depends(get_manager)) -> RunSummary:
+  78: @router.delete("/{run_id}", status_code=status.HTTP_204_NO_CONTENT, responses={**NOT_FOUND, **HISTORY,
+  80: def delete_run(run_id: str, manager: RunManager = Depends(get_manager)) -> Response:
+  86: @router.get(
+  91: def run_report(run_id: str, manager: RunManager = Depends(get_manager)) -> PlainTextResponse:
+== models/api.py /^class RunRequest|^class StrategyRequest|^class RunStarted|^class RunDetail|^class RunSummary|^class StrategyInfo|^class ChatLimits|^class MetaResponse/ (227 lines)
+  110: class StrategyInfo(BaseModel):
+  120: class ChatLimits(BaseModel):
+  125: class MetaResponse(BaseModel):
+  143: class RunRequest(BaseModel):
+  157: class StrategyRequest(BaseModel):
+  166: class RunStarted(BaseModel):
+  182: class RunDetail(BaseModel):
+  205: class RunSummary(BaseModel):
+== routes/meta_routes.py /^def / (153 lines)
+  71: def form_limits() -> FormLimits:
+  86: def example_ideas(directory: Path = IDEAS_DIR) -> list[ExampleIdea]:
+  100: def providers() -> Providers:
+  110: def strategy_info() -> StrategyInfo:
+  126: def chat_limits() -> ChatLimits:
+  132: def meta() -> MetaResponse:
+== routes/chat_routes.py /^class |^def |@router/ (156 lines)
+  40: class ChatRoute(APIRoute):
+  53: class ChatGate:
+  87: def get_gate(request: Request) -> ChatGate:
+  91: def _chats(manager: RunManager) -> ChatStore:
+  95: def _available(manager: RunManager, run_id: str) -> RunDetail:
+  102: def _remaining(chats: ChatStore, run_id: str) -> int:
+  106: @router.get("/{run_id}/chat", response_model=ChatThread, responses=ERRORS)
+  107: def read_chat(run_id: str, manager: RunManager = Depends(get_manager)) -> ChatThread:
+  119: @router.post("/{run_id}/chat", response_model=ChatReply, responses=ASK_ERRORS)
+  120: def ask(
+  146: @router.delete("/{run_id}/chat", status_code=status.HTTP_204_NO_CONTENT, responses=ERRORS)
+  147: def clear_chat(
+== routes/strategy_routes.py /^def |@router/ (18 lines)
+  10: @router.post(
+  16: def start_strategy(run_id: str, body: StrategyRequest, manager: RunManager = Depends(get_manager)) -> RunStarted:
+== app.py /include_router|chat_gate/ (105 lines)
+  89: app.include_router(health_router)
+  90: app.include_router(meta_router)
+  91: app.include_router(idea_router)
+  92: app.include_router(run_router)
+  93: app.include_router(strategy_router)
+  94: app.include_router(chat_router)
+  98: app.state.chat_gate = ChatGate()
+== frontend/analysis_views.py /^def report_markdown|^def report_file_name|^def strategy_markdown|^def has_strategy|^def stage_label/ (647 lines)
+  74: def stage_label(stage: str) -> str:
+  227: def report_file_name(result: PipelineResult) -> str:
+  372: def report_markdown(result: PipelineResult, *, full: bool = False) -> str:
+  464: def has_strategy(result: PipelineResult) -> bool:
+  636: def strategy_markdown(result: PipelineResult) -> list[str]:
+== config.py /^class Settings|^def get_settings|^def _bounded_int_env|^def _bounded_float_env|strategy_time_limit_s|chat_cooldown_s/ (230 lines)
+  44: class Settings:
+  66: strategy_time_limit_s: float = DEFAULT_STRATEGY_TIME_LIMIT_S
+  73: chat_cooldown_s: float = DEFAULT_CHAT_COOLDOWN_S
+  127: def _bounded_float_env(name: str, default: float, bounds: tuple[float, float]) -> float:
+  142: def _bounded_int_env(name: str, default: int, bounds: tuple[int, int]) -> int:
+  180: def get_settings() -> Settings:
+  201: strategy_time_limit_s=_bounded_float_env(
+  222: chat_cooldown_s=_bounded_float_env("CHAT_COOLDOWN_S", DEFAULT_CHAT_COOLDOWN_S, CHAT_COOLDOWN_S_RANGE),
+== web/src/features/results/ResultsHeader.tsx /TABS/ (156 lines)
+  18: export const TABS = [
+  29: export type TabKey = (typeof TABS)[number]['key'];
+  112: {TABS.map((tab, index) => {
+  131: const next = TABS[(index + step + TABS.length) % TABS.length];
+== web/src/features/run/useRun.ts /POLL_INTERVAL_MS|ACTIVE|export function/ (87 lines)
+  25: export const POLL_INTERVAL_MS = 1500;
+  26: const ACTIVE: RunState[] = ['queued', 'running'];
+  28: export function isActive(state: RunState | undefined): boolean {
+  29: return state !== undefined && ACTIVE.includes(state);
+  33: export function useRun(runId: string | undefined): UseQueryResult<RunDetail> {
+  39: refetchInterval: (query) => (isActive(query.state.data?.state) ? POLL_INTERVAL_MS : false),
+  59: export function useGenerateStrategy(runId: string | undefined) {
+  78: export function useCancelRun(runId: string | undefined) {
+== web/src/features/run/RunPage.tsx /PRINTED_TABS|hasAnyStrategy|function panel|withAsk/ (365 lines)
+  36: import { hasAnyStrategy } from '@/features/strategy/StrategyStates';
+  47: const PRINTED_TABS = TABS.filter((entry) => entry.key !== 'advisor');
+  180: function withAsk(content: React.ReactNode, question: string | null): React.ReactNode {
+  192: function panel(key: TabKey): React.ReactNode {
+  200: return withAsk(
+  205: return withAsk(
+  312: {PRINTED_TABS.filter((entry) => entry.key !== 'strategy' || hasAnyStrategy(detail, result)).map(
+== web/src/lib/results.ts /export function collectClaims|export function claimsCiting|function strategyClaims|export function resolveStrategySources/ (432 lines)
+  162: export function resolveStrategySources(
+  180: function strategyClaims(result: PipelineResult): Claim[] {
+  258: export function collectClaims(result: PipelineResult, options: CollectOptions = {}): Claim[] {
+  307: export function claimsCiting(claims: Claim[], key: string): Claim[] {
+== web/src/test/setup.ts /onUnhandledRequest/ (47 lines)
+  42: beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+== web/e2e/mockApi.ts /throw/ (659 lines)
+  652: throw new Error('A browser test tried to start a validation. These tests must never do that.');
+== tests/conftest.py /^def |@pytest.fixture/ (57 lines)
+  20: @pytest.fixture(autouse=True)
+  21: def fake_env(monkeypatch: pytest.MonkeyPatch) -> None:
+  29: @pytest.fixture(autouse=True)
+  30: def block_network(monkeypatch: pytest.MonkeyPatch) -> None:
+  43: @pytest.fixture
+  44: def client() -> TestClient:
+  48: @pytest.fixture
+  49: def fake_llm_ok() -> Callable[..., str]:
+  54: @pytest.fixture
+  55: def fake_tavily_ok() -> Callable[..., Any]:

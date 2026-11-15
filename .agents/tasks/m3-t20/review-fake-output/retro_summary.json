@@ -1,0 +1,119 @@
+{
+  "generated": "2026-11-14 14:33",
+  "fake": true,
+  "model": "fake",
+  "saved": "docs/test_runs_m2/agritech.json",
+  "idea": "agritech",
+  "stages_run": [
+    "swot_risk",
+    "mvp_recommendation",
+    "go_to_market"
+  ],
+  "executed": true,
+  "status": "complete",
+  "seconds": {
+    "swot_risk": 0.009,
+    "mvp_recommendation": 0.011,
+    "go_to_market": 0.013,
+    "total": 0.04
+  },
+  "strategy_seconds": 0.033,
+  "calls": {
+    "swot_risk": {
+      "llm": 1,
+      "groq": 0,
+      "searches": 0
+    },
+    "mvp_recommendation": {
+      "llm": 1,
+      "groq": 0,
+      "searches": 0
+    },
+    "go_to_market": {
+      "llm": 1,
+      "groq": 0,
+      "searches": 0
+    },
+    "total": {
+      "llm": 3,
+      "groq": 0,
+      "searches": 0
+    }
+  },
+  "warnings": [
+    "Market opportunity: market_demand.customer_problems[2]: it is not about the problem this idea solves, so it was removed",
+    "Market opportunity: segments[0].pain_points[0]: it is not about the problem this idea solves, so it was removed",
+    "Competitor analysis: Phase A: the candidate search failed (The AI service is busy right now. Please try again in a minute.), so only the generic searches were used",
+    "Competitor analysis: competitors[0].strengths[0]: removed strength 'Demonstrated massive scale with smallholder farmers.'; it had no valid source",
+    "Competitor analysis: competitors[0]: removed 'Plantix'; the founder did not name it in the submission",
+    "Competitor analysis: competitors[2]: removed 'Crop Disease Detection App (AI4D)'; it is not named in its cited sources",
+    "Assessing strengths and risks: removed 2 links to findings that are not in the digest (CMP.25, CMP.25)",
+    "Assessing strengths and risks: basis changed: 1 point without an existing finding now marked as assumptions",
+    "Recommending MVP features: removed 2 links to findings that are not in the digest (CMP.25, CMP.26)",
+    "Recommending MVP features: basis changed: 1 point without an existing finding now marked as assumptions",
+    "Recommending MVP features: marked 2 features as suggested because no feature the founder listed matches it",
+    "Recommending MVP features: added 4 features the founder listed but the recommendation left out, for a later release (Photo-based disease detection, Instant diagnosis, Treatment suggestions, Mobile-first interface)",
+    "Recommending MVP features: assumed a team of 2 people and 3 months to the first release because they were not given",
+    "Planning go-to-market: removed 2 links to findings that are not in the digest (CMP.25, CMP.27)"
+  ],
+  "errors": [],
+  "counts": {
+    "swot": {
+      "strengths": 3,
+      "weaknesses": 3,
+      "opportunities": 3,
+      "threats": 3,
+      "risks": 6,
+      "risks_by_category": {
+        "business": 1,
+        "market": 2,
+        "technical": 1,
+        "financial": 1,
+        "operational": 1
+      },
+      "coverage_gaps": []
+    },
+    "mvp": {
+      "in_scope": [
+        "Photo-based diagnosis",
+        "Treatment advice",
+        "Local language support",
+        "Photo quality guide"
+      ],
+      "deferred": [
+        "Offline photo capture",
+        "Photo-based disease detection",
+        "Instant diagnosis",
+        "Treatment suggestions",
+        "Mobile-first interface",
+        "Advice update log",
+        "Cooperative dashboard",
+        "Expert chat"
+      ],
+      "capacity_person_months": 3.6,
+      "planned_person_months": 3.0,
+      "over_capacity": false,
+      "constraints_assumed": [
+        "team_size",
+        "months_to_mvp"
+      ]
+    },
+    "gtm": {
+      "target_segment": "Smallholder Farmers",
+      "differentiator_status": "hypothesis",
+      "channels": [
+        "Short demo videos on a messaging app",
+        "Cooperative staff referrals",
+        "Village demo booths",
+        "Cooperative field days",
+        "Agri-input retailer counters",
+        "Radio farm shows"
+      ],
+      "start_here": "Short demo videos on a messaging app",
+      "first_experiment": "Try short demo videos on a messaging app with a few farmers for two weeks.",
+      "launch_phases": 3
+    }
+  },
+  "contract_violations": [],
+  "full_run_strategy_seconds": 0.064
+}

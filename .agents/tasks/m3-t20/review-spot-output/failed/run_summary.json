@@ -1,0 +1,231 @@
+{
+  "generated": "2026-11-14 14:35",
+  "fake": true,
+  "model": "fake",
+  "ideas_attempted": 3,
+  "ideas_executed": 3,
+  "runs": [
+    {
+      "idea": "agritech",
+      "file": "agritech.json",
+      "executed": true,
+      "industry": "Agriculture / AgriTech",
+      "status": "failed",
+      "seconds": {
+        "extraction": 1.25,
+        "search": null,
+        "market_opportunity": null,
+        "competitor_analysis": null,
+        "swot_risk": null,
+        "mvp_recommendation": null,
+        "go_to_market": null,
+        "total": 1.25
+      },
+      "strategy_seconds": null,
+      "calls": {
+        "extraction": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "search": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "market_opportunity": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "competitor_analysis": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "swot_risk": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "mvp_recommendation": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "go_to_market": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "total": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        }
+      },
+      "warnings": [],
+      "errors": [
+        {
+          "stage": "extraction",
+          "code": "llm_api_error",
+          "message": "The AI service is busy right now. Please try again in a minute."
+        }
+      ],
+      "counts": {
+        "swot": null,
+        "mvp": null,
+        "gtm": null
+      },
+      "contract_violations": []
+    },
+    {
+      "idea": "fintech_cashflow",
+      "file": "fintech_cashflow.json",
+      "executed": true,
+      "industry": "Finance / FinTech",
+      "status": "failed",
+      "seconds": {
+        "extraction": 1.25,
+        "search": null,
+        "market_opportunity": null,
+        "competitor_analysis": null,
+        "swot_risk": null,
+        "mvp_recommendation": null,
+        "go_to_market": null,
+        "total": 1.25
+      },
+      "strategy_seconds": null,
+      "calls": {
+        "extraction": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "search": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "market_opportunity": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "competitor_analysis": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "swot_risk": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "mvp_recommendation": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "go_to_market": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "total": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        }
+      },
+      "warnings": [],
+      "errors": [
+        {
+          "stage": "extraction",
+          "code": "llm_api_error",
+          "message": "The AI service is busy right now. Please try again in a minute."
+        }
+      ],
+      "counts": {
+        "swot": null,
+        "mvp": null,
+        "gtm": null
+      },
+      "contract_violations": []
+    },
+    {
+      "idea": "foodtech_surplus",
+      "file": "foodtech_surplus.json",
+      "executed": true,
+      "industry": "Food & Beverage",
+      "status": "failed",
+      "seconds": {
+        "extraction": 1.25,
+        "search": null,
+        "market_opportunity": null,
+        "competitor_analysis": null,
+        "swot_risk": null,
+        "mvp_recommendation": null,
+        "go_to_market": null,
+        "total": 1.25
+      },
+      "strategy_seconds": null,
+      "calls": {
+        "extraction": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "search": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "market_opportunity": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "competitor_analysis": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "swot_risk": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "mvp_recommendation": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "go_to_market": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        },
+        "total": {
+          "llm": 0,
+          "groq": 0,
+          "searches": 0
+        }
+      },
+      "warnings": [],
+      "errors": [
+        {
+          "stage": "extraction",
+          "code": "llm_api_error",
+          "message": "The AI service is busy right now. Please try again in a minute."
+        }
+      ],
+      "counts": {
+        "swot": null,
+        "mvp": null,
+        "gtm": null
+      },
+      "contract_violations": []
+    }
+  ]
+}

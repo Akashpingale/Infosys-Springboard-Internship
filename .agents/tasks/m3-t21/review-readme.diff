@@ -1,0 +1,390 @@
+diff --git a/README.md b/README.md
+index 1938d18..d477ef2 100644
+--- a/README.md
++++ b/README.md
+@@ -8,7 +8,10 @@ A founder describes a startup idea in two or three lines. An LLM turns that free
+ structured idea, a Web Search Agent pulls live market and competitor data from Tavily, and an
+ orchestrator ties the agents together behind one API call. Milestone 1 delivers that working
+ vertical slice with a Streamlit form in front of it. Milestone 2, in progress, adds a Market
+-Opportunity Agent and a Competitor Analysis Agent behind the same call.
++Opportunity Agent and a Competitor Analysis Agent behind the same call. Milestone 3 adds three
++strategy stages (SWOT and risk, MVP features, go-to-market) and a Startup Advisor that answers
++questions about a finished validation, shown in the React interface only. See
++[Milestone 3](#milestone-3-strategy-and-advisor).
+ 
+ There are now **two interfaces in front of the same backend**: the original Streamlit app, and a new
+ React interface in `web/` built on additive API routes. Streamlit is unchanged and remains the
+@@ -19,7 +22,8 @@ retired. See [Two interfaces](#two-interfaces).
+ 
+ Solid arrows are implemented. Dotted arrows are secondary calls (the targeted searches) or planned
+ for later milestones. The two Milestone 2 agents run when the client asks for them with
+-`include_analysis=true`, which the UI always does.
++`include_analysis=true`, which the UI always does. The three Milestone 3 agents run after them when
++a React run asks for strategy (`include_strategy`), or later on a saved run, and make no web search.
+ 
+ ```mermaid
+ flowchart LR
+@@ -36,16 +40,18 @@ flowchart LR
+     MKT -.->|market-size queries| WS
+     COMP -.->|targeted queries| WS
+     COMP --> RES[PipelineResult to UI]
++    COMP -->|"findings digest"| SW["SWOT and Risk Agent<br/>Milestone 3"]
++    SW --> MV["MVP Recommendation Agent<br/>Milestone 3"]
++    MV --> GTM["Go-to-Market Agent<br/>Milestone 3"]
++    GTM --> RES
++    API -->|"chat routes"| ADV["Startup Advisor<br/>Milestone 3"]
++    RES -->|"saved result"| ADV
+ 
+     subgraph Planned["Planned in later milestones"]
+-        SW[SWOT and Risk Analysis Agent]
+-        MV[MVP Recommendation Agent]
+         RP[Report Generation Agent]
+     end
+ 
+-    RES -.-> SW
+-    SW -.-> MV
+-    MV -.-> RP
++    RES -.-> RP
+ ```
+ 
+ Full details, data contracts and status rules: [docs/06_multi_agent_architecture.md](docs/06_multi_agent_architecture.md)
+@@ -74,7 +80,7 @@ parameter the API runs the Milestone 1 pipeline unchanged.
+ |---|---|---|
+ | Market Opportunity Agent (Task 1) | Built, tested with fakes, one standalone live run, quality fixes, then run live in the three Task 4 runs | `python scripts/run_agent.py market --idea data/test_ideas/agritech.json` |
+ | Competitor Analysis Agent (Task 2) | Built, tested with fakes, run live in the three Task 4 runs | `python scripts/run_agent.py competitor --idea data/test_ideas/agritech.json` |
+-| Sequential orchestration and UI (Task 3) | Built, tested with fakes; run live through the live runner, not yet through the API or either UI | Either UI, or the second `curl` in [Running it](#running-it) |
++| Sequential orchestration and UI (Task 3) | Built, tested with fakes; run live through the live runner, and five times from the React interface through `POST /api/runs` ([docs/10](docs/10_ui_design_system.md#9-status-and-what-is-unverified)); not yet through `POST /api/validate` or the Streamlit UI | Either UI, or the second `curl` in [Running it](#running-it) |
+ | Validation across domains (Task 4) | Three domains tested with fakes, then run live once each: all `complete`, no integrity violations | `python scripts/run_live_m2.py --yes` |
+ 
+ Both agents cite numbered search evidence, label every claim, and check citations, figures and URLs
+@@ -83,28 +89,79 @@ report, the API audit fields and the backend time limit were added
+ ([docs/09_milestone2_test_report.md](docs/09_milestone2_test_report.md)). Details, status rules and
+ limitations: [docs/08_milestone2_agents.md](docs/08_milestone2_agents.md)
+ 
++## Milestone 3: strategy and Advisor
++
++Milestone 3 is built and tested with fakes. Its live checks are **not executed** yet: no part of it
++has been tried with a real model, so nothing below describes real output
++([docs/12](docs/12_milestone3_test_report.md)).
++
++| Part | What it adds | Live check (real API calls, run by hand) |
++|---|---|---|
++| SWOT and Risk Agent | 3 to 5 points per SWOT quadrant and 6 to 10 risks, each with a severity computed from likelihood and impact | `python scripts/run_m3_live.py --yes` |
++| MVP Recommendation Agent | Features ranked by a fixed formula, split into a first release and later against your team's capacity, with success metrics | the same |
++| Go-to-Market Agent | A positioning statement, ranked channels with a first experiment each, early-customer tactics, a three-phase launch plan and key messages | the same |
++| Strategy on a saved run | The three stages added to an earlier validation, from its stored results, with no new search | `python scripts/run_m3_retro_live.py --yes` |
++| Startup Advisor | Questions about one finished validation, answered only from its results, with basis and citations | `python scripts/check_advisor_live.py --yes` |
++
++The strategy stages reason over a numbered digest of the findings the run already has. Code, not the
++model, computes severity, scores, ranks, the first-release cut, channel order, the positioning
++sentence and the sources each point inherits. Every strategy point is labelled as an AI
++interpretation, an assumption or the founder's own words, never as sourced. How it works:
++[docs/11](docs/11_milestone3_strategy_and_advisor.md).
++
++**Using it in the React interface**
++
++1. Review the extracted idea as before. Leave **Include strategy** on, and optionally open
++   **Resources and goals** to give team size, months to the first release, budget level, technical
++   skill and launch region. What you leave empty is assumed (a team of 2 and 3 months) and marked as
++   an assumption.
++2. Run the analysis. The tracker shows seven stages instead of four.
++3. Open the **Strategy** tab for the SWOT, the risk register, the MVP plan and the go-to-market plan.
++   A saved run without strategy offers **Generate strategy**; a failed part offers **Try again**;
++   **Change resources and regenerate** replaces all three parts.
++4. Open the **Advisor** tab to ask questions, or press **Ask the advisor about this** at the end of
++   a section to start from a prepared question.
++
++**Cost.** A run with strategy makes 3 more LLM calls than a run without it, and no extra search.
++Strategy on a saved run is 3 LLM calls. Each Advisor question is one LLM call; a question about a
++part the results do not have is answered without one. These counts are before the retries the LLM
++client already makes.
++
++**Advisor limits** (all settings, below): 25 questions per validation, 1,000 characters per
++question, one question at a time per validation, 2 seconds between questions, and at most 2 answers
++being prepared at once. Clearing the conversation gives the questions back. When the results do not
++cover a question, the answer says so, and a question unrelated to the validation is refused.
++
++**What is sent where.** Your idea text, the findings and your Advisor questions are sent to Gemini
++(and to Groq when it takes over), as in Milestones 1 and 2; nothing is sent to analytics.
++
++Streamlit does not show Milestone 3 output, and `POST /api/validate` is unchanged.
++
+ ## Two interfaces
+ 
+ Both talk to the same FastAPI backend and the same agents. The React interface uses routes that were
+ **added**, not changed: `POST /api/validate` and every Milestone 1 and 2 route behave exactly as
+-before, and all 1636 backend tests are unchanged.
++before. The 1,636 backend tests from before Milestone 3 all still pass; Milestone 3 changed one line
++of one of them, the list of stored columns in `tests/test_run_store.py`.
+ 
+ | | Streamlit (`frontend/`) | React (`web/`) |
+ |---|---|---|
+-| Status | Complete, unchanged, still the reference | Built; one live run through it is still unverified |
++| Status | Complete, unchanged, still the reference | Built; five real validations run from it, before Milestone 3 ([docs/10](docs/10_ui_design_system.md#9-status-and-what-is-unverified)) |
+ | Runs on | <http://127.0.0.1:8501> | <http://127.0.0.1:5173> (dev) |
+ | Calls | `POST /api/validate?include_analysis=true`, one blocking request | `POST /api/runs`, then polls `GET /api/runs/{id}` every 1.5 s |
+-| While it runs | One spinner for up to two minutes | Four stages with status, elapsed time and a cancel button |
+-| Results | One long page | Five tabs: Overview, Market, Competitors, Sources, Run details |
++| While it runs | One spinner for up to two minutes | Four stages, or seven with strategy, with status, elapsed time and a cancel button |
++| Results | One long page | Seven tabs: Overview, Market, Competitors, Strategy, Advisor, Sources, Run details |
++| Strategy and Advisor (Milestone 3) | Not shown | The Strategy and Advisor tabs |
+ | Evidence | Numbered lists of sources | A numbered chip on every claim, opening a drawer that lists what rests on that source |
+ | History | None | A local SQLite history: list, open, rename, delete |
+ | Export | JSON and Markdown download | Markdown from the backend, JSON, and PDF through a print stylesheet |
+ | Needs | Python only | Python **and** Node |
+ 
+-**Streamlit is not retired.** It stays until parity is confirmed, which needs the one thing not yet
+-done: a real validation run started from the React interface. Everything verified so far used saved
+-results from the 27 October live runs, replayed through mocked responses or seeded into the local
+-history database.
++**Streamlit is not retired.** It is unchanged and still runs. Five real validations have been run
++from the React interface and are saved in its history: three finished `complete` and two `partial`,
++one of them because of a Gemini quota error
++([docs/10, section 9](docs/10_ui_design_system.md#9-status-and-what-is-unverified)). They were run
++before Milestone 3, so none of them used the strategy stages or the Advisor.
+ 
+ Design tokens, components, screens and the measured accessibility results for the new interface:
+ [docs/10_ui_design_system.md](docs/10_ui_design_system.md)
+@@ -188,6 +245,17 @@ npm run api:types      # writes src/api/types.gen.ts, which is git-ignored
+ | `CORS_ORIGINS` | No | Browser origins allowed to call the API, comma-separated. A wildcard is never accepted. Only the React interface needs this; the default already covers the Vite dev server | `http://localhost:5173,http://127.0.0.1:5173` |
+ | `PIPELINE_TIME_LIMIT_S` | No | Seconds a background run (`POST /api/runs`) may take. Unset keeps 90% of `PIPELINE_TIMEOUT_S` | `162` |
+ | `RUNS_DB_PATH` | No | Where the React interface's local run history is kept. A relative path is read from the project folder, and the file is git-ignored | `data/runs.db` |
++| `STRATEGY_TIME_LIMIT_S` | No | Milestone 3: seconds added to a run's limit for the three strategy stages, and the whole limit of strategy on a saved run. 30 to 900 | `150` |
++| `STRATEGY_DIGEST_MAX_CHARS` | No | Milestone 3: the most characters of findings a strategy prompt carries. 4000 to 100000 | `24000` |
++| `CHAT_MAX_USER_TURNS` | No | Milestone 3: Advisor questions per validation. 1 to 100 | `25` |
++| `CHAT_MAX_MESSAGE_CHARS` | No | Milestone 3: characters per Advisor question. 100 to 4000 | `1000` |
++| `CHAT_HISTORY_TURNS` | No | Milestone 3: earlier exchanges sent with each question. 1 to 20 | `6` |
++| `CHAT_CONTEXT_MAX_CHARS` | No | Milestone 3: the most characters of results the Advisor's prompt carries. 4000 to 120000 | `30000` |
++| `CHAT_MAX_CONCURRENT` | No | Milestone 3: Advisor answers prepared at once. 1 to 8 | `2` |
++| `CHAT_COOLDOWN_S` | No | Milestone 3: seconds between two questions on one validation. 0 to 60 | `2` |
++
++A Milestone 3 value outside its range is ignored with a warning in the backend log, and the default
++is used.
+ 
+ Keys stay server-side. Neither interface displays them and no key is written to a log. `GET /health`
+ and `GET /api/meta` report only whether a provider is configured, never a key or a key's length.
+@@ -358,18 +426,25 @@ small thread pool.
+ 
+ | Route | Body | Returns |
+ |---|---|---|
+-| `GET /api/meta` | none | Every form limit, the industry list, the example ideas, the stage labels, the run limits, and which providers are configured. Never a key |
+-| `POST /api/runs` | `{ submission, idea_override? }` | `202` with `{ run_id, state }`. With `idea_override` the reviewed idea is used and extraction is not run again. A third concurrent run is refused with `409` |
+-| `GET /api/runs` | none | Saved validations, newest first |
+-| `GET /api/runs/{id}` | none | The run's state, its four stages with timings, and the result once a stage has produced one. This is what the page polls every 1.5 s |
++| `GET /api/meta` | none | Every form limit, the industry list, the example ideas, the stage labels, the run limits, and which providers are configured. Since Milestone 3 also a `strategy` block (whether strategy can run, the resource limits and choices, its time limit) and a `chat` block (question length and count). Never a key |
++| `POST /api/runs` | `{ submission, idea_override?, include_strategy?, constraints? }` | `202` with `{ run_id, state }`. With `idea_override` the reviewed idea is used and extraction is not run again. With `include_strategy: true` (default `false`) the three strategy stages run after the four, using the optional `constraints`. A third concurrent run is refused with `409` |
++| `GET /api/runs` | none | Saved validations, newest first, each with `has_strategy` |
++| `GET /api/runs/{id}` | none | The run's state, its four stages (seven with strategy) with timings, its `constraints`, and the result once a stage has produced one. This is what the page polls every 1.5 s |
+ | `POST /api/runs/{id}/cancel` | none | Asks the run to stop. Cancelling is cooperative: the stage in flight finishes first |
+ | `PATCH /api/runs/{id}` | `{ title }` | Renames a saved validation |
+-| `DELETE /api/runs/{id}` | none | `204`. A run still going must be cancelled first (`409`) |
+-| `GET /api/runs/{id}/report.md` | none | The Markdown report as a download, the full report even for a partial or failed run |
++| `DELETE /api/runs/{id}` | none | `204`, and the run's Advisor conversation goes with it. A run still going must be cancelled first (`409`) |
++| `GET /api/runs/{id}/report.md` | none | The Markdown report as a download, the full report even for a partial or failed run, with the strategy sections when the run has them |
++| `POST /api/runs/{id}/strategy` | `{ mode?, constraints? }` | Milestone 3. `202` with `{ run_id, state }`: the strategy stages run on the saved run, with no new search. `mode` `missing` (default) runs only the parts it lacks; `all` replaces all three. `409` while the run is still going, when it has no analysis to build on, when nothing is missing, or when two runs are already going |
++| `GET /api/runs/{id}/chat` | none | Milestone 3. The Advisor conversation: `{ messages, suggestions, available_sections, remaining_turns, limits }`. `409` until the run has finished |
++| `POST /api/runs/{id}/chat` | `{ message }` | Milestone 3. One question: `{ message, remaining_turns }`, with the answer's paragraphs, basis and sources. `409` until the run has finished, when the conversation is full, or while a question is already waiting; `429` within `CHAT_COOLDOWN_S` of the previous question on that run |
++| `DELETE /api/runs/{id}/chat` | none | Milestone 3. `204`; clears the conversation |
+ 
+ `PipelineResult` gained four optional fields, so every earlier client and every saved result still
+ validates: `notices` (quality notes written for a reader), `evidence_strength`, `executive_summary`
+-and `verify_next`. `warnings` and `errors` are untouched.
++and `verify_next`. `warnings` and `errors` are untouched. Milestone 3 added four more optional
++fields, `swot`, `mvp`, `gtm` and `constraints`, and new error codes such as `strategy_not_ready` and
++`chat_limit_reached`, in the same error shape
++([docs/11, section 11](docs/11_milestone3_strategy_and_advisor.md#11-api-settings-and-storage)).
+ 
+ **`GET /api/meta`** (trimmed):
+ 
+@@ -452,7 +527,7 @@ in 2022, reflecting a 90% year-over-year growth...
+ ## Testing
+ 
+ ```bash
+-python -m pytest                    # 1636 tests, no network, about 50 seconds
++python -m pytest                    # 2454 tests, no network
+ python -m pytest tests/test_m2_domains.py   # Milestone 2 Task 4: the three domains, 92 tests
+ python scripts/check_llm.py         # checks the model and key without printing the key
+ python scripts/check_groq.py        # one real Groq call with the strict competitor schema; never prints the key
+@@ -461,8 +536,15 @@ python scripts/run_agent.py competitor --idea data/test_ideas/agritech.json    #
+ python scripts/run_live_ideas.py            # Milestone 1 pipeline on every idea file, real keys
+ python scripts/run_live_m2.py --yes         # Milestone 2: the three Task 4 ideas, real keys
+ python scripts/make_m2_report.py            # refresh docs/09 from the saved live artefacts
++python scripts/run_m3_live.py --yes         # Milestone 3: the three Task 4 ideas through all seven stages, real keys
++python scripts/run_m3_retro_live.py --yes   # Milestone 3: strategy on a saved run, no search, real keys
++python scripts/check_advisor_live.py --yes  # Milestone 3: the eight fixed Advisor questions, real keys
++python scripts/check_m3_contracts.py docs/test_runs_m2/agritech.json   # offline: check saved results against the strategy rules
+ ```
+ 
++The Milestone 3 tests are the 18 files `tests/test_m3_*.py`, 818 tests in all
++([docs/12](docs/12_milestone3_test_report.md)).
++
+ The automated suite never calls a real API: the LLM and Tavily are replaced by fakes and a fixture
+ blocks any non-local socket, so the tests pass with no keys at all. The Streamlit page's Milestone 2
+ sections are rendered headless with Streamlit's `AppTest` in `tests/test_m2_ui.py`. Only the
+@@ -476,6 +558,12 @@ It was run once on 2026-10-27: all three ideas finished `complete` in 102 to 159
+ integrity violations, as recorded in `docs/test_runs_m2/` and
+ [docs/09_milestone2_test_report.md](docs/09_milestone2_test_report.md).
+ 
++The three Milestone 3 scripts are **not executed** live yet; `docs/test_runs_m3/` holds only its
++[README](docs/test_runs_m3/README.md), which says what each output file will be. Like
++`run_live_m2.py`, they do nothing without `--yes`, and a missing key is named, never printed. With
++`--fake` instead of `--yes` they run end to end on fake clients and write into a new temporary
++folder, which is how they were tested.
++
+ `run_live_ideas.py` is the Milestone 1 runner and is unchanged. It writes into `docs/test_runs/`
+ and runs only extraction and search. It globs `data/test_ideas/`, so it now covers all six idea
+ files rather than the original four.
+@@ -487,26 +575,30 @@ Results and observations: [docs/07_pipeline_test_report.md](docs/07_pipeline_tes
+ From `web/`. None of these calls a provider or spends a credit.
+ 
+ ```bash
+-npm test               # 295 unit and component tests in 20 files; every request mocked by MSW
++npm test               # 477 unit and component tests in 35 files; every request mocked by MSW
+ npm run typecheck      # TypeScript for the app, then for the browser tests
+ npm run build          # tsc --noEmit, then the production bundle
+-npm run test:e2e       # 183 Playwright tests in Chromium at 390, 820 and 1440 px
+-npm run test:e2e:a11y  # the 81 axe checks on their own
++npm run test:e2e       # all 369 Playwright tests in Chromium at 390, 820 and 1440 px, including the ui_v2 screenshots
++npm run test:e2e:a11y  # the axe checks on their own: 81 for the earlier screens, 42 for the Milestone 3 screens
+ npm run test:shots     # refresh the 81 screenshots in docs/assets/ui_v2/
++npx playwright test e2e/screens-m3.spec.ts   # refresh the 42 Milestone 3 screenshots in docs/assets/ui_v3/
+ ```
+ 
+ | Suite | What it covers |
+ |---|---|
+ | `npm test` | Components and screens in jsdom. MSW answers every request and is set to **fail** a test that reaches an unmocked address, so no test can touch a real backend |
+-| `npm run test:e2e` | 81 screenshots, 81 axe checks and 21 keyboard and reduced-motion tests, against the production build. `web/e2e/mockApi.ts` answers every API call by route interception and **throws** if anything tries `POST /api/runs` |
++| `npm run test:e2e` | 81 screenshots, 81 axe checks and 21 keyboard and reduced-motion tests for the earlier screens, and 186 for the 14 Milestone 3 screens (screenshots, axe, keyboard, reduced motion and focus rings), against the production build. `web/e2e/mockApi.ts` answers every API call by route interception and **throws** if anything tries `POST /api/runs` |
+ 
+-Last full run: 295 unit tests passed, 183 browser tests passed, **no serious or critical axe
+-violations** across 27 screens at three widths, production entry bundle 268.78 kB (85.54 kB gzipped),
+-and the backend suite unchanged at 1636 passed.
++Last runs, in Milestone 3: 477 unit tests passed; 288 browser tests passed, with the 81 ui_v2
++screenshot tests not run so that those images stay as they were; **no serious or critical axe
++violations** on the 14 new screens or the 27 earlier ones, at three widths; production entry bundle
++268.79 kB (85.56 kB gzipped); and the backend suite at 2454 passed. Details:
++[docs/12](docs/12_milestone3_test_report.md).
+ 
+ The browser tests replay the saved 27 October live results (`docs/test_runs_m2/`) as mocked
+-responses, so the loading, partial, failed, cancelled, empty and offline states are real renders. A
+-live run started from the React interface is still unverified.
++responses, so the loading, partial, failed, cancelled, empty and offline states are real renders.
++The Milestone 3 screens use a synthetic strategy result
++(`web/src/test/strategyFixture.synthetic.json`), because no live strategy output exists yet.
+ 
+ ## Project structure
+ 
+@@ -520,7 +612,7 @@ Infosys-Springboard-Internship/
+ |-- pytest.ini
+ |-- app.py                     FastAPI app factory and error handlers
+ |-- config.py                  Settings read from .env
+-|-- orchestrator.py            run_pipeline(): the agent pipeline (STAGES and FULL_STAGES)
++|-- orchestrator.py            run_pipeline(): the agent pipeline (STAGES, FULL_STAGES and, since Milestone 3, STRATEGY_STAGES)
+ |-- agents/
+ |   |-- base.py                AgentContext and the Agent protocol
+ |   |-- extraction_agent.py    Idea Extraction Agent (LLM)
+@@ -532,13 +624,24 @@ Infosys-Springboard-Internship/
+ |   |-- market_size.py         Milestone 2: market-size searches, focused snippets and checks
+ |   |-- market_claims.py       Milestone 2: added-conclusion, relevance and conflicting-figure checks
+ |   |-- competitor_analysis_agent.py  Milestone 2: Competitor Analysis Agent (stage 4)
+-|   `-- competitor_checks.py   Milestone 2: competitor checks in code
++|   |-- competitor_checks.py   Milestone 2: competitor checks in code
++|   |-- strategy_context.py    Milestone 3: the numbered findings digest the strategy stages read
++|   |-- strategy_checks.py     Milestone 3: checks every strategy point goes through
++|   |-- swot_risk_agent.py     Milestone 3: SWOT and Risk Agent (stage 5)
++|   |-- mvp_agent.py           Milestone 3: MVP Recommendation Agent (stage 6)
++|   |-- gtm_agent.py           Milestone 3: Go-to-Market Agent (stage 7)
++|   `-- advisor_agent.py       Milestone 3: the Startup Advisor
+ |-- models/
+-|   `-- schemas.py             Shared models and every validation limit
++|   |-- schemas.py             Shared models and every validation limit
++|   |-- strategy_drafts.py     Milestone 3: the shapes the model returns for strategy and the Advisor
++|   `-- chat.py                Milestone 3: Advisor messages and threads
+ |-- routes/
+ |   |-- health_routes.py
+-|   `-- idea_routes.py         /api/ideas/extract, /api/search, /api/validate
++|   |-- idea_routes.py         /api/ideas/extract, /api/search, /api/validate
++|   |-- strategy_routes.py     Milestone 3: POST /api/runs/{id}/strategy
++|   `-- chat_routes.py         Milestone 3: the Advisor's chat routes and limits
+ |-- utils/
++|   |-- chat_store.py          Milestone 3: Advisor messages in the run history file
+ |   |-- deadline.py            Milestone 2: the time limit of a full run, read by both clients
+ |   |-- errors.py              AppError hierarchy
+ |   |-- llm_client.py          Gemini wrapper (the only file importing the SDK), with the Groq fallback
+@@ -560,7 +663,7 @@ Infosys-Springboard-Internship/
+ |       |-- app/               Shell, routes (each screen loaded on its own), providers
+ |       |-- api/               Typed fetch client, queries and mutations
+ |       |-- components/        Buttons, fields, chips, status and basis chips, source drawer
+-|       |-- features/          new-validation, run, results (five tabs), history, status
++|       |-- features/          new-validation, run, results (seven tabs), strategy, advisor, history, status
+ |       |-- lib/               Reading a result, formatting, downloads, the viewport hook
+ |       |-- styles/            tokens.css, globals.css, print.css
+ |       `-- test/              MSW server, fixtures, and the saved live results as test data
+@@ -571,9 +674,13 @@ Infosys-Springboard-Internship/
+ |   |-- run_agent.py           Milestone 2: run one analysis agent on a test idea (real keys)
+ |   |-- run_live_m2.py         Milestone 2 Task 4: the three domains through the full pipeline (--yes)
+ |   |-- make_m2_report.py      Milestone 2 Task 4: refresh docs/09 from the saved live artefacts
++|   |-- run_m3_live.py         Milestone 3: the three domains through all seven stages (--yes)
++|   |-- run_m3_retro_live.py   Milestone 3: strategy on a saved run (--yes)
++|   |-- check_advisor_live.py  Milestone 3: the fixed Advisor questions (--yes)
++|   |-- check_m3_contracts.py  Milestone 3: offline check of saved results against the strategy rules
+ |   |-- check_llm.py           LLM connection check
+ |   `-- check_groq.py          Groq fallback connection check
+-|-- tests/                     1636 backend tests
++|-- tests/                     2454 backend tests
+ |-- docs/                      Project documentation (read in order)
+ |   |-- 01_project_understanding.md
+ |   |-- 02_multi_agent_system.md
+@@ -586,8 +693,11 @@ Infosys-Springboard-Internship/
+ |   |-- 08_milestone2_agents.md
+ |   |-- 09_milestone2_test_report.md
+ |   |-- 10_ui_design_system.md The React interface: tokens, components, screens, accessibility
++|   |-- 11_milestone3_strategy_and_advisor.md   Milestone 3: how the strategy stages and the Advisor work
++|   |-- 12_milestone3_test_report.md            Milestone 3: measured test results and the live-check status
+ |   |-- test_runs/             Evidence from the live runs
+ |   |-- test_runs_m2/          Output of the Milestone 2 development runs
++|   |-- test_runs_m3/          Milestone 3 live-run outputs (only its README until the live checks are run)
+ |   |-- agile/                 Scrum docs for Milestone 1
+ |   |   |-- README.md
+ |   |   |-- PRODUCT_BACKLOG.md
+@@ -596,7 +706,8 @@ Infosys-Springboard-Internship/
+ |   |   |-- RETROSPECTIVE_AND_METRICS.md
+ |   |   `-- templates/         Mentor-provided Excel sheets
+ |   `-- assets/                Images and wireframes used by the docs
+-|       `-- ui_v2/            81 screenshots of the React interface, 27 screens x 3 widths
++|       |-- ui_v2/            81 screenshots of the React interface, 27 screens x 3 widths
++|       `-- ui_v3/            42 screenshots of the Milestone 3 screens, 14 screens x 3 widths
+ `-- src/                       Week 1 standalone Tavily test
+     |-- README.md
+     `-- web_search/
+@@ -620,6 +731,8 @@ Infosys-Springboard-Internship/
+ | 08 | [Milestone 2 agents](docs/08_milestone2_agents.md) | Evidence rules, the Competitor Analysis Agent and the sequential orchestration (Milestone 2, in progress) |
+ | 09 | [Milestone 2 test report](docs/09_milestone2_test_report.md) | Task 4: the three domains, automated results and the live-run status |
+ | 10 | [UI design system](docs/10_ui_design_system.md) | The React interface: tokens, type scale, components, screens, charts and the measured accessibility results |
++| 11 | [Milestone 3: strategy and Advisor](docs/11_milestone3_strategy_and_advisor.md) | The SWOT and risk, MVP and go-to-market stages, the Advisor, their checks, formulas, API and known limits |
++| 12 | [Milestone 3 test report](docs/12_milestone3_test_report.md) | Measured test counts, what they cover, and the live checks (not executed yet) |
+ 
+ Agile / Scrum tracking (backlog, sprints, stand-ups, retrospectives): [docs/agile/README.md](docs/agile/README.md)
+ 
+@@ -660,12 +773,18 @@ on ideas from three domains with live runs (Task 4), and the final integration.
+ 
+ A new React interface (`web/`) has been built on additive API routes, with run history, per-claim
+ citations, a sources explorer, export and accessibility checks
+-([docs/10](docs/10_ui_design_system.md)). It is not yet at confirmed parity: one real validation run
+-started from it remains unverified, so **Streamlit stays**.
++([docs/10](docs/10_ui_design_system.md)). Five real validations have been run from it
++([docs/10, section 9](docs/10_ui_design_system.md#9-status-and-what-is-unverified)). Confirming
++parity and deciding whether Streamlit is retired are still open, so **Streamlit stays**.
++
++Milestone 3 is built and tested with fakes: the SWOT and Risk, MVP Recommendation and Go-to-Market
++agents, strategy on a saved run, and the Startup Advisor, all shown in the React interface
++([docs/11](docs/11_milestone3_strategy_and_advisor.md)). Its live checks are not executed yet
++([docs/12](docs/12_milestone3_test_report.md)).
+ 
+ Everything below is **to be planned** for later milestones:
+ 
+-- SWOT and Risk, MVP Recommendation and Report Generation agents
++- The Report Generation Agent
+ - A final validation report with export
+ - User accounts (a local run history now exists; accounts do not)
+ - Deployment and containerisation

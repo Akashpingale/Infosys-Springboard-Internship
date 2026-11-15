@@ -1,0 +1,209 @@
+$ python scripts/run_m3_live.py --help -> exit 0
+usage: run_m3_live.py [-h] [--yes | --fake] [--out OUT]
+
+Run the three Milestone 2 ideas through all seven stages, strategy included,
+and save the evidence (plan L-1).
+
+options:
+  -h, --help  show this help message and exit
+  --yes       confirm that real API calls may be made and credits spent;
+              without it nothing runs
+  --fake      use the fake clients of the test suite: no provider is called,
+              no key is needed, no credit is spent
+  --out OUT   folder for the files (default: docs/test_runs_m3, or a new
+              temporary folder with --fake)
+
+$ python scripts/run_m3_retro_live.py --help -> exit 0
+usage: run_m3_retro_live.py [-h] [--yes | --fake] [--out OUT] [--saved SAVED]
+
+Add the strategy stages to a saved run, reusing its idea and analyses, with no
+search (plan L-2).
+
+options:
+  -h, --help     show this help message and exit
+  --yes          confirm that real API calls may be made and credits spent;
+                 without it nothing runs
+  --fake         use the fake clients of the test suite: no provider is
+                 called, no key is needed, no credit is spent
+  --out OUT      folder for the files (default: docs/test_runs_m3, or a new
+                 temporary folder with --fake)
+  --saved SAVED  the saved PipelineResult JSON to add the strategy to
+                 (default: docs/test_runs_m2/agritech.json)
+
+$ python scripts/check_advisor_live.py --help -> exit 0
+usage: check_advisor_live.py [-h] [--yes | --fake] [--out OUT] [--saved SAVED]
+
+Ask the Advisor the fixed question set about a saved run (plan L-3).
+
+options:
+  -h, --help     show this help message and exit
+  --yes          confirm that real API calls may be made and credits spent;
+                 without it nothing runs
+  --fake         use the fake clients of the test suite: no provider is
+                 called, no key is needed, no credit is spent
+  --out OUT      folder for the files (default: docs/test_runs_m3, or a new
+                 temporary folder with --fake)
+  --saved SAVED  the saved PipelineResult JSON to ask about (default:
+                 docs/test_runs_m3/agritech.json from run_m3_live.py)
+
+$ python scripts/run_m3_live.py -> exit 1
+This script makes real API calls and spends credits. Nothing has been run.
+Re-run it with --yes once you are ready:
+    python scripts/run_m3_live.py --yes
+or try it offline with the fake clients of the test suite:
+    python scripts/run_m3_live.py --fake
+No result or summary file was written.
+
+$ python scripts/run_m3_retro_live.py -> exit 1
+This script makes real API calls and spends credits. Nothing has been run.
+Re-run it with --yes once you are ready:
+    python scripts/run_m3_retro_live.py --yes
+or try it offline with the fake clients of the test suite:
+    python scripts/run_m3_retro_live.py --fake
+No result or summary file was written.
+
+$ python scripts/check_advisor_live.py -> exit 1
+This script makes real API calls and spends credits. Nothing has been run.
+Re-run it with --yes once you are ready:
+    python scripts/check_advisor_live.py --yes
+or try it offline with the fake clients of the test suite:
+    python scripts/check_advisor_live.py --fake
+No result or summary file was written.
+
+$ python scripts/run_m3_live.py --yes --fake -> exit 2
+
+STDERR (last lines):
+usage: run_m3_live.py [-h] [--yes | --fake] [--out OUT]
+run_m3_live.py: error: argument --fake: not allowed with argument --yes
+
+$ python scripts/run_m3_live.py --fake --out review-fake-output -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Running 3 ideas through the seven stages.
+
+agritech           complete  total=0.1 s strategy=0.1 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for agritech (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.1 s, strategy 0.1 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.0 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+fintech_cashflow   complete  total=0.0 s strategy=0.0 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for fintech_cashflow (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.0 s, strategy 0.0 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.0 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+foodtech_surplus   complete  total=0.0 s strategy=0.0 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for foodtech_surplus (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.0 s, strategy 0.0 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.0 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+Saved 3 of 3 runs to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output\run_summary.json
+STDERR (last lines):
+2026-11-14 14:33:27,989 INFO orchestrator: pipeline complete in 0.03s (7 warnings, 0 errors)
+2026-11-14 14:33:28,013 INFO agents.extraction_agent: extraction ok in 0.00s (3 features)
+2026-11-14 14:33:28,016 INFO agents.market_opportunity_agent: market analysis ok in 0.00s (2 segments, 4 sources, 0 broader-market figures, 0 repairs)
+2026-11-14 14:33:28,022 INFO agents.competitor_analysis_agent: competitor analysis ok in 0.01s (4 candidates, 5 targeted searches, 4 competitors, 5 sources, 5 repairs)
+2026-11-14 14:33:28,032 INFO agents.swot_risk_agent: swot analysis ok in 0.01s (12 swot items, 6 risks, 0 coverage gaps, 0 warnings)
+2026-11-14 14:33:28,046 INFO agents.mvp_agent: mvp recommendation ok in 0.01s (8 features, 4 in the first release, 3.00 of 3.60 person-months, over capacity False, 1 warnings)
+2026-11-14 14:33:28,056 INFO agents.gtm_agent: go-to-market plan ok in 0.01s (6 channels, 4 early-customer tactics, 3 launch phases, 3 key messages, 0 warnings)
+2026-11-14 14:33:28,058 INFO orchestrator: pipeline complete in 0.04s (7 warnings, 0 errors)
+
+$ python scripts/run_m3_retro_live.py --fake --out review-fake-output -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Adding 3 strategy stage(s) to docs/test_runs_m2/agritech.json.
+
+agritech           complete  total=0.0 s strategy=0.0 s llm=3 groq=0 searches=0 warnings=14 errors=0 violations=0
+A strategy job on a saved run makes no search: 0 search request(s) were counted.
+The strategy part of the L-1 run of this idea took 0.1 s.
+
+Review checklist for the strategy on docs/test_runs_m2/agritech.json (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Photo-based disease detection; Instant diagnosis; Treatment suggestions; Mobile-first interface; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.0 s, strategy 0.0 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.0 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all; the strategy part of the L-1 run of this idea took 0.1 s.
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output\retro_summary.json
+STDERR (last lines):
+2026-11-14 14:33:29,703 INFO agents.swot_risk_agent: swot analysis ok in 0.01s (12 swot items, 6 risks, 0 coverage gaps, 2 warnings)
+2026-11-14 14:33:29,715 INFO agents.mvp_agent: mvp recommendation ok in 0.01s (12 features, 4 in the first release, 3.00 of 3.60 person-months, over capacity False, 5 warnings)
+2026-11-14 14:33:29,732 INFO agents.gtm_agent: go-to-market plan ok in 0.01s (6 channels, 4 early-customer tactics, 3 launch phases, 3 key messages, 1 warnings)
+2026-11-14 14:33:29,734 INFO orchestrator: pipeline complete in 159.38s (14 warnings, 0 errors)
+
+$ python scripts/check_advisor_live.py --fake --out review-fake-output --saved agritech.json -> exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Asking 8 questions about .agents/tasks/m3-t20/review-fake-output/agritech.json.
+
+1. market             ok            paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+2. competitor         ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+3. risk               ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+4. mvp_priority       ok            paragraphs=1 sources=1 llm=1 groq=0 searches=0 0.0 s
+5. gtm_first_channel  ok            paragraphs=1 sources=1 llm=1 groq=0 searches=0 0.0 s
+6. out_of_scope       out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+7. injection          out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+8. missing_section    no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+
+Review checklist for the Advisor on .agents/tasks/m3-t20/review-fake-output/agritech.json (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 7. Advisor answers cite results; the out-of-scope and injection questions are refused cleanly. Measured: 1 market ok; 2 competitor ok; 3 risk ok; 4 mvp_priority ok; 5 gtm_first_channel ok; 6 out_of_scope out_of_scope; 7 injection out_of_scope; 8 missing_section no_evidence.
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output
+STDERR (last lines):
+2026-11-14 14:33:31,943 INFO agents.advisor_agent: advisor reply ok in 0.01s (1 paragraphs, sections market)
+2026-11-14 14:33:31,954 INFO agents.advisor_agent: advisor reply ok in 0.01s (1 paragraphs, sections competitors)
+2026-11-14 14:33:31,963 INFO agents.advisor_agent: advisor reply ok in 0.01s (1 paragraphs, sections risks)
+2026-11-14 14:33:31,972 INFO agents.advisor_agent: advisor reply ok in 0.01s (1 paragraphs, sections mvp)
+2026-11-14 14:33:31,979 INFO agents.advisor_agent: advisor reply ok in 0.01s (1 paragraphs, sections gtm)
+2026-11-14 14:33:31,986 INFO agents.advisor_agent: advisor reply out_of_scope in 0.01s (1 paragraphs, sections )
+2026-11-14 14:33:31,993 INFO agents.advisor_agent: advisor reply out_of_scope in 0.01s (1 paragraphs, sections )
+2026-11-14 14:33:31,997 INFO agents.advisor_agent: advisor question about missing sections (mvp), answered without a model call
+
+== output files: ['advisor_agritech.json', 'advisor_agritech.md', 'agritech.json', 'agritech.md', 'fintech_cashflow.json', 'fintech_cashflow.md', 'foodtech_surplus.json', 'foodtech_surplus.md', 'retro_agritech.json', 'retro_agritech.md', 'retro_summary.json', 'run_summary.json']
+   agritech.json validates: status=complete swot=True mvp=True gtm=True
+   fintech_cashflow.json validates: status=complete swot=True mvp=True gtm=True
+   foodtech_surplus.json validates: status=complete swot=True mvp=True gtm=True
+   retro_agritech.json validates: status=complete swot=True mvp=True gtm=True
+== run_summary: {'fake': True, 'model': 'fake', 'ideas_attempted': 3, 'ideas_executed': 3}
+   agritech: status=complete calls_total={'llm': 7, 'groq': 0, 'searches': 0} violations=0 strategy_seconds=0.064
+   fintech_cashflow: status=complete calls_total={'llm': 7, 'groq': 0, 'searches': 0} violations=0 strategy_seconds=0.023
+   foodtech_surplus: status=complete calls_total={'llm': 7, 'groq': 0, 'searches': 0} violations=0 strategy_seconds=0.029
+== retro_summary: {'fake': True, 'model': 'fake', 'saved': 'docs/test_runs_m2/agritech.json', 'stages_run': ['swot_risk', 'mvp_recommendation', 'go_to_market'], 'executed': True, 'status': 'complete', 'full_run_strategy_seconds': 0.064} calls_total= {'llm': 3, 'groq': 0, 'searches': 0}
+== advisor: {'fake': True, 'model': 'fake', 'saved': '.agents/tasks/m3-t20/review-fake-output/agritech.json', 'calls': {'llm': 7, 'groq': 0, 'searches': 0}}
+   1 market: status=ok error=None calls={'llm': 1, 'groq': 0, 'searches': 0} cited=['market']
+   2 competitor: status=ok error=None calls={'llm': 1, 'groq': 0, 'searches': 0} cited=['competitors']
+   3 risk: status=ok error=None calls={'llm': 1, 'groq': 0, 'searches': 0} cited=['risks']
+   4 mvp_priority: status=ok error=None calls={'llm': 1, 'groq': 0, 'searches': 0} cited=['mvp']
+   5 gtm_first_channel: status=ok error=None calls={'llm': 1, 'groq': 0, 'searches': 0} cited=['gtm']
+   6 out_of_scope: status=out_of_scope error=None calls={'llm': 1, 'groq': 0, 'searches': 0} cited=[]
+   7 injection: status=out_of_scope error=None calls={'llm': 1, 'groq': 0, 'searches': 0} cited=[]
+   8 missing_section: status=no_evidence error=None calls={'llm': 0, 'groq': 0, 'searches': 0} cited=[]
+== agritech.md starts: ['# Milestone 3 run: agritech', '', 'Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.']
+== retro_agritech.md starts: ['# Milestone 3 strategy on a saved run: agritech', '', 'Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.']
+== advisor_agritech.md starts: ['# Advisor question set: agritech', '', 'Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.']
+== check_m3_contracts on the four results -> exit 0
+C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output\agritech.json: checked swot, mvp, gtm; no violations
+C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output\fintech_cashflow.json: checked swot, mvp, gtm; no violations
+C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output\foodtech_surplus.json: checked swot, mvp, gtm; no violations
+C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-fake-output\retro_agritech.json: checked swot, mvp, gtm; no violations
+All 4 file(s) pass.
+== placeholder keys found in outputs or console: none
+== configured model name printed on the console: False | in fake files: False
+== key-shaped patterns found: none
+== store file created at RUNS_DB_PATH: False
+== docs/test_runs_m3 contents: ['README.md']

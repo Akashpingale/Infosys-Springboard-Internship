@@ -1,0 +1,105 @@
+2026-11-14 14:00:41,193 INFO agents.extraction_agent: extraction ok in 0.00s (3 features)
+2026-11-14 14:00:41,201 INFO agents.market_opportunity_agent: market analysis ok in 0.01s (2 segments, 4 sources, 0 broader-market figures, 0 repairs)
+2026-11-14 14:00:41,211 INFO agents.competitor_analysis_agent: competitor analysis ok in 0.01s (4 candidates, 5 targeted searches, 4 competitors, 5 sources, 5 repairs)
+2026-11-14 14:00:41,228 INFO agents.swot_risk_agent: swot analysis ok in 0.01s (12 swot items, 6 risks, 0 coverage gaps, 0 warnings)
+2026-11-14 14:00:41,246 INFO agents.mvp_agent: mvp recommendation ok in 0.02s (8 features, 4 in the first release, 3.00 of 3.60 person-months, over capacity False, 1 warnings)
+2026-11-14 14:00:41,288 INFO agents.gtm_agent: go-to-market plan ok in 0.04s (6 channels, 4 early-customer tactics, 3 launch phases, 3 key messages, 0 warnings)
+2026-11-14 14:00:41,297 INFO orchestrator: pipeline complete in 0.10s (7 warnings, 0 errors)
+2026-11-14 14:00:41,403 INFO agents.extraction_agent: extraction ok in 0.00s (3 features)
+2026-11-14 14:00:41,416 INFO agents.market_opportunity_agent: market analysis ok in 0.01s (2 segments, 4 sources, 0 broader-market figures, 0 repairs)
+2026-11-14 14:00:41,436 INFO agents.competitor_analysis_agent: competitor analysis ok in 0.02s (4 candidates, 5 targeted searches, 4 competitors, 5 sources, 5 repairs)
+2026-11-14 14:00:41,472 INFO agents.swot_risk_agent: swot analysis ok in 0.03s (12 swot items, 6 risks, 0 coverage gaps, 0 warnings)
+2026-11-14 14:00:41,503 INFO agents.mvp_agent: mvp recommendation ok in 0.02s (8 features, 4 in the first release, 3.00 of 3.60 person-months, over capacity False, 1 warnings)
+2026-11-14 14:00:41,547 INFO agents.gtm_agent: go-to-market plan ok in 0.04s (6 channels, 4 early-customer tactics, 3 launch phases, 3 key messages, 0 warnings)
+2026-11-14 14:00:41,550 INFO orchestrator: pipeline complete in 0.15s (7 warnings, 0 errors)
+2026-11-14 14:00:41,656 INFO agents.extraction_agent: extraction ok in 0.00s (3 features)
+2026-11-14 14:00:41,669 INFO agents.market_opportunity_agent: market analysis ok in 0.01s (2 segments, 4 sources, 0 broader-market figures, 0 repairs)
+2026-11-14 14:00:41,688 INFO agents.competitor_analysis_agent: competitor analysis ok in 0.02s (4 candidates, 5 targeted searches, 4 competitors, 5 sources, 5 repairs)
+2026-11-14 14:00:41,721 INFO agents.swot_risk_agent: swot analysis ok in 0.02s (12 swot items, 6 risks, 0 coverage gaps, 0 warnings)
+2026-11-14 14:00:41,762 INFO agents.mvp_agent: mvp recommendation ok in 0.03s (8 features, 4 in the first release, 3.00 of 3.60 person-months, over capacity False, 1 warnings)
+2026-11-14 14:00:41,839 INFO agents.gtm_agent: go-to-market plan ok in 0.07s (6 channels, 4 early-customer tactics, 3 launch phases, 3 key messages, 0 warnings)
+2026-11-14 14:00:41,847 INFO orchestrator: pipeline complete in 0.19s (7 warnings, 0 errors)
+2026-11-14 14:00:42,100 INFO agents.swot_risk_agent: swot analysis ok in 0.03s (12 swot items, 6 risks, 0 coverage gaps, 2 warnings)
+2026-11-14 14:00:42,137 INFO agents.mvp_agent: mvp recommendation ok in 0.03s (12 features, 4 in the first release, 3.00 of 3.60 person-months, over capacity False, 5 warnings)
+2026-11-14 14:00:42,289 INFO agents.gtm_agent: go-to-market plan ok in 0.14s (6 channels, 4 early-customer tactics, 3 launch phases, 3 key messages, 1 warnings)
+2026-11-14 14:00:42,349 INFO orchestrator: pipeline complete in 159.62s (14 warnings, 0 errors)
+2026-11-14 14:00:42,684 INFO agents.advisor_agent: advisor reply ok in 0.04s (1 paragraphs, sections market)
+2026-11-14 14:00:42,720 INFO agents.advisor_agent: advisor reply ok in 0.04s (1 paragraphs, sections competitors)
+2026-11-14 14:00:42,766 INFO agents.advisor_agent: advisor reply ok in 0.05s (1 paragraphs, sections risks)
+2026-11-14 14:00:42,800 INFO agents.advisor_agent: advisor reply ok in 0.03s (1 paragraphs, sections mvp)
+2026-11-14 14:00:42,835 INFO agents.advisor_agent: advisor reply ok in 0.03s (1 paragraphs, sections gtm)
+2026-11-14 14:00:42,868 INFO agents.advisor_agent: advisor reply out_of_scope in 0.03s (1 paragraphs, sections )
+2026-11-14 14:00:42,902 INFO agents.advisor_agent: advisor reply out_of_scope in 0.03s (1 paragraphs, sections )
+2026-11-14 14:00:42,922 INFO agents.advisor_agent: advisor question about missing sections (mvp), answered without a model call
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Running 3 ideas through the seven stages.
+
+agritech           complete  total=0.1 s strategy=0.1 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for agritech (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.1 s, strategy 0.1 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.0 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+fintech_cashflow   complete  total=0.1 s strategy=0.1 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for fintech_cashflow (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.1 s, strategy 0.1 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.0 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+foodtech_surplus   complete  total=0.2 s strategy=0.1 s llm=7 groq=0 searches=0 warnings=7 errors=0 violations=0
+Review checklist for foodtech_surplus (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.2 s, strategy 0.1 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.1 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+Saved 3 of 3 runs to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\fake-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\fake-output\run_summary.json
+== run_m3_live exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Adding 3 strategy stage(s) to docs/test_runs_m2/agritech.json.
+
+agritech           complete  total=159.6 s strategy=0.2 s llm=3 groq=0 searches=0 warnings=14 errors=0 violations=0
+A strategy job on a saved run makes no search: 0 search request(s) were counted.
+The strategy part of the L-1 run of this idea took 0.1 s.
+
+Review checklist for the strategy on docs/test_runs_m2/agritech.json (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated. Measured: risks by category: business 1, market 2, technical 1, financial 1, operational 1; gaps: none.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible. Measured: in scope: Photo-based diagnosis; Treatment advice; Local language support; Photo quality guide; deferred: Offline photo capture; Photo-based disease detection; Instant diagnosis; Treatment suggestions; Mobile-first interface; Advice update log; Cooperative dashboard; Expert chat; assumed: team_size, months_to_mvp.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits. Measured: differentiator: hypothesis.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete. Measured: start here: Short demo videos on a messaging app.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 159.6 s, strategy 0.2 s (Assessing strengths and risks 0.0 s, Recommending MVP features 0.0 s, Planning go-to-market 0.1 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all; The strategy part of the L-1 run of this idea took 0.1 s..
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\fake-output
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\fake-output\retro_summary.json
+== run_m3_retro_live exit 0
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Asking 8 questions about .agents/tasks/m3-t20/fake-output/agritech.json.
+
+1. market             ok            paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+2. competitor         ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+3. risk               ok            paragraphs=1 sources=2 llm=1 groq=0 searches=0 0.0 s
+4. mvp_priority       ok            paragraphs=1 sources=1 llm=1 groq=0 searches=0 0.0 s
+5. gtm_first_channel  ok            paragraphs=1 sources=1 llm=1 groq=0 searches=0 0.0 s
+6. out_of_scope       out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+7. injection          out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+8. missing_section    no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+
+Review checklist for the Advisor on .agents/tasks/m3-t20/fake-output/agritech.json (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 7. Advisor answers cite results; the out-of-scope and injection questions are refused cleanly. Measured: 1 market ok; 2 competitor ok; 3 risk ok; 4 mvp_priority ok; 5 gtm_first_channel ok; 6 out_of_scope out_of_scope; 7 injection out_of_scope; 8 missing_section no_evidence.
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\fake-output
+== check_advisor_live exit 0

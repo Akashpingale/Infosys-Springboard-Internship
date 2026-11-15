@@ -1,0 +1,30 @@
+{
+  "status": "failed",
+  "idea": null,
+  "search": null,
+  "warnings": [],
+  "errors": [
+    {
+      "stage": "extraction",
+      "code": "llm_api_error",
+      "message": "The AI service is busy right now. Please try again in a minute."
+    }
+  ],
+  "timings": {
+    "extraction": 1.25,
+    "total": 1.25
+  },
+  "market": null,
+  "competitors": null,
+  "market_search": null,
+  "competitor_candidates": [],
+  "competitor_search": null,
+  "notices": [],
+  "evidence_strength": null,
+  "executive_summary": [],
+  "verify_next": [],
+  "swot": null,
+  "mvp": null,
+  "gtm": null,
+  "constraints": null
+}

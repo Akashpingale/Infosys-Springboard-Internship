@@ -17,19 +17,24 @@ from fastapi import APIRouter
 from agents.notices import STAGE_TITLES
 from config import ROOT_DIR, get_settings
 from models.api import (
+    ChatLimits,
+    ConstraintLimits,
     CountLimit,
     ErrorResponse,
     ExampleIdea,
     ExtractedIdeaLimits,
     FormLimits,
     MetaResponse,
+    NumberLimit,
     ProviderStatus,
     Providers,
     RunLimits,
     StageInfo,
+    StrategyInfo,
     TextLimit,
 )
 from models.schemas import (
+    BUDGET_LEVELS,
     CUSTOMERS_MAX,
     CUSTOMERS_MIN,
     DETAILS_MAX,
@@ -41,12 +46,16 @@ from models.schemas import (
     INDUSTRY_MAX,
     INDUSTRY_MIN,
     KEY_FEATURES_RANGE,
+    LAUNCH_REGION_MAX,
+    MONTHS_TO_MVP_RANGE,
     TARGET_CUSTOMERS_RANGE,
+    TEAM_SIZE_RANGE,
+    TECHNICAL_SKILLS,
     IdeaSubmission,
 )
-from orchestrator import FULL_STAGES
+from orchestrator import FULL_STAGES, STRATEGY_ONLY_STAGES, PendingStrategyAgent
 from utils import groq_client
-from utils.run_manager import MAX_CONCURRENT_RUNS, run_time_limit_s
+from utils.run_manager import MAX_CONCURRENT_RUNS, run_time_limit_s, strategy_time_limit_s
 
 logger = logging.getLogger(__name__)
 
@@ -98,6 +107,27 @@ def providers() -> Providers:
     )
 
 
+def strategy_info() -> StrategyInfo:
+    """Milestone 3 (Section 12.1): whether the strategy stages can run, the limits and choices of the
+    founder's resource constraints (StrategyConstraints), and the strategy time limit."""
+    return StrategyInfo(
+        available=not any(isinstance(stage.agent, PendingStrategyAgent) for stage in STRATEGY_ONLY_STAGES),
+        time_limit_s=strategy_time_limit_s(),
+        constraints=ConstraintLimits(
+            team_size=NumberLimit(min_value=TEAM_SIZE_RANGE[0], max_value=TEAM_SIZE_RANGE[1]),
+            months_to_mvp=NumberLimit(min_value=MONTHS_TO_MVP_RANGE[0], max_value=MONTHS_TO_MVP_RANGE[1]),
+            launch_region=TextLimit(max_chars=LAUNCH_REGION_MAX),
+            budget_levels=list(BUDGET_LEVELS),
+            technical_skills=list(TECHNICAL_SKILLS),
+        ),
+    )
+
+
+def chat_limits() -> ChatLimits:
+    settings = get_settings()
+    return ChatLimits(max_message_chars=settings.chat_max_message_chars, max_user_turns=settings.chat_max_user_turns)
+
+
 @router.get("/meta", response_model=MetaResponse, responses={503: {"model": ErrorResponse}})
 def meta() -> MetaResponse:
     """Everything the interface needs before a run: limits, industries, examples, stages and
@@ -118,4 +148,6 @@ def meta() -> MetaResponse:
             evidence_max_items=settings.evidence_max_items,
         ),
         providers=providers(),
+        strategy=strategy_info(),
+        chat=chat_limits(),
     )

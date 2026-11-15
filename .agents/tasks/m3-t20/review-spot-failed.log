@@ -1,0 +1,159 @@
+2026-11-14 14:35:19,552 INFO agents.advisor_agent: advisor question about missing sections (market), answered without a model call
+2026-11-14 14:35:19,555 INFO agents.advisor_agent: advisor question about missing sections (competitors), answered without a model call
+2026-11-14 14:35:19,556 INFO agents.advisor_agent: advisor question about missing sections (risks), answered without a model call
+2026-11-14 14:35:19,558 INFO agents.advisor_agent: advisor question about missing sections (mvp), answered without a model call
+2026-11-14 14:35:19,559 INFO agents.advisor_agent: advisor question about missing sections (gtm), answered without a model call
+2026-11-14 14:35:19,561 INFO agents.advisor_agent: advisor reply out_of_scope in 0.00s (1 paragraphs, sections )
+2026-11-14 14:35:19,563 INFO agents.advisor_agent: advisor reply out_of_scope in 0.00s (1 paragraphs, sections )
+2026-11-14 14:35:19,565 INFO agents.advisor_agent: advisor question about missing sections (mvp), answered without a model call
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Running 3 ideas through the seven stages.
+
+agritech           failed    total=1.2 s strategy=not measured llm=0 groq=0 searches=0 warnings=0 errors=1 violations=0
+Review checklist for agritech (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 1.2 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+fintech_cashflow   failed    total=1.2 s strategy=not measured llm=0 groq=0 searches=0 warnings=0 errors=1 violations=0
+Review checklist for fintech_cashflow (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 1.2 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+foodtech_surplus   failed    total=1.2 s strategy=not measured llm=0 groq=0 searches=0 warnings=0 errors=1 violations=0
+Review checklist for foodtech_surplus (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 1.2 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+Saved 3 of 3 runs to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\failed
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\failed\run_summary.json
+== L-1 with a failed result -> exit 0; executed 3 of 3; status=failed counts={'swot': None, 'mvp': None, 'gtm': None} strategy_seconds=None violations=[]
+   files: ['agritech.json', 'agritech.md', 'fintech_cashflow.json', 'fintech_cashflow.md', 'foodtech_surplus.json', 'foodtech_surplus.md', 'run_summary.json']
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Running 3 ideas through the seven stages.
+
+agritech           partial   total=5.0 s strategy=not measured llm=0 groq=0 searches=0 warnings=4 errors=0 violations=0
+Review checklist for agritech (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 5.0 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+fintech_cashflow   partial   total=5.0 s strategy=not measured llm=0 groq=0 searches=0 warnings=4 errors=0 violations=0
+Review checklist for fintech_cashflow (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 5.0 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+foodtech_surplus   partial   total=5.0 s strategy=not measured llm=0 groq=0 searches=0 warnings=4 errors=0 violations=0
+Review checklist for foodtech_surplus (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 5.0 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+Saved 3 of 3 runs to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\strategy_skipped
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\strategy_skipped\run_summary.json
+== L-1 with a strategy_skipped result -> exit 0; executed 3 of 3; status=partial counts={'swot': None, 'mvp': None, 'gtm': None} strategy_seconds=None violations=[]
+   files: ['agritech.json', 'agritech.md', 'fintech_cashflow.json', 'fintech_cashflow.md', 'foodtech_surplus.json', 'foodtech_surplus.md', 'run_summary.json']
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Running 3 ideas through the seven stages.
+
+agritech           partial   total=0.0 s strategy=not measured llm=0 groq=0 searches=0 warnings=4 errors=3 violations=0
+Review checklist for agritech (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.0 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+fintech_cashflow   partial   total=0.0 s strategy=not measured llm=0 groq=0 searches=0 warnings=4 errors=3 violations=0
+Review checklist for fintech_cashflow (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.0 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+foodtech_surplus   partial   total=0.0 s strategy=not measured llm=0 groq=0 searches=0 warnings=4 errors=3 violations=0
+Review checklist for foodtech_surplus (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 0.0 s, strategy not measured; the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all.
+
+Saved 3 of 3 runs to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\strategy_failed
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\strategy_failed\run_summary.json
+== L-1 with a strategy_failed result -> exit 0; executed 3 of 3; status=partial counts={'swot': None, 'mvp': None, 'gtm': None} strategy_seconds=None violations=[]
+   files: ['agritech.json', 'agritech.md', 'fintech_cashflow.json', 'fintech_cashflow.md', 'foodtech_surplus.json', 'foodtech_surplus.md', 'run_summary.json']
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Adding 3 strategy stage(s) to .agents/tasks/m3-t20/review-spot-output/saved/agritech.json.
+
+agritech           partial   total=4.5 s strategy=4.5 s llm=0 groq=0 searches=0 warnings=4 errors=3 violations=0
+A strategy job on a saved run makes no search: 0 search request(s) were counted.
+No L-1 run of this idea is recorded in this folder to compare with.
+
+Review checklist for the strategy on .agents/tasks/m3-t20/review-spot-output/saved/agritech.json (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 1. Every SWOT item and risk is understandable without outside knowledge and relates to the idea.
+  [ ] 2. No competitor, organisation, price or statistic appears that is not in the market or competitor results.
+  [ ] 3. Risks cover the categories; gaps are stated.
+  [ ] 4. The MVP list contains the founder's own features; deferred reasons make sense; assumptions are visible.
+  [ ] 5. The positioning sentence reads naturally and the differentiator label fits.
+  [ ] 6. Channels are plausible for the segment and region; the first experiment is concrete.
+  [ ] 8. Timing: record the total seconds and the strategy seconds and compare them with the estimate in plan Section 5.4. Measured: total 4.5 s, strategy 4.5 s (Assessing strengths and risks 1.5 s, Recommending MVP features 1.5 s, Planning go-to-market 1.5 s); the plan estimated 15 to 35 s per strategy stage and 45 to 105 s in all; no L-1 run of this idea is recorded in this folder.
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\retro
+Summary: C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\retro\retro_summary.json
+== L-2 with every strategy stage failed -> exit 0; status=partial seconds={'swot_risk': 1.5, 'mvp_recommendation': 1.5, 'go_to_market': 1.5, 'total': 4.5} errors=3 counts={'swot': None, 'mvp': None, 'gtm': None}
+Questions open once the validation has finished. The saved run has the status failed. Nothing was asked.
+No result or summary file was written.
+== L-3 on a failed saved run -> exit 1; out exists=False
+Fake run: the fake clients of the test suite answer every call, so no provider is called and nothing here is evidence.
+Asking 8 questions about .agents/tasks/m3-t20/review-spot-output/saved/partial.json.
+
+1. market             no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+2. competitor         no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+3. risk               no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+4. mvp_priority       no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+5. gtm_first_channel  no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+6. out_of_scope       out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+7. injection          out_of_scope  paragraphs=1 sources=0 llm=1 groq=0 searches=0 0.0 s
+8. missing_section    no_evidence   paragraphs=1 sources=0 llm=0 groq=0 searches=0 0.0 s
+
+Review checklist for the Advisor on .agents/tasks/m3-t20/review-spot-output/saved/partial.json (record the outcome in docs/12; nothing here is ticked for you):
+  [ ] 7. Advisor answers cite results; the out-of-scope and injection questions are refused cleanly. Measured: 1 market no_evidence; 2 competitor no_evidence; 3 risk no_evidence; 4 mvp_priority no_evidence; 5 gtm_first_channel no_evidence; 6 out_of_scope out_of_scope; 7 injection out_of_scope; 8 missing_section no_evidence.
+
+Saved to C:\Users\akash\OneDrive\Pictures\Infosys-Springboard-Internship\.agents\tasks\m3-t20\review-spot-output\advisor_partial
+== L-3 on a partial saved run without market and competitors -> exit 0; statuses=['no_evidence', 'no_evidence', 'no_evidence', 'no_evidence', 'no_evidence', 'out_of_scope', 'out_of_scope', 'no_evidence'] calls={'llm': 2, 'groq': 0, 'searches': 0}
+== store file created: False

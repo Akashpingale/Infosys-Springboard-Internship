@@ -8,9 +8,10 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from models.schemas import ExtractedIdea, IdeaSubmission, PipelineResult
+from models.schemas import ExtractedIdea, IdeaSubmission, PipelineResult, StrategyConstraints
 
 RUN_STATES = ("queued", "running", "done", "failed", "cancelled")
+STRATEGY_MODES = ("missing", "all")
 ACTIVE_STATES = ("queued", "running")
 STAGE_STATUSES = ("waiting", "running", "done", "skipped", "failed", "cancelled")
 RESULT_STATUSES = ("complete", "partial", "failed")
@@ -91,6 +92,36 @@ class RunLimits(BaseModel):
     evidence_max_items: int
 
 
+class NumberLimit(BaseModel):
+    min_value: int
+    max_value: int
+
+
+class ConstraintLimits(BaseModel):
+    """The limits StrategyConstraints enforces and the choices it accepts (Section 12.3)."""
+
+    team_size: NumberLimit
+    months_to_mvp: NumberLimit
+    launch_region: TextLimit
+    budget_levels: list[str]
+    technical_skills: list[str]
+
+
+class StrategyInfo(BaseModel):
+    """Milestone 3 (Section 12.1). `available` is true when every strategy stage has its agent;
+    `time_limit_s` is the extra time a run with strategy gets, and the whole limit of a strategy job
+    on a saved run."""
+
+    available: bool
+    time_limit_s: float
+    constraints: ConstraintLimits
+
+
+class ChatLimits(BaseModel):
+    max_message_chars: int
+    max_user_turns: int
+
+
 class MetaResponse(BaseModel):
     app_name: str
     version: str
@@ -100,6 +131,10 @@ class MetaResponse(BaseModel):
     stages: list[StageInfo]
     run_limits: RunLimits
     providers: Providers
+    # Milestone 3 (Section 12.1). Always sent; optional in the schema so existing clients and their
+    # typed fixtures stay valid.
+    strategy: StrategyInfo | None = None
+    chat: ChatLimits | None = None
 
 
 # --- /api/runs ------------------------------------------------------------------------------------
@@ -113,6 +148,19 @@ class RunRequest(BaseModel):
 
     submission: IdeaSubmission
     idea_override: ExtractedIdea | None = None
+    # Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 12.1): the three strategy stages
+    # after the four, with the founder's resource constraints. Without them a run is as before.
+    include_strategy: bool = False
+    constraints: StrategyConstraints | None = None
+
+
+class StrategyRequest(BaseModel):
+    """Generate strategy for a saved run (Section 12.2). `missing` runs only the absent stages."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    mode: Literal[STRATEGY_MODES] = "missing"
+    constraints: StrategyConstraints | None = None
 
 
 class RunStarted(BaseModel):
@@ -150,10 +198,14 @@ class RunDetail(BaseModel):
     submission: IdeaSubmission
     idea_override: ExtractedIdea | None = None
     result: PipelineResult | None = None
+    # Milestone 3 (Section 12.1): the founder's resource constraints, if any were given.
+    constraints: StrategyConstraints | None = None
 
 
 class RunSummary(BaseModel):
-    """One row of the history list. `status` is the result's status when there is a result."""
+    """One row of the history list. `status` is the result's status when there is a result.
+    `has_strategy` (Milestone 3) says whether the run asked for the strategy stages or was given them
+    later; it is always sent, and optional in the schema only so existing clients stay valid."""
 
     id: str
     title: str
@@ -162,6 +214,7 @@ class RunSummary(BaseModel):
     status: Literal[RESULT_STATUSES] | None = None
     created_at: str
     duration_s: float | None = None
+    has_strategy: bool | None = None
 
 
 class RunList(BaseModel):

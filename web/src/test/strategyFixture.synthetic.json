@@ -1,0 +1,2036 @@
+{
+  "status": "complete",
+  "idea": {
+    "idea_title": "CropScan: AI crop disease detection",
+    "problem": "Small farmers in India lose crops because diseases are spotted too late.",
+    "solution": "A phone app that detects crop diseases from a photo and suggests treatment.",
+    "target_customers": [
+      "Small farmers in India",
+      "Agricultural cooperatives"
+    ],
+    "industry": "Agriculture / AgriTech",
+    "key_features": [
+      "Photo-based diagnosis",
+      "Treatment advice",
+      "Local language support"
+    ]
+  },
+  "search": {
+    "sections": [
+      {
+        "label": "Market size and trends",
+        "query": "Market size and trends query",
+        "answer": "Plantix and Fasal are widely used crop advisory apps in India.",
+        "results": [
+          {
+            "title": "Crop AI market report",
+            "url": "https://reports.example/crop-ai-market",
+            "snippet": "The AI crop disease detection market was valued at USD 1.8 billion in 2025.",
+            "score": 0.9
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitors",
+        "query": "Competitors query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Plantix crop doctor app",
+            "url": "https://plantix.example/about",
+            "snippet": "Plantix offers photo-based crop disease diagnosis in 18 languages and is free to download.",
+            "score": 0.9
+          },
+          {
+            "title": "Top Agrio Alternatives, Competitors",
+            "url": "https://directory.example/agrio/alternatives",
+            "snippet": "Top Agrio alternatives include Plantix, Fasal and Map My Crop, which offer crop monitoring and advisory.",
+            "score": 0.8
+          },
+          {
+            "title": "CropSense launches drone scouting",
+            "url": "https://news.example/cropsense-launch",
+            "snippet": "CropSense, a new startup, launched drone-based disease scouting for farming cooperatives in 2026.",
+            "score": 0.7
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Customer demand and pain points",
+        "query": "Customer demand and pain points query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Farmer survey",
+            "url": "https://farmers.example/survey",
+            "snippet": "Most small farmers say they lose crops because diseases are spotted late.",
+            "score": 0.6
+          }
+        ],
+        "error": null
+      }
+    ],
+    "total_results": 5,
+    "queries_failed": 0
+  },
+  "warnings": [
+    "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used",
+    "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources",
+    "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission",
+    "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results",
+    "Planning go-to-market: 1 channel may be above a bootstrapped budget (Radio farm shows)"
+  ],
+  "errors": [],
+  "timings": {
+    "extraction": 0.0,
+    "search": 0.0,
+    "market_opportunity": 0.002,
+    "competitor_analysis": 0.006,
+    "swot_risk": 0.006,
+    "mvp_recommendation": 0.007,
+    "go_to_market": 0.009,
+    "total": 0.031
+  },
+  "market": {
+    "industry_overview": {
+      "summary": "AI crop disease detection is a growing part of AgriTech.",
+      "market_category": "AI crop disease detection",
+      "developments": [
+        {
+          "text": "A new startup launched drone-based disease scouting for farming cooperatives.",
+          "basis": "sourced",
+          "source_ids": [
+            "S4"
+          ]
+        }
+      ]
+    },
+    "market_demand": {
+      "summary": "Small farmers lose crops when diseases are spotted late.",
+      "demand_evidence": [
+        {
+          "text": "Most small farmers say they lose crops because diseases are spotted late.",
+          "basis": "sourced",
+          "source_ids": [
+            "S5"
+          ]
+        }
+      ],
+      "customer_problems": [
+        {
+          "text": "Diseases are spotted too late to save the crop.",
+          "basis": "sourced",
+          "source_ids": [
+            "S5"
+          ]
+        }
+      ],
+      "interest_signals": [
+        {
+          "text": "Photo-based diagnosis apps already reach farmers in their own languages.",
+          "basis": "ai_interpretation",
+          "source_ids": [
+            "S2"
+          ]
+        }
+      ]
+    },
+    "market_size": {
+      "tam": {
+        "value": "USD 1.8 billion",
+        "status": "sourced",
+        "source_ids": [
+          "S1"
+        ],
+        "note": "AI crop disease detection market, 2025",
+        "scope": "idea_market"
+      },
+      "sam": {
+        "value": null,
+        "status": "unavailable",
+        "source_ids": [],
+        "note": "No figure for India was found",
+        "scope": null
+      },
+      "som": {
+        "value": null,
+        "status": "unavailable",
+        "source_ids": [],
+        "note": null,
+        "scope": null
+      }
+    },
+    "broader_markets": [],
+    "trends": [
+      {
+        "trend": "Drone-based disease scouting",
+        "category": "technology",
+        "basis": "sourced",
+        "source_ids": [
+          "S4"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "name": "Smallholder farmers",
+        "description": "Farmers on small plots who lose crops to late diagnosis.",
+        "segmentation_basis": "business_type",
+        "needs": [
+          "Early disease warnings"
+        ],
+        "pain_points": [
+          {
+            "text": "Crops lost to late diagnosis",
+            "basis": "sourced",
+            "source_ids": [
+              "S5"
+            ]
+          }
+        ],
+        "source_ids": [
+          "S5"
+        ]
+      },
+      {
+        "name": "Farming cooperatives",
+        "description": "Groups that advise many member farmers.",
+        "segmentation_basis": "business_type",
+        "needs": [
+          "Scouting across many fields"
+        ],
+        "pain_points": [
+          {
+            "text": "Few experts per member",
+            "basis": "assumption",
+            "source_ids": []
+          }
+        ],
+        "source_ids": [
+          "S4"
+        ]
+      }
+    ],
+    "priority_segment": {
+      "segment_name": "Smallholder farmers",
+      "rationale": "They feel the crop losses most directly.",
+      "risks": [
+        "Free diagnosis apps already serve them"
+      ]
+    },
+    "opportunities": [
+      {
+        "text": "Treatment advice in local languages",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S2"
+        ]
+      }
+    ],
+    "limitations": [
+      {
+        "text": "A free photo diagnosis app is already available",
+        "basis": "sourced",
+        "source_ids": [
+          "S2"
+        ]
+      }
+    ],
+    "data_quality": {
+      "evidence_level": "limited",
+      "notes": [
+        "No market figure for India was found."
+      ]
+    },
+    "sources": [
+      {
+        "id": "S1",
+        "title": "Crop AI market report",
+        "url": "https://reports.example/crop-ai-market"
+      },
+      {
+        "id": "S2",
+        "title": "Plantix crop doctor app",
+        "url": "https://plantix.example/about"
+      },
+      {
+        "id": "S4",
+        "title": "CropSense launches drone scouting",
+        "url": "https://news.example/cropsense-launch"
+      },
+      {
+        "id": "S5",
+        "title": "Farmer survey",
+        "url": "https://farmers.example/survey"
+      }
+    ],
+    "caveats": [
+      "Market figures are evidence-dependent and need verification."
+    ]
+  },
+  "competitors": {
+    "competitors": [
+      {
+        "name": "Plantix",
+        "type": "direct",
+        "relevance_note": "A photo-based crop disease diagnosis app for farmers, the same job as this idea.",
+        "website": "https://plantix.example",
+        "source_ids": [
+          "S1",
+          "S5"
+        ],
+        "offering": "Photo-based crop disease diagnosis app",
+        "target_segment": "Farmers in India",
+        "key_features": [
+          "Photo-based diagnosis",
+          "Local language support",
+          "Expert chat"
+        ],
+        "value_proposition": "Free diagnosis in 18 languages",
+        "pricing_model": {
+          "value": "Free; Pro INR 499 a year",
+          "status": "sourced",
+          "source_ids": [
+            "S5"
+          ],
+          "note": null
+        },
+        "strengths": [
+          {
+            "text": "Diagnosis in 18 languages",
+            "basis": "sourced",
+            "source_ids": [
+              "S1"
+            ]
+          }
+        ],
+        "weaknesses": [
+          {
+            "text": "Expert chat needs the paid Pro plan",
+            "basis": "sourced",
+            "source_ids": [
+              "S5"
+            ]
+          }
+        ],
+        "positioning": "Free mass-market crop doctor",
+        "differentiation_vs_startup": "CropScan must beat a free incumbent on accuracy or advice.",
+        "basis": "sourced",
+        "info_completeness": "complete"
+      },
+      {
+        "name": "LeafDoc",
+        "type": "direct",
+        "relevance_note": "Named by the founder as the main rival; sells photo diagnosis.",
+        "website": "https://leafdoc.example",
+        "source_ids": [
+          "S4"
+        ],
+        "offering": "Paid photo diagnosis with expert chat",
+        "target_segment": null,
+        "key_features": [
+          "Photo-based diagnosis",
+          "Expert chat"
+        ],
+        "value_proposition": null,
+        "pricing_model": {
+          "value": "5 USD a month",
+          "status": "sourced",
+          "source_ids": [
+            "S4"
+          ],
+          "note": null
+        },
+        "strengths": [],
+        "weaknesses": [],
+        "positioning": null,
+        "differentiation_vs_startup": null,
+        "basis": "user_provided",
+        "info_completeness": "partial"
+      },
+      {
+        "name": "Fasal",
+        "type": "indirect",
+        "relevance_note": "A crop monitoring and advisory platform listed next to Plantix.",
+        "website": null,
+        "source_ids": [
+          "S2"
+        ],
+        "offering": "Crop monitoring and advisory",
+        "target_segment": null,
+        "key_features": [
+          "Crop monitoring"
+        ],
+        "value_proposition": null,
+        "pricing_model": {
+          "value": null,
+          "status": "unavailable",
+          "source_ids": [],
+          "note": null
+        },
+        "strengths": [],
+        "weaknesses": [],
+        "positioning": null,
+        "differentiation_vs_startup": null,
+        "basis": "sourced",
+        "info_completeness": "minimal"
+      },
+      {
+        "name": "CropSense",
+        "type": "emerging",
+        "relevance_note": "A new drone-based disease scouting service for cooperatives.",
+        "website": null,
+        "source_ids": [
+          "S3"
+        ],
+        "offering": "Drone-based disease scouting",
+        "target_segment": "Farming cooperatives",
+        "key_features": [
+          "Drone scouting"
+        ],
+        "value_proposition": null,
+        "pricing_model": {
+          "value": null,
+          "status": "unavailable",
+          "source_ids": [],
+          "note": null
+        },
+        "strengths": [],
+        "weaknesses": [],
+        "positioning": null,
+        "differentiation_vs_startup": null,
+        "basis": "sourced",
+        "info_completeness": "partial"
+      },
+      {
+        "name": "Kisan call centres",
+        "type": "indirect",
+        "relevance_note": "A free phone helpline is a substitute for a diagnosis app.",
+        "website": null,
+        "source_ids": [
+          "S6"
+        ],
+        "offering": "Free phone advice on crop diseases in local languages",
+        "target_segment": "Farmers",
+        "key_features": [
+          "Local language support"
+        ],
+        "value_proposition": "Free advice by phone",
+        "pricing_model": {
+          "value": "Free",
+          "status": "sourced",
+          "source_ids": [
+            "S6"
+          ],
+          "note": null
+        },
+        "strengths": [
+          {
+            "text": "Advice in local languages",
+            "basis": "sourced",
+            "source_ids": [
+              "S6"
+            ]
+          }
+        ],
+        "weaknesses": [],
+        "positioning": null,
+        "differentiation_vs_startup": "CropScan gives instant photo diagnosis without a phone call.",
+        "basis": "sourced",
+        "info_completeness": "complete"
+      }
+    ],
+    "comparison": {
+      "features": [
+        "Photo-based diagnosis",
+        "Treatment advice",
+        "Local language support",
+        "Expert chat",
+        "Drone scouting",
+        "Crop monitoring"
+      ],
+      "rows": [
+        {
+          "competitor": "Plantix",
+          "cells": [
+            {
+              "feature": "Photo-based diagnosis",
+              "status": "evidence_found",
+              "source_ids": [
+                "S1"
+              ]
+            },
+            {
+              "feature": "Treatment advice",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Local language support",
+              "status": "evidence_found",
+              "source_ids": [
+                "S1"
+              ]
+            },
+            {
+              "feature": "Expert chat",
+              "status": "evidence_found",
+              "source_ids": [
+                "S5"
+              ]
+            },
+            {
+              "feature": "Drone scouting",
+              "status": "no_evidence_found",
+              "source_ids": [
+                "S1"
+              ]
+            },
+            {
+              "feature": "Crop monitoring",
+              "status": "unclear",
+              "source_ids": []
+            }
+          ]
+        },
+        {
+          "competitor": "LeafDoc",
+          "cells": [
+            {
+              "feature": "Photo-based diagnosis",
+              "status": "evidence_found",
+              "source_ids": [
+                "S4"
+              ]
+            },
+            {
+              "feature": "Treatment advice",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Local language support",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Expert chat",
+              "status": "evidence_found",
+              "source_ids": [
+                "S4"
+              ]
+            },
+            {
+              "feature": "Drone scouting",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Crop monitoring",
+              "status": "unclear",
+              "source_ids": []
+            }
+          ]
+        },
+        {
+          "competitor": "Fasal",
+          "cells": [
+            {
+              "feature": "Photo-based diagnosis",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Treatment advice",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Local language support",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Expert chat",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Drone scouting",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Crop monitoring",
+              "status": "unclear",
+              "source_ids": []
+            }
+          ]
+        },
+        {
+          "competitor": "CropSense",
+          "cells": [
+            {
+              "feature": "Photo-based diagnosis",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Treatment advice",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Local language support",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Expert chat",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Drone scouting",
+              "status": "evidence_found",
+              "source_ids": [
+                "S3"
+              ]
+            },
+            {
+              "feature": "Crop monitoring",
+              "status": "unclear",
+              "source_ids": []
+            }
+          ]
+        },
+        {
+          "competitor": "Kisan call centres",
+          "cells": [
+            {
+              "feature": "Photo-based diagnosis",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Treatment advice",
+              "status": "evidence_found",
+              "source_ids": [
+                "S6"
+              ]
+            },
+            {
+              "feature": "Local language support",
+              "status": "evidence_found",
+              "source_ids": [
+                "S6"
+              ]
+            },
+            {
+              "feature": "Expert chat",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Drone scouting",
+              "status": "unclear",
+              "source_ids": []
+            },
+            {
+              "feature": "Crop monitoring",
+              "status": "unclear",
+              "source_ids": []
+            }
+          ]
+        }
+      ],
+      "feature_coverage": [
+        {
+          "feature": "Photo-based diagnosis",
+          "competitors_with_evidence": 2
+        },
+        {
+          "feature": "Treatment advice",
+          "competitors_with_evidence": 1
+        },
+        {
+          "feature": "Local language support",
+          "competitors_with_evidence": 2
+        },
+        {
+          "feature": "Expert chat",
+          "competitors_with_evidence": 2
+        },
+        {
+          "feature": "Drone scouting",
+          "competitors_with_evidence": 1
+        },
+        {
+          "feature": "Crop monitoring",
+          "competitors_with_evidence": 0
+        }
+      ]
+    },
+    "market_gaps": [
+      {
+        "description": "Few competitors show treatment advice tailored to the diagnosed disease.",
+        "related_features": [
+          "Treatment advice"
+        ],
+        "basis": "ai_interpretation",
+        "source_ids": [],
+        "confidence": "medium",
+        "caveat": "Absence from search results does not prove a competitor or a gap does not exist."
+      },
+      {
+        "description": "No competitor in the results mentions offline diagnosis.",
+        "related_features": [],
+        "basis": "ai_interpretation",
+        "source_ids": [],
+        "confidence": "low",
+        "caveat": "Absence from search results does not prove a competitor or a gap does not exist."
+      }
+    ],
+    "differentiation_opportunities": [
+      {
+        "text": "Combine photo diagnosis with treatment advice in local languages.",
+        "basis": "ai_interpretation",
+        "source_ids": [
+          "S1",
+          "S6"
+        ]
+      }
+    ],
+    "queries_used": [
+      "LeafDoc pricing features",
+      "Plantix pricing features",
+      "CropSense pricing features",
+      "A phone app that detects crop diseases from alternatives substitutes Small farmers in India",
+      "Agriculture / AgriTech A phone app that detects crop diseases from emerging startups new approaches"
+    ],
+    "sources": [
+      {
+        "id": "S1",
+        "title": "Plantix crop doctor app",
+        "url": "https://plantix.example/about"
+      },
+      {
+        "id": "S2",
+        "title": "Top Agrio Alternatives, Competitors",
+        "url": "https://directory.example/agrio/alternatives"
+      },
+      {
+        "id": "S3",
+        "title": "CropSense launches drone scouting",
+        "url": "https://news.example/cropsense-launch"
+      },
+      {
+        "id": "S4",
+        "title": "LeafDoc pricing",
+        "url": "https://leafdoc.example/pricing"
+      },
+      {
+        "id": "S5",
+        "title": "Plantix pricing",
+        "url": "https://plantix.example/pricing"
+      },
+      {
+        "id": "S6",
+        "title": "Kisan call centre helpline",
+        "url": "https://helpline.example/kisan"
+      }
+    ],
+    "data_quality": {
+      "evidence_level": "strong",
+      "notes": [
+        "Pricing for Fasal and CropSense was not found."
+      ]
+    },
+    "caveats": [
+      "Absence from search results does not prove a competitor or a gap does not exist."
+    ]
+  },
+  "market_search": {
+    "sections": [
+      {
+        "label": "Market size for this idea",
+        "query": "Market size for this idea query",
+        "answer": null,
+        "results": [],
+        "error": "No live results found for this query."
+      },
+      {
+        "label": "Market size for the target customers",
+        "query": "Market size for the target customers query",
+        "answer": null,
+        "results": [],
+        "error": "No live results found for this query."
+      }
+    ],
+    "total_results": 0,
+    "queries_failed": 0
+  },
+  "competitor_candidates": [
+    {
+      "name": "Plantix",
+      "type": "direct",
+      "source_ids": [
+        "S2",
+        "S3"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "Fasal",
+      "type": "indirect",
+      "source_ids": [
+        "S3"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "Map My Crop",
+      "type": "indirect",
+      "source_ids": [
+        "S3"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "CropSense",
+      "type": "emerging",
+      "source_ids": [
+        "S4"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "name": "LeafDoc",
+      "type": "direct",
+      "source_ids": [],
+      "basis": "user_provided"
+    }
+  ],
+  "competitor_search": {
+    "sections": [
+      {
+        "label": "Competitor: LeafDoc",
+        "query": "Competitor: LeafDoc query",
+        "answer": null,
+        "results": [
+          {
+            "title": "LeafDoc pricing",
+            "url": "https://leafdoc.example/pricing",
+            "snippet": "LeafDoc charges 5 USD a month for unlimited photo diagnosis and expert chat.",
+            "score": 0.9
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitor: Plantix",
+        "query": "Competitor: Plantix query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Plantix pricing",
+            "url": "https://plantix.example/pricing",
+            "snippet": "Plantix is free for farmers; Plantix Pro costs INR 499 a year and adds expert chat.",
+            "score": 0.9
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Competitor: CropSense",
+        "query": "Competitor: CropSense query",
+        "answer": null,
+        "results": [],
+        "error": "No live results found for this query."
+      },
+      {
+        "label": "Alternatives and substitutes",
+        "query": "Alternatives and substitutes query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Kisan call centre helpline",
+            "url": "https://helpline.example/kisan",
+            "snippet": "Kisan call centres give free phone advice on crop diseases in local languages.",
+            "score": 0.8
+          }
+        ],
+        "error": null
+      },
+      {
+        "label": "Emerging approaches",
+        "query": "Emerging approaches query",
+        "answer": null,
+        "results": [
+          {
+            "title": "Drone scouting research",
+            "url": "https://research.example/drone-scouting",
+            "snippet": "Startups are testing drone imaging for early crop disease detection.",
+            "score": 0.7
+          }
+        ],
+        "error": null
+      }
+    ],
+    "total_results": 4,
+    "queries_failed": 0
+  },
+  "notices": [
+    {
+      "stage": "market_opportunity",
+      "code": "search_empty",
+      "severity": "warning",
+      "message": "The market-size searches found no results, so only the main search results were used.",
+      "detail": "Market opportunity: the targeted market-size searches found no results, so only the standard search results were used"
+    },
+    {
+      "stage": "competitor_analysis",
+      "code": "candidate_dropped",
+      "severity": "info",
+      "message": "AgroGhost was not searched further because its sources do not name it.",
+      "detail": "Competitor analysis: Phase A: dropped candidate 'AgroGhost': it is not named in its cited sources"
+    },
+    {
+      "stage": "competitor_analysis",
+      "code": "candidate_dropped",
+      "severity": "info",
+      "message": "KisanBot was not searched further because it was listed as named by you, but your submission does not mention it.",
+      "detail": "Competitor analysis: Phase A: dropped candidate 'KisanBot': the founder did not name it in the submission"
+    },
+    {
+      "stage": "competitor_analysis",
+      "code": "search_empty",
+      "severity": "warning",
+      "message": "One competitor search found no results.",
+      "detail": "Competitor analysis: the targeted search 'Competitor: CropSense query' found no results"
+    },
+    {
+      "stage": "go_to_market",
+      "code": "gtm_budget_conflict",
+      "severity": "info",
+      "message": "Some channels may cost more than a bootstrapped budget.",
+      "detail": "Planning go-to-market: 1 channel may be above a bootstrapped budget (Radio farm shows)"
+    }
+  ],
+  "evidence_strength": {
+    "label": "strong",
+    "score": 0.7475,
+    "components": [
+      {
+        "key": "sourced_share",
+        "label": "Sourced share",
+        "weight": 0.4,
+        "value": 0.65,
+        "detail": "13 of 20 labelled claims are backed by a cited source."
+      },
+      {
+        "key": "source_breadth",
+        "label": "Source breadth",
+        "weight": 0.3,
+        "value": 0.875,
+        "detail": "7 distinct source websites, counted up to 8."
+      },
+      {
+        "key": "evidence_level",
+        "label": "Evidence level",
+        "weight": 0.3,
+        "value": 0.75,
+        "detail": "Market evidence rated limited; Competitor evidence rated strong."
+      }
+    ],
+    "caption": "How well the findings are backed by sources. This is not a prediction of success."
+  },
+  "executive_summary": [
+    {
+      "topic": "market_size",
+      "text": "Market size (TAM): USD 1.8 billion (AI crop disease detection market, 2025).",
+      "basis": "sourced",
+      "source_ids": [
+        "S1"
+      ],
+      "analysis": "market"
+    },
+    {
+      "topic": "demand",
+      "text": "Demand: Most small farmers say they lose crops because diseases are spotted late.",
+      "basis": "sourced",
+      "source_ids": [
+        "S5"
+      ],
+      "analysis": "market"
+    },
+    {
+      "topic": "priority_segment",
+      "text": "Priority segment: Smallholder farmers. They feel the crop losses most directly.",
+      "basis": "ai_interpretation",
+      "source_ids": [
+        "S5"
+      ],
+      "analysis": "market"
+    },
+    {
+      "topic": "competitors",
+      "text": "5 competitors found: 2 direct, 2 indirect and 1 emerging.",
+      "basis": null,
+      "source_ids": [],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "gap",
+      "text": "Possible gap (medium confidence, a hypothesis): Few competitors show treatment advice tailored to the diagnosed disease.",
+      "basis": "ai_interpretation",
+      "source_ids": [],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "limitation",
+      "text": "Main limitation: A free photo diagnosis app is already available.",
+      "basis": "sourced",
+      "source_ids": [
+        "S2"
+      ],
+      "analysis": "market"
+    },
+    {
+      "topic": "top_risk",
+      "text": "Main risk (high severity, market): Farmers stay with the free app.",
+      "basis": "ai_interpretation",
+      "source_ids": [
+        "S1",
+        "S5"
+      ],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "mvp_scope",
+      "text": "First release, the top 3 of 6 features: Photo-based diagnosis, Treatment advice and Local language support.",
+      "basis": "user_provided",
+      "source_ids": [
+        "S1",
+        "S6"
+      ],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "start_channel",
+      "text": "Go-to-market, start here: Short demo videos on a messaging app.",
+      "basis": "ai_interpretation",
+      "source_ids": [
+        "S2"
+      ],
+      "analysis": "market"
+    }
+  ],
+  "verify_next": [
+    {
+      "topic": "market_size",
+      "text": "Find a reliable market size for this idea's own market: no source confirmed the SAM or SOM.",
+      "source_ids": [],
+      "analysis": "market"
+    },
+    {
+      "topic": "evidence",
+      "text": "Look for stronger market sources: the market evidence was rated limited.",
+      "source_ids": [],
+      "analysis": "market"
+    },
+    {
+      "topic": "competitor",
+      "text": "Find out more about Fasal: the sources gave little detail.",
+      "source_ids": [
+        "S2"
+      ],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "gap",
+      "text": "Test the low-confidence gap: No competitor in the results mentions offline diagnosis.",
+      "source_ids": [],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "risk",
+      "text": "Check the high-severity risk \"Farmers stay with the free app\", which has low confidence. Early warning sign: Pilot users raise farmers stay with the free app in interviews.",
+      "source_ids": [
+        "S1",
+        "S5"
+      ],
+      "analysis": "competitors"
+    },
+    {
+      "topic": "risk",
+      "text": "Check the high-severity risk \"Wrong diagnosis on poor photos\", which has low confidence. Early warning sign: Pilot users raise wrong diagnosis on poor photos in interviews.",
+      "source_ids": [],
+      "analysis": null
+    },
+    {
+      "topic": "channel",
+      "text": "Run the first experiment for Short demo videos on a messaging app: Try short demo videos on a messaging app with a few farmers for two weeks.",
+      "source_ids": [
+        "S2"
+      ],
+      "analysis": "market"
+    }
+  ],
+  "swot": {
+    "summary": "The idea meets a clear farmer problem. Free alternatives make adoption the main question.",
+    "strengths": [
+      {
+        "id": "SW1",
+        "text": "The app diagnoses crop disease from a single phone photo.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "user_provided",
+        "based_on": [
+          "IDEA.3"
+        ],
+        "sources": []
+      },
+      {
+        "id": "SW2",
+        "text": "Treatment advice comes with every diagnosis.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "user_provided",
+        "based_on": [
+          "IDEA.8"
+        ],
+        "sources": []
+      },
+      {
+        "id": "SW3",
+        "text": "Local language support lowers the barrier for rural users.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "user_provided",
+        "based_on": [
+          "IDEA.9"
+        ],
+        "sources": []
+      }
+    ],
+    "weaknesses": [
+      {
+        "id": "SW4",
+        "text": "The concept relies on farmers owning a camera phone.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "IDEA.4"
+        ],
+        "sources": []
+      },
+      {
+        "id": "SW5",
+        "text": "Diagnosis quality depends on training images not yet collected.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "assumption",
+        "based_on": [],
+        "sources": []
+      },
+      {
+        "id": "SW6",
+        "text": "A small assumed team limits field testing.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "assumption",
+        "based_on": [
+          "CON.1"
+        ],
+        "sources": []
+      }
+    ],
+    "opportunities": [
+      {
+        "id": "SW7",
+        "text": "Late diagnosis is a widely reported farmer problem.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.5",
+          "MKT.6"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S5"
+          }
+        ]
+      },
+      {
+        "id": "SW8",
+        "text": "Advice in local languages is still an open niche.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.17",
+          "CMP.25"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S2"
+          }
+        ]
+      },
+      {
+        "id": "SW9",
+        "text": "Cooperatives could distribute the app to their members.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.14"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S4"
+          }
+        ]
+      }
+    ],
+    "threats": [
+      {
+        "id": "SW10",
+        "text": "An established free diagnosis app already serves farmers.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.1",
+          "MKT.18"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S1"
+          },
+          {
+            "analysis": "competitors",
+            "id": "S5"
+          },
+          {
+            "analysis": "market",
+            "id": "S2"
+          }
+        ]
+      },
+      {
+        "id": "SW11",
+        "text": "Public helplines give free advice by phone.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.15"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S6"
+          }
+        ]
+      },
+      {
+        "id": "SW12",
+        "text": "Drone scouting services may reach cooperatives first.",
+        "why_it_matters": "It shapes the first release.",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.12"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S3"
+          }
+        ]
+      }
+    ],
+    "risks": [
+      {
+        "id": "R1",
+        "category": "market",
+        "title": "Farmers stay with the free app",
+        "description": "The incumbent already has wide reach.",
+        "likelihood": "high",
+        "impact": "high",
+        "severity": "high",
+        "mitigation": "Run a small pilot that tests farmers stay with the free app.",
+        "early_warning_signal": "Pilot users raise farmers stay with the free app in interviews.",
+        "confidence": "low",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.1"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S1"
+          },
+          {
+            "analysis": "competitors",
+            "id": "S5"
+          }
+        ]
+      },
+      {
+        "id": "R2",
+        "category": "technical",
+        "title": "Wrong diagnosis on poor photos",
+        "description": "Blurry images may mislead the model.",
+        "likelihood": "medium",
+        "impact": "high",
+        "severity": "high",
+        "mitigation": "Run a small pilot that tests wrong diagnosis on poor photos.",
+        "early_warning_signal": "Pilot users raise wrong diagnosis on poor photos in interviews.",
+        "confidence": "low",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "IDEA.3"
+        ],
+        "sources": []
+      },
+      {
+        "id": "R3",
+        "category": "business",
+        "title": "Cooperatives delay adoption",
+        "description": "Groups may take a season to decide.",
+        "likelihood": "medium",
+        "impact": "medium",
+        "severity": "medium",
+        "mitigation": "Run a small pilot that tests cooperatives delay adoption.",
+        "early_warning_signal": "Pilot users raise cooperatives delay adoption in interviews.",
+        "confidence": "low",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.14"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S4"
+          }
+        ]
+      },
+      {
+        "id": "R4",
+        "category": "financial",
+        "title": "Farmers resist paying",
+        "description": "Free options make paid advice hard to sell.",
+        "likelihood": "high",
+        "impact": "low",
+        "severity": "medium",
+        "mitigation": "Run a small pilot that tests farmers resist paying.",
+        "early_warning_signal": "Pilot users raise farmers resist paying in interviews.",
+        "confidence": "low",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.3"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S5"
+          }
+        ]
+      },
+      {
+        "id": "R5",
+        "category": "operational",
+        "title": "Advice goes out of date",
+        "description": "Treatment guidance needs regular review.",
+        "likelihood": "low",
+        "impact": "medium",
+        "severity": "low",
+        "mitigation": "Run a small pilot that tests advice goes out of date.",
+        "early_warning_signal": "Pilot users raise advice goes out of date in interviews.",
+        "confidence": "low",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.25"
+        ],
+        "sources": []
+      },
+      {
+        "id": "R6",
+        "category": "market",
+        "title": "Drone services win cooperatives",
+        "description": "Scouting firms could bundle diagnosis.",
+        "likelihood": "low",
+        "impact": "low",
+        "severity": "low",
+        "mitigation": "Run a small pilot that tests drone services win cooperatives.",
+        "early_warning_signal": "Pilot users raise drone services win cooperatives in interviews.",
+        "confidence": "low",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.12"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S3"
+          }
+        ]
+      }
+    ],
+    "risk_category_coverage": {
+      "business": 1,
+      "market": 2,
+      "technical": 1,
+      "financial": 1,
+      "operational": 1
+    },
+    "coverage_gaps": [],
+    "limitations": [
+      "No market figure for India was found."
+    ],
+    "quality": {
+      "inputs_used": [
+        "idea",
+        "market",
+        "competitors"
+      ],
+      "inputs_missing": [],
+      "constraints_provided": [
+        "team_size",
+        "months_to_mvp",
+        "budget_level"
+      ],
+      "constraints_assumed": [],
+      "basis_counts": {
+        "ai_interpretation": 13,
+        "assumption": 2,
+        "user_provided": 3
+      },
+      "grounded_share": 0.944,
+      "warnings_count": 0
+    },
+    "warnings": []
+  },
+  "mvp": {
+    "summary": "The first release should diagnose and advise in local languages. Dashboards can wait.",
+    "features": [
+      {
+        "id": "F1",
+        "name": "Photo-based diagnosis",
+        "description": "Lets a farmer use photo-based diagnosis from the phone.",
+        "user_problem": "Farmers lack photo-based diagnosis today.",
+        "origin": "founder_listed",
+        "essential": true,
+        "customer_need": 5,
+        "differentiation": 2,
+        "feasibility": 4,
+        "effort": "M",
+        "score": 3.8,
+        "tier": "mvp",
+        "rank": 1,
+        "rationale": "Photo-based diagnosis answers a need named in the facts.",
+        "mitigates_risk_ids": [],
+        "basis": "user_provided",
+        "based_on": [
+          "IDEA.7",
+          "MKT.5"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S5"
+          }
+        ]
+      },
+      {
+        "id": "F2",
+        "name": "Treatment advice",
+        "description": "Lets a farmer use treatment advice from the phone.",
+        "user_problem": "Farmers lack treatment advice today.",
+        "origin": "founder_listed",
+        "essential": true,
+        "customer_need": 4,
+        "differentiation": 4,
+        "feasibility": 3,
+        "effort": "M",
+        "score": 3.7,
+        "tier": "mvp",
+        "rank": 2,
+        "rationale": "Treatment advice answers a need named in the facts.",
+        "mitigates_risk_ids": [
+          "R2"
+        ],
+        "basis": "user_provided",
+        "based_on": [
+          "IDEA.8",
+          "CMP.25"
+        ],
+        "sources": []
+      },
+      {
+        "id": "F3",
+        "name": "Local language support",
+        "description": "Lets a farmer use local language support from the phone.",
+        "user_problem": "Farmers lack local language support today.",
+        "origin": "founder_listed",
+        "essential": false,
+        "customer_need": 4,
+        "differentiation": 3,
+        "feasibility": 3,
+        "effort": "S",
+        "score": 3.4,
+        "tier": "mvp",
+        "rank": 3,
+        "rationale": "Local language support answers a need named in the facts.",
+        "mitigates_risk_ids": [],
+        "basis": "user_provided",
+        "based_on": [
+          "IDEA.9",
+          "CMP.21"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S1"
+          },
+          {
+            "analysis": "competitors",
+            "id": "S6"
+          }
+        ]
+      },
+      {
+        "id": "F6",
+        "name": "Photo quality guide",
+        "description": "Lets a farmer use photo quality guide from the phone.",
+        "user_problem": "Farmers lack photo quality guide today.",
+        "origin": "suggested",
+        "essential": false,
+        "customer_need": 3,
+        "differentiation": 2,
+        "feasibility": 5,
+        "effort": "S",
+        "score": 3.3,
+        "tier": "mvp",
+        "rank": 4,
+        "rationale": "Photo quality guide answers a need named in the facts.",
+        "mitigates_risk_ids": [
+          "R2"
+        ],
+        "basis": "assumption",
+        "based_on": [],
+        "sources": []
+      },
+      {
+        "id": "F4",
+        "name": "Offline photo capture",
+        "description": "Lets a farmer use offline photo capture from the phone.",
+        "user_problem": "Farmers lack offline photo capture today.",
+        "origin": "gap_opportunity",
+        "essential": false,
+        "customer_need": 3,
+        "differentiation": 4,
+        "feasibility": 3,
+        "effort": "M",
+        "score": 3.3,
+        "tier": "mvp",
+        "rank": 5,
+        "rationale": "Offline photo capture answers a need named in the facts.",
+        "mitigates_risk_ids": [],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.26"
+        ],
+        "sources": []
+      },
+      {
+        "id": "F8",
+        "name": "Advice update log",
+        "description": "Lets a farmer use advice update log from the phone.",
+        "user_problem": "Farmers lack advice update log today.",
+        "origin": "suggested",
+        "essential": false,
+        "customer_need": 2,
+        "differentiation": 3,
+        "feasibility": 4,
+        "effort": "S",
+        "score": 2.9,
+        "tier": "mvp",
+        "rank": 6,
+        "rationale": "Advice update log answers a need named in the facts.",
+        "mitigates_risk_ids": [
+          "R5"
+        ],
+        "basis": "assumption",
+        "based_on": [],
+        "sources": []
+      },
+      {
+        "id": "F5",
+        "name": "Cooperative dashboard",
+        "description": "Lets a farmer use cooperative dashboard from the phone.",
+        "user_problem": "Farmers lack cooperative dashboard today.",
+        "origin": "suggested",
+        "essential": false,
+        "customer_need": 3,
+        "differentiation": 3,
+        "feasibility": 2,
+        "effort": "L",
+        "score": 2.7,
+        "tier": "later",
+        "rank": 7,
+        "rationale": "Cooperative dashboard answers a need named in the facts.",
+        "mitigates_risk_ids": [
+          "R3"
+        ],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.14"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S4"
+          }
+        ]
+      },
+      {
+        "id": "F7",
+        "name": "Expert chat",
+        "description": "Lets a farmer use expert chat from the phone.",
+        "user_problem": "Farmers lack expert chat today.",
+        "origin": "gap_opportunity",
+        "essential": false,
+        "customer_need": 2,
+        "differentiation": 2,
+        "feasibility": 2,
+        "effort": "L",
+        "score": 2.0,
+        "tier": "later",
+        "rank": 8,
+        "rationale": "Expert chat answers a need named in the facts.",
+        "mitigates_risk_ids": [],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.22"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S5"
+          },
+          {
+            "analysis": "competitors",
+            "id": "S4"
+          }
+        ]
+      }
+    ],
+    "capacity_person_months": 4.8,
+    "planned_person_months": 4.5,
+    "over_capacity": false,
+    "constraints_used": {
+      "team_size": 2,
+      "months_to_mvp": 4,
+      "budget_level": "bootstrapped",
+      "technical_skill": null,
+      "launch_region": null
+    },
+    "deferred_reasons": {
+      "F5": "It does not fit in the 4.8 person-months the team has, after the features ranked above it.",
+      "F7": "It does not fit in the 4.8 person-months the team has, after the features ranked above it."
+    },
+    "success_metrics": [
+      {
+        "name": "Weekly diagnoses per farmer",
+        "how_to_measure": "Count diagnoses per pilot farmer each week.",
+        "suggested_target": "Most pilot farmers use it weekly",
+        "basis": "assumption"
+      },
+      {
+        "name": "Treatment follow-through",
+        "how_to_measure": "Ask pilot farmers whether they applied the advice.",
+        "suggested_target": null,
+        "basis": "assumption"
+      },
+      {
+        "name": "Cooperative sign-ups",
+        "how_to_measure": "Count cooperatives that join the pilot.",
+        "suggested_target": "Two cooperatives in the first season",
+        "basis": "assumption"
+      }
+    ],
+    "limitations": [
+      "No facts on how often farmers would open the app."
+    ],
+    "quality": {
+      "inputs_used": [
+        "idea",
+        "market",
+        "competitors",
+        "swot"
+      ],
+      "inputs_missing": [],
+      "constraints_provided": [
+        "team_size",
+        "months_to_mvp",
+        "budget_level"
+      ],
+      "constraints_assumed": [],
+      "basis_counts": {
+        "ai_interpretation": 3,
+        "assumption": 2,
+        "user_provided": 3
+      },
+      "grounded_share": 0.75,
+      "warnings_count": 0
+    },
+    "warnings": []
+  },
+  "gtm": {
+    "summary": "Start with smallholder farmers through short videos and cooperatives. The plan rests on a pilot that shows farmers act on the advice.",
+    "positioning": {
+      "target_segment": "Smallholder farmers",
+      "for_whom": "smallholder farmers on rain-fed plots",
+      "problem": "spot crop diseases too late to save the harvest",
+      "category": "photo diagnosis app",
+      "key_benefit": "names the disease and a treatment from one photo",
+      "alternative": "free diagnosis apps and phone helplines",
+      "differentiator": "it pairs each diagnosis with treatment advice in the farmer's language",
+      "statement": "For smallholder farmers on rain-fed plots who spot crop diseases too late to save the harvest, CropScan: AI crop disease detection is a photo diagnosis app that names the disease and a treatment from one photo. Unlike free diagnosis apps and phone helplines, it pairs each diagnosis with treatment advice in the farmer's language.",
+      "differentiator_status": "hypothesis",
+      "basis": "ai_interpretation",
+      "based_on": [
+        "MKT.12",
+        "MKT.16",
+        "CMP.25",
+        "CMP.27"
+      ],
+      "sources": [
+        {
+          "analysis": "market",
+          "id": "S5"
+        },
+        {
+          "analysis": "competitors",
+          "id": "S1"
+        },
+        {
+          "analysis": "competitors",
+          "id": "S6"
+        }
+      ]
+    },
+    "channels": [
+      {
+        "id": "CH2",
+        "name": "Short demo videos on a messaging app",
+        "kind": "digital",
+        "role": "acquisition",
+        "fit_rationale": "Short demo videos on a messaging app reach farmers where they already look for advice.",
+        "audience_fit": 5,
+        "cost_level": "low",
+        "speed_to_first_result": "days",
+        "first_experiment": "Try short demo videos on a messaging app with a few farmers for two weeks.",
+        "success_signal": "Farmers who met short demo videos on a messaging app send a second photo.",
+        "priority": 1,
+        "start_here": true,
+        "budget_conflict": false,
+        "uses_feature_ids": [
+          "F1"
+        ],
+        "addresses_risk_ids": [
+          "R1"
+        ],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.7"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S2"
+          }
+        ]
+      },
+      {
+        "id": "CH6",
+        "name": "Cooperative staff referrals",
+        "kind": "direct_sales",
+        "role": "both",
+        "fit_rationale": "Cooperative staff referrals reach farmers where they already look for advice.",
+        "audience_fit": 5,
+        "cost_level": "medium",
+        "speed_to_first_result": "weeks",
+        "first_experiment": "Try cooperative staff referrals with a few farmers for two weeks.",
+        "success_signal": "Farmers who met cooperative staff referrals send a second photo.",
+        "priority": 2,
+        "start_here": false,
+        "budget_conflict": false,
+        "uses_feature_ids": [
+          "F5"
+        ],
+        "addresses_risk_ids": [],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.14"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S4"
+          }
+        ]
+      },
+      {
+        "id": "CH4",
+        "name": "Village demo booths",
+        "kind": "offline",
+        "role": "acquisition",
+        "fit_rationale": "Village demo booths reach farmers where they already look for advice.",
+        "audience_fit": 4,
+        "cost_level": "low",
+        "speed_to_first_result": "days",
+        "first_experiment": "Try village demo booths with a few farmers for two weeks.",
+        "success_signal": "Farmers who met village demo booths send a second photo.",
+        "priority": 3,
+        "start_here": false,
+        "budget_conflict": false,
+        "uses_feature_ids": [],
+        "addresses_risk_ids": [
+          "R2"
+        ],
+        "basis": "assumption",
+        "based_on": [],
+        "sources": []
+      },
+      {
+        "id": "CH1",
+        "name": "Cooperative field days",
+        "kind": "offline",
+        "role": "distribution",
+        "fit_rationale": "Cooperative field days reach farmers where they already look for advice.",
+        "audience_fit": 4,
+        "cost_level": "low",
+        "speed_to_first_result": "weeks",
+        "first_experiment": "Try cooperative field days with a few farmers for two weeks.",
+        "success_signal": "Farmers who met cooperative field days send a second photo.",
+        "priority": 4,
+        "start_here": false,
+        "budget_conflict": false,
+        "uses_feature_ids": [
+          "F1",
+          "F3"
+        ],
+        "addresses_risk_ids": [
+          "R3"
+        ],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.14",
+          "MKT.15"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S4"
+          }
+        ]
+      },
+      {
+        "id": "CH3",
+        "name": "Agri-input retailer counters",
+        "kind": "partnership",
+        "role": "both",
+        "fit_rationale": "Agri-input retailer counters reach farmers where they already look for advice.",
+        "audience_fit": 4,
+        "cost_level": "medium",
+        "speed_to_first_result": "weeks",
+        "first_experiment": "Try agri-input retailer counters with a few farmers for two weeks.",
+        "success_signal": "Farmers who met agri-input retailer counters send a second photo.",
+        "priority": 5,
+        "start_here": false,
+        "budget_conflict": false,
+        "uses_feature_ids": [
+          "F2"
+        ],
+        "addresses_risk_ids": [],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.5"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S5"
+          }
+        ]
+      },
+      {
+        "id": "CH5",
+        "name": "Radio farm shows",
+        "kind": "offline",
+        "role": "acquisition",
+        "fit_rationale": "Radio farm shows reach farmers where they already look for advice.",
+        "audience_fit": 3,
+        "cost_level": "high",
+        "speed_to_first_result": "months",
+        "first_experiment": "Try radio farm shows with a few farmers for two weeks.",
+        "success_signal": "Farmers who met radio farm shows send a second photo.",
+        "priority": 6,
+        "start_here": false,
+        "budget_conflict": true,
+        "uses_feature_ids": [],
+        "addresses_risk_ids": [],
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.12"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S5"
+          }
+        ]
+      }
+    ],
+    "early_customers": [
+      {
+        "tactic": "Free diagnosis week at a cooperative",
+        "where_to_find_them": "farming cooperatives with member meetings",
+        "offer": "free photo diagnosis for every member for a week",
+        "how_to_measure": "count members who send a second photo",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.14"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S4"
+          }
+        ]
+      },
+      {
+        "tactic": "Pilot with lead farmers",
+        "where_to_find_them": "villages where one farmer advises the neighbours",
+        "offer": "early access and a direct line for feedback",
+        "how_to_measure": "count neighbours the lead farmer brings in",
+        "basis": "assumption",
+        "based_on": [],
+        "sources": []
+      },
+      {
+        "tactic": "Retailer counter sign-ups",
+        "where_to_find_them": "agri-input retailers in farming towns",
+        "offer": "a printed guide to photo diagnosis",
+        "how_to_measure": "count sign-ups per counter",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "MKT.5"
+        ],
+        "sources": [
+          {
+            "analysis": "market",
+            "id": "S5"
+          }
+        ]
+      },
+      {
+        "tactic": "Local language demo calls",
+        "where_to_find_them": "farmers who use phone helplines today",
+        "offer": "a call that walks through the app in their language",
+        "how_to_measure": "count calls that end in an install",
+        "basis": "ai_interpretation",
+        "based_on": [
+          "CMP.15",
+          "CMP.18"
+        ],
+        "sources": [
+          {
+            "analysis": "competitors",
+            "id": "S6"
+          }
+        ]
+      }
+    ],
+    "launch_phases": [
+      {
+        "name": "Before launch",
+        "goal": "Confirm farmers will send photos",
+        "actions": [
+          "Test photo capture with a few lead farmers",
+          "Prepare advice in two local languages"
+        ]
+      },
+      {
+        "name": "Launch",
+        "goal": "Win the first cooperative",
+        "actions": [
+          "Run a free diagnosis week",
+          "Share demo videos in farmer groups",
+          "Train cooperative staff"
+        ]
+      },
+      {
+        "name": "First 90 days",
+        "goal": "Show that farmers come back",
+        "actions": [
+          "Track repeat photos per farmer",
+          "Collect stories of saved crops"
+        ]
+      }
+    ],
+    "key_messages": [
+      {
+        "audience": "Smallholder farmers",
+        "message": "Send one photo and get the disease name and a treatment",
+        "proof_needed": "Pilot farmers who acted on the advice"
+      },
+      {
+        "audience": "Cooperative staff",
+        "message": "Advise more members without more experts",
+        "proof_needed": "Feedback from a pilot cooperative"
+      },
+      {
+        "audience": "Agri-input retailers",
+        "message": "Help customers pick the right treatment",
+        "proof_needed": "Sign-ups at retailer counters"
+      }
+    ],
+    "limitations": [
+      "No facts on how farmers in the launch region use messaging apps."
+    ],
+    "quality": {
+      "inputs_used": [
+        "idea",
+        "market",
+        "competitors",
+        "swot",
+        "mvp"
+      ],
+      "inputs_missing": [],
+      "constraints_provided": [
+        "team_size",
+        "months_to_mvp",
+        "budget_level"
+      ],
+      "constraints_assumed": [],
+      "basis_counts": {
+        "ai_interpretation": 9,
+        "assumption": 2
+      },
+      "grounded_share": 0.818,
+      "warnings_count": 1
+    },
+    "warnings": [
+      "1 channel may be above a bootstrapped budget (Radio farm shows)"
+    ]
+  },
+  "constraints": {
+    "team_size": 2,
+    "months_to_mvp": 4,
+    "budget_level": "bootstrapped",
+    "technical_skill": null,
+    "launch_region": null
+  }
+}

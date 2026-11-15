@@ -1,0 +1,99 @@
+{
+  "orchestrator_file": "C:\\Users\\akash\\OneDrive\\Pictures\\Infosys-Springboard-Internship\\.agents\\tasks\\m3-t4\\baseline\\orchestrator.py",
+  "run_manager_file": "C:\\Users\\akash\\OneDrive\\Pictures\\Infosys-Springboard-Internship\\.agents\\tasks\\m3-t4\\baseline\\utils\\run_manager.py",
+  "stage_names": [
+    "extraction",
+    "search",
+    "market_opportunity",
+    "competitor_analysis"
+  ],
+  "status": "complete",
+  "timing_keys": [
+    "competitor_analysis",
+    "extraction",
+    "market_opportunity",
+    "search",
+    "total"
+  ],
+  "events": [
+    [
+      "extraction",
+      "started",
+      null,
+      null
+    ],
+    [
+      "extraction",
+      "finished",
+      null,
+      null
+    ],
+    [
+      "search",
+      "started",
+      null,
+      null
+    ],
+    [
+      "search",
+      "finished",
+      null,
+      null
+    ],
+    [
+      "market_opportunity",
+      "started",
+      null,
+      null
+    ],
+    [
+      "market_opportunity",
+      "finished",
+      null,
+      null
+    ],
+    [
+      "competitor_analysis",
+      "started",
+      null,
+      null
+    ],
+    [
+      "competitor_analysis",
+      "finished",
+      null,
+      null
+    ]
+  ],
+  "result_sha256": "EA97276944FC16D80D335C8E241FE907BAA7F0FBCFBB4654C769AAEDB6D2F37A",
+  "manager_state": "done",
+  "manager_message": null,
+  "manager_stages": [
+    [
+      "extraction",
+      "Understanding your idea",
+      "done",
+      null
+    ],
+    [
+      "search",
+      "Searching the web",
+      "done",
+      null
+    ],
+    [
+      "market_opportunity",
+      "Analysing the market",
+      "done",
+      null
+    ],
+    [
+      "competitor_analysis",
+      "Comparing competitors",
+      "done",
+      null
+    ]
+  ],
+  "manager_status": "complete",
+  "manager_result_sha256": "EA97276944FC16D80D335C8E241FE907BAA7F0FBCFBB4654C769AAEDB6D2F37A"
+}

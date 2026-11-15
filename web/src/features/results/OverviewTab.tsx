@@ -14,7 +14,7 @@ import { Citations } from '@/components/CitationChip';
 import { MetricTile } from '@/components/MetricTile';
 import { EvidenceMix } from '@/features/results/EvidenceMix';
 import { QualityNotes } from '@/features/results/QualityNotes';
-import { MISSING, MESSAGES } from '@/lib/format';
+import { MISSING, MESSAGES, count } from '@/lib/format';
 import {
   basisCounts,
   competitorCounts,
@@ -26,6 +26,53 @@ import {
 } from '@/lib/results';
 
 const STRENGTH_WORD = { strong: 'Strong', moderate: 'Moderate', limited: 'Limited' } as const;
+
+const STRATEGY_PART_NAMES = [
+  ['swot', 'the SWOT and risk review'],
+  ['mvp', 'the MVP plan'],
+  ['gtm', 'the go-to-market plan'],
+] as const;
+
+export interface StrategyTile {
+  state: 'generated' | 'partly' | 'none';
+  value: string | null;
+  detail: string;
+}
+
+function inWords(parts: string[]): string {
+  return parts.length <= 1 ? parts.join('') : `${parts.slice(0, -1).join(', ')} and ${parts[parts.length - 1]}`;
+}
+
+/**
+ * Milestone 3, Section 14.5: the Strategy tile. Its value counts what the strategy holds ("7 risks,
+ * 5 features for the first release") and its chip says whether all three parts are there.
+ */
+export function strategyTile(result: PipelineResult): StrategyTile {
+  const present = STRATEGY_PART_NAMES.filter(([field]) => Boolean(result[field]));
+  if (present.length === 0) {
+    return { state: 'none', value: null, detail: 'There is no SWOT, MVP plan or go-to-market plan yet.' };
+  }
+  const values: string[] = [];
+  if (result.swot) {
+    values.push(count((result.swot.risks ?? []).length, 'risk'));
+  }
+  if (result.mvp) {
+    const first = (result.mvp.features ?? []).filter((feature) => feature.tier === 'mvp').length;
+    values.push(`${count(first, 'feature')} for the first release`);
+  }
+  const value = values.length > 0 ? values.join(', ') : 'Go-to-market plan';
+  if (present.length === STRATEGY_PART_NAMES.length) {
+    return { state: 'generated', value, detail: 'SWOT and risk review, MVP plan and go-to-market plan.' };
+  }
+  const absent = STRATEGY_PART_NAMES.filter(([field]) => !result[field]).map(([, name]) => name);
+  return { state: 'partly', value, detail: `Not generated: ${inWords(absent)}.` };
+}
+
+const STRATEGY_STATUS = {
+  generated: { kind: 'complete', label: 'Generated' },
+  partly: { kind: 'partial', label: 'Partly generated' },
+  none: { kind: 'unavailable', label: 'Not generated' },
+} as const;
 
 export interface OverviewTabProps {
   result: PipelineResult;
@@ -40,6 +87,7 @@ export function OverviewTab({ result, sources, claims, onOpenSource }: OverviewT
   const competitors = competitorCounts(result);
   const priority = result.market?.priority_segment;
   const counts = basisCounts(claims);
+  const strategy = strategyTile(result);
 
   // Section 7.4: the takeaways are the labelled opportunities and differentiation items, which the
   // agents already checked, shown with their own basis and sources.
@@ -120,6 +168,22 @@ export function OverviewTab({ result, sources, claims, onOpenSource }: OverviewT
             label="Priority segment"
             missing="None chosen"
             detail="No segment stood out from the evidence."
+          />
+        )}
+
+        {strategy.value !== null ? (
+          <MetricTile
+            label="Strategy"
+            value={strategy.value}
+            status={STRATEGY_STATUS[strategy.state]}
+            detail={strategy.detail}
+          />
+        ) : (
+          <MetricTile
+            label="Strategy"
+            missing="No strategy yet"
+            status={STRATEGY_STATUS[strategy.state]}
+            detail={strategy.detail}
           />
         )}
       </div>
