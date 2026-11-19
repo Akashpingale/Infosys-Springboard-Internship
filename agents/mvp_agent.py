@@ -20,6 +20,8 @@ from agents.strategy_checks import (
     shorten_fields,
     token_overlap,
 )
+from agents.prompt_profile import FIELD_LENGTHS, SPECIFIC_POINTS, active_profile, rules_after, rules_before
+from config import DEFAULT_PROMPT_PROFILE
 from agents.strategy_context import (
     RISK_PREFIX,
     USER_PROVIDED,
@@ -62,6 +64,7 @@ from utils.structured import call_structured
 logger = logging.getLogger(__name__)
 
 WARNING_PREFIX = STRATEGY_TITLES[STAGE_MVP]
+PROMPT_VERSION = "mvp-v1"
 
 FEATURES_RANGE = (4, FEATURES_MAX)
 METRICS_RANGE = (2, METRICS_MAX)
@@ -177,17 +180,19 @@ TASK_TEXT = "\n".join(
 )
 
 
-def build_prompt(digest: Digest) -> tuple[str, str]:
+def build_prompt(digest: Digest, *, profile: str = DEFAULT_PROMPT_PROFILE) -> tuple[str, str]:
     user = "\n".join(
         [
             "Facts include the idea (IDEA), constraints (CON, some marked as assumed), market (MKT), competitors (CMP) "
             "and, if available, risks (RSK).",
+            *rules_before(profile, (FIELD_LENGTHS,)),
             digest.text,
             "",
             TASK_TEXT,
             LENGTH_TEXT,
             "",
             SCHEMA_TEXT,
+            *rules_after(profile, (SPECIFIC_POINTS,)),
         ]
     )
     return SYSTEM_PROMPT, user
@@ -513,10 +518,11 @@ def recommend_mvp(
     started = time.perf_counter()
     if idea is None or (market is None and competitors is None):
         raise StrategyNotReadyError()
-    digest = build_digest(idea, constraints, market, competitors, swot=swot)
+    profile = active_profile()
+    digest = build_digest(idea, constraints, market, competitors, swot=swot, profile=profile)
     if not digest.fits:
         logger.warning("mvp digest is %d characters, over the %d cap", len(digest.text), digest.max_chars)
-    system, user = build_prompt(digest)
+    system, user = build_prompt(digest, profile=profile)
     draft = call_structured(system, user, MvpDraft, caller=generate_json)
     result = build_result(draft, digest, idea, market, competitors, swot, constraints)
     ensure_no_secrets(result)

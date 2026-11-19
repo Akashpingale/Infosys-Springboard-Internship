@@ -546,7 +546,7 @@ describe('Run page: printing for a PDF', () => {
     open();
 
     await user.click(await screen.findByRole('button', { name: /export/i }));
-    await user.click(screen.getByText('PDF'));
+    await user.click(screen.getByText('Print this page'));
 
     await waitFor(() => expect(printed).toHaveLength(1));
     // Every tab's content is on the page at the moment of printing, not just the open one.
@@ -578,7 +578,7 @@ describe('Run page: printing for a PDF', () => {
     open();
 
     await user.click(await screen.findByRole('button', { name: /export/i }));
-    await user.click(screen.getByText('PDF'));
+    await user.click(screen.getByText('Print this page'));
 
     await waitFor(() => expect(openPanels.length).toBeGreaterThan(0));
     expect(openPanels.join(' ')).not.toContain('Raw result JSON');

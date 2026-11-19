@@ -51,7 +51,7 @@ function open(result: PipelineResult | null = RESULT, onPrint = vi.fn()) {
 
 async function openMenu(user: ReturnType<typeof userEvent.setup>) {
   await user.click(screen.getByRole('button', { name: /export/i }));
-  return screen.getByText('Markdown report').closest('[role="dialog"], div') as HTMLElement;
+  return screen.getByText('Raw results (Markdown)').closest('[role="dialog"], div') as HTMLElement;
 }
 
 describe('Export menu', () => {
@@ -61,11 +61,11 @@ describe('Export menu', () => {
 
     await openMenu(user);
 
-    expect(screen.getByText('Markdown report')).toBeInTheDocument();
+    expect(screen.getByText('Raw results (Markdown)')).toBeInTheDocument();
     expect(screen.getByText(/the full written report from the server/i)).toBeInTheDocument();
-    expect(screen.getByText('JSON result')).toBeInTheDocument();
+    expect(screen.getByText('Raw results (JSON)')).toBeInTheDocument();
     expect(screen.getByText(/exactly what the backend returned/i)).toBeInTheDocument();
-    expect(screen.getByText('PDF')).toBeInTheDocument();
+    expect(screen.getByText('Print this page')).toBeInTheDocument();
     expect(screen.getByText(PDF_HINT)).toBeInTheDocument();
   });
 
@@ -81,7 +81,7 @@ describe('Export menu', () => {
     open();
 
     await openMenu(user);
-    await user.click(screen.getByText('Markdown report'));
+    await user.click(screen.getByText('Raw results (Markdown)'));
 
     await waitFor(() => expect(asked).toBe(1));
     expect(saved).toHaveLength(1);
@@ -102,7 +102,7 @@ describe('Export menu', () => {
     open();
 
     await openMenu(user);
-    await user.click(screen.getByText('Markdown report'));
+    await user.click(screen.getByText('Raw results (Markdown)'));
 
     expect(await screen.findByRole('alert')).toHaveTextContent('This validation produced no report.');
     expect(saved).toHaveLength(0);
@@ -114,7 +114,7 @@ describe('Export menu', () => {
     open();
 
     await openMenu(user);
-    await user.click(screen.getByText('Markdown report'));
+    await user.click(screen.getByText('Raw results (Markdown)'));
 
     expect(await screen.findByRole('alert')).toHaveTextContent(/can\u2019t reach the server/i);
   });
@@ -124,7 +124,7 @@ describe('Export menu', () => {
     open();
 
     await openMenu(user);
-    await user.click(screen.getByText('JSON result'));
+    await user.click(screen.getByText('Raw results (JSON)'));
 
     expect(saved).toHaveLength(1);
     expect(saved[0]?.name).toMatch(/\.json$/);
@@ -137,7 +137,7 @@ describe('Export menu', () => {
 
     const menu = await openMenu(user);
 
-    expect(within(menu).getByText('JSON result').closest('button')).toBeDisabled();
+    expect(within(menu).getByText('Raw results (JSON)').closest('button')).toBeDisabled();
     expect(within(menu).getByText(/there is no result to save/i)).toBeInTheDocument();
   });
 
@@ -146,10 +146,10 @@ describe('Export menu', () => {
     const { onPrint } = open();
 
     await openMenu(user);
-    await user.click(screen.getByText('PDF'));
+    await user.click(screen.getByText('Print this page'));
 
     expect(onPrint).toHaveBeenCalledTimes(1);
-    await waitFor(() => expect(screen.queryByText('Markdown report')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByText('Raw results (Markdown)')).not.toBeInTheDocument());
   });
 
   it('forgets the last message when the menu is closed again', async () => {
@@ -157,7 +157,7 @@ describe('Export menu', () => {
     open();
 
     await openMenu(user);
-    await user.click(screen.getByText('JSON result'));
+    await user.click(screen.getByText('Raw results (JSON)'));
     await screen.findByRole('status');
 
     await user.keyboard('{Escape}');

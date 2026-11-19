@@ -163,3 +163,33 @@ class ChatMessageInvalidError(AppError):
 
     def __init__(self, max_chars: int = DEFAULT_CHAT_MAX_MESSAGE_CHARS) -> None:
         super().__init__(self.message_template.format(n=max_chars))
+
+
+class ReportUnavailableError(AppError):
+    code = "report_unavailable"
+    status_code = 409
+    default_message = "A report can be made once the validation has finished with results."
+
+
+class ReportNotFoundError(AppError):
+    code = "report_not_found"
+    status_code = 404
+    default_message = "Generate the report first."
+
+
+class ReportBusyError(AppError):
+    code = "report_busy"
+    status_code = 409
+    default_message = "The report for this validation is already being written. Wait for it to finish."
+
+
+class ReportRenderError(AppError):
+    code = "report_render_failed"
+    status_code = 500
+    default_message = "The report fonts are not installed. See the setup guide."
+
+
+class ReportTooLargeError(AppError):
+    code = "report_too_large"
+    status_code = 422
+    default_message = "The report is too large to download as a file."

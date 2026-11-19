@@ -20,21 +20,40 @@ from agents.competitor_analysis_agent import STAGE_COMPETITOR
 from agents.competitor_analysis_agent import WARNING_PREFIX as COMPETITOR_LABEL
 from agents.competitor_analysis_agent import CompetitorAnalysisAgent
 from agents.derived import with_derived_fields
+from agents.competitor_analysis_agent import PROMPT_VERSION as COMPETITOR_PROMPT_VERSION
 from agents.evidence import build_evidence, sourced_items
+from agents.extraction_agent import PROMPT_VERSION as EXTRACTION_PROMPT_VERSION
 from agents.extraction_agent import extract_idea
+from agents.extraction_agent import prompt_version as extraction_prompt_version
+from agents.gtm_agent import PROMPT_VERSION as GTM_PROMPT_VERSION
 from agents.gtm_agent import GtmAgent
+from agents.market_opportunity_agent import PROMPT_VERSION as MARKET_PROMPT_VERSION
 from agents.market_opportunity_agent import STAGE_MARKET
 from agents.market_opportunity_agent import WARNING_PREFIX as MARKET_LABEL
 from agents.market_opportunity_agent import MarketOpportunityAgent
+from agents.mvp_agent import PROMPT_VERSION as MVP_PROMPT_VERSION
 from agents.mvp_agent import MvpAgent
 from agents.notices import STAGE_GTM, STAGE_MVP, STAGE_SWOT, STRATEGY_TITLES
+from agents.swot_risk_agent import PROMPT_VERSION as SWOT_PROMPT_VERSION
 from agents.swot_risk_agent import SwotRiskAgent
+from agents.prompt_profile import prompt_version
+from agents.query_profile import search_region
 from agents.web_search_agent import run_web_search
 from config import get_settings
-from models.schemas import ExtractedIdea, IdeaSubmission, PipelineResult, StageError, StrategyConstraints
+from models.schemas import (
+    ExtractedIdea,
+    IdeaSubmission,
+    PipelineResult,
+    StageError,
+    StageUsage,
+    StrategyConstraints,
+    Usage,
+    Versions,
+)
 from utils.deadline import extra_time, stop_check, stop_requested, time_left, time_limit
 from utils.errors import AppError, RunCancelledError
 from utils.llm_client import output_token_limit
+from utils.usage import UsageCounter, counting
 
 logger = logging.getLogger(__name__)
 
@@ -77,6 +96,14 @@ STRATEGY_MAX_OUTPUT_TOKENS = 6144
 MSG_STRATEGY_PENDING = "This part of the strategy is not available yet."
 # The result field each strategy stage writes, so a strategy-only job can keep the ones it does not run.
 STRATEGY_FIELDS = {STAGE_SWOT: "swot", STAGE_MVP: "mvp", STAGE_GTM: "gtm"}
+PROMPT_VERSIONS = {
+    STAGE_EXTRACTION: ("extraction", EXTRACTION_PROMPT_VERSION),
+    STAGE_MARKET: ("market", MARKET_PROMPT_VERSION),
+    STAGE_COMPETITOR: ("competitors", COMPETITOR_PROMPT_VERSION),
+    STAGE_SWOT: ("swot", SWOT_PROMPT_VERSION),
+    STAGE_MVP: ("mvp", MVP_PROMPT_VERSION),
+    STAGE_GTM: ("gtm", GTM_PROMPT_VERSION),
+}
 
 
 class ExtractionStage:
@@ -101,7 +128,8 @@ class WebSearchStage:
     def run(self, context: AgentContext) -> AgentContext:
         if context.idea is None:
             raise ValueError("the web search stage needs an extracted idea")
-        bundle = run_web_search(context.idea)
+        region = search_region(context.constraints)
+        bundle = run_web_search(context.idea) if region is None else run_web_search(context.idea, region=region)
         context.search = bundle
         if bundle.queries_failed:
             context.warnings.append(
@@ -271,7 +299,35 @@ def _status(context: AgentContext, errors: list[StageError], skipped: list[str])
     return "complete"
 
 
-def _result(context: AgentContext, errors: list[StageError], timings: dict[str, float], status: str) -> PipelineResult:
+def _app_version() -> str:
+    from routes.meta_routes import APP_VERSION
+
+    return APP_VERSION
+
+
+def _usage(by_stage: dict[str, StageUsage]) -> Usage:
+    return Usage(
+        llm_calls=sum(entry.llm_calls for entry in by_stage.values()),
+        search_calls=sum(entry.search_calls for entry in by_stage.values()),
+        by_stage=dict(by_stage),
+    )
+
+
+def _prior_prompt_versions(prior: PipelineResult, rerun: set[str]) -> dict[str, str]:
+    if prior.versions is None:
+        return {}
+    replaced = {PROMPT_VERSIONS[stage][0] for stage in rerun if stage in PROMPT_VERSIONS}
+    return {agent: version for agent, version in prior.versions.prompt_versions.items() if agent not in replaced}
+
+
+def _result(
+    context: AgentContext,
+    errors: list[StageError],
+    timings: dict[str, float],
+    status: str,
+    usage: Usage | None = None,
+    versions: Versions | None = None,
+) -> PipelineResult:
     return PipelineResult(
         status=status,
         idea=context.idea,
@@ -288,6 +344,8 @@ def _result(context: AgentContext, errors: list[StageError], timings: dict[str, 
         mvp=context.mvp,
         gtm=context.gtm,
         constraints=context.constraints,
+        usage=usage,
+        versions=versions,
     )
 
 
@@ -376,14 +434,45 @@ def run_pipeline(
         errors = [error for error in prior.errors if error.stage not in rerun]
         timings = {key: value for key, value in prior.timings.items() if key != TOTAL_KEY and key not in rerun}
         earlier_total = prior.timings.get(TOTAL_KEY, 0.0)
+    settings = get_settings()
+    counter = UsageCounter()
+    stage_usage: dict[str, StageUsage] = {}
+    prompt_versions: dict[str, str] = {}
+    if prior is not None:
+        if prior.usage is not None:
+            stage_usage = {key: value for key, value in prior.usage.by_stage.items() if key not in rerun}
+        prompt_versions = _prior_prompt_versions(prior, rerun)
     started = time.perf_counter()
+
+    def versions() -> Versions:
+        return Versions(
+            query_profile=settings.query_profile,
+            prompt_profile=settings.prompt_profile,
+            prompt_versions=dict(prompt_versions),
+            app_version=_app_version(),
+        )
+
+    def record(stage: Agent, calls_before: tuple[int, int]) -> None:
+        llm_calls, search_calls = counter.totals()
+        stage_usage[stage.name] = StageUsage(
+            llm_calls=llm_calls - calls_before[0],
+            search_calls=search_calls - calls_before[1],
+            seconds=timings[stage.name],
+        )
+        if stage.name in PROMPT_VERSIONS:
+            agent, version = PROMPT_VERSIONS[stage.name]
+            version = prompt_version(version, settings.prompt_profile)
+            if stage.name == STAGE_EXTRACTION:
+                version = extraction_prompt_version(settings.query_profile, settings.prompt_profile)
+            prompt_versions[agent] = version
 
     def snapshot() -> PipelineResult | None:
         if on_event is None:
             return None
-        return with_derived_fields(_result(context, errors, timings, "failed" if context.idea is None else "partial"))
+        status = "failed" if context.idea is None else "partial"
+        return with_derived_fields(_result(context, errors, timings, status, _usage(stage_usage), versions()))
 
-    with time_limit(time_limit_s), stop_check(should_stop), ExitStack() as strategy_time:
+    with time_limit(time_limit_s), stop_check(should_stop), counting(counter), ExitStack() as strategy_time:
         extended = False
         for index, stage in enumerate(pipeline):
             if not extended and getattr(stage, "uses_strategy_time", False):
@@ -411,10 +500,12 @@ def run_pipeline(
                 continue
             _notify(on_event, StageEvent(stage.name, EVENT_STARTED))
             stage_started = time.perf_counter()
+            calls_before = counter.totals()
             try:
                 context = stage.run(context)
             except AppError as exc:
                 timings[stage.name] = _elapsed(stage_started)
+                record(stage, calls_before)
                 errors.append(StageError(stage=stage.name, code=exc.code, message=exc.user_message))
                 warning = getattr(stage, "warning_on_failure", None)
                 if warning and not isinstance(exc, RunCancelledError):
@@ -426,6 +517,7 @@ def run_pipeline(
                     break
                 continue
             timings[stage.name] = _elapsed(stage_started)
+            record(stage, calls_before)
             _notify(on_event, StageEvent(stage.name, EVENT_FINISHED, duration_s=timings[stage.name], result=snapshot()))
 
     timings[TOTAL_KEY] = round(earlier_total + _elapsed(started), 3) if prior is not None else _elapsed(started)
@@ -439,4 +531,4 @@ def run_pipeline(
         len(context.warnings),
         len(errors),
     )
-    return with_derived_fields(_result(context, errors, timings, status))
+    return with_derived_fields(_result(context, errors, timings, status, _usage(stage_usage), versions()))

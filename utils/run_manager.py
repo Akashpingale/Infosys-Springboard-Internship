@@ -26,8 +26,10 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from agents.notices import STAGE_TITLES, STRATEGY_TITLES, notice_for_warning
+from agents.report_agent import report_fingerprint
 from config import get_settings
-from models.api import ACTIVE_STATES, RunDetail, RunStage, RunSummary
+from models.api import ACTIVE_STATES, RunDetail, RunReportStatus, RunStage, RunSummary
+from models.report import MSG_UNREADABLE_REPORT, ReportDocument, ReportVersionError, read_report
 from models.schemas import ExtractedIdea, IdeaSubmission, PipelineResult, StrategyConstraints
 from orchestrator import (
     CODE_CANCELLED,
@@ -55,7 +57,7 @@ from utils.errors import (
     StrategyAlreadyCompleteError,
     StrategyNotReadyError,
 )
-from utils.run_store import RunStore, now_iso
+from utils.run_store import REPORT_COLUMNS, RunStore, now_iso
 
 logger = logging.getLogger(__name__)
 
@@ -169,6 +171,35 @@ def _stored_constraints(row: dict[str, Any]) -> StrategyConstraints | None:
     except ValueError:
         logger.warning("saved run %s could not be read", row.get("id"))
         raise HistoryUnavailableError(MSG_UNREADABLE) from None
+
+
+def report_document(row: dict[str, Any] | None) -> ReportDocument | None:
+    raw = row.get("report_json") if row else None
+    if not raw:
+        return None
+    try:
+        data = json.loads(raw)
+    except ValueError:
+        raise ReportVersionError(MSG_UNREADABLE_REPORT) from None
+    return read_report(data)
+
+
+def report_status(
+    row: dict[str, Any] | None, result: PipelineResult | None, constraints: StrategyConstraints | None
+) -> RunReportStatus:
+    try:
+        document = report_document(row)
+    except ReportVersionError:
+        document = None
+    if document is None:
+        return RunReportStatus()
+    current = report_fingerprint(result, constraints) if result is not None else None
+    return RunReportStatus(
+        exists=True,
+        generated_at=row.get("report_generated_at") or document.meta.generated_at,
+        stale=current != row.get("report_fingerprint"),
+        narrative_status=document.meta.narrative_status,
+    )
 
 
 def _public(stage: dict[str, Any]) -> dict[str, Any]:
@@ -287,7 +318,15 @@ class RunManager:
             started_at=run.started_at, finished_at=run.finished_at, duration_s=run.duration_s, elapsed_s=elapsed,
             cancel_requested=run.cancel.is_set(), message=run.message, stages=stages, submission=run.submission,
             idea_override=run.idea_override, result=run.result, constraints=run.constraints,
+            report=self._report_of(run),
         )
+
+    def _report_of(self, run: _Run) -> RunReportStatus:
+        try:
+            row = self._store.get(run.id)
+        except HistoryUnavailableError:
+            row = None
+        return report_status(row, run.result, run.constraints)
 
     @staticmethod
     def _detail_from_row(row: dict[str, Any]) -> RunDetail:
@@ -304,6 +343,7 @@ class RunManager:
                 duration_s=row["duration_s"], elapsed_s=row["duration_s"], cancel_requested=bool(row["cancel_requested"]),
                 message=row["message"], stages=[RunStage(**stage, elapsed_s=stage.get("duration_s")) for stage in stages],
                 submission=submission, idea_override=override, result=result, constraints=constraints,
+                report=report_status(row, result, constraints),
             )
         except (ValueError, TypeError, KeyError):
             logger.warning("saved run %s could not be read", row.get("id"))
@@ -480,6 +520,26 @@ class RunManager:
         if not self._store.update(run_id, title=title, renamed=1):
             raise RunNotFoundError()
         return self._summary(self.get(run_id))
+
+    def report_row(self, run_id: str) -> dict[str, Any]:
+        row = self._store.get(run_id)
+        if row is None:
+            raise RunNotFoundError()
+        return {name: row.get(name) for name in REPORT_COLUMNS}
+
+    def save_report(self, run_id: str, document: ReportDocument) -> None:
+        saved = self._store.update(
+            run_id,
+            report_json=document.model_dump_json(),
+            report_fingerprint=document.meta.source_fingerprint,
+            report_generated_at=document.meta.generated_at,
+        )
+        if not saved:
+            raise RunNotFoundError()
+
+    def clear_report(self, run_id: str) -> None:
+        if not self._store.update(run_id, **dict.fromkeys(REPORT_COLUMNS)):
+            raise RunNotFoundError()
 
     def delete(self, run_id: str) -> None:
         with self._lock:

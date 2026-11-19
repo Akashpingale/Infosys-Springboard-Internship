@@ -29,6 +29,9 @@ from agents.integrity import (
 )
 from agents.market_claims import Claim, about_problem, added_inference, count_conflicts, problem_terms
 from agents.market_size import guard_market_size, market_evidence, search_market_size
+from agents.prompt_profile import FIELD_LENGTHS, SOURCE_RULES, active_profile, rules_before
+from agents.query_profile import search_region
+from config import DEFAULT_PROMPT_PROFILE
 from models.schemas import (
     CUSTOMERS_MIN,
     EVIDENCE_LEVELS,
@@ -58,6 +61,7 @@ STAGE_MARKET = "market_opportunity"
 WARNING_PREFIX = "Market opportunity"
 CAVEATS = (MARKET_CAVEAT,)
 LIMITED_EVIDENCE_ITEMS = 2
+PROMPT_VERSION = "market-v1"
 
 MSG_THIN_IDEA = "The idea needs more detail before a market analysis can run ({fields})."
 MSG_NO_EVIDENCE = "No usable search results were found, so no market analysis was made."
@@ -202,12 +206,15 @@ def _clean(text: object) -> str:
     return clean_prompt_text(str(text or ""))
 
 
-def build_user_prompt(idea: ExtractedIdea, evidence: list[EvidenceItem]) -> str:
+def build_user_prompt(
+    idea: ExtractedIdea, evidence: list[EvidenceItem], *, profile: str = DEFAULT_PROMPT_PROFILE
+) -> str:
     customers = "; ".join(_clean(c) for c in getattr(idea, "target_customers", []) or [])
     features = "; ".join(_clean(f) for f in getattr(idea, "key_features", []) or [])
     return "\n".join(
         [
             "Assess the market opportunity for the startup idea below.",
+            *rules_before(profile, (SOURCE_RULES, FIELD_LENGTHS)),
             "<idea>",
             f"Title: {_clean(getattr(idea, 'idea_title', ''))}",
             f"Problem: {_clean(idea.problem)}",
@@ -501,7 +508,10 @@ def analyse_market(
     usable = len(sourced_items(evidence))
 
     draft = call_structured(
-        SYSTEM_PROMPT, build_user_prompt(idea, evidence), MarketOpportunityDraft, caller=generate_json
+        SYSTEM_PROMPT,
+        build_user_prompt(idea, evidence, profile=active_profile()),
+        MarketOpportunityDraft,
+        caller=generate_json,
     )
     result, warnings = _apply_guards(MarketOpportunityResult(**dict(draft)), evidence, usable, idea)
 
@@ -534,7 +544,11 @@ class MarketOpportunityAgent:
     def run(self, context: AgentContext) -> AgentContext:
         _check_idea(context.idea)
         _check_standard_evidence(context.search)
-        market_search, search_warnings = search_market_size(context.idea)
+        region = search_region(context.constraints)
+        if region is None:
+            market_search, search_warnings = search_market_size(context.idea)
+        else:
+            market_search, search_warnings = search_market_size(context.idea, region=region)
         context.market_search = market_search
         result, warnings = analyse_market(context.idea, context.search, market_search)
         context.market = result

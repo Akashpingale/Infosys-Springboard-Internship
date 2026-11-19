@@ -85,6 +85,7 @@ CODE_CONSTRAINTS_ASSUMED = "mvp_constraints_assumed"
 CODE_OVER_CAPACITY = "mvp_over_capacity"
 CODE_BUDGET_CONFLICT = "gtm_budget_conflict"
 CODE_SEGMENTS_MISSING = "gtm_segments_missing"
+CODE_FEATURE_MISMATCH = "competitor_feature_mismatch"
 
 # The last field of a path names what was repaired: "competitors[0].strengths[1]" is a strength.
 NOUNS = {
@@ -244,6 +245,10 @@ RULES: tuple[_Rule, ...] = (
     _rule(r"^dropped (?P<n>\d+) with no type or relevance note", "competitor_dropped", INFO, _dropped_count),
     _rule(r"^merged a duplicate (?P<q>['\"])(?P<name>.+?)(?P=q) into (?P<q2>['\"])(?P<into>.+?)(?P=q2)",
           "competitor_merged", INFO, _merged),
+    _rule(r"^the listed feature .* so the table was corrected$", CODE_FEATURE_MISMATCH, INFO,
+          "A competitor's listed feature did not match the comparison table, so the table was corrected."),
+    _rule(r"^the listed feature .* so the feature was removed$", CODE_FEATURE_MISMATCH, INFO,
+          "A competitor's listed feature did not match the comparison table, so the feature was removed."),
     _rule(r"^(?P<n>\d+) cell\(s\) marked evidence_found had no cited source naming the competitor", "cells_unclear",
           INFO, _cells),
     _rule(r"^removed related features that are not in the comparison", "gap_adjusted", INFO,

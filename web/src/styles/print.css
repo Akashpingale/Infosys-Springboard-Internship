@@ -130,4 +130,30 @@
     font-size: 0.7rem;
     word-break: break-all;
   }
+  nav[data-report-toc] {
+    display: block !important;
+    position: static !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  [data-report-toc-list][hidden] {
+    display: block !important;
+  }
+  [data-report-page] .skip-link {
+    display: none !important;
+  }
+  [data-report-page] [class*='sticky'] {
+    position: static !important;
+  }
+  [data-report-section] {
+    break-inside: auto !important;
+    break-before: page;
+  }
+  [data-report-page] tr,
+  [data-report-page] li {
+    break-inside: avoid;
+  }
+  [data-report-page] a[href^='http']::after {
+    content: none;
+  }
 }

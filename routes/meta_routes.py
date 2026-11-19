@@ -26,8 +26,10 @@ from models.api import (
     FormLimits,
     MetaResponse,
     NumberLimit,
+    ProfileInfo,
     ProviderStatus,
     Providers,
+    ReportInfo,
     RunLimits,
     StageInfo,
     StrategyInfo,
@@ -55,6 +57,7 @@ from models.schemas import (
 )
 from orchestrator import FULL_STAGES, STRATEGY_ONLY_STAGES, PendingStrategyAgent
 from utils import groq_client
+from utils.report_render_pdf import missing_font_files
 from utils.run_manager import MAX_CONCURRENT_RUNS, run_time_limit_s, strategy_time_limit_s
 
 logger = logging.getLogger(__name__)
@@ -128,6 +131,19 @@ def chat_limits() -> ChatLimits:
     return ChatLimits(max_message_chars=settings.chat_max_message_chars, max_user_turns=settings.chat_max_user_turns)
 
 
+def report_info() -> ReportInfo:
+    return ReportInfo(
+        available=True, pdf_available=not missing_font_files(), time_limit_s=get_settings().report_time_limit_s
+    )
+
+
+def profile_info() -> ProfileInfo:
+    settings = get_settings()
+    return ProfileInfo(
+        query_profile=settings.query_profile, prompt_profile=settings.prompt_profile, app_version=APP_VERSION
+    )
+
+
 @router.get("/meta", response_model=MetaResponse, responses={503: {"model": ErrorResponse}})
 def meta() -> MetaResponse:
     """Everything the interface needs before a run: limits, industries, examples, stages and
@@ -150,4 +166,6 @@ def meta() -> MetaResponse:
         providers=providers(),
         strategy=strategy_info(),
         chat=chat_limits(),
+        report=report_info(),
+        profiles=profile_info(),
     )

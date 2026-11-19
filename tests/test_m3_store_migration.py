@@ -26,7 +26,7 @@ OLD_COLUMNS = (
     "duration_s", "cancel_requested", "message", "stages_json", "submission_json", "idea_override_json",
     "result_json",
 )
-NEW_COLUMNS = ("constraints_json", "include_strategy")
+NEW_COLUMNS = ("constraints_json", "include_strategy", "report_json", "report_fingerprint", "report_generated_at")
 OLD_SCHEMA = """
 CREATE TABLE runs (
     id TEXT PRIMARY KEY,
@@ -142,7 +142,7 @@ def test_an_old_file_gains_the_new_columns_and_the_chat_table(old_file: Path) ->
     runs = columns_of(old_file, "runs")
     assert [column[1] for column in runs] == [*OLD_COLUMNS, *NEW_COLUMNS]
     added = {column[1]: (column[2], column[3], column[4]) for column in runs[len(OLD_COLUMNS):]}
-    assert added == {"constraints_json": ("TEXT", 0, None), "include_strategy": ("INTEGER", 1, "0")}
+    assert added == {"constraints_json": ("TEXT", 0, None), "include_strategy": ("INTEGER", 1, "0"), "report_json": ("TEXT", 0, None), "report_fingerprint": ("TEXT", 0, None), "report_generated_at": ("TEXT", 0, None)}
     chat = [(column[1], column[2], column[3], column[5]) for column in columns_of(old_file, "chat_messages")]
     assert chat == [
         ("id", "TEXT", 0, 1), ("run_id", "TEXT", 1, 0), ("seq", "INTEGER", 1, 0), ("role", "TEXT", 1, 0),
@@ -161,7 +161,7 @@ def test_old_rows_are_intact_and_read_through_the_unchanged_detail_path(old_file
     assert [item["id"] for item in store.list()] == ["cancelled", "failed", "partial", "done"]
     for original in OLD_ROWS:
         migrated = store.get(original["id"])
-        assert migrated == {**original, "constraints_json": None, "include_strategy": 0}
+        assert migrated == {**original, "constraints_json": None, "include_strategy": 0, "report_json": None, "report_fingerprint": None, "report_generated_at": None}
         assert RunManager._detail_from_row(migrated) == RunManager._detail_from_row(original)
 
 

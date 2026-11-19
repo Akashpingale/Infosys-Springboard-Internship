@@ -24,8 +24,9 @@ from agents.evidence import (
 )
 from agents.figures import SUPPORTED, UNCLEAR, check_figure, mentions_amount, singular
 from agents.integrity import supporting_source_ids, valid_source_ids
-from agents.web_search_agent import MAX_QUERY_CHARS, run_queries
-from config import get_settings
+from agents.query_profile import DEEP_SEARCH, MARKET_SIZE_DEPTH, SEARCH_TERMS, uses
+from agents.web_search_agent import MAX_QUERY_CHARS, fit_query, run_queries, search_terms_text
+from config import DEFAULT_QUERY_PROFILE, get_settings
 from models.schemas import (
     MARKET_SCOPES,
     EvidenceItem,
@@ -108,10 +109,20 @@ def _trim(query: str) -> str:
     return query if len(query) <= MAX_QUERY_CHARS else query[:MAX_QUERY_CHARS].rsplit(" ", 1)[0]
 
 
-def market_size_queries(idea: ExtractedIdea) -> list[tuple[str, str]]:
+def market_size_queries(
+    idea: ExtractedIdea, *, profile: str = DEFAULT_QUERY_PROFILE, region: str | None = None
+) -> list[tuple[str, str]]:
     """Two searches aimed at this idea's own market: its title, then its title and its first
     target customer, which often names the region. Built from templates, with no LLM call."""
     title = _query_text(idea.idea_title) or _query_text(idea.industry)
+    if uses(profile, SEARCH_TERMS):
+        title = search_terms_text(idea) or title
+    if uses(profile, MARKET_SIZE_DEPTH):
+        place = _query_text(region)
+        return [
+            (LABEL_IDEA_MARKET, fit_query(f"{title} market size", f"{place} billion")),
+            (LABEL_CUSTOMER_MARKET, fit_query(f"{title} number of users or customers", place)),
+        ]
     queries = [(LABEL_IDEA_MARKET, f"{title} market size")]
     customer = _query_text(idea.target_customers[0]) if idea.target_customers else ""
     if customer:
@@ -119,16 +130,18 @@ def market_size_queries(idea: ExtractedIdea) -> list[tuple[str, str]]:
     return [(label, _trim(query)) for label, query in queries]
 
 
-def search_market_size(idea: ExtractedIdea) -> tuple[SearchBundle | None, list[str]]:
+def search_market_size(idea: ExtractedIdea, *, region: str | None = None) -> tuple[SearchBundle | None, list[str]]:
     """Run the targeted searches through the shared search function (Section 5.5), with
     snippets that keep whole sentences and their figures (focused_snippet).
 
     A failure never stops the analysis: it is reported in a warning, and the standard search
     results are used on their own.
     """
-    queries = market_size_queries(idea)
+    profile = get_settings().query_profile
+    queries = market_size_queries(idea, profile=profile, region=region)
+    deeper = {"depth": DEEP_SEARCH} if uses(profile, MARKET_SIZE_DEPTH) else {}
     try:
-        bundle = run_queries(queries, snippet=focused_snippet)
+        bundle = run_queries(queries, snippet=focused_snippet, **deeper)
     except SearchError as exc:
         return None, [
             f"the targeted market-size searches failed ({exc.user_message}), "

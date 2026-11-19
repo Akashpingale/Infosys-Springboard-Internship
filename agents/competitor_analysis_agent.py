@@ -22,6 +22,7 @@ from pydantic import BaseModel
 
 from agents.base import AgentContext
 from agents.competitor_checks import (
+    align_key_features,
     build_comparison,
     check_candidates,
     check_competitors,
@@ -45,8 +46,11 @@ from agents.integrity import (
     repair_tree,
     supporting_source_ids,
 )
-from agents.web_search_agent import MAX_QUERY_CHARS, MSG_NO_RESULTS, run_queries
-from config import get_settings
+from agents import prompt_profile
+from agents.prompt_profile import FEATURE_WORDING, FIELD_LENGTHS, MATRIX_CONSISTENCY, SOURCE_RULES, rules_before
+from agents.query_profile import CANDIDATE_PHRASINGS, uses
+from agents.web_search_agent import MAX_QUERY_CHARS, MSG_NO_RESULTS, run_queries, search_terms_text
+from config import DEFAULT_PROMPT_PROFILE, DEFAULT_QUERY_PROFILE, get_settings
 from models.schemas import (
     CANDIDATES_MAX,
     CELL_STATUSES,
@@ -94,10 +98,12 @@ LIMITED_EVIDENCE_ITEMS = 2
 GENERIC_QUERIES_MAX = 2
 QUERY_WORDS = 8
 TYPE_PRIORITY = {"direct": 0, "emerging": 1, "indirect": 2}
+PROMPT_VERSION = "competitors-v1"
 
 LABEL_CANDIDATE = "Competitor: {name}"
 LABEL_ALTERNATIVES = "Alternatives and substitutes"
 LABEL_EMERGING = "Emerging approaches"
+LABEL_SOLVING = "Services that solve the problem"
 
 MSG_THIN_IDEA = "The idea needs more detail before a competitor analysis can run ({fields})."
 MSG_NO_EVIDENCE = "No usable search results were found, so no competitor analysis was made."
@@ -248,7 +254,13 @@ def _idea_lines(idea: ExtractedIdea) -> list[str]:
     ]
 
 
-def build_candidate_prompt(idea: ExtractedIdea, submission: IdeaSubmission | None, evidence: list[EvidenceItem]) -> str:
+def build_candidate_prompt(
+    idea: ExtractedIdea,
+    submission: IdeaSubmission | None,
+    evidence: list[EvidenceItem],
+    *,
+    profile: str = DEFAULT_PROMPT_PROFILE,
+) -> str:
     founder = _clean(founder_text(submission)) or "none"
     return "\n".join(
         [
@@ -293,10 +305,13 @@ def build_analysis_prompt(
     market_context: MarketContext | None,
     candidates: list[CompetitorCandidate],
     evidence: list[EvidenceItem],
+    *,
+    profile: str = DEFAULT_PROMPT_PROFILE,
 ) -> str:
     return "\n".join(
         [
             "Analyse the competitors of the startup idea below.",
+            *rules_before(profile, (SOURCE_RULES, FIELD_LENGTHS, FEATURE_WORDING)),
             "<idea>",
             *_idea_lines(idea),
             _market_line(market_context),
@@ -361,27 +376,36 @@ def _search_order(candidates: list[CompetitorCandidate]) -> list[CompetitorCandi
     return sorted(candidates, key=lambda c: (c.basis != "user_provided", TYPE_PRIORITY[c.type]))
 
 
-def generic_queries(idea: ExtractedIdea) -> list[tuple[str, str]]:
+def generic_queries(idea: ExtractedIdea, *, profile: str = DEFAULT_QUERY_PROFILE) -> list[tuple[str, str]]:
     """Section 8.2: generic searches from the industry, solution and target customer."""
     solution = _query_text(idea.solution)
     industry = _query_text(idea.industry)
     customer = _query_text(idea.target_customers[0]) if idea.target_customers else ""
+    emerging = (LABEL_EMERGING, f"{industry} {solution} emerging startups new approaches")
+    if uses(profile, CANDIDATE_PHRASINGS):
+        terms = _query_text(search_terms_text(idea)) or solution
+        return [
+            (LABEL_ALTERNATIVES, f"alternatives to {terms}"),
+            (LABEL_SOLVING, f"apps or services that solve {_query_text(idea.problem)}"),
+            emerging,
+        ]
     return [
         (LABEL_ALTERNATIVES, f"{solution} alternatives substitutes {customer}"),
-        (LABEL_EMERGING, f"{industry} {solution} emerging startups new approaches"),
+        emerging,
     ]
 
 
 def competitor_queries(
-    candidates: list[CompetitorCandidate], idea: ExtractedIdea, limit: int
+    candidates: list[CompetitorCandidate], idea: ExtractedIdea, limit: int, *, profile: str = DEFAULT_QUERY_PROFILE
 ) -> list[tuple[str, str]]:
     """At most `limit` searches: "<name> pricing features" for the top candidates, plus up to two
     generic ones. With candidates, the generic searches keep at most half the room (2 of 5 by
     default); without any, only generic searches run."""
+    most = GENERIC_QUERIES_MAX + 1 if uses(profile, CANDIDATE_PHRASINGS) else GENERIC_QUERIES_MAX
     named = [c for c in _search_order(candidates) if _query_text(c.name)]
-    generic_room = min(GENERIC_QUERIES_MAX, limit // 2) if named else min(GENERIC_QUERIES_MAX, limit)
+    generic_room = min(most, limit // 2) if named else min(most, limit)
     named = named[: max(limit - generic_room, 0)]
-    generic = generic_queries(idea)[: min(GENERIC_QUERIES_MAX, limit - len(named))]
+    generic = generic_queries(idea, profile=profile)[: min(most, limit - len(named))]
     queries = [(LABEL_CANDIDATE.format(name=_query_text(c.name)), f"{_query_text(c.name)} pricing features") for c in named]
     return [(label, _trim(" ".join(query.split()))) for label, query in [*queries, *generic]]
 
@@ -560,6 +584,8 @@ def _apply_guards(
     idea: ExtractedIdea,
     founder: str,
     queries_used: list[str],
+    *,
+    profile: str = DEFAULT_PROMPT_PROFILE,
 ) -> tuple[CompetitorAnalysisResult, list[str]]:
     draft, warnings = repair_tree(draft, evidence)
     draft, found = remove_foreign_urls(draft, evidence)
@@ -573,6 +599,9 @@ def _apply_guards(
         raise InsufficientEvidenceError(MSG_NO_COMPETITORS)
     comparison, found = build_comparison(draft.comparison, competitors, names, list(idea.key_features), evidence)
     warnings += found
+    if prompt_profile.uses(profile, MATRIX_CONSISTENCY):
+        competitors, comparison, found = align_key_features(competitors, comparison, evidence)
+        warnings += found
     gaps, found = check_gaps(draft.market_gaps, comparison, len(competitors))
     warnings += found
     quality, found = _check_quality(draft.data_quality, len(sourced_items(evidence)), competitors)
@@ -624,18 +653,22 @@ def analyse_competitors(
         raise InsufficientEvidenceError(MSG_NO_EVIDENCE)
 
     candidates, warnings = find_candidates(idea, submission, standard)
-    queries = competitor_queries(candidates, idea, get_settings().competitor_max_extra_queries)
+    settings = get_settings()
+    queries = competitor_queries(candidates, idea, settings.competitor_max_extra_queries, profile=settings.query_profile)
     competitor_search, found = search_competitors(queries)
     warnings += found
     evidence = competitor_evidence(search, competitor_search, candidates)
 
+    profile = settings.prompt_profile
     draft = call_structured(
         SYSTEM_ANALYSIS,
-        build_analysis_prompt(idea, market_context, candidates, evidence),
+        build_analysis_prompt(idea, market_context, candidates, evidence, profile=profile),
         CompetitorAnalysisDraft,
         caller=generate_json,
     )
-    result, found = _apply_guards(draft, evidence, idea, founder_text(submission), [query for _, query in queries])
+    result, found = _apply_guards(
+        draft, evidence, idea, founder_text(submission), [query for _, query in queries], profile=profile
+    )
     warnings += found
 
     violations = check_competitor_integrity(result, evidence)

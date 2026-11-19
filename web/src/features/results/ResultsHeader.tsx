@@ -11,6 +11,7 @@
 import * as React from 'react';
 
 import { StatusChip, type StatusKind } from '@/components/StatusChip';
+import { ReportButton } from '@/features/report/ReportButton';
 import { cn } from '@/lib/cn';
 import { duration } from '@/lib/format';
 import type { RunDetail } from '@/features/run/useRun';
@@ -88,6 +89,7 @@ export function ResultsHeader({ run, active, onChange, counts, actions, tabs = t
           <h1 className="min-w-0 font-condensed text-display">{run.title}</h1>
           {actions ? (
             <div data-print-hide className="flex flex-wrap items-center gap-2">
+              <ReportButton run={run} />
               {actions}
             </div>
           ) : null}

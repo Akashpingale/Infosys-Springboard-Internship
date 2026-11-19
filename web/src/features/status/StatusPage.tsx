@@ -102,6 +102,41 @@ function Limits({ limits }: { limits: MetaResponse['run_limits'] }) {
   );
 }
 
+function ReportSettings({
+  report,
+  profiles,
+}: {
+  report: NonNullable<MetaResponse['report']>;
+  profiles: NonNullable<MetaResponse['profiles']>;
+}) {
+  const rows: [string, string][] = [
+    ['PDF fonts', report.pdf_available ? 'Installed' : 'Not installed'],
+    ['Query profile', profiles.query_profile],
+    ['Prompt profile', profiles.prompt_profile],
+    ['Time limit for the written summary', duration(report.time_limit_s)],
+  ];
+  return (
+    <section aria-labelledby="report-heading" className="rounded-panel border border-line bg-surface p-4">
+      <h2 id="report-heading" className="text-h3 font-sans">
+        Report and profiles
+      </h2>
+      <dl className="mt-3 divide-y divide-line text-small">
+        {rows.map(([label, value]) => (
+          <div key={label} className="flex items-baseline justify-between gap-4 py-2">
+            <dt className="text-content-secondary">{label}</dt>
+            <dd className="tabular text-content">{value}</dd>
+          </div>
+        ))}
+      </dl>
+      {report.pdf_available ? null : (
+        <p className="mt-2 text-small text-content-secondary">
+          Reports can still be downloaded as Markdown and JSON. The setup guide explains how to add the fonts.
+        </p>
+      )}
+    </section>
+  );
+}
+
 export function StatusPage() {
   const health = useHealth();
   const meta = useMeta();
@@ -203,6 +238,9 @@ export function StatusPage() {
                 />
               </div>
               <Limits limits={meta.data.run_limits} />
+              {meta.data.report && meta.data.profiles ? (
+                <ReportSettings report={meta.data.report} profiles={meta.data.profiles} />
+              ) : null}
             </>
           ) : meta.isError ? (
             <Alert

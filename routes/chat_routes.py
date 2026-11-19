@@ -80,6 +80,11 @@ class ChatGate:
             with self._lock:
                 self._busy.discard(run_id)
 
+    @contextmanager
+    def slot(self) -> Iterator[None]:
+        with self._slots:
+            yield
+
 
 router = APIRouter(prefix="/api/runs", tags=["chat"], route_class=ChatRoute)
 

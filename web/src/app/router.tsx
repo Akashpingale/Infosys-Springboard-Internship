@@ -26,6 +26,10 @@ const RunPage = React.lazy(() =>
   import('@/features/run/RunPage').then((module) => ({ default: module.RunPage })),
 );
 
+const ReportPage = React.lazy(() =>
+  import('@/features/report/ReportPage').then((module) => ({ default: module.ReportPage })),
+);
+
 const HistoryPage = React.lazy(() =>
   import('@/features/history/HistoryPage').then((module) => ({ default: module.HistoryPage })),
 );
@@ -49,6 +53,7 @@ export function AppRoutes() {
       <Route element={<AppShell />}>
         <Route index element={<NewValidationPage />} />
         <Route path="runs/:runId" element={<RunPage />} />
+        <Route path="runs/:runId/report" element={<ReportPage />} />
         <Route path="history" element={<HistoryPage />} />
         <Route path="status" element={<StatusPage />} />
         {import.meta.env.DEV ? <Route path="design" element={<DesignPage />} /> : null}

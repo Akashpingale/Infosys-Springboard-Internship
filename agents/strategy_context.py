@@ -3,7 +3,8 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 
 from agents.evidence import _tag_pattern, clean_prompt_text
-from config import get_settings
+from agents.prompt_profile import DISTINCT_FACTS, uses
+from config import DEFAULT_PROMPT_PROFILE, get_settings
 from models.schemas import (
     ANALYSES,
     CONSTRAINT_FIELDS,
@@ -413,6 +414,18 @@ def render_facts(facts: Iterable[Fact]) -> str:
     return "\n".join([DIGEST_OPEN, *(fact_line(fact) for fact in facts), DIGEST_CLOSE])
 
 
+def distinct_facts(facts: list[Fact]) -> list[Fact]:
+    seen: set[str] = set()
+    kept: list[Fact] = []
+    for fact in facts:
+        key = " ".join(fact.text.split()).casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        kept.append(fact)
+    return kept
+
+
 def trim_queue(facts: list[Fact]) -> list[Fact]:
     queue: list[Fact] = []
     for kind, kept in TRIM_ORDER:
@@ -430,9 +443,12 @@ def build_digest(
     swot: SwotRiskResult | None = None,
     mvp: MvpResult | None = None,
     max_chars: int | None = None,
+    profile: str = DEFAULT_PROMPT_PROFILE,
 ) -> Digest:
     limit = get_settings().strategy_digest_max_chars if max_chars is None else max_chars
     facts = build_facts(idea, constraints, market, competitors, swot=swot, mvp=mvp)
+    if uses(profile, DISTINCT_FACTS):
+        facts = distinct_facts(facts)
     length = len(render_facts(facts))
     dropped: list[str] = []
     for fact in trim_queue(facts):

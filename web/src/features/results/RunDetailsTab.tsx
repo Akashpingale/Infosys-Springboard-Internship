@@ -17,6 +17,8 @@ import { EmptyState } from '@/components/EmptyState';
 import { Button } from '@/components/ui/button';
 import type { RunDetail } from '@/features/run/useRun';
 import { StageTimings } from '@/features/results/StageTimings';
+import { UsageTable } from '@/features/results/UsageTable';
+import { VersionsPanel } from '@/features/results/VersionsPanel';
 import { cn } from '@/lib/cn';
 import { copyText, saveText } from '@/lib/download';
 import { count } from '@/lib/format';
@@ -54,6 +56,10 @@ export function RunDetailsTab({ run, result }: RunDetailsTabProps) {
   return (
     <div className="space-y-8">
       <StageTimings timing={timing} />
+
+      <UsageTable usage={result.usage} stages={run.stages} />
+
+      <VersionsPanel versions={result.versions} />
 
       <section aria-labelledby="queries-heading" className="space-y-4">
         <div className="space-y-1">

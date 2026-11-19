@@ -16,6 +16,8 @@ from agents.strategy_checks import (
     shorten,
     shorten_fields,
 )
+from agents.prompt_profile import FIELD_LENGTHS, SPECIFIC_POINTS, active_profile, rules_after, rules_before
+from config import DEFAULT_PROMPT_PROFILE
 from agents.strategy_context import Digest, apply_constraint_defaults, build_digest
 from models.schemas import (
     EARLY_WARNING_MAX,
@@ -47,6 +49,7 @@ from utils.structured import call_structured
 logger = logging.getLogger(__name__)
 
 WARNING_PREFIX = STRATEGY_TITLES[STAGE_SWOT]
+PROMPT_VERSION = "swot-v1"
 
 QUADRANTS = ("strengths", "weaknesses", "opportunities", "threats")
 QUADRANT_RANGE = (3, SWOT_QUADRANT_MAX)
@@ -143,16 +146,18 @@ TASK_TEXT = "\n".join(
 )
 
 
-def build_prompt(digest: Digest) -> tuple[str, str]:
+def build_prompt(digest: Digest, *, profile: str = DEFAULT_PROMPT_PROFILE) -> tuple[str, str]:
     user = "\n".join(
         [
             "Startup idea and constraints are in the facts (refs starting IDEA and CON).",
+            *rules_before(profile, (FIELD_LENGTHS,)),
             digest.text,
             "",
             TASK_TEXT,
             LENGTH_TEXT,
             "",
             SCHEMA_TEXT,
+            *rules_after(profile, (SPECIFIC_POINTS,)),
         ]
     )
     return SYSTEM_PROMPT, user
@@ -348,10 +353,11 @@ def analyse_swot(
     started = time.perf_counter()
     if idea is None or (market is None and competitors is None):
         raise StrategyNotReadyError()
-    digest = build_digest(idea, constraints, market, competitors)
+    profile = active_profile()
+    digest = build_digest(idea, constraints, market, competitors, profile=profile)
     if not digest.fits:
         logger.warning("swot digest is %d characters, over the %d cap", len(digest.text), digest.max_chars)
-    system, user = build_prompt(digest)
+    system, user = build_prompt(digest, profile=profile)
     draft = call_structured(system, user, SwotRiskDraft, caller=generate_json)
     result = build_result(draft, digest, market, competitors, constraints)
     ensure_no_secrets(result)

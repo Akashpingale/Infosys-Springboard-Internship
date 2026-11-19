@@ -3,12 +3,28 @@
 import logging
 import re
 import time
+from collections.abc import Mapping
+from concurrent.futures import FIRST_COMPLETED, Future, ThreadPoolExecutor, wait
+from contextvars import copy_context
 from functools import partial
 from typing import Any, Callable
 
+from agents.evidence import diverse_results
+from agents.query_profile import (
+    DIVERSE_EVIDENCE,
+    NEWS_SEARCH,
+    NEWS_TOPIC,
+    QUERY_TERMS,
+    REGION_AND_YEAR,
+    SEARCH_TERMS,
+    current_year,
+    uses,
+)
+from config import DEFAULT_QUERY_PROFILE, get_settings
 from models.schemas import SNIPPET_MAX, ExtractedIdea, SearchBundle, SearchResult, SearchSection
-from utils.errors import SearchAPIError, SearchError
-from utils.search_client import DEFAULT_DEPTH, DEFAULT_MAX_RESULTS, search
+from utils.deadline import stop_requested, time_left
+from utils.errors import RunCancelledError, SearchAPIError, SearchError
+from utils.search_client import DEFAULT_DEPTH, DEFAULT_MAX_RESULTS, MSG_RATE_LIMIT, search
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +40,8 @@ LABEL_DEMAND = "Customer demand and pain points"
 LABEL_NEWS = "Recent news and funding"
 
 _NOISE = re.compile(r"[^0-9A-Za-z&+/\- ]+")
+RATE_LIMIT_PAUSE_S = 1.0
+pause = time.sleep
 
 
 def _tidy(text: str, *, words: int | None = None) -> str:
@@ -41,7 +59,23 @@ def _trim(query: str) -> str:
     return query[:MAX_QUERY_CHARS].rsplit(" ", 1)[0]
 
 
-def generate_queries(idea: ExtractedIdea) -> list[tuple[str, str]]:
+def search_terms_text(idea: ExtractedIdea) -> str:
+    terms = getattr(idea, "search_terms", None) or []
+    return " ".join(_tidy(term, words=SHORT_PHRASE_WORDS) for term in terms[:QUERY_TERMS]).strip()
+
+
+def fit_query(base: str, suffix: str) -> str:
+    base, suffix = " ".join(base.split()), " ".join(suffix.split())
+    if not suffix:
+        return _trim(base)
+    room = MAX_QUERY_CHARS - len(suffix) - 1
+    head = base if len(base) <= room else base[: max(room, 0)].rsplit(" ", 1)[0]
+    return _trim(f"{head} {suffix}".strip())
+
+
+def generate_queries(
+    idea: ExtractedIdea, *, profile: str = DEFAULT_QUERY_PROFILE, region: str | None = None
+) -> list[tuple[str, str]]:
     """Build four distinct search queries from templates. No LLM call, so it is cheap
     and deterministic."""
     industry = _tidy(idea.industry, words=SHORT_PHRASE_WORDS)
@@ -49,13 +83,30 @@ def generate_queries(idea: ExtractedIdea) -> list[tuple[str, str]]:
     problem = _tidy(idea.problem, words=SHORT_PHRASE_WORDS)
     customer = _tidy(idea.target_customers[0], words=SHORT_PHRASE_WORDS)
 
-    templates = [
-        (LABEL_MARKET, f"{industry} {solution} market size growth trends"),
-        (LABEL_COMPETITORS, f"{problem} competitors alternatives startups"),
-        (LABEL_DEMAND, f"{customer} {problem} demand pain points"),
-        (LABEL_NEWS, f"{industry} startups funding news recent"),
-    ]
+    if uses(profile, SEARCH_TERMS):
+        terms = search_terms_text(idea)
+        templates = [
+            (LABEL_MARKET, f"{terms or f'{industry} {solution}'} market size and growth"),
+            (LABEL_COMPETITORS, f"{terms or problem} competitors and alternatives"),
+            (LABEL_DEMAND, f"{terms or f'{customer} {problem}'} customer problems and demand"),
+            (LABEL_NEWS, f"{terms or industry} funding and news"),
+        ]
+    else:
+        templates = [
+            (LABEL_MARKET, f"{industry} {solution} market size growth trends"),
+            (LABEL_COMPETITORS, f"{problem} competitors alternatives startups"),
+            (LABEL_DEMAND, f"{customer} {problem} demand pain points"),
+            (LABEL_NEWS, f"{industry} startups funding news recent"),
+        ]
+    if uses(profile, REGION_AND_YEAR):
+        place, year = _tidy(region or "", words=SHORT_PHRASE_WORDS), str(current_year())
+        added = {LABEL_MARKET: f"{place} {year}", LABEL_COMPETITORS: place, LABEL_DEMAND: place, LABEL_NEWS: year}
+        return [(label, fit_query(query, added[label])) for label, query in templates]
     return [(label, _trim(" ".join(query.split()))) for label, query in templates]
+
+
+def query_options(profile: str = DEFAULT_QUERY_PROFILE) -> dict[str, dict[str, str]]:
+    return {LABEL_NEWS: dict(NEWS_SEARCH)} if uses(profile, NEWS_TOPIC) else {}
 
 
 def _snippet(content: str) -> str:
@@ -104,9 +155,78 @@ def _answer(raw: Any) -> str | None:
     return text or None
 
 
-def run_web_search(idea: ExtractedIdea) -> SearchBundle:
+def run_web_search(idea: ExtractedIdea, *, region: str | None = None) -> SearchBundle:
     """Run the four template queries for an idea and collect the results."""
-    return run_queries(generate_queries(idea))
+    profile = get_settings().query_profile
+    if profile == DEFAULT_QUERY_PROFILE:
+        return run_queries(generate_queries(idea))
+    return run_queries(generate_queries(idea, profile=profile, region=region), options=query_options(profile))
+
+
+Outcome = tuple[dict[str, Any] | None, Exception | None]
+
+
+def _fetch(query: str, extra: Mapping[str, str], max_results: int, depth: str) -> Outcome:
+    try:
+        return search(query, max_results=max_results, depth=depth, include_answer=True, **extra), None
+    except SearchError as exc:
+        return None, exc
+
+
+def _rate_limited(outcome: Outcome) -> bool:
+    problem = outcome[1]
+    return isinstance(problem, SearchAPIError) and problem.user_message == MSG_RATE_LIMIT
+
+
+def _settle(running: dict[Future, int], outcomes: list[Outcome | None], *, block: bool) -> bool:
+    done = wait(list(running), return_when=FIRST_COMPLETED)[0] if block else {f for f in running if f.done()}
+    limited = False
+    for future in done:
+        index = running.pop(future)
+        problem = future.exception()
+        outcomes[index] = (None, problem) if problem is not None else future.result()
+        limited = limited or _rate_limited(outcomes[index])
+    return limited
+
+
+def _pause_for_rate_limit() -> None:
+    left = time_left()
+    seconds = RATE_LIMIT_PAUSE_S if left is None else min(RATE_LIMIT_PAUSE_S, max(left, 0.0))
+    if seconds > 0:
+        pause(seconds)
+
+
+def _broken(outcomes: list[Outcome | None]) -> bool:
+    return any(o is not None and o[1] is not None and not isinstance(o[1], SearchError) for o in outcomes)
+
+
+def _parallel_outcomes(calls: list[Callable[[], Outcome]], workers: int) -> list[Outcome]:
+    outcomes: list[Outcome | None] = [None] * len(calls)
+    running: dict[Future, int] = {}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for index, call in enumerate(calls):
+            limited = _settle(running, outcomes, block=False)
+            while len(running) >= workers:
+                limited = _settle(running, outcomes, block=True) or limited
+            if limited:
+                _pause_for_rate_limit()
+            if _broken(outcomes) or stop_requested():
+                break
+            left = time_left()
+            if left is not None and left <= 0:
+                outcomes[index] = call()
+                continue
+            running[pool.submit(copy_context().run, call)] = index
+        while running:
+            _settle(running, outcomes, block=True)
+    return [(None, RunCancelledError()) if outcome is None else outcome for outcome in outcomes]
+
+
+def _outcomes(calls: list[Callable[[], Outcome]]) -> list[Outcome]:
+    workers = get_settings().search_max_parallel
+    if workers <= 1 or len(calls) <= 1:
+        return [call() for call in calls]
+    return _parallel_outcomes(calls, workers)
 
 
 def run_queries(
@@ -115,6 +235,7 @@ def run_queries(
     max_results: int | None = None,
     depth: str | None = None,
     snippet: Callable[[str, str], str] | None = None,
+    options: Mapping[str, Mapping[str, str]] | None = None,
 ) -> SearchBundle:
     """Run any list of (label, query) pairs and return one normalised, de-duplicated bundle.
 
@@ -127,22 +248,28 @@ def run_queries(
     sections: list[SearchSection] = []
     seen_urls: set[str] = set()
     queries_failed = 0
+    count = DEFAULT_MAX_RESULTS if max_results is None else max_results
+    level = DEFAULT_DEPTH if depth is None else depth
+    calls = [partial(_fetch, query, (options or {}).get(label, {}), count, level) for label, query in queries]
 
-    for label, query in queries:
-        try:
-            body = search(
-                query,
-                max_results=DEFAULT_MAX_RESULTS if max_results is None else max_results,
-                depth=DEFAULT_DEPTH if depth is None else depth,
-                include_answer=True,
-            )
-        except SearchError as exc:
-            queries_failed += 1
-            sections.append(SearchSection(label=label, query=query, error=exc.user_message))
-            continue
-
+    entries: list[tuple[str, str, Outcome, list[SearchResult]]] = []
+    for (label, query), outcome in zip(queries, _outcomes(calls)):
+        body, problem = outcome
+        if problem is not None and not isinstance(problem, SearchError):
+            raise problem
         make_snippet = _snippet if snippet is None else partial(_focus, snippet, query)
-        results = _normalize(body.get("results"), seen_urls, make_snippet)
+        results = [] if body is None else _normalize(body.get("results"), seen_urls, make_snippet)
+        entries.append((label, query, outcome, results))
+
+    if uses(get_settings().query_profile, DIVERSE_EVIDENCE):
+        kept = diverse_results([results for *_, results in entries])
+        entries = [(*entry[:3], results) for entry, results in zip(entries, kept)]
+
+    for label, query, (body, problem), results in entries:
+        if body is None:
+            queries_failed += 1
+            sections.append(SearchSection(label=label, query=query, error=problem.user_message))
+            continue
         sections.append(
             SearchSection(
                 label=label,

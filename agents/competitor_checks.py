@@ -57,6 +57,15 @@ NOT_FOUNDER_NAMED = "the founder did not name it in the submission"
 WEBSITE_NOT_CITED = "no source the competitor cites is on that domain"
 WEBSITE_NOT_OWN = "the domain is not named after the competitor"
 PRICE_NOT_FOUND = "the pricing does not appear in its cited sources, so it needs verification"
+FEATURE_WORD_MIN_CHARS = 3
+FEATURE_TABLE_CORRECTED = (
+    "the listed feature {feature!r} of {name!r} was marked {status} in the comparison table, but a source it cites "
+    "names the feature, so the table was corrected"
+)
+FEATURE_REMOVED = (
+    "the listed feature {feature!r} of {name!r} was marked {status} in the comparison table and no source it cites "
+    "names the feature, so the feature was removed"
+)
 
 _TOKEN = re.compile(r"[^\W_]+")
 
@@ -440,6 +449,71 @@ def build_comparison(
             "so they are now unclear"
         )
     return Comparison(features=features, rows=rows, feature_coverage=coverage), warnings
+
+
+def _feature_words(feature: str) -> set[str]:
+    return {word for word in _tokens(feature) if len(word) >= FEATURE_WORD_MIN_CHARS and word not in STOP_WORDS}
+
+
+def feature_sources(feature: str, competitor: Competitor, evidence: list[EvidenceItem]) -> list[str]:
+    words = _feature_words(feature)
+    if not words:
+        return []
+    return [
+        item.id
+        for item in cited_items(competitor.source_ids, evidence)
+        if named_in_sources(competitor.name, [item.id], evidence) and words <= set(_tokens(f"{item.title} {item.snippet}"))
+    ]
+
+
+def _coverage(features: list[str], rows: list[ComparisonRow]) -> list[FeatureCoverage]:
+    return [
+        FeatureCoverage(
+            feature=feature,
+            competitors_with_evidence=sum(
+                cell.feature == feature and cell.status == "evidence_found" for row in rows for cell in row.cells
+            ),
+        )
+        for feature in features
+    ]
+
+
+def align_key_features(
+    competitors: list[Competitor], comparison: Comparison, evidence: list[EvidenceItem]
+) -> tuple[list[Competitor], Comparison, list[str]]:
+    rows = {row.competitor: row for row in comparison.rows}
+    aligned: list[Competitor] = []
+    changed_rows: dict[str, ComparisonRow] = {}
+    warnings: list[str] = []
+    for index, competitor in enumerate(competitors):
+        row = rows.get(competitor.name)
+        cells = list(row.cells) if row is not None else []
+        position = {feature_key(cell.feature): at for at, cell in enumerate(cells)}
+        kept: list[str] = []
+        for feature in competitor.key_features:
+            at = position.get(feature_key(feature))
+            if at is None or cells[at].status == "evidence_found":
+                kept.append(feature)
+                continue
+            shown = {"feature": feature, "name": competitor.name, "status": cells[at].status}
+            backed = feature_sources(feature, competitor, evidence)
+            if backed:
+                cells[at] = ComparisonCell(feature=cells[at].feature, status="evidence_found", source_ids=backed)
+                kept.append(feature)
+                warnings.append(f"comparison: {FEATURE_TABLE_CORRECTED.format(**shown)}")
+            else:
+                warnings.append(f"competitors[{index}].key_features: {FEATURE_REMOVED.format(**shown)}")
+        if kept != list(competitor.key_features):
+            competitor = competitor.model_copy(update={"key_features": kept})
+            competitor = competitor.model_copy(update={"info_completeness": completeness(competitor)})
+        if row is not None and cells != list(row.cells):
+            changed_rows[row.competitor] = ComparisonRow(competitor=row.competitor, cells=cells)
+        aligned.append(competitor)
+    if not warnings:
+        return competitors, comparison, []
+    new_rows = [changed_rows.get(row.competitor, row) for row in comparison.rows]
+    fixed = Comparison(features=comparison.features, rows=new_rows, feature_coverage=_coverage(comparison.features, new_rows))
+    return aligned, fixed, warnings
 
 
 # --- market gaps -----------------------------------------------------------------------------

@@ -27,7 +27,11 @@ logger = logging.getLogger(__name__)
 ADDED_COLUMNS = (
     ("constraints_json", "TEXT"),
     ("include_strategy", "INTEGER NOT NULL DEFAULT 0"),
+    ("report_json", "TEXT"),
+    ("report_fingerprint", "TEXT"),
+    ("report_generated_at", "TEXT"),
 )
+REPORT_COLUMNS = ("report_json", "report_fingerprint", "report_generated_at")
 COLUMN_DEFAULTS = {"include_strategy": 0}
 COLUMNS = (
     "id",

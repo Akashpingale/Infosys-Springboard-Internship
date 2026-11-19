@@ -11,7 +11,11 @@ vertical slice with a Streamlit form in front of it. Milestone 2, in progress, a
 Opportunity Agent and a Competitor Analysis Agent behind the same call. Milestone 3 adds three
 strategy stages (SWOT and risk, MVP features, go-to-market) and a Startup Advisor that answers
 questions about a finished validation, shown in the React interface only. See
-[Milestone 3](#milestone-3-strategy-and-advisor).
+[Milestone 3](#milestone-3-strategy-and-advisor). Milestone 4 adds a Report Generation Agent that
+compiles a finished validation into one downloadable report (PDF, Markdown, JSON), switchable
+candidate query and prompt profiles, and the final documentation. See
+[Milestone 4](#milestone-4-report-optimisation-and-documentation). Every document is listed in
+[docs/INDEX.md](docs/INDEX.md).
 
 There are now **two interfaces in front of the same backend**: the original Streamlit app, and a new
 React interface in `web/` built on additive API routes. Streamlit is unchanged and remains the
@@ -46,12 +50,9 @@ flowchart LR
     GTM --> RES
     API -->|"chat routes"| ADV["Startup Advisor<br/>Milestone 3"]
     RES -->|"saved result"| ADV
-
-    subgraph Planned["Planned in later milestones"]
-        RP[Report Generation Agent]
-    end
-
-    RES -.-> RP
+    API -->|"report routes"| RP["Report Generation Agent<br/>Milestone 4"]
+    RES -->|"saved result"| RP
+    RP --> DL["PDF, Markdown, JSON"]
 ```
 
 Full details, data contracts and status rules: [docs/06_multi_agent_architecture.md](docs/06_multi_agent_architecture.md)
@@ -137,6 +138,31 @@ cover a question, the answer says so, and a question unrelated to the validation
 
 Streamlit does not show Milestone 3 output, and `POST /api/validate` is unchanged.
 
+## Milestone 4: report, optimisation and documentation
+
+Milestone 4 is built and tested with fake providers. Its live checks are **not executed**: no report
+summary has been written by a real model, the PDF has not been reviewed with the production fonts,
+and the optimisation comparison has not been run
+([docs/15](docs/15_final_test_report.md#5-outstanding-not-executed-or-not-verified)). The
+end-to-end testing task and the live verification checkpoint were skipped on the user's
+instruction, so the milestone is not marked fully verified.
+
+| Requirement | What was built | Document |
+|---|---|---|
+| R1 Report Generation Agent | A 16-section report with a bibliography, 12 consistency checks and one AI request for the written summary; PDF, Markdown and JSON; five report routes; the report page in the React interface | [docs/13](docs/13_report_generation_agent.md) |
+| R2 End-to-end testing | The full offline regression: 2956 backend, 552 front-end and 369 browser tests passed. Real-backend journeys, the failure matrix, coverage and live checks: not executed | [docs/15](docs/15_final_test_report.md) |
+| R3 Optimisation | Query profile `v2`, parallel search, prompt profile `v2` and a matrix consistency check, all behind settings with `v1` as the default; comparison not executed | [docs/14](docs/14_evaluation_and_optimization.md) |
+| R4 Documentation and demonstration | Technical documentation, user guide, project report source, demo runbook, presentation specification | [docs/final/](docs/final/TECHNICAL_DOCUMENTATION.md) |
+
+**Using the report.** Open a finished validation and press **Generate report** in the header. The
+report page shows the document with its contents and sources; **Download** offers PDF, Markdown and
+JSON. Making a report costs one AI request and no search; opening or downloading it costs nothing.
+The PDF needs the IBM Plex TTF files and the OFL licence in `assets/fonts/`, which are not in the
+repository; without them PDF is disabled and Markdown and JSON still work.
+
+**Usage and versions.** Every new result records its AI requests and searches per stage (`usage`)
+and the profiles and prompt versions that produced it (`versions`), shown in the Run details tab.
+
 ## Two interfaces
 
 Both talk to the same FastAPI backend and the same agents. The React interface uses routes that were
@@ -154,7 +180,7 @@ of one of them, the list of stored columns in `tests/test_run_store.py`.
 | Strategy and Advisor (Milestone 3) | Not shown | The Strategy and Advisor tabs |
 | Evidence | Numbered lists of sources | A numbered chip on every claim, opening a drawer that lists what rests on that source |
 | History | None | A local SQLite history: list, open, rename, delete |
-| Export | JSON and Markdown download | Markdown from the backend, JSON, and PDF through a print stylesheet |
+| Export | JSON and Markdown download | Raw results as Markdown from the backend, JSON, and a printed page; since Milestone 4 also the validation report as PDF, Markdown or JSON |
 | Needs | Python only | Python **and** Node |
 
 **Streamlit is not retired.** It is unchanged and still runs. Five real validations have been run
@@ -223,6 +249,12 @@ With the backend running on port 8000, from `web/`:
 npm run api:types      # writes src/api/types.gen.ts, which is git-ignored
 ```
 
+Without a running backend, generate the same file from the committed OpenAPI snapshot:
+
+```bash
+npx openapi-typescript ../docs/final/openapi.json -o src/api/types.gen.ts
+```
+
 `npm install` also fetches a Chromium build for the browser tests (about 150 MB). To skip it, set
 `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1` before installing; `npm test`, `npm run typecheck` and
 `npm run build` all work without a browser.
@@ -253,9 +285,15 @@ npm run api:types      # writes src/api/types.gen.ts, which is git-ignored
 | `CHAT_CONTEXT_MAX_CHARS` | No | Milestone 3: the most characters of results the Advisor's prompt carries. 4000 to 120000 | `30000` |
 | `CHAT_MAX_CONCURRENT` | No | Milestone 3: Advisor answers prepared at once. 1 to 8 | `2` |
 | `CHAT_COOLDOWN_S` | No | Milestone 3: seconds between two questions on one validation. 0 to 60 | `2` |
+| `QUERY_PROFILE` | No | Milestone 4: `v1` (the queries before Milestone 4) or `v2` (the candidate query design, which may run 1 more search and use more credits) | `v1` |
+| `PROMPT_PROFILE` | No | Milestone 4: `v1` (the prompts before Milestone 4) or `v2` (the candidate prompt rules and the matrix consistency check) | `v1` |
+| `SEARCH_MAX_PARALLEL` | No | Milestone 4: searches run at once inside a stage. 1 to 8; 1 runs them one after another | `1` |
+| `REPORT_TIME_LIMIT_S` | No | Milestone 4: seconds allowed for the report's written summary. 20 to 600 | `60` |
+| `REPORT_FONT_DIR` | No | Milestone 4: the folder of the PDF fonts. A relative path is read from the project folder | `assets/fonts` |
 
-A Milestone 3 value outside its range is ignored with a warning in the backend log, and the default
-is used.
+A Milestone 3 or 4 value outside its range is ignored with a warning in the backend log, and the
+default is used. Every setting is described in
+[docs/final/TECHNICAL_DOCUMENTATION.md, section 4](docs/final/TECHNICAL_DOCUMENTATION.md#4-configuration-reference).
 
 Keys stay server-side. Neither interface displays them and no key is written to a log. `GET /health`
 and `GET /api/meta` report only whether a provider is configured, never a key or a key's length.
@@ -438,6 +476,10 @@ small thread pool.
 | `GET /api/runs/{id}/chat` | none | Milestone 3. The Advisor conversation: `{ messages, suggestions, available_sections, remaining_turns, limits }`. `409` until the run has finished |
 | `POST /api/runs/{id}/chat` | `{ message }` | Milestone 3. One question: `{ message, remaining_turns }`, with the answer's paragraphs, basis and sources. `409` until the run has finished, when the conversation is full, or while a question is already waiting; `429` within `CHAT_COOLDOWN_S` of the previous question on that run |
 | `DELETE /api/runs/{id}/chat` | none | Milestone 3. `204`; clears the conversation |
+| `POST /api/runs/{id}/report` | `{ force?, narrative? }` | Milestone 4. The `ReportDocument`. A current report is returned without an AI request; `force: true` rebuilds; `narrative: false` makes no AI request. `409` until the run has finished with a result, or while a report is being written |
+| `GET /api/runs/{id}/report` | none | Milestone 4. The stored report, or `404` `report_not_found` |
+| `GET /api/runs/{id}/report/pdf`, `GET /api/runs/{id}/report/markdown` | none | Milestone 4. Downloads named `startup-validation_<slug>_<date>`. The PDF answers `500` `report_render_failed` when the fonts are missing |
+| `DELETE /api/runs/{id}/report` | none | Milestone 4. `204`; removes the stored report |
 
 `PipelineResult` gained four optional fields, so every earlier client and every saved result still
 validates: `notices` (quality notes written for a reader), `evidence_strength`, `executive_summary`
@@ -527,7 +569,7 @@ in 2022, reflecting a 90% year-over-year growth...
 ## Testing
 
 ```bash
-python -m pytest                    # 2454 tests, no network
+python -m pytest                    # 2956 tests, no network
 python -m pytest tests/test_m2_domains.py   # Milestone 2 Task 4: the three domains, 92 tests
 python scripts/check_llm.py         # checks the model and key without printing the key
 python scripts/check_groq.py        # one real Groq call with the strict competitor schema; never prints the key
@@ -543,7 +585,8 @@ python scripts/check_m3_contracts.py docs/test_runs_m2/agritech.json   # offline
 ```
 
 The Milestone 3 tests are the 18 files `tests/test_m3_*.py`, 818 tests in all
-([docs/12](docs/12_milestone3_test_report.md)).
+([docs/12](docs/12_milestone3_test_report.md)). The Milestone 4 tests are the 16 files
+`tests/test_m4_*.py`, 502 tests in all ([docs/15](docs/15_final_test_report.md)).
 
 The automated suite never calls a real API: the LLM and Tavily are replaced by fakes and a fixture
 blocks any non-local socket, so the tests pass with no keys at all. The Streamlit page's Milestone 2
@@ -575,7 +618,7 @@ Results and observations: [docs/07_pipeline_test_report.md](docs/07_pipeline_tes
 From `web/`. None of these calls a provider or spends a credit.
 
 ```bash
-npm test               # 477 unit and component tests in 35 files; every request mocked by MSW
+npm test               # 552 unit and component tests in 42 files; every request mocked by MSW
 npm run typecheck      # TypeScript for the app, then for the browser tests
 npm run build          # tsc --noEmit, then the production bundle
 npm run test:e2e       # all 369 Playwright tests in Chromium at 390, 820 and 1440 px, including the ui_v2 screenshots
@@ -594,6 +637,15 @@ screenshot tests not run so that those images stay as they were; **no serious or
 violations** on the 14 new screens or the 27 earlier ones, at three widths; production entry bundle
 268.79 kB (85.56 kB gzipped); and the backend suite at 2454 passed. Details:
 [docs/12](docs/12_milestone3_test_report.md).
+
+Last runs, in Milestone 4 (18 November 2026): 2956 backend tests, 552 unit tests in 42 files with 0
+unhandled-request lines, a clean type check, and all 369 browser tests passed, run from a scratch
+folder so that the tracked screenshots stayed as they were. The production entry bundle is 269.24 kB
+(85.73 kB gzipped), and the report page is its own lazy chunk. No browser test covers the report
+page yet, coverage is not measured, and one browser test is intermittent. Running `npm run test:e2e`
+from `web/` writes the screenshots into the tracked folders in `docs/assets/`; see
+[docs/15, section 9](docs/15_final_test_report.md#9-reproducing-these-numbers) for running it from
+another folder. Details: [docs/15](docs/15_final_test_report.md).
 
 The browser tests replay the saved 27 October live results (`docs/test_runs_m2/`) as mocked
 responses, so the loading, partial, failed, cancelled, empty and offline states are real renders.
@@ -630,16 +682,24 @@ Infosys-Springboard-Internship/
 |   |-- swot_risk_agent.py     Milestone 3: SWOT and Risk Agent (stage 5)
 |   |-- mvp_agent.py           Milestone 3: MVP Recommendation Agent (stage 6)
 |   |-- gtm_agent.py           Milestone 3: Go-to-Market Agent (stage 7)
-|   `-- advisor_agent.py       Milestone 3: the Startup Advisor
+|   |-- advisor_agent.py       Milestone 3: the Startup Advisor
+|   |-- report_agent.py        Milestone 4: Report Generation Agent
+|   |-- report_sections.py     Milestone 4: the report's section builders
+|   |-- report_bibliography.py Milestone 4: citation numbering
+|   |-- report_checks.py       Milestone 4: the 12 consistency checks
+|   |-- query_profile.py       Milestone 4: the query profile switch (v1, v2)
+|   `-- prompt_profile.py      Milestone 4: the prompt profile switch (v1, v2)
 |-- models/
 |   |-- schemas.py             Shared models and every validation limit
 |   |-- strategy_drafts.py     Milestone 3: the shapes the model returns for strategy and the Advisor
-|   `-- chat.py                Milestone 3: Advisor messages and threads
+|   |-- chat.py                Milestone 3: Advisor messages and threads
+|   `-- report.py              Milestone 4: the report document and the written-summary draft
 |-- routes/
 |   |-- health_routes.py
 |   |-- idea_routes.py         /api/ideas/extract, /api/search, /api/validate
 |   |-- strategy_routes.py     Milestone 3: POST /api/runs/{id}/strategy
-|   `-- chat_routes.py         Milestone 3: the Advisor's chat routes and limits
+|   |-- chat_routes.py         Milestone 3: the Advisor's chat routes and limits
+|   `-- report_routes.py       Milestone 4: the five report routes
 |-- utils/
 |   |-- chat_store.py          Milestone 3: Advisor messages in the run history file
 |   |-- deadline.py            Milestone 2: the time limit of a full run, read by both clients
@@ -647,7 +707,10 @@ Infosys-Springboard-Internship/
 |   |-- llm_client.py          Gemini wrapper (the only file importing the SDK), with the Groq fallback
 |   |-- groq_client.py         Groq wrapper for the fallback LLM (plain HTTPS, no SDK)
 |   |-- search_client.py       Tavily wrapper
-|   `-- structured.py          Milestone 2: one validated LLM call with one retry
+|   |-- structured.py          Milestone 2: one validated LLM call with one retry
+|   |-- usage.py               Milestone 4: counts AI requests and searches per run
+|   |-- report_render_md.py    Milestone 4: the report as Markdown
+|   `-- report_render_pdf.py   Milestone 4: the report as PDF (ReportLab)
 |-- frontend/
 |   |-- app.py                 Streamlit UI
 |   |-- api_client.py          Form validation and the backend call
@@ -663,7 +726,7 @@ Infosys-Springboard-Internship/
 |       |-- app/               Shell, routes (each screen loaded on its own), providers
 |       |-- api/               Typed fetch client, queries and mutations
 |       |-- components/        Buttons, fields, chips, status and basis chips, source drawer
-|       |-- features/          new-validation, run, results (seven tabs), strategy, advisor, history, status
+|       |-- features/          new-validation, run, results (seven tabs), strategy, advisor, report, history, status
 |       |-- lib/               Reading a result, formatting, downloads, the viewport hook
 |       |-- styles/            tokens.css, globals.css, print.css
 |       `-- test/              MSW server, fixtures, and the saved live results as test data
@@ -680,8 +743,9 @@ Infosys-Springboard-Internship/
 |   |-- check_m3_contracts.py  Milestone 3: offline check of saved results against the strategy rules
 |   |-- check_llm.py           LLM connection check
 |   `-- check_groq.py          Groq fallback connection check
-|-- tests/                     2454 backend tests
-|-- docs/                      Project documentation (read in order)
+|-- tests/                     2956 backend tests
+|-- docs/                      Project documentation (read in order; every file is listed in docs/INDEX.md)
+|   |-- INDEX.md               Milestone 4: the documentation index
 |   |-- 01_project_understanding.md
 |   |-- 02_multi_agent_system.md
 |   |-- 03_system_architecture.md
@@ -695,6 +759,10 @@ Infosys-Springboard-Internship/
 |   |-- 10_ui_design_system.md The React interface: tokens, components, screens, accessibility
 |   |-- 11_milestone3_strategy_and_advisor.md   Milestone 3: how the strategy stages and the Advisor work
 |   |-- 12_milestone3_test_report.md            Milestone 3: measured test results and the live-check status
+|   |-- 13_report_generation_agent.md           Milestone 4: how the report is built
+|   |-- 14_evaluation_and_optimization.md       Milestone 4: the optimisation method and tables
+|   |-- 15_final_test_report.md                 Milestone 4: measured test results and what is outstanding
+|   |-- final/                 Milestone 4: technical documentation, user guide, project report, runbook, slides, OpenAPI snapshot
 |   |-- test_runs/             Evidence from the live runs
 |   |-- test_runs_m2/          Output of the Milestone 2 development runs
 |   |-- test_runs_m3/          Milestone 3 live-run outputs (only its README until the live checks are run)
@@ -733,6 +801,12 @@ Infosys-Springboard-Internship/
 | 10 | [UI design system](docs/10_ui_design_system.md) | The React interface: tokens, type scale, components, screens, charts and the measured accessibility results |
 | 11 | [Milestone 3: strategy and Advisor](docs/11_milestone3_strategy_and_advisor.md) | The SWOT and risk, MVP and go-to-market stages, the Advisor, their checks, formulas, API and known limits |
 | 12 | [Milestone 3 test report](docs/12_milestone3_test_report.md) | Measured test counts, what they cover, and the live checks (not executed yet) |
+| 13 | [Report Generation Agent](docs/13_report_generation_agent.md) | Milestone 4: the report's build flow, checks, sections, API and renderers |
+| 14 | [Evaluation and optimisation](docs/14_evaluation_and_optimization.md) | Milestone 4: query and prompt profiles, the pilot method and the comparison tables (not executed) |
+| 15 | [Final test report](docs/15_final_test_report.md) | Milestone 4: measured test counts, live checks and every outstanding item |
+| final | [Technical documentation](docs/final/TECHNICAL_DOCUMENTATION.md), [user guide](docs/final/USER_GUIDE.md), [project report](docs/final/PROJECT_REPORT.md), [demo runbook](docs/final/DEMO_RUNBOOK.md), [presentation specification](docs/final/PRESENTATION_SPEC.md) | Milestone 4 final deliverables |
+
+The full list, including which documents are generated: [docs/INDEX.md](docs/INDEX.md).
 
 Agile / Scrum tracking (backlog, sprints, stand-ups, retrospectives): [docs/agile/README.md](docs/agile/README.md)
 
@@ -756,7 +830,8 @@ search test: [src/README.md](src/README.md)
 | `ModuleNotFoundError: No module named 'models'` | Run the UI from the project root, as `streamlit run frontend/app.py` |
 | React: "Can't reach the server. Start it with `python app.py`" | The backend is not running, or `VITE_API_URL` points elsewhere |
 | React: a browser console CORS error | The origin you opened is not in `CORS_ORIGINS`. The default allows only ports 5173 on localhost and 127.0.0.1; add yours and restart the backend |
-| React build fails with `Cannot find module '@/api/types.gen'` | Run `npm run api:types` from `web/` with the backend running. The file is generated and git-ignored |
+| React build fails with `Cannot find module '@/api/types.gen'` | Run `npm run api:types` from `web/` with the backend running, or `npx openapi-typescript ../docs/final/openapi.json -o src/api/types.gen.ts` without it. The file is generated and git-ignored |
+| React: "PDF is not available because the report fonts are not installed." | Put `IBMPlexSans-Regular.ttf`, `IBMPlexSans-Bold.ttf`, `IBMPlexSans-Italic.ttf` and `IBMPlexMono-Regular.ttf` from the official IBM Plex release, with the OFL licence, in `assets/fonts/` and restart the backend. Markdown and JSON work without them |
 | React: "This validation produced no report." when exporting Markdown | The run produced no result, so there is nothing to write. Use a finished run |
 | `npm run test:e2e` says a browser is missing | Run `npx playwright install chromium` from `web/`. Only Chromium is used |
 | Port 5173 or 4173 already in use | Another Vite process holds it. Stop it, or pass `--port` to `npm run dev` and set `VITE_API_URL` if you also moved the backend |
@@ -782,10 +857,14 @@ agents, strategy on a saved run, and the Startup Advisor, all shown in the React
 ([docs/11](docs/11_milestone3_strategy_and_advisor.md)). Its live checks are not executed yet
 ([docs/12](docs/12_milestone3_test_report.md)).
 
+Milestone 4 is built and tested with fakes: the Report Generation Agent with PDF, Markdown and JSON
+downloads, the report page, switchable query and prompt profiles, and the final documentation
+([Milestone 4](#milestone-4-report-optimisation-and-documentation)). Its live checks, the
+end-to-end browser journeys, coverage and the optimisation comparison are not executed yet
+([docs/15](docs/15_final_test_report.md)).
+
 Everything below is **to be planned** for later milestones:
 
-- The Report Generation Agent
-- A final validation report with export
 - User accounts (a local run history now exists; accounts do not)
 - Deployment and containerisation
 - Confirming React parity, then deciding whether Streamlit is retired

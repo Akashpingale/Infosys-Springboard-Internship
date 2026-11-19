@@ -104,6 +104,14 @@ class ExtractedIdea(BaseModel):
     )
 
 
+SEARCH_TERMS_RANGE = (3, 5)
+SEARCH_TERM_MAX = 40
+
+
+class SearchTermsIdea(ExtractedIdea):
+    search_terms: list[str] = Field(default_factory=list)
+
+
 class SearchResult(BaseModel):
     title: str
     url: str
@@ -474,6 +482,27 @@ class PipelineResult(BaseModel):
     mvp: "MvpResult | None" = None
     gtm: "GtmResult | None" = None
     constraints: "StrategyConstraints | None" = None
+    usage: "Usage | None" = None
+    versions: "Versions | None" = None
+
+
+class StageUsage(BaseModel):
+    llm_calls: int = Field(default=0, ge=0)
+    search_calls: int = Field(default=0, ge=0)
+    seconds: float = Field(default=0.0, ge=0)
+
+
+class Usage(BaseModel):
+    llm_calls: int = Field(default=0, ge=0)
+    search_calls: int = Field(default=0, ge=0)
+    by_stage: dict[str, StageUsage] = Field(default_factory=dict)
+
+
+class Versions(BaseModel):
+    query_profile: str
+    prompt_profile: str
+    prompt_versions: dict[str, str] = Field(default_factory=dict)
+    app_version: str
 
 
 # --- Milestone 3 (MILESTONE_3_MASTER_IMPLEMENTATION_PLAN.md Section 6): strategy results ----------

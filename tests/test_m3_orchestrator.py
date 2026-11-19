@@ -88,7 +88,7 @@ LABELS = {
 
 
 def digest(result: PipelineResult) -> str:
-    data = result.model_dump(mode="json", exclude={"timings"})
+    data = result.model_dump(mode="json", exclude={"timings", "usage", "versions"})
     return hashlib.sha256(json.dumps(data, sort_keys=True).encode("utf-8")).hexdigest().upper()
 
 

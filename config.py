@@ -38,6 +38,15 @@ CHAT_HISTORY_TURNS_RANGE = (1, 20)
 CHAT_CONTEXT_MAX_CHARS_RANGE = (4000, 120000)
 CHAT_MAX_CONCURRENT_RANGE = (1, 8)
 CHAT_COOLDOWN_S_RANGE = (0.0, 60.0)
+DEFAULT_QUERY_PROFILE = "v1"
+DEFAULT_PROMPT_PROFILE = "v1"
+QUERY_PROFILES = ("v1", "v2")
+PROMPT_PROFILES = ("v1", "v2")
+DEFAULT_SEARCH_MAX_PARALLEL = 1
+SEARCH_MAX_PARALLEL_RANGE = (1, 8)
+DEFAULT_REPORT_TIME_LIMIT_S = 60.0
+REPORT_TIME_LIMIT_S_RANGE = (20.0, 600.0)
+DEFAULT_REPORT_FONT_DIR = ROOT_DIR / "assets" / "fonts"
 
 
 @dataclass(frozen=True)
@@ -71,6 +80,11 @@ class Settings:
     chat_context_max_chars: int = DEFAULT_CHAT_CONTEXT_MAX_CHARS
     chat_max_concurrent: int = DEFAULT_CHAT_MAX_CONCURRENT
     chat_cooldown_s: float = DEFAULT_CHAT_COOLDOWN_S
+    query_profile: str = DEFAULT_QUERY_PROFILE
+    prompt_profile: str = DEFAULT_PROMPT_PROFILE
+    search_max_parallel: int = DEFAULT_SEARCH_MAX_PARALLEL
+    report_time_limit_s: float = DEFAULT_REPORT_TIME_LIMIT_S
+    report_font_dir: Path = DEFAULT_REPORT_FONT_DIR
 
 
 def _text_env(name: str) -> str | None:
@@ -154,6 +168,16 @@ def _bounded_int_env(name: str, default: int, bounds: tuple[int, int]) -> int:
     return value
 
 
+def _choice_env(name: str, default: str, choices: tuple[str, ...]) -> str:
+    raw = os.getenv(name, "").strip()
+    if not raw:
+        return default
+    if raw not in choices:
+        logger.warning("%s must be one of %s; using %s", name, ", ".join(choices), default)
+        return default
+    return raw
+
+
 def _origins_env(name: str, default: tuple[str, ...]) -> tuple[str, ...]:
     """Comma-separated http(s) origins. A wildcard is never accepted, so access stays narrow."""
     raw = os.getenv(name, "").strip()
@@ -220,6 +244,15 @@ def get_settings() -> Settings:
             "CHAT_MAX_CONCURRENT", DEFAULT_CHAT_MAX_CONCURRENT, CHAT_MAX_CONCURRENT_RANGE
         ),
         chat_cooldown_s=_bounded_float_env("CHAT_COOLDOWN_S", DEFAULT_CHAT_COOLDOWN_S, CHAT_COOLDOWN_S_RANGE),
+        query_profile=_choice_env("QUERY_PROFILE", DEFAULT_QUERY_PROFILE, QUERY_PROFILES),
+        prompt_profile=_choice_env("PROMPT_PROFILE", DEFAULT_PROMPT_PROFILE, PROMPT_PROFILES),
+        search_max_parallel=_bounded_int_env(
+            "SEARCH_MAX_PARALLEL", DEFAULT_SEARCH_MAX_PARALLEL, SEARCH_MAX_PARALLEL_RANGE
+        ),
+        report_time_limit_s=_bounded_float_env(
+            "REPORT_TIME_LIMIT_S", DEFAULT_REPORT_TIME_LIMIT_S, REPORT_TIME_LIMIT_S_RANGE
+        ),
+        report_font_dir=_path_env("REPORT_FONT_DIR", DEFAULT_REPORT_FONT_DIR),
     )
 
 

@@ -1,0 +1,2639 @@
+{
+  "schema_version": 1,
+  "title": "Startup validation report",
+  "subtitle": "CropScan: AI crop disease detection",
+  "meta": {
+    "run_id": "synthetic-run",
+    "generated_at": "2026-11-16T10:00:00+00:00",
+    "source_fingerprint": "f0b8f6b125af44c72642fbc4b52087235af03bc8d39880d759e32a54596d4487",
+    "run_status": "complete",
+    "idea_title": "CropScan: AI crop disease detection",
+    "industry": "Agriculture / AgriTech",
+    "sections_included": [
+      "cover",
+      "executive_summary",
+      "at_a_glance",
+      "idea",
+      "market",
+      "competitors",
+      "swot",
+      "risks",
+      "mvp",
+      "gtm",
+      "next_steps",
+      "method",
+      "limitations",
+      "sources",
+      "appendix_run",
+      "appendix_glossary"
+    ],
+    "sections_missing": [],
+    "narrative_status": "ok",
+    "prompt_version": "report-v1",
+    "app_version": "0.1.0",
+    "consistency": {
+      "checks": [
+        {
+          "id": "C-01",
+          "description": "Every citation number exists in the bibliography, and every bibliography entry is cited at least once.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-02",
+          "description": "Every catalogue section is present or listed as missing with a reason.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-03",
+          "description": "Every figure in Validation at a glance equals the value recomputed from the stored result.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-04",
+          "description": "The positioning target segment equals the market priority segment when both exist.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-05",
+          "description": "Every risk referenced by an MVP feature or a channel exists in the risk register shown.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-06",
+          "description": "Every feature referenced by a channel exists in the MVP section shown.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-07",
+          "description": "Every gap shown carries the standing caveat, and every hypothesis differentiator is labelled.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-08",
+          "description": "No narrative statement is labelled sourced.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-09",
+          "description": "Every warning-level notice appears in Limitations.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-10",
+          "description": "The run status shown equals the stored status, and a partial run lists the stages that did not finish.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-11",
+          "description": "No text contains a configured key value or key-shaped text.",
+          "passed": true,
+          "detail": ""
+        },
+        {
+          "id": "C-12",
+          "description": "No text contains control characters that could break an output format. Escaping is checked per format when the report is rendered.",
+          "passed": true,
+          "detail": ""
+        }
+      ],
+      "passed_count": 12,
+      "total_count": 12
+    }
+  },
+  "sections": [
+    {
+      "id": "cover",
+      "title": "Title block",
+      "blocks": [
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Idea",
+              "value": "CropScan: AI crop disease detection"
+            },
+            {
+              "label": "Industry",
+              "value": "Agriculture / AgriTech"
+            },
+            {
+              "label": "Date",
+              "value": "2026-11-16"
+            },
+            {
+              "label": "Run status",
+              "value": "Complete"
+            },
+            {
+              "label": "Report version",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "kind": "note",
+          "text": "AI-assisted analysis; interpretations are labelled."
+        }
+      ]
+    },
+    {
+      "id": "executive_summary",
+      "title": "Executive summary",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "CropScan is a phone app that detects crop diseases from a photo for small farmers in India.",
+          "basis": "user_provided",
+          "cites": [],
+          "narrative": true
+        },
+        {
+          "type": "paragraph",
+          "text": "The evidence shows that farmers lose crops to late diagnosis, but it cannot confirm the size of this idea's own market.",
+          "basis": "ai_interpretation",
+          "cites": [
+            1
+          ],
+          "narrative": true
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Market size (TAM): USD 1.8 billion (AI crop disease detection market, 2025).",
+              "basis": "sourced",
+              "cites": [
+                2
+              ]
+            },
+            {
+              "text": "Demand: Most small farmers say they lose crops because diseases are spotted late.",
+              "basis": "sourced",
+              "cites": [
+                1
+              ]
+            },
+            {
+              "text": "Priority segment: Smallholder farmers. They feel the crop losses most directly.",
+              "basis": "ai_interpretation",
+              "cites": [
+                1
+              ]
+            },
+            {
+              "text": "5 competitors found: 2 direct, 2 indirect and 1 emerging.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Possible gap (medium confidence, a hypothesis): Few competitors show treatment advice tailored to the diagnosed disease.",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "Main limitation: A free photo diagnosis app is already available.",
+              "basis": "sourced",
+              "cites": [
+                3
+              ]
+            },
+            {
+              "text": "Main risk (high severity, market): Farmers stay with the free app.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3,
+                4
+              ]
+            },
+            {
+              "text": "First release, the top 3 of 6 features: Photo-based diagnosis, Treatment advice and Local language support.",
+              "basis": "user_provided",
+              "cites": [
+                3,
+                5
+              ]
+            },
+            {
+              "text": "Go-to-market, start here: Short demo videos on a messaging app.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Key insights"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "The priority segment of smallholder farmers lines up with the gap in treatment advice.",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "A free app already reaches farmers, so keeping them is the main risk for the first release.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3,
+                4
+              ]
+            },
+            {
+              "text": "Local language support appears in the competitor evidence and in the planned features.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3,
+                5
+              ]
+            }
+          ],
+          "narrative": true
+        },
+        {
+          "type": "callout",
+          "kind": "caveat",
+          "text": "This report interprets the evidence found for this idea and does not predict results."
+        }
+      ]
+    },
+    {
+      "id": "at_a_glance",
+      "title": "Validation at a glance",
+      "blocks": [
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Evidence strength",
+              "value": "Strong (score 0.7475; sourced share 0.65, source breadth 0.875, evidence level 0.75)"
+            },
+            {
+              "label": "Market size (TAM)",
+              "value": "Sourced: USD 1.8 billion"
+            },
+            {
+              "label": "Market size (SAM)",
+              "value": "Unavailable"
+            },
+            {
+              "label": "Market size (SOM)",
+              "value": "Unavailable"
+            },
+            {
+              "label": "Competitors found",
+              "value": "5 (2 direct, 2 indirect, 1 emerging)"
+            },
+            {
+              "label": "Risks by severity",
+              "value": "6 (2 high, 2 medium, 2 low)"
+            },
+            {
+              "label": "MVP features in the first release",
+              "value": "6"
+            },
+            {
+              "label": "First recommended channel",
+              "value": "Short demo videos on a messaging app"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idea",
+      "title": "The idea as understood",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Problem"
+        },
+        {
+          "type": "paragraph",
+          "text": "Small farmers in India lose crops because diseases are spotted too late.",
+          "basis": "user_provided",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Solution"
+        },
+        {
+          "type": "paragraph",
+          "text": "A phone app that detects crop diseases from a photo and suggests treatment.",
+          "basis": "user_provided",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Customers"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Small farmers in India",
+              "basis": "user_provided",
+              "cites": []
+            },
+            {
+              "text": "Agricultural cooperatives",
+              "basis": "user_provided",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Key features"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Photo-based diagnosis",
+              "basis": "user_provided",
+              "cites": []
+            },
+            {
+              "text": "Treatment advice",
+              "basis": "user_provided",
+              "cites": []
+            },
+            {
+              "text": "Local language support",
+              "basis": "user_provided",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Resources"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Team size",
+              "value": "2 people"
+            },
+            {
+              "label": "Months to the first release",
+              "value": "4 months"
+            },
+            {
+              "label": "Budget",
+              "value": "Bootstrapped"
+            },
+            {
+              "label": "Technical skill",
+              "value": "Not given"
+            },
+            {
+              "label": "Launch region",
+              "value": "Not given"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "market",
+      "title": "Market opportunity",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Industry overview"
+        },
+        {
+          "type": "paragraph",
+          "text": "AI crop disease detection is a growing part of AgriTech.",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Market category",
+              "value": "AI crop disease detection"
+            }
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "A new startup launched drone-based disease scouting for farming cooperatives.",
+              "basis": "sourced",
+              "cites": [
+                6
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Demand"
+        },
+        {
+          "type": "paragraph",
+          "text": "Small farmers lose crops when diseases are spotted late.",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Demand evidence"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Most small farmers say they lose crops because diseases are spotted late.",
+              "basis": "sourced",
+              "cites": [
+                1
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Customer problems"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Diseases are spotted too late to save the crop.",
+              "basis": "sourced",
+              "cites": [
+                1
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Interest signals"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Photo-based diagnosis apps already reach farmers in their own languages.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Market size"
+        },
+        {
+          "type": "table",
+          "caption": "Market size for this idea",
+          "columns": [
+            "Figure",
+            "Value",
+            "Status",
+            "Note"
+          ],
+          "rows": [
+            [
+              "TAM",
+              "USD 1.8 billion",
+              "Sourced",
+              "AI crop disease detection market, 2025"
+            ],
+            [
+              "SAM",
+              "Not available",
+              "Unavailable",
+              "No figure for India was found"
+            ],
+            [
+              "SOM",
+              "Not available",
+              "Unavailable",
+              ""
+            ]
+          ],
+          "col_align": [
+            "left",
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              2
+            ],
+            [],
+            []
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Trends"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Drone-based disease scouting (Technology)",
+              "basis": "sourced",
+              "cites": [
+                6
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Segments"
+        },
+        {
+          "type": "table",
+          "caption": "Customer segments",
+          "columns": [
+            "Segment",
+            "Description",
+            "Segmented by",
+            "Priority"
+          ],
+          "rows": [
+            [
+              "Smallholder farmers",
+              "Farmers on small plots who lose crops to late diagnosis.",
+              "Business type",
+              "Priority"
+            ],
+            [
+              "Farming cooperatives",
+              "Groups that advise many member farmers.",
+              "Business type",
+              ""
+            ]
+          ],
+          "col_align": [
+            "left",
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              1
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Priority segment",
+              "value": "Smallholder farmers"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "They feel the crop losses most directly.",
+          "basis": "ai_interpretation",
+          "cites": [
+            1
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Opportunities"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Treatment advice in local languages",
+              "basis": "ai_interpretation",
+              "cites": [
+                3
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Limitations"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "A free photo diagnosis app is already available",
+              "basis": "sourced",
+              "cites": [
+                3
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Evidence quality"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Evidence level",
+              "value": "Limited"
+            }
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "No market figure for India was found.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "callout",
+          "kind": "caveat",
+          "text": "Market figures are evidence-dependent and need verification."
+        }
+      ]
+    },
+    {
+      "id": "competitors",
+      "title": "Competitive landscape",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Competitors"
+        },
+        {
+          "type": "table",
+          "caption": "Competitors found",
+          "columns": [
+            "Competitor",
+            "Type",
+            "Offering",
+            "Pricing as found"
+          ],
+          "rows": [
+            [
+              "Plantix",
+              "Direct",
+              "Photo-based crop disease diagnosis app",
+              "Free; Pro INR 499 a year"
+            ],
+            [
+              "LeafDoc",
+              "Direct",
+              "Paid photo diagnosis with expert chat",
+              "5 USD a month"
+            ],
+            [
+              "Fasal",
+              "Indirect",
+              "Crop monitoring and advisory",
+              "Not available"
+            ],
+            [
+              "CropSense",
+              "Emerging",
+              "Drone-based disease scouting",
+              "Not available"
+            ],
+            [
+              "Kisan call centres",
+              "Indirect",
+              "Free phone advice on crop diseases in local languages",
+              "Free"
+            ]
+          ],
+          "col_align": [
+            "left",
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              3,
+              4
+            ],
+            [
+              7
+            ],
+            [
+              8
+            ],
+            [
+              6
+            ],
+            [
+              5
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Feature comparison"
+        },
+        {
+          "type": "table",
+          "caption": "Feature comparison",
+          "columns": [
+            "Competitor",
+            "Photo-based diagnosis",
+            "Treatment advice",
+            "Local language support",
+            "Expert chat",
+            "Drone scouting",
+            "Crop monitoring"
+          ],
+          "rows": [
+            [
+              "Plantix",
+              "+ Evidence found",
+              "? Unclear",
+              "+ Evidence found",
+              "+ Evidence found",
+              "– No evidence found in the sources",
+              "? Unclear"
+            ],
+            [
+              "LeafDoc",
+              "+ Evidence found",
+              "? Unclear",
+              "? Unclear",
+              "+ Evidence found",
+              "? Unclear",
+              "? Unclear"
+            ],
+            [
+              "Fasal",
+              "? Unclear",
+              "? Unclear",
+              "? Unclear",
+              "? Unclear",
+              "? Unclear",
+              "? Unclear"
+            ],
+            [
+              "CropSense",
+              "? Unclear",
+              "? Unclear",
+              "? Unclear",
+              "? Unclear",
+              "+ Evidence found",
+              "? Unclear"
+            ],
+            [
+              "Kisan call centres",
+              "? Unclear",
+              "+ Evidence found",
+              "+ Evidence found",
+              "? Unclear",
+              "? Unclear",
+              "? Unclear"
+            ]
+          ],
+          "col_align": [
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              3,
+              4
+            ],
+            [
+              7
+            ],
+            [],
+            [
+              6
+            ],
+            [
+              5
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "caption": "Feature coverage",
+          "columns": [
+            "Feature",
+            "Competitors with evidence"
+          ],
+          "rows": [
+            [
+              "Photo-based diagnosis",
+              "2"
+            ],
+            [
+              "Treatment advice",
+              "1"
+            ],
+            [
+              "Local language support",
+              "2"
+            ],
+            [
+              "Expert chat",
+              "2"
+            ],
+            [
+              "Drone scouting",
+              "1"
+            ],
+            [
+              "Crop monitoring",
+              "0"
+            ]
+          ],
+          "col_align": [
+            "left",
+            "right"
+          ],
+          "row_cites": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Possible gaps"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Few competitors show treatment advice tailored to the diagnosed disease. (medium confidence, a hypothesis)",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "No competitor in the results mentions offline diagnosis. (low confidence, a hypothesis)",
+              "basis": "ai_interpretation",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "callout",
+          "kind": "caveat",
+          "text": "Absence from search results does not prove a competitor or a gap does not exist."
+        },
+        {
+          "type": "subheading",
+          "text": "Differentiation opportunities"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Combine photo diagnosis with treatment advice in local languages.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3,
+                5
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Evidence quality"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Evidence level",
+              "value": "Strong"
+            }
+          ]
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Pricing for Fasal and CropSense was not found.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        }
+      ]
+    },
+    {
+      "id": "swot",
+      "title": "SWOT",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The idea meets a clear farmer problem. Free alternatives make adoption the main question.",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Strengths"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "The app diagnoses crop disease from a single phone photo. Why it matters: It shapes the first release.",
+              "basis": "user_provided",
+              "cites": []
+            },
+            {
+              "text": "Treatment advice comes with every diagnosis. Why it matters: It shapes the first release.",
+              "basis": "user_provided",
+              "cites": []
+            },
+            {
+              "text": "Local language support lowers the barrier for rural users. Why it matters: It shapes the first release.",
+              "basis": "user_provided",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Weaknesses"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "The concept relies on farmers owning a camera phone. Why it matters: It shapes the first release.",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "Diagnosis quality depends on training images not yet collected. Why it matters: It shapes the first release.",
+              "basis": "assumption",
+              "cites": []
+            },
+            {
+              "text": "A small assumed team limits field testing. Why it matters: It shapes the first release.",
+              "basis": "assumption",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Opportunities"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Late diagnosis is a widely reported farmer problem. Why it matters: It shapes the first release.",
+              "basis": "ai_interpretation",
+              "cites": [
+                1
+              ]
+            },
+            {
+              "text": "Advice in local languages is still an open niche. Why it matters: It shapes the first release.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3
+              ]
+            },
+            {
+              "text": "Cooperatives could distribute the app to their members. Why it matters: It shapes the first release.",
+              "basis": "ai_interpretation",
+              "cites": [
+                6
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Threats"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "An established free diagnosis app already serves farmers. Why it matters: It shapes the first release.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3,
+                4
+              ]
+            },
+            {
+              "text": "Public helplines give free advice by phone. Why it matters: It shapes the first release.",
+              "basis": "ai_interpretation",
+              "cites": [
+                5
+              ]
+            },
+            {
+              "text": "Drone scouting services may reach cooperatives first. Why it matters: It shapes the first release.",
+              "basis": "ai_interpretation",
+              "cites": [
+                6
+              ]
+            }
+          ],
+          "narrative": false
+        }
+      ]
+    },
+    {
+      "id": "risks",
+      "title": "Risk assessment",
+      "blocks": [
+        {
+          "type": "table",
+          "caption": "Risk register",
+          "columns": [
+            "#",
+            "Category",
+            "Risk",
+            "Likelihood",
+            "Impact",
+            "Severity",
+            "Mitigation",
+            "Early warning sign",
+            "Basis"
+          ],
+          "rows": [
+            [
+              "1",
+              "Market",
+              "Farmers stay with the free app",
+              "High",
+              "High",
+              "High",
+              "Run a small pilot that tests farmers stay with the free app.",
+              "Pilot users raise farmers stay with the free app in interviews.",
+              "AI interpretation"
+            ],
+            [
+              "2",
+              "Technical",
+              "Wrong diagnosis on poor photos",
+              "Medium",
+              "High",
+              "High",
+              "Run a small pilot that tests wrong diagnosis on poor photos.",
+              "Pilot users raise wrong diagnosis on poor photos in interviews.",
+              "AI interpretation"
+            ],
+            [
+              "3",
+              "Business",
+              "Cooperatives delay adoption",
+              "Medium",
+              "Medium",
+              "Medium",
+              "Run a small pilot that tests cooperatives delay adoption.",
+              "Pilot users raise cooperatives delay adoption in interviews.",
+              "AI interpretation"
+            ],
+            [
+              "4",
+              "Financial",
+              "Farmers resist paying",
+              "High",
+              "Low",
+              "Medium",
+              "Run a small pilot that tests farmers resist paying.",
+              "Pilot users raise farmers resist paying in interviews.",
+              "AI interpretation"
+            ],
+            [
+              "5",
+              "Operational",
+              "Advice goes out of date",
+              "Low",
+              "Medium",
+              "Low",
+              "Run a small pilot that tests advice goes out of date.",
+              "Pilot users raise advice goes out of date in interviews.",
+              "AI interpretation"
+            ],
+            [
+              "6",
+              "Market",
+              "Drone services win cooperatives",
+              "Low",
+              "Low",
+              "Low",
+              "Run a small pilot that tests drone services win cooperatives.",
+              "Pilot users raise drone services win cooperatives in interviews.",
+              "AI interpretation"
+            ]
+          ],
+          "col_align": [
+            "right",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              3,
+              4
+            ],
+            [],
+            [
+              6
+            ],
+            [
+              4
+            ],
+            [],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Risks by category: Business 1, Market 2, Technical 1, Financial 1, Operational 1.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        }
+      ]
+    },
+    {
+      "id": "mvp",
+      "title": "MVP recommendation",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The first release should diagnose and advise in local languages. Dashboards can wait.",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Capacity",
+              "value": "Planned 4.5 of 4.8 person-months"
+            },
+            {
+              "label": "Team size",
+              "value": "2 people"
+            },
+            {
+              "label": "Months to the first release",
+              "value": "4 months"
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "In the first release"
+        },
+        {
+          "type": "table",
+          "caption": "First release",
+          "columns": [
+            "#",
+            "Feature",
+            "Need",
+            "Differentiation",
+            "Feasibility",
+            "Effort",
+            "Score",
+            "Addresses risks",
+            "Basis"
+          ],
+          "rows": [
+            [
+              "1",
+              "Photo-based diagnosis",
+              "5",
+              "2",
+              "4",
+              "M",
+              "3.8",
+              "None",
+              "From your idea"
+            ],
+            [
+              "2",
+              "Treatment advice",
+              "4",
+              "4",
+              "3",
+              "M",
+              "3.7",
+              "2",
+              "From your idea"
+            ],
+            [
+              "3",
+              "Local language support",
+              "4",
+              "3",
+              "3",
+              "S",
+              "3.4",
+              "None",
+              "From your idea"
+            ],
+            [
+              "4",
+              "Photo quality guide",
+              "3",
+              "2",
+              "5",
+              "S",
+              "3.3",
+              "2",
+              "Assumption"
+            ],
+            [
+              "5",
+              "Offline photo capture",
+              "3",
+              "4",
+              "3",
+              "M",
+              "3.3",
+              "None",
+              "AI interpretation"
+            ],
+            [
+              "6",
+              "Advice update log",
+              "2",
+              "3",
+              "4",
+              "S",
+              "2.9",
+              "5",
+              "Assumption"
+            ]
+          ],
+          "col_align": [
+            "right",
+            "left",
+            "right",
+            "right",
+            "right",
+            "left",
+            "right",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              1
+            ],
+            [],
+            [
+              3,
+              5
+            ],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Later"
+        },
+        {
+          "type": "table",
+          "caption": "Later",
+          "columns": [
+            "#",
+            "Feature",
+            "Need",
+            "Differentiation",
+            "Feasibility",
+            "Effort",
+            "Score",
+            "Addresses risks",
+            "Basis"
+          ],
+          "rows": [
+            [
+              "7",
+              "Cooperative dashboard",
+              "3",
+              "3",
+              "2",
+              "L",
+              "2.7",
+              "3",
+              "AI interpretation"
+            ],
+            [
+              "8",
+              "Expert chat",
+              "2",
+              "2",
+              "2",
+              "L",
+              "2",
+              "None",
+              "AI interpretation"
+            ]
+          ],
+          "col_align": [
+            "right",
+            "left",
+            "right",
+            "right",
+            "right",
+            "left",
+            "right",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              6
+            ],
+            [
+              4,
+              7
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Why some features wait"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Cooperative dashboard: It does not fit in the 4.8 person-months the team has, after the features ranked above it.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Expert chat: It does not fit in the 4.8 person-months the team has, after the features ranked above it.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Success metrics"
+        },
+        {
+          "type": "table",
+          "caption": "Success metrics",
+          "columns": [
+            "Metric",
+            "How to measure",
+            "Suggested target",
+            "Basis"
+          ],
+          "rows": [
+            [
+              "Weekly diagnoses per farmer",
+              "Count diagnoses per pilot farmer each week.",
+              "Most pilot farmers use it weekly",
+              "Assumption"
+            ],
+            [
+              "Treatment follow-through",
+              "Ask pilot farmers whether they applied the advice.",
+              "Not given",
+              "Assumption"
+            ],
+            [
+              "Cooperative sign-ups",
+              "Count cooperatives that join the pilot.",
+              "Two cooperatives in the first season",
+              "Assumption"
+            ]
+          ],
+          "col_align": [
+            "left",
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "How the ranking works"
+        },
+        {
+          "type": "paragraph",
+          "text": "Each feature is rated from 1 to 5 by the AI for need, differentiation and feasibility. Score = 0.4 × need + 0.3 × differentiation + 0.3 × feasibility.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "paragraph",
+          "text": "Features essential to the idea come first, then higher scores, then lower effort.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "paragraph",
+          "text": "Effort in person-months, an AI estimate: S is 0.5, M is 1, L is 2.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "paragraph",
+          "text": "Capacity = team size × months × 0.6, for the time a team can give to building. Features join the first release in rank order while they fit.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "paragraph",
+          "text": "These weights are planning rules of thumb, not facts about your market.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        }
+      ]
+    },
+    {
+      "id": "gtm",
+      "title": "Go-to-market strategy",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Start with smallholder farmers through short videos and cooperatives. The plan rests on a pilot that shows farmers act on the advice.",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Positioning"
+        },
+        {
+          "type": "paragraph",
+          "text": "For smallholder farmers on rain-fed plots who spot crop diseases too late to save the harvest, CropScan: AI crop disease detection is a photo diagnosis app that names the disease and a treatment from one photo. Unlike free diagnosis apps and phone helplines, it pairs each diagnosis with treatment advice in the farmer's language.",
+          "basis": "ai_interpretation",
+          "cites": [
+            1,
+            3,
+            5
+          ],
+          "narrative": false
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Target segment",
+              "value": "Smallholder farmers"
+            },
+            {
+              "label": "For whom",
+              "value": "smallholder farmers on rain-fed plots"
+            },
+            {
+              "label": "Problem",
+              "value": "spot crop diseases too late to save the harvest"
+            },
+            {
+              "label": "Category",
+              "value": "photo diagnosis app"
+            },
+            {
+              "label": "Key benefit",
+              "value": "names the disease and a treatment from one photo"
+            },
+            {
+              "label": "Alternative",
+              "value": "free diagnosis apps and phone helplines"
+            },
+            {
+              "label": "Differentiator",
+              "value": "it pairs each diagnosis with treatment advice in the farmer's language (Hypothesis)"
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Channels"
+        },
+        {
+          "type": "table",
+          "caption": "Channels, in the order to try them",
+          "columns": [
+            "Priority",
+            "Channel",
+            "Kind",
+            "Cost",
+            "Speed",
+            "Audience fit",
+            "First experiment",
+            "Success signal",
+            "Uses features",
+            "Addresses risks",
+            "Basis"
+          ],
+          "rows": [
+            [
+              "1",
+              "Short demo videos on a messaging app (Start here)",
+              "Digital",
+              "Low",
+              "Days",
+              "Very strong, 5 of 5",
+              "Try short demo videos on a messaging app with a few farmers for two weeks.",
+              "Farmers who met short demo videos on a messaging app send a second photo.",
+              "1",
+              "1",
+              "AI interpretation"
+            ],
+            [
+              "2",
+              "Cooperative staff referrals",
+              "Direct sales",
+              "Medium",
+              "Weeks",
+              "Very strong, 5 of 5",
+              "Try cooperative staff referrals with a few farmers for two weeks.",
+              "Farmers who met cooperative staff referrals send a second photo.",
+              "7",
+              "None",
+              "AI interpretation"
+            ],
+            [
+              "3",
+              "Village demo booths",
+              "Offline",
+              "Low",
+              "Days",
+              "Strong, 4 of 5",
+              "Try village demo booths with a few farmers for two weeks.",
+              "Farmers who met village demo booths send a second photo.",
+              "None",
+              "2",
+              "Assumption"
+            ],
+            [
+              "4",
+              "Cooperative field days",
+              "Offline",
+              "Low",
+              "Weeks",
+              "Strong, 4 of 5",
+              "Try cooperative field days with a few farmers for two weeks.",
+              "Farmers who met cooperative field days send a second photo.",
+              "1, 3",
+              "3",
+              "AI interpretation"
+            ],
+            [
+              "5",
+              "Agri-input retailer counters",
+              "Partnership",
+              "Medium",
+              "Weeks",
+              "Strong, 4 of 5",
+              "Try agri-input retailer counters with a few farmers for two weeks.",
+              "Farmers who met agri-input retailer counters send a second photo.",
+              "2",
+              "None",
+              "AI interpretation"
+            ],
+            [
+              "6",
+              "Radio farm shows (May be above a bootstrapped budget)",
+              "Offline",
+              "High",
+              "Months",
+              "Moderate, 3 of 5",
+              "Try radio farm shows with a few farmers for two weeks.",
+              "Farmers who met radio farm shows send a second photo.",
+              "None",
+              "None",
+              "AI interpretation"
+            ]
+          ],
+          "col_align": [
+            "right",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [
+              3
+            ],
+            [
+              6
+            ],
+            [],
+            [
+              6
+            ],
+            [
+              1
+            ],
+            [
+              1
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Early customers"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Free diagnosis week at a cooperative Where to find them: farming cooperatives with member meetings. Offer: free photo diagnosis for every member for a week. How to measure: count members who send a second photo",
+              "basis": "ai_interpretation",
+              "cites": [
+                6
+              ]
+            },
+            {
+              "text": "Pilot with lead farmers Where to find them: villages where one farmer advises the neighbours. Offer: early access and a direct line for feedback. How to measure: count neighbours the lead farmer brings in",
+              "basis": "assumption",
+              "cites": []
+            },
+            {
+              "text": "Retailer counter sign-ups Where to find them: agri-input retailers in farming towns. Offer: a printed guide to photo diagnosis. How to measure: count sign-ups per counter",
+              "basis": "ai_interpretation",
+              "cites": [
+                1
+              ]
+            },
+            {
+              "text": "Local language demo calls Where to find them: farmers who use phone helplines today. Offer: a call that walks through the app in their language. How to measure: count calls that end in an install",
+              "basis": "ai_interpretation",
+              "cites": [
+                5
+              ]
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Launch phases"
+        },
+        {
+          "type": "subheading",
+          "text": "Before launch"
+        },
+        {
+          "type": "paragraph",
+          "text": "Goal: Confirm farmers will send photos",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Test photo capture with a few lead farmers",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "Prepare advice in two local languages",
+              "basis": "ai_interpretation",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Launch"
+        },
+        {
+          "type": "paragraph",
+          "text": "Goal: Win the first cooperative",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Run a free diagnosis week",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "Share demo videos in farmer groups",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "Train cooperative staff",
+              "basis": "ai_interpretation",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "First 90 days"
+        },
+        {
+          "type": "paragraph",
+          "text": "Goal: Show that farmers come back",
+          "basis": "ai_interpretation",
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Track repeat photos per farmer",
+              "basis": "ai_interpretation",
+              "cites": []
+            },
+            {
+              "text": "Collect stories of saved crops",
+              "basis": "ai_interpretation",
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Key messages"
+        },
+        {
+          "type": "table",
+          "caption": "Key messages",
+          "columns": [
+            "Audience",
+            "Message",
+            "Proof needed"
+          ],
+          "rows": [
+            [
+              "Smallholder farmers",
+              "Send one photo and get the disease name and a treatment",
+              "Pilot farmers who acted on the advice"
+            ],
+            [
+              "Cooperative staff",
+              "Advise more members without more experts",
+              "Feedback from a pilot cooperative"
+            ],
+            [
+              "Agri-input retailers",
+              "Help customers pick the right treatment",
+              "Sign-ups at retailer counters"
+            ]
+          ],
+          "col_align": [
+            "left",
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [],
+            [],
+            []
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next_steps",
+      "title": "Recommended next steps",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Recommended actions"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Interview pilot farmers about why they would switch from the free app. Why: The highest risk is that farmers stay with the free app.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3,
+                4
+              ]
+            },
+            {
+              "text": "Test the diagnosis on poor photos before launch. Why: Wrong diagnosis on poor photos is a high-severity risk.",
+              "basis": "ai_interpretation",
+              "cites": [
+                1
+              ]
+            },
+            {
+              "text": "Start with short demo videos on a messaging app. Why: It is the channel ranked first in the plan.",
+              "basis": "ai_interpretation",
+              "cites": [
+                3
+              ]
+            }
+          ],
+          "narrative": true
+        },
+        {
+          "type": "subheading",
+          "text": "What to verify"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Find a reliable market size for this idea's own market: no source confirmed the SAM or SOM.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Look for stronger market sources: the market evidence was rated limited.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Find out more about Fasal: the sources gave little detail.",
+              "basis": null,
+              "cites": [
+                8
+              ]
+            },
+            {
+              "text": "Test the low-confidence gap: No competitor in the results mentions offline diagnosis.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Check the high-severity risk \"Farmers stay with the free app\", which has low confidence. Early warning sign: Pilot users raise farmers stay with the free app in interviews.",
+              "basis": null,
+              "cites": [
+                3,
+                4
+              ]
+            },
+            {
+              "text": "Check the high-severity risk \"Wrong diagnosis on poor photos\", which has low confidence. Early warning sign: Pilot users raise wrong diagnosis on poor photos in interviews.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Run the first experiment for Short demo videos on a messaging app: Try short demo videos on a messaging app with a few farmers for two weeks.",
+              "basis": null,
+              "cites": [
+                3
+              ]
+            }
+          ],
+          "narrative": false
+        }
+      ]
+    },
+    {
+      "id": "method",
+      "title": "How this report was produced",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "The validation ran in stages. The idea was extracted from your description, the web was searched, and the market and the competitors were analysed from the search results. When strategy was included, a SWOT and risk review, an MVP recommendation and a go-to-market plan were written from those findings. This report compiles the stored results: it makes no new search and adds no new fact.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Run status",
+              "value": "Complete"
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Basis labels"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Sourced",
+              "value": "Stated by a cited source."
+            },
+            {
+              "label": "AI interpretation",
+              "value": "The AI's reading of the evidence. No source states it."
+            },
+            {
+              "label": "From your idea",
+              "value": "Taken from what you wrote."
+            },
+            {
+              "label": "Assumption",
+              "value": "Assumed where no evidence or input was available."
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Evidence strength"
+        },
+        {
+          "type": "paragraph",
+          "text": "Evidence strength combines three parts with these weights: sourced share 0.4, source breadth 0.3, evidence level 0.3. Source breadth counts distinct source websites up to 8. It is Strong at 0.7 or above, Moderate from 0.4 and Limited below. How well the findings are backed by sources. This is not a prediction of success.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Consistency checks"
+        },
+        {
+          "type": "paragraph",
+          "text": "12 of 12 consistency checks passed.",
+          "basis": null,
+          "cites": [],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "AI requests and searches"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "AI requests",
+              "value": "Not recorded for this run"
+            },
+            {
+              "label": "Web searches",
+              "value": "Not recorded for this run"
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Quality notes"
+        },
+        {
+          "type": "subheading",
+          "text": "Analysing the market"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "The market-size searches found no results, so only the main search results were used.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Comparing competitors"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "AgroGhost was not searched further because its sources do not name it.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "KisanBot was not searched further because it was listed as named by you, but your submission does not mention it.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "One competitor search found no results.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Planning go-to-market"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Some channels may cost more than a bootstrapped budget.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        }
+      ]
+    },
+    {
+      "id": "limitations",
+      "title": "Limitations",
+      "blocks": [
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "A free photo diagnosis app is already available",
+              "basis": "sourced",
+              "cites": [
+                3
+              ]
+            },
+            {
+              "text": "No market figure for India was found.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Market figures are evidence-dependent and need verification.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Pricing for Fasal and CropSense was not found.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Absence from search results does not prove a competitor or a gap does not exist.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "No facts on how often farmers would open the app.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "No facts on how farmers in the launch region use messaging apps.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "The market-size searches found no results, so only the main search results were used.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "One competitor search found no results.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        },
+        {
+          "type": "subheading",
+          "text": "Standing statements"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            {
+              "text": "Absence from search results does not prove absence.",
+              "basis": null,
+              "cites": []
+            },
+            {
+              "text": "Strategy items are interpretations, not predictions.",
+              "basis": null,
+              "cites": []
+            }
+          ],
+          "narrative": false
+        }
+      ]
+    },
+    {
+      "id": "sources",
+      "title": "Sources",
+      "blocks": []
+    }
+  ],
+  "bibliography": [
+    {
+      "number": 1,
+      "title": "Farmer survey",
+      "url": "https://farmers.example/survey",
+      "domain": "farmers.example",
+      "analyses": [
+        "market"
+      ],
+      "cited_in": [
+        "executive_summary",
+        "market",
+        "swot",
+        "mvp",
+        "gtm",
+        "next_steps"
+      ],
+      "has_page": true
+    },
+    {
+      "number": 2,
+      "title": "Crop AI market report",
+      "url": "https://reports.example/crop-ai-market",
+      "domain": "reports.example",
+      "analyses": [
+        "market"
+      ],
+      "cited_in": [
+        "executive_summary",
+        "market"
+      ],
+      "has_page": true
+    },
+    {
+      "number": 3,
+      "title": "Plantix crop doctor app",
+      "url": "https://plantix.example/about",
+      "domain": "plantix.example",
+      "analyses": [
+        "market",
+        "competitors"
+      ],
+      "cited_in": [
+        "executive_summary",
+        "market",
+        "competitors",
+        "swot",
+        "risks",
+        "mvp",
+        "gtm",
+        "next_steps",
+        "limitations"
+      ],
+      "has_page": true
+    },
+    {
+      "number": 4,
+      "title": "Plantix pricing",
+      "url": "https://plantix.example/pricing",
+      "domain": "plantix.example",
+      "analyses": [
+        "competitors"
+      ],
+      "cited_in": [
+        "executive_summary",
+        "competitors",
+        "swot",
+        "risks",
+        "mvp",
+        "next_steps"
+      ],
+      "has_page": true
+    },
+    {
+      "number": 5,
+      "title": "Kisan call centre helpline",
+      "url": "https://helpline.example/kisan",
+      "domain": "helpline.example",
+      "analyses": [
+        "competitors"
+      ],
+      "cited_in": [
+        "executive_summary",
+        "competitors",
+        "swot",
+        "mvp",
+        "gtm"
+      ],
+      "has_page": true
+    },
+    {
+      "number": 6,
+      "title": "CropSense launches drone scouting",
+      "url": "https://news.example/cropsense-launch",
+      "domain": "news.example",
+      "analyses": [
+        "market",
+        "competitors"
+      ],
+      "cited_in": [
+        "market",
+        "competitors",
+        "swot",
+        "risks",
+        "mvp",
+        "gtm"
+      ],
+      "has_page": true
+    },
+    {
+      "number": 7,
+      "title": "LeafDoc pricing",
+      "url": "https://leafdoc.example/pricing",
+      "domain": "leafdoc.example",
+      "analyses": [
+        "competitors"
+      ],
+      "cited_in": [
+        "competitors",
+        "mvp"
+      ],
+      "has_page": true
+    },
+    {
+      "number": 8,
+      "title": "Top Agrio Alternatives, Competitors",
+      "url": "https://directory.example/agrio/alternatives",
+      "domain": "directory.example",
+      "analyses": [
+        "competitors"
+      ],
+      "cited_in": [
+        "competitors",
+        "next_steps"
+      ],
+      "has_page": true
+    }
+  ],
+  "appendix_sections": [
+    {
+      "id": "appendix_run",
+      "title": "Appendix A: Run details",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Stage timings"
+        },
+        {
+          "type": "table",
+          "caption": "Stage timings",
+          "columns": [
+            "Stage",
+            "Seconds",
+            "AI requests",
+            "Searches"
+          ],
+          "rows": [
+            [
+              "Understanding your idea",
+              "0",
+              "Not available",
+              "Not available"
+            ],
+            [
+              "Searching the web",
+              "0",
+              "Not available",
+              "Not available"
+            ],
+            [
+              "Analysing the market",
+              "0.002",
+              "Not available",
+              "Not available"
+            ],
+            [
+              "Comparing competitors",
+              "0.006",
+              "Not available",
+              "Not available"
+            ],
+            [
+              "Assessing strengths and risks",
+              "0.006",
+              "Not available",
+              "Not available"
+            ],
+            [
+              "Recommending MVP features",
+              "0.007",
+              "Not available",
+              "Not available"
+            ],
+            [
+              "Planning go-to-market",
+              "0.009",
+              "Not available",
+              "Not available"
+            ],
+            [
+              "Total",
+              "0.031",
+              "Not available",
+              "Not available"
+            ]
+          ],
+          "col_align": [
+            "left",
+            "right",
+            "right",
+            "right"
+          ],
+          "row_cites": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "AI requests",
+              "value": "Not recorded for this run"
+            },
+            {
+              "label": "Web searches",
+              "value": "Not recorded for this run"
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Searches run"
+        },
+        {
+          "type": "table",
+          "caption": "Search queries",
+          "columns": [
+            "Search",
+            "Query"
+          ],
+          "rows": [
+            [
+              "Main search",
+              "Market size and trends query"
+            ],
+            [
+              "Main search",
+              "Competitors query"
+            ],
+            [
+              "Main search",
+              "Customer demand and pain points query"
+            ],
+            [
+              "Market size",
+              "Market size for this idea query"
+            ],
+            [
+              "Market size",
+              "Market size for the target customers query"
+            ],
+            [
+              "Competitors",
+              "Competitor: LeafDoc query"
+            ],
+            [
+              "Competitors",
+              "Competitor: Plantix query"
+            ],
+            [
+              "Competitors",
+              "Competitor: CropSense query"
+            ],
+            [
+              "Competitors",
+              "Alternatives and substitutes query"
+            ],
+            [
+              "Competitors",
+              "Emerging approaches query"
+            ]
+          ],
+          "col_align": [
+            "left",
+            "left"
+          ],
+          "row_cites": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Versions"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Versions",
+              "value": "Not recorded for this run"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "appendix_glossary",
+      "title": "Appendix B: Terms",
+      "blocks": [
+        {
+          "type": "subheading",
+          "text": "Basis labels"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Sourced",
+              "value": "Stated by a cited source."
+            },
+            {
+              "label": "AI interpretation",
+              "value": "The AI's reading of the evidence. No source states it."
+            },
+            {
+              "label": "From your idea",
+              "value": "Taken from what you wrote."
+            },
+            {
+              "label": "Assumption",
+              "value": "Assumed where no evidence or input was available."
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Severity levels"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "High",
+              "value": "Likely and harmful enough to address first."
+            },
+            {
+              "label": "Medium",
+              "value": "Worth a plan, but not the first thing to address."
+            },
+            {
+              "label": "Low",
+              "value": "Worth watching."
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Effort sizes"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "S",
+              "value": "A small feature, about 0.5 person-months (an AI estimate)."
+            },
+            {
+              "label": "M",
+              "value": "A medium feature, about 1 person-months (an AI estimate)."
+            },
+            {
+              "label": "L",
+              "value": "A large feature, about 2 person-months (an AI estimate)."
+            }
+          ]
+        },
+        {
+          "type": "subheading",
+          "text": "Evidence strength levels"
+        },
+        {
+          "type": "facts",
+          "pairs": [
+            {
+              "label": "Strong",
+              "value": "A score of 0.7 or above."
+            },
+            {
+              "label": "Moderate",
+              "value": "A score from 0.4 to below 0.7."
+            },
+            {
+              "label": "Limited",
+              "value": "A score below 0.4."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

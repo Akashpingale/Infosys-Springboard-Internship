@@ -270,7 +270,7 @@ def test_a_cancel_check_that_stays_false_changes_nothing(monkeypatch: pytest.Mon
     use_full_pipeline(monkeypatch)
     without = run_pipeline(PIPELINE_SUBMISSION, FULL_STAGES)
 
-    assert with_check.model_dump(exclude={"timings"}) == without.model_dump(exclude={"timings"})
+    assert with_check.model_dump(exclude={"timings": True, "usage": {"by_stage": {"__all__": {"seconds"}}}}) == without.model_dump(exclude={"timings": True, "usage": {"by_stage": {"__all__": {"seconds"}}}})
 
 
 def test_the_cancel_check_does_not_leak_into_a_later_run(monkeypatch: pytest.MonkeyPatch) -> None:

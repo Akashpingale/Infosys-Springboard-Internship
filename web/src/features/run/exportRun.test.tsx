@@ -84,7 +84,7 @@ function capturePrint(onPrint?: () => void): Printed[] {
 
 async function printPage(user: ReturnType<typeof userEvent.setup>): Promise<void> {
   await user.click(await screen.findByRole('button', { name: /export/i }));
-  await user.click(screen.getByText('PDF'));
+  await user.click(screen.getByText('Print this page'));
 }
 
 function readBlob(blob: Blob): Promise<string> {
@@ -231,7 +231,7 @@ describe('Export: Markdown and JSON with a strategy', () => {
     open();
 
     await user.click(await screen.findByRole('button', { name: /export/i }));
-    await user.click(screen.getByText('Markdown report'));
+    await user.click(screen.getByText('Raw results (Markdown)'));
 
     await waitFor(() => expect(names).toHaveLength(1));
     expect(asked).toEqual([{ method: 'GET', url: `${API_URL}/api/runs/run-123/report.md`, body: '' }]);
@@ -246,7 +246,7 @@ describe('Export: Markdown and JSON with a strategy', () => {
     open();
 
     await user.click(await screen.findByRole('button', { name: /export/i }));
-    await user.click(screen.getByText('JSON result'));
+    await user.click(screen.getByText('Raw results (JSON)'));
 
     await waitFor(() => expect(names).toHaveLength(1));
     expect(names[0]).toMatch(/\.json$/);

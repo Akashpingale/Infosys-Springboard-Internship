@@ -643,7 +643,7 @@ def test_with_gemini_out_of_quota_the_full_pipeline_runs_on_groq(
 
     assert on_groq.status == "complete" and on_groq.errors == []
     assert on_groq.market is not None and on_groq.competitors is not None
-    assert on_groq.model_dump(exclude={"timings"}) == on_gemini.model_dump(exclude={"timings"}), (
+    assert on_groq.model_dump(exclude={"timings", "usage"}) == on_gemini.model_dump(exclude={"timings", "usage"}), (
         "the same checked result, audit fields included, whichever provider answered"
     )
     assert len(providers.gemini.calls) == 4 and len(providers.groq.requests) == 4

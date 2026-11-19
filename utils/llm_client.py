@@ -22,6 +22,7 @@ from config import Settings, get_settings
 from utils import groq_client
 from utils.deadline import call_timeout, raise_if_stopped, time_left
 from utils.errors import LLMAPIError, LLMConfigError, LLMInvalidResponseError
+from utils.usage import count_llm_call
 
 logger = logging.getLogger(__name__)
 
@@ -288,6 +289,7 @@ def _call_groq(primary: Exception, system_prompt: str, user_prompt: str, *, agai
         "sending the retry to Groq only" if again else "trying the Groq fallback",
     )
     timeout_s = max(call_timeout(settings.llm_timeout_s), MIN_DEADLINE_S)
+    count_llm_call()
     try:
         return groq_client.generate_json(
             system_prompt,
@@ -337,6 +339,7 @@ def _call_provider(
             )
             raise LLMAPIError(MSG_TIME_LIMIT)
         client = _make_client(settings, call_timeout(settings.llm_timeout_s))
+        count_llm_call()
         try:
             return action(client, settings)
         except Exception as exc:

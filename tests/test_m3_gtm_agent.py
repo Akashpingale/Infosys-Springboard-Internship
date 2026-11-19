@@ -16,6 +16,8 @@ from agents.gtm_agent import (
     ROLE,
     SEGMENT_REPLACED,
     SHARED_RULES,
+    SIGNAL_REPLACEMENT,
+    SIGNALS_REPLACED,
     WARNING_PREFIX,
     GtmAgent,
     build_prompt,
@@ -584,6 +586,97 @@ def test_a_money_figure_stays_only_when_a_cited_finding_states_it(
     assert ("Pro plan comparison posts" in by_name(result)) is kept
     assert len(result.channels) == (6 if kept else 5)
     assert result.warnings == ([] if kept else ["removed 1 point that stated a figure no cited finding contains"])
+
+
+def percent_targets() -> dict:
+    data = draft()
+    data["channels"] = [
+        channel("Farmer group chat outreach", "community", "acquisition", 5, "low", "days", ("MVP.2", "MVP.5"), ("RSK.1",),
+                ("IDEA.4", "MKT.14"), first_experiment="Share a short demo video with a broadcast list of 50 farmers.",
+                success_signal="At least 10% of recipients install the app within a week."),
+        channel("Partnership with local input suppliers", "partnership", "distribution", 4, "medium", "weeks",
+                ("MVP.1", "MVP.3"), ("RSK.2",), ("CMP.15", "RSK.3"),
+                success_signal="30% of diagnosed users buy the recommended inputs through the partner within the pilot month."),
+        channel("Cooperative field demo days", "offline", "both", 4, "low", "weeks", ("MVP.2",), ("RSK.3",),
+                ("MKT.14", "MKT.15"), first_experiment="Run a 2\u2011hour demo at one cooperative meeting.",
+                success_signal="At least 20% of attendees download the app and complete a diagnosis on the day."),
+        channel("In\u2011app referral program", "product_led", "acquisition", 3, "low", "weeks", ("MVP.2", "MVP.5"), (),
+                ("IDEA.5",), success_signal="Referral conversion rate of 15% in the first month."),
+    ]
+    return data
+
+
+def test_percentage_targets_in_every_success_signal_are_replaced_and_the_channels_kept(
+    base: PipelineResult, swot, mvp, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    result = plan(base, monkeypatch, percent_targets(), swot=swot, mvp=mvp)
+    channels = by_name(result)
+
+    assert [entry.id for entry in result.channels] == ["CH1", "CH3", "CH2", "CH4"]
+    assert [entry.name for entry in result.channels] == [
+        "Farmer group chat outreach", "Cooperative field demo days", "Partnership with local input suppliers",
+        "In\u2011app referral program",
+    ]
+    assert {entry.success_signal for entry in result.channels} == {SIGNAL_REPLACEMENT}
+    assert result.channels[0].start_here and result.channels[0].uses_feature_ids == ["F2", "F5"]
+    assert channels["Cooperative field demo days"].first_experiment == "Run a 2\u2011hour demo at one cooperative meeting."
+    assert channels["Partnership with local input suppliers"].based_on == ["CMP.15", "RSK.3"]
+    assert result.warnings == [SIGNALS_REPLACED.format(count="4 channels")]
+
+
+def test_percentage_targets_do_not_save_channels_that_fail_another_check(
+    base: PipelineResult, swot, mvp, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    data = percent_targets()
+    for entry in data["channels"][:2]:
+        entry["first_experiment"] = "Buy ads for USD 50 a week."
+    with pytest.raises(LLMInvalidResponseError) as raised:
+        plan(base, monkeypatch, data, swot=swot, mvp=mvp)
+
+    assert raised.value.user_message == MSG_TOO_FEW_CHANNELS and raised.value.code == "llm_invalid_response"
+
+
+@pytest.mark.parametrize(("refs", "kept"), [(["CMP.3"], True), (["MKT.12"], False)])
+def test_a_figure_in_a_success_signal_stays_only_when_a_cited_finding_states_it(
+    base: PipelineResult, swot, mvp, monkeypatch: pytest.MonkeyPatch, refs: list[str], kept: bool
+) -> None:
+    signal = "Farmers on the Pro INR 499 a year plan ask to switch."
+    data = draft()
+    data["channels"][4] = channel(
+        "Pro plan comparison posts", "digital", "acquisition", 2, "low", "weeks", refs=tuple(refs), success_signal=signal,
+    )
+    result = plan(base, monkeypatch, data, swot=swot, mvp=mvp)
+
+    assert len(result.channels) == 6
+    assert by_name(result)["Pro plan comparison posts"].success_signal == (signal if kept else SIGNAL_REPLACEMENT)
+    assert result.warnings == ([] if kept else [SIGNALS_REPLACED.format(count="1 channel")])
+
+
+@pytest.mark.parametrize(
+    ("change", "warning"),
+    [
+        pytest.param({"name": "Radio farm shows in 40% of villages"},
+                     "removed 1 point that stated a figure no cited finding contains", id="figure_in_name"),
+        pytest.param({"fit_rationale": "Radio reaches 40% of farmers in the region."},
+                     "removed 1 point that stated a figure no cited finding contains", id="figure_in_fit_rationale"),
+        pytest.param({"first_experiment": "Buy two radio slots for USD 50 each."},
+                     "removed 1 point that stated a figure no cited finding contains", id="money_in_first_experiment"),
+        pytest.param({"success_signal": "Call-ins are guaranteed to pass 25% of listeners."},
+                     "removed 1 point that stated a figure no cited finding contains", id="overclaim_and_figure_in_success_signal"),
+        pytest.param({"success_signal": "Call-ins are guaranteed."}, "removed 1 point that promised an outcome (guaranteed)",
+                     id="overclaim_in_success_signal"),
+    ],
+)
+def test_a_channel_with_a_percentage_target_is_still_removed_for_other_offences(
+    base: PipelineResult, swot, mvp, monkeypatch: pytest.MonkeyPatch, change: dict, warning: str
+) -> None:
+    data = draft()
+    data["channels"][4].update({"success_signal": "At least 25% of listeners call in.", **change})
+    result = plan(base, monkeypatch, data, swot=swot, mvp=mvp)
+
+    assert len(result.channels) == 5 and not any("Radio" in entry.name for entry in result.channels)
+    assert SIGNAL_REPLACEMENT not in {entry.success_signal for entry in result.channels}
+    assert result.warnings == [warning]
 
 
 # --- early customers, launch phases and key messages -------------------------------------------------

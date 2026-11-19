@@ -96,7 +96,7 @@ export function ExportMenu({ run, result, onPrint }: ExportMenuProps) {
               icon={busy ? Loader2 : FileText}
               spinning={busy}
               disabled={busy}
-              title="Markdown report"
+              title="Raw results (Markdown)"
               hint="The full written report from the server."
               onClick={() => void exportMarkdown()}
             />
@@ -105,7 +105,7 @@ export function ExportMenu({ run, result, onPrint }: ExportMenuProps) {
             <MenuItem
               icon={FileJson}
               disabled={!result}
-              title="JSON result"
+              title="Raw results (JSON)"
               hint={result ? 'Exactly what the backend returned.' : 'There is no result to save.'}
               onClick={exportJson}
             />
@@ -113,7 +113,7 @@ export function ExportMenu({ run, result, onPrint }: ExportMenuProps) {
           <li>
             <MenuItem
               icon={Printer}
-              title="PDF"
+              title="Print this page"
               hint={PDF_HINT}
               onClick={() => {
                 setOpen(false);

@@ -1,0 +1,5870 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AI Startup Idea Validator",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "description": "Reports whether the service is up and which keys are set (never their values).",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/meta": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "summary": "Meta",
+        "description": "Everything the interface needs before a run: limits, industries, examples, stages and\nlimits. Never a key.",
+        "operationId": "meta_api_meta_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetaResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/ideas/extract": {
+      "post": {
+        "tags": [
+          "ideas"
+        ],
+        "summary": "Extract",
+        "description": "Structure a founder's idea into problem, solution, customers, industry and features.",
+        "operationId": "extract_api_ideas_extract_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IdeaSubmission"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExtractedIdea"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search": {
+      "post": {
+        "tags": [
+          "ideas"
+        ],
+        "summary": "Web Search",
+        "description": "Fetch live market and competitor information for an extracted idea.",
+        "operationId": "web_search_api_search_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExtractedIdea"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchBundle"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/validate": {
+      "post": {
+        "tags": [
+          "ideas"
+        ],
+        "summary": "Validate",
+        "description": "Run the whole pipeline: structure the idea, research it and, with include_analysis,\nanalyse its market and competitors. The UI always asks for the analysis, and that run is\ntime-limited so it answers before the UI stops waiting (orchestrator.TIME_LIMIT_SHARE).",
+        "operationId": "validate_api_validate_post",
+        "parameters": [
+          {
+            "name": "include_analysis",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Also run the Market Opportunity and Competitor Analysis stages (Milestone 2). Without it, only extraction and web search run, as in Milestone 1.",
+              "default": false,
+              "title": "Include Analysis"
+            },
+            "description": "Also run the Market Opportunity and Competitor Analysis stages (Milestone 2). Without it, only extraction and web search run, as in Milestone 1."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IdeaSubmission"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs": {
+      "get": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "List Runs",
+        "description": "Saved validations, newest first.",
+        "operationId": "list_runs_api_runs_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunList"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Start Run",
+        "description": "Start a run and answer immediately. With `idea_override`, the idea the founder reviewed is\nused and the extraction stage is not run again. With `include_strategy` (Milestone 3) the three\nstrategy stages follow, using `constraints`. A third concurrent run is refused with 409.",
+        "operationId": "start_run_api_runs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunStarted"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}": {
+      "get": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Get Run",
+        "description": "A run's state, its stages and, once a stage has finished, the result so far.",
+        "operationId": "get_run_api_runs__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Rename Run",
+        "description": "Rename a saved validation.",
+        "operationId": "rename_run_api_runs__run_id__patch",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunRename"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunSummary"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Delete Run",
+        "description": "Delete a saved validation. A run that is still going must be cancelled first.",
+        "operationId": "delete_run_api_runs__run_id__delete",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/cancel": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Cancel Run",
+        "description": "Ask a run to stop. Cancelling is cooperative: the pipeline stops before its next stage or\noutside call, so a call already in flight finishes first and the state becomes `cancelled`\nonly once the work has actually stopped.",
+        "operationId": "cancel_run_api_runs__run_id__cancel_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/report.md": {
+      "get": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Run Report",
+        "description": "The Markdown report of a finished run, as a download. It is the full report even when both\nanalyses are missing, so a partial or failed run still explains itself.",
+        "operationId": "run_report_api_runs__run_id__report_md_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/markdown": {}
+            }
+          },
+          "409": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "404": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/strategy": {
+      "post": {
+        "tags": [
+          "runs"
+        ],
+        "summary": "Start Strategy",
+        "operationId": "start_strategy_api_runs__run_id__strategy_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StrategyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunStarted"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/chat": {
+      "get": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Read Chat",
+        "operationId": "read_chat_api_runs__run_id__chat_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatThread"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Ask",
+        "operationId": "ask_api_runs__run_id__chat_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatReply"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Gateway"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Clear Chat",
+        "operationId": "clear_chat_api_runs__run_id__chat_delete",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/report": {
+      "post": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Generate Report",
+        "operationId": "generate_report_api_runs__run_id__report_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/ReportRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportDocument"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Read Report",
+        "operationId": "read_report_api_runs__run_id__report_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportDocument"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Delete Report",
+        "operationId": "delete_report_api_runs__run_id__report_delete",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/report/pdf": {
+      "get": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Report Pdf",
+        "operationId": "report_pdf_api_runs__run_id__report_pdf_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/runs/{run_id}/report/markdown": {
+      "get": {
+        "tags": [
+          "report"
+        ],
+        "summary": "Report Markdown File",
+        "operationId": "report_markdown_file_api_runs__run_id__report_markdown_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/markdown": {}
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Basis": {
+        "type": "string",
+        "enum": [
+          "sourced",
+          "assumption",
+          "ai_interpretation",
+          "user_provided"
+        ],
+        "title": "Basis",
+        "description": "How a claim is grounded. Subclasses str so it serialises as the bare string."
+      },
+      "BibEntry": {
+        "properties": {
+          "number": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Number"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "domain": {
+            "type": "string",
+            "title": "Domain",
+            "default": ""
+          },
+          "analyses": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "market",
+                "competitors"
+              ]
+            },
+            "type": "array",
+            "title": "Analyses"
+          },
+          "cited_in": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Cited In"
+          },
+          "has_page": {
+            "type": "boolean",
+            "title": "Has Page",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "number",
+          "title"
+        ],
+        "title": "BibEntry"
+      },
+      "BulletsBlock": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "bullets",
+            "title": "Type",
+            "default": "bullets"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ReportItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "narrative": {
+            "type": "boolean",
+            "title": "Narrative",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "BulletsBlock"
+      },
+      "CalloutBlock": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "callout",
+            "title": "Type",
+            "default": "callout"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "note",
+              "caveat",
+              "warning"
+            ],
+            "title": "Kind"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kind",
+          "text"
+        ],
+        "title": "CalloutBlock"
+      },
+      "Channel": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "digital",
+              "community",
+              "partnership",
+              "offline",
+              "direct_sales",
+              "product_led"
+            ],
+            "title": "Kind"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "acquisition",
+              "distribution",
+              "both"
+            ],
+            "title": "Role"
+          },
+          "fit_rationale": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Fit Rationale",
+            "default": ""
+          },
+          "audience_fit": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Audience Fit"
+          },
+          "cost_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Cost Level"
+          },
+          "speed_to_first_result": {
+            "type": "string",
+            "enum": [
+              "days",
+              "weeks",
+              "months"
+            ],
+            "title": "Speed To First Result"
+          },
+          "first_experiment": {
+            "type": "string",
+            "maxLength": 250,
+            "minLength": 1,
+            "title": "First Experiment"
+          },
+          "success_signal": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Success Signal"
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Priority"
+          },
+          "start_here": {
+            "type": "boolean",
+            "title": "Start Here",
+            "default": false
+          },
+          "budget_conflict": {
+            "type": "boolean",
+            "title": "Budget Conflict",
+            "default": false
+          },
+          "uses_feature_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Uses Feature Ids"
+          },
+          "addresses_risk_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Addresses Risk Ids"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "ai_interpretation",
+              "assumption",
+              "user_provided"
+            ],
+            "title": "Basis"
+          },
+          "based_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Based On"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/StrategySourceKey"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "role",
+          "audience_fit",
+          "cost_level",
+          "speed_to_first_result",
+          "first_experiment",
+          "success_signal",
+          "priority",
+          "basis"
+        ],
+        "title": "Channel"
+      },
+      "ChatLimits": {
+        "properties": {
+          "max_message_chars": {
+            "type": "integer",
+            "title": "Max Message Chars"
+          },
+          "max_user_turns": {
+            "type": "integer",
+            "title": "Max User Turns"
+          }
+        },
+        "type": "object",
+        "required": [
+          "max_message_chars",
+          "max_user_turns"
+        ],
+        "title": "ChatLimits"
+      },
+      "ChatMessage": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          },
+          "paragraphs": {
+            "items": {
+              "$ref": "#/components/schemas/ChatParagraph"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Paragraphs"
+          },
+          "follow_ups": {
+            "items": {
+              "type": "string",
+              "maxLength": 120,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 3,
+            "title": "Follow Ups"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "out_of_scope",
+              "no_evidence"
+            ],
+            "title": "Status",
+            "default": "ok"
+          },
+          "used_sections": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "market",
+                "competitors",
+                "swot",
+                "risks",
+                "mvp",
+                "gtm",
+                "evidence",
+                "general"
+              ]
+            },
+            "type": "array",
+            "title": "Used Sections"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "created_at"
+        ],
+        "title": "ChatMessage"
+      },
+      "ChatParagraph": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 600,
+            "minLength": 1,
+            "title": "Text"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "sourced",
+              "ai_interpretation",
+              "assumption"
+            ],
+            "title": "Basis"
+          },
+          "sections": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "market",
+                "competitors",
+                "swot",
+                "risks",
+                "mvp",
+                "gtm",
+                "evidence",
+                "general"
+              ]
+            },
+            "type": "array",
+            "title": "Sections"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/StrategySourceKey"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "basis"
+        ],
+        "title": "ChatParagraph"
+      },
+      "ChatReply": {
+        "properties": {
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          "remaining_turns": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Remaining Turns"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "remaining_turns"
+        ],
+        "title": "ChatReply"
+      },
+      "ChatRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ChatRequest"
+      },
+      "ChatThread": {
+        "properties": {
+          "messages": {
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            },
+            "type": "array",
+            "title": "Messages"
+          },
+          "suggestions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 4,
+            "title": "Suggestions"
+          },
+          "available_sections": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "market",
+                "competitors",
+                "swot",
+                "risks",
+                "mvp",
+                "gtm",
+                "evidence",
+                "general"
+              ]
+            },
+            "type": "array",
+            "title": "Available Sections"
+          },
+          "remaining_turns": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Remaining Turns"
+          },
+          "limits": {
+            "$ref": "#/components/schemas/ChatLimits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "remaining_turns",
+          "limits"
+        ],
+        "title": "ChatThread"
+      },
+      "Comparison": {
+        "properties": {
+          "features": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Features"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/ComparisonRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "feature_coverage": {
+            "items": {
+              "$ref": "#/components/schemas/FeatureCoverage"
+            },
+            "type": "array",
+            "title": "Feature Coverage"
+          }
+        },
+        "type": "object",
+        "title": "Comparison",
+        "description": "The feature matrix. `feature_coverage` is counted from the rows in code."
+      },
+      "ComparisonCell": {
+        "properties": {
+          "feature": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Feature"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "evidence_found",
+              "no_evidence_found",
+              "unclear"
+            ],
+            "title": "Status"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feature",
+          "status"
+        ],
+        "title": "ComparisonCell"
+      },
+      "ComparisonRow": {
+        "properties": {
+          "competitor": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Competitor"
+          },
+          "cells": {
+            "items": {
+              "$ref": "#/components/schemas/ComparisonCell"
+            },
+            "type": "array",
+            "title": "Cells"
+          }
+        },
+        "type": "object",
+        "required": [
+          "competitor"
+        ],
+        "title": "ComparisonRow"
+      },
+      "Competitor": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "indirect",
+              "emerging"
+            ],
+            "title": "Type"
+          },
+          "relevance_note": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Relevance Note"
+          },
+          "website": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Website"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          },
+          "offering": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Offering"
+          },
+          "target_segment": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Segment"
+          },
+          "key_features": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Key Features"
+          },
+          "value_proposition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Proposition"
+          },
+          "pricing_model": {
+            "$ref": "#/components/schemas/QuantEstimate"
+          },
+          "strengths": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Strengths"
+          },
+          "weaknesses": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Weaknesses"
+          },
+          "positioning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Positioning"
+          },
+          "differentiation_vs_startup": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Differentiation Vs Startup"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "sourced",
+              "user_provided"
+            ],
+            "title": "Basis",
+            "default": "sourced"
+          },
+          "info_completeness": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "partial",
+              "minimal"
+            ],
+            "title": "Info Completeness"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "relevance_note",
+          "info_completeness"
+        ],
+        "title": "Competitor",
+        "description": "Section 8.1 `Competitor`. `info_completeness` is computed in code."
+      },
+      "CompetitorAnalysisResult": {
+        "properties": {
+          "competitors": {
+            "items": {
+              "$ref": "#/components/schemas/Competitor"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Competitors"
+          },
+          "comparison": {
+            "$ref": "#/components/schemas/Comparison"
+          },
+          "market_gaps": {
+            "items": {
+              "$ref": "#/components/schemas/MarketGap"
+            },
+            "type": "array",
+            "title": "Market Gaps"
+          },
+          "differentiation_opportunities": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Differentiation Opportunities"
+          },
+          "queries_used": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Queries Used"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "data_quality": {
+            "$ref": "#/components/schemas/DataQuality"
+          },
+          "caveats": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Caveats"
+          }
+        },
+        "type": "object",
+        "required": [
+          "competitors",
+          "comparison",
+          "data_quality"
+        ],
+        "title": "CompetitorAnalysisResult",
+        "description": "Section 8.1: the checked competitor analysis that the agent writes to the context."
+      },
+      "CompetitorCandidate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "direct",
+              "indirect",
+              "emerging"
+            ],
+            "title": "Type"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "sourced",
+              "user_provided"
+            ],
+            "title": "Basis",
+            "default": "sourced"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "type"
+        ],
+        "title": "CompetitorCandidate",
+        "description": "Phase A: a competitor or alternative named in the evidence, or named by the founder."
+      },
+      "ConsistencyCheck": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "passed": {
+            "type": "boolean",
+            "title": "Passed"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "description",
+          "passed"
+        ],
+        "title": "ConsistencyCheck"
+      },
+      "ConsistencyReport": {
+        "properties": {
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/ConsistencyCheck"
+            },
+            "type": "array",
+            "title": "Checks"
+          },
+          "passed_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Passed Count",
+            "default": 0
+          },
+          "total_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Count",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "ConsistencyReport"
+      },
+      "ConstraintLimits": {
+        "properties": {
+          "team_size": {
+            "$ref": "#/components/schemas/NumberLimit"
+          },
+          "months_to_mvp": {
+            "$ref": "#/components/schemas/NumberLimit"
+          },
+          "launch_region": {
+            "$ref": "#/components/schemas/TextLimit"
+          },
+          "budget_levels": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Budget Levels"
+          },
+          "technical_skills": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Technical Skills"
+          }
+        },
+        "type": "object",
+        "required": [
+          "team_size",
+          "months_to_mvp",
+          "launch_region",
+          "budget_levels",
+          "technical_skills"
+        ],
+        "title": "ConstraintLimits",
+        "description": "The limits StrategyConstraints enforces and the choices it accepts (Section 12.3)."
+      },
+      "CountLimit": {
+        "properties": {
+          "min_items": {
+            "type": "integer",
+            "title": "Min Items"
+          },
+          "max_items": {
+            "type": "integer",
+            "title": "Max Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "min_items",
+          "max_items"
+        ],
+        "title": "CountLimit"
+      },
+      "DataQuality": {
+        "properties": {
+          "evidence_level": {
+            "type": "string",
+            "enum": [
+              "strong",
+              "limited",
+              "insufficient"
+            ],
+            "title": "Evidence Level"
+          },
+          "notes": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evidence_level"
+        ],
+        "title": "DataQuality"
+      },
+      "EarlyCustomerTactic": {
+        "properties": {
+          "tactic": {
+            "type": "string",
+            "maxLength": 220,
+            "minLength": 1,
+            "title": "Tactic"
+          },
+          "where_to_find_them": {
+            "type": "string",
+            "maxLength": 220,
+            "minLength": 1,
+            "title": "Where To Find Them"
+          },
+          "offer": {
+            "type": "string",
+            "maxLength": 220,
+            "minLength": 1,
+            "title": "Offer"
+          },
+          "how_to_measure": {
+            "type": "string",
+            "maxLength": 220,
+            "minLength": 1,
+            "title": "How To Measure"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "ai_interpretation",
+              "assumption",
+              "user_provided"
+            ],
+            "title": "Basis"
+          },
+          "based_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Based On"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/StrategySourceKey"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tactic",
+          "where_to_find_them",
+          "offer",
+          "how_to_measure",
+          "basis"
+        ],
+        "title": "EarlyCustomerTactic"
+      },
+      "ErrorDetail": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "description": "The one error shape every route returns (app.py)."
+      },
+      "EvidenceComponent": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "sourced_share",
+              "source_breadth",
+              "evidence_level"
+            ],
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "weight": {
+            "type": "number",
+            "title": "Weight"
+          },
+          "value": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Value"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "weight",
+          "value",
+          "detail"
+        ],
+        "title": "EvidenceComponent"
+      },
+      "EvidenceStrength": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "enum": [
+              "strong",
+              "moderate",
+              "limited"
+            ],
+            "title": "Label"
+          },
+          "score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score"
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceComponent"
+            },
+            "type": "array",
+            "title": "Components"
+          },
+          "caption": {
+            "type": "string",
+            "title": "Caption"
+          }
+        },
+        "type": "object",
+        "required": [
+          "label",
+          "score",
+          "components",
+          "caption"
+        ],
+        "title": "EvidenceStrength",
+        "description": "How well the findings are backed by sources (Section 8.5). Not a prediction of success."
+      },
+      "ExampleIdea": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "submission": {
+            "$ref": "#/components/schemas/IdeaSubmission"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "submission"
+        ],
+        "title": "ExampleIdea"
+      },
+      "ExtractedIdea": {
+        "properties": {
+          "idea_title": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Idea Title"
+          },
+          "problem": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Problem"
+          },
+          "solution": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Solution"
+          },
+          "target_customers": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 1,
+            "title": "Target Customers"
+          },
+          "industry": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Industry"
+          },
+          "key_features": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 3,
+            "title": "Key Features"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "idea_title",
+          "problem",
+          "solution",
+          "target_customers",
+          "industry",
+          "key_features"
+        ],
+        "title": "ExtractedIdea"
+      },
+      "ExtractedIdeaLimits": {
+        "properties": {
+          "title_max_chars": {
+            "type": "integer",
+            "title": "Title Max Chars"
+          },
+          "target_customers": {
+            "$ref": "#/components/schemas/CountLimit"
+          },
+          "key_features": {
+            "$ref": "#/components/schemas/CountLimit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title_max_chars",
+          "target_customers",
+          "key_features"
+        ],
+        "title": "ExtractedIdeaLimits",
+        "description": "What the review step may edit, with the limits ExtractedIdea enforces."
+      },
+      "FactPair": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "value": {
+            "type": "string",
+            "title": "Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "label",
+          "value"
+        ],
+        "title": "FactPair"
+      },
+      "FactsBlock": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "facts",
+            "title": "Type",
+            "default": "facts"
+          },
+          "pairs": {
+            "items": {
+              "$ref": "#/components/schemas/FactPair"
+            },
+            "type": "array",
+            "title": "Pairs"
+          }
+        },
+        "type": "object",
+        "title": "FactsBlock"
+      },
+      "FeatureCoverage": {
+        "properties": {
+          "feature": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Feature"
+          },
+          "competitors_with_evidence": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Competitors With Evidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feature",
+          "competitors_with_evidence"
+        ],
+        "title": "FeatureCoverage"
+      },
+      "FormLimits": {
+        "properties": {
+          "idea_description": {
+            "$ref": "#/components/schemas/TextLimit"
+          },
+          "industry": {
+            "$ref": "#/components/schemas/TextLimit"
+          },
+          "target_customers": {
+            "$ref": "#/components/schemas/TextLimit"
+          },
+          "relevant_details": {
+            "$ref": "#/components/schemas/TextLimit"
+          },
+          "extracted_idea": {
+            "$ref": "#/components/schemas/ExtractedIdeaLimits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "idea_description",
+          "industry",
+          "target_customers",
+          "relevant_details",
+          "extracted_idea"
+        ],
+        "title": "FormLimits"
+      },
+      "GtmResult": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "maxLength": 400,
+            "title": "Summary",
+            "default": ""
+          },
+          "positioning": {
+            "$ref": "#/components/schemas/Positioning"
+          },
+          "channels": {
+            "items": {
+              "$ref": "#/components/schemas/Channel"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "title": "Channels"
+          },
+          "early_customers": {
+            "items": {
+              "$ref": "#/components/schemas/EarlyCustomerTactic"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Early Customers"
+          },
+          "launch_phases": {
+            "items": {
+              "$ref": "#/components/schemas/LaunchPhase"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "title": "Launch Phases"
+          },
+          "key_messages": {
+            "items": {
+              "$ref": "#/components/schemas/KeyMessage"
+            },
+            "type": "array",
+            "maxItems": 4,
+            "title": "Key Messages"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/StrategyQuality"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "positioning"
+        ],
+        "title": "GtmResult"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "IdeaSubmission": {
+        "properties": {
+          "idea_description": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 30,
+            "title": "Idea Description"
+          },
+          "industry": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 2,
+            "title": "Industry"
+          },
+          "target_customers": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Target Customers"
+          },
+          "relevant_details": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Relevant Details"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "idea_description",
+          "industry",
+          "target_customers"
+        ],
+        "title": "IdeaSubmission"
+      },
+      "IndustryOverview": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Summary"
+          },
+          "market_category": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Market Category"
+          },
+          "developments": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Developments"
+          }
+        },
+        "type": "object",
+        "required": [
+          "summary",
+          "market_category"
+        ],
+        "title": "IndustryOverview"
+      },
+      "KeyMessage": {
+        "properties": {
+          "audience": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Audience"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "proof_needed": {
+            "type": "string",
+            "maxLength": 160,
+            "title": "Proof Needed",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "audience",
+          "message"
+        ],
+        "title": "KeyMessage"
+      },
+      "LabeledItem": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Text"
+          },
+          "basis": {
+            "$ref": "#/components/schemas/Basis"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "basis"
+        ],
+        "title": "LabeledItem"
+      },
+      "LaunchPhase": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "Before launch",
+              "Launch",
+              "First 90 days"
+            ],
+            "title": "Name"
+          },
+          "goal": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Goal"
+          },
+          "actions": {
+            "items": {
+              "type": "string",
+              "maxLength": 200,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 4,
+            "title": "Actions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "goal"
+        ],
+        "title": "LaunchPhase"
+      },
+      "MarketDemand": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Summary"
+          },
+          "demand_evidence": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Demand Evidence"
+          },
+          "customer_problems": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Customer Problems"
+          },
+          "interest_signals": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Interest Signals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "summary"
+        ],
+        "title": "MarketDemand"
+      },
+      "MarketFigure": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "sourced",
+              "estimate_needs_verification",
+              "unavailable"
+            ],
+            "title": "Status"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "idea_market",
+                  "broader_market"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scope"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "MarketFigure",
+        "description": "A Task 1 market-size figure. `scope` says which market it measures: `idea_market` for\nthis idea's own product, customers and region, `broader_market` for a wider or different\nmarket such as a whole industry. Only Task 1 uses it; QuantEstimate stays unchanged."
+      },
+      "MarketGap": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Description"
+          },
+          "related_features": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Related Features"
+          },
+          "basis": {
+            "$ref": "#/components/schemas/Basis"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium"
+            ],
+            "title": "Confidence"
+          },
+          "caveat": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Caveat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "description",
+          "basis",
+          "confidence",
+          "caveat"
+        ],
+        "title": "MarketGap",
+        "description": "A gap hypothesis: confidence is never above medium and the caveat is always set."
+      },
+      "MarketOpportunityResult": {
+        "properties": {
+          "industry_overview": {
+            "$ref": "#/components/schemas/IndustryOverview"
+          },
+          "market_demand": {
+            "$ref": "#/components/schemas/MarketDemand"
+          },
+          "market_size": {
+            "$ref": "#/components/schemas/MarketSize"
+          },
+          "broader_markets": {
+            "items": {
+              "$ref": "#/components/schemas/MarketFigure"
+            },
+            "type": "array",
+            "title": "Broader Markets"
+          },
+          "trends": {
+            "items": {
+              "$ref": "#/components/schemas/Trend"
+            },
+            "type": "array",
+            "title": "Trends"
+          },
+          "segments": {
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 2,
+            "title": "Segments"
+          },
+          "priority_segment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PrioritySegment"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "opportunities": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Opportunities"
+          },
+          "limitations": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "data_quality": {
+            "$ref": "#/components/schemas/DataQuality"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "caveats": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Caveats"
+          }
+        },
+        "type": "object",
+        "required": [
+          "industry_overview",
+          "market_demand",
+          "market_size",
+          "segments",
+          "data_quality"
+        ],
+        "title": "MarketOpportunityResult",
+        "description": "Section 7.1: the checked market analysis that the agent writes to the shared context."
+      },
+      "MarketSize": {
+        "properties": {
+          "tam": {
+            "$ref": "#/components/schemas/MarketFigure"
+          },
+          "sam": {
+            "$ref": "#/components/schemas/MarketFigure"
+          },
+          "som": {
+            "$ref": "#/components/schemas/MarketFigure"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tam",
+          "sam",
+          "som"
+        ],
+        "title": "MarketSize",
+        "description": "TAM, SAM and SOM for this idea's own market only (figures with scope `idea_market`)."
+      },
+      "MetaResponse": {
+        "properties": {
+          "app_name": {
+            "type": "string",
+            "title": "App Name"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "limits": {
+            "$ref": "#/components/schemas/FormLimits"
+          },
+          "industries": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Industries"
+          },
+          "examples": {
+            "items": {
+              "$ref": "#/components/schemas/ExampleIdea"
+            },
+            "type": "array",
+            "title": "Examples"
+          },
+          "stages": {
+            "items": {
+              "$ref": "#/components/schemas/StageInfo"
+            },
+            "type": "array",
+            "title": "Stages"
+          },
+          "run_limits": {
+            "$ref": "#/components/schemas/RunLimits"
+          },
+          "providers": {
+            "$ref": "#/components/schemas/Providers"
+          },
+          "strategy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrategyInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chat": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChatLimits"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReportInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "profiles": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProfileInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "app_name",
+          "version",
+          "limits",
+          "industries",
+          "examples",
+          "stages",
+          "run_limits",
+          "providers"
+        ],
+        "title": "MetaResponse"
+      },
+      "MissingSection": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "reason"
+        ],
+        "title": "MissingSection"
+      },
+      "MvpFeature": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 240,
+            "title": "Description",
+            "default": ""
+          },
+          "user_problem": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "User Problem",
+            "default": ""
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "founder_listed",
+              "gap_opportunity",
+              "suggested"
+            ],
+            "title": "Origin"
+          },
+          "essential": {
+            "type": "boolean",
+            "title": "Essential",
+            "default": false
+          },
+          "customer_need": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Customer Need"
+          },
+          "differentiation": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Differentiation"
+          },
+          "feasibility": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Feasibility"
+          },
+          "effort": {
+            "type": "string",
+            "enum": [
+              "S",
+              "M",
+              "L"
+            ],
+            "title": "Effort"
+          },
+          "score": {
+            "type": "number",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Score"
+          },
+          "tier": {
+            "type": "string",
+            "enum": [
+              "mvp",
+              "later"
+            ],
+            "title": "Tier"
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Rank"
+          },
+          "rationale": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Rationale",
+            "default": ""
+          },
+          "mitigates_risk_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Mitigates Risk Ids"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "ai_interpretation",
+              "assumption",
+              "user_provided"
+            ],
+            "title": "Basis"
+          },
+          "based_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Based On"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/StrategySourceKey"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "origin",
+          "customer_need",
+          "differentiation",
+          "feasibility",
+          "effort",
+          "score",
+          "tier",
+          "rank",
+          "basis"
+        ],
+        "title": "MvpFeature"
+      },
+      "MvpMetric": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "how_to_measure": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "How To Measure"
+          },
+          "suggested_target": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Suggested Target"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "ai_interpretation",
+              "assumption",
+              "user_provided"
+            ],
+            "title": "Basis"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "how_to_measure",
+          "basis"
+        ],
+        "title": "MvpMetric"
+      },
+      "MvpResult": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "maxLength": 400,
+            "title": "Summary",
+            "default": ""
+          },
+          "features": {
+            "items": {
+              "$ref": "#/components/schemas/MvpFeature"
+            },
+            "type": "array",
+            "maxItems": 12,
+            "title": "Features"
+          },
+          "capacity_person_months": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Capacity Person Months"
+          },
+          "planned_person_months": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Planned Person Months"
+          },
+          "over_capacity": {
+            "type": "boolean",
+            "title": "Over Capacity",
+            "default": false
+          },
+          "constraints_used": {
+            "$ref": "#/components/schemas/StrategyConstraints"
+          },
+          "deferred_reasons": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Deferred Reasons"
+          },
+          "success_metrics": {
+            "items": {
+              "$ref": "#/components/schemas/MvpMetric"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Success Metrics"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/StrategyQuality"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "capacity_person_months",
+          "planned_person_months",
+          "constraints_used"
+        ],
+        "title": "MvpResult"
+      },
+      "Notice": {
+        "properties": {
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ],
+            "title": "Severity"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "severity",
+          "message"
+        ],
+        "title": "Notice",
+        "description": "A quality note in plain words. `message` never holds a field path or an evidence id;\n`detail` keeps the technical text it came from, for developers."
+      },
+      "NumberLimit": {
+        "properties": {
+          "min_value": {
+            "type": "integer",
+            "title": "Min Value"
+          },
+          "max_value": {
+            "type": "integer",
+            "title": "Max Value"
+          }
+        },
+        "type": "object",
+        "required": [
+          "min_value",
+          "max_value"
+        ],
+        "title": "NumberLimit"
+      },
+      "ParagraphBlock": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "paragraph",
+            "title": "Type",
+            "default": "paragraph"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "basis": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "sourced",
+                  "ai_interpretation",
+                  "assumption",
+                  "user_provided"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Basis"
+          },
+          "cites": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Cites"
+          },
+          "narrative": {
+            "type": "boolean",
+            "title": "Narrative",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "ParagraphBlock"
+      },
+      "PipelineResult": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "partial",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "idea": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedIdea"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "search": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SearchBundle"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "errors": {
+            "items": {
+              "$ref": "#/components/schemas/StageError"
+            },
+            "type": "array",
+            "title": "Errors"
+          },
+          "timings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Timings"
+          },
+          "market": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MarketOpportunityResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "competitors": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CompetitorAnalysisResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "market_search": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SearchBundle"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "competitor_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CompetitorCandidate"
+            },
+            "type": "array",
+            "title": "Competitor Candidates"
+          },
+          "competitor_search": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SearchBundle"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "notices": {
+            "items": {
+              "$ref": "#/components/schemas/Notice"
+            },
+            "type": "array",
+            "title": "Notices"
+          },
+          "evidence_strength": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvidenceStrength"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "executive_summary": {
+            "items": {
+              "$ref": "#/components/schemas/SummaryLine"
+            },
+            "type": "array",
+            "title": "Executive Summary"
+          },
+          "verify_next": {
+            "items": {
+              "$ref": "#/components/schemas/VerifyItem"
+            },
+            "type": "array",
+            "title": "Verify Next"
+          },
+          "swot": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SwotRiskResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mvp": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MvpResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gtm": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GtmResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "constraints": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrategyConstraints"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "usage": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "versions": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Versions"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "PipelineResult"
+      },
+      "Positioning": {
+        "properties": {
+          "target_segment": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Target Segment"
+          },
+          "for_whom": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "For Whom"
+          },
+          "problem": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Problem"
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Category"
+          },
+          "key_benefit": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Key Benefit"
+          },
+          "alternative": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Alternative"
+          },
+          "differentiator": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 1,
+            "title": "Differentiator"
+          },
+          "statement": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Statement"
+          },
+          "differentiator_status": {
+            "type": "string",
+            "enum": [
+              "hypothesis",
+              "supported"
+            ],
+            "title": "Differentiator Status"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "ai_interpretation",
+              "assumption",
+              "user_provided"
+            ],
+            "title": "Basis"
+          },
+          "based_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Based On"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/StrategySourceKey"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_segment",
+          "for_whom",
+          "problem",
+          "category",
+          "key_benefit",
+          "alternative",
+          "differentiator",
+          "statement",
+          "differentiator_status",
+          "basis"
+        ],
+        "title": "Positioning"
+      },
+      "PrioritySegment": {
+        "properties": {
+          "segment_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Segment Name"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Rationale"
+          },
+          "risks": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Risks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "segment_name",
+          "rationale"
+        ],
+        "title": "PrioritySegment"
+      },
+      "ProfileInfo": {
+        "properties": {
+          "query_profile": {
+            "type": "string",
+            "title": "Query Profile"
+          },
+          "prompt_profile": {
+            "type": "string",
+            "title": "Prompt Profile"
+          },
+          "app_version": {
+            "type": "string",
+            "title": "App Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "query_profile",
+          "prompt_profile",
+          "app_version"
+        ],
+        "title": "ProfileInfo"
+      },
+      "ProviderStatus": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "configured": {
+            "type": "boolean",
+            "title": "Configured"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "configured"
+        ],
+        "title": "ProviderStatus",
+        "description": "Whether a provider is configured. Configured is not the same as tested: no call is made."
+      },
+      "Providers": {
+        "properties": {
+          "llm": {
+            "$ref": "#/components/schemas/ProviderStatus"
+          },
+          "fallback_llm": {
+            "$ref": "#/components/schemas/ProviderStatus"
+          },
+          "search": {
+            "$ref": "#/components/schemas/ProviderStatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "llm",
+          "fallback_llm",
+          "search"
+        ],
+        "title": "Providers"
+      },
+      "QuantEstimate": {
+        "properties": {
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "sourced",
+              "estimate_needs_verification",
+              "unavailable"
+            ],
+            "title": "Status"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "QuantEstimate"
+      },
+      "ReportDocument": {
+        "properties": {
+          "schema_version": {
+            "type": "integer",
+            "title": "Schema Version",
+            "default": 1
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "subtitle": {
+            "type": "string",
+            "title": "Subtitle"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/ReportMeta"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/ReportSection"
+            },
+            "type": "array",
+            "title": "Sections"
+          },
+          "bibliography": {
+            "items": {
+              "$ref": "#/components/schemas/BibEntry"
+            },
+            "type": "array",
+            "title": "Bibliography"
+          },
+          "appendix_sections": {
+            "items": {
+              "$ref": "#/components/schemas/ReportSection"
+            },
+            "type": "array",
+            "title": "Appendix Sections"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "subtitle",
+          "meta"
+        ],
+        "title": "ReportDocument"
+      },
+      "ReportInfo": {
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "pdf_available": {
+            "type": "boolean",
+            "title": "Pdf Available"
+          },
+          "time_limit_s": {
+            "type": "number",
+            "title": "Time Limit S"
+          }
+        },
+        "type": "object",
+        "required": [
+          "available",
+          "pdf_available",
+          "time_limit_s"
+        ],
+        "title": "ReportInfo"
+      },
+      "ReportItem": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "basis": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "sourced",
+                  "ai_interpretation",
+                  "assumption",
+                  "user_provided"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Basis"
+          },
+          "cites": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Cites"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "ReportItem"
+      },
+      "ReportMeta": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "generated_at": {
+            "type": "string",
+            "title": "Generated At"
+          },
+          "source_fingerprint": {
+            "type": "string",
+            "title": "Source Fingerprint",
+            "default": ""
+          },
+          "run_status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "partial",
+              "failed"
+            ],
+            "title": "Run Status"
+          },
+          "idea_title": {
+            "type": "string",
+            "title": "Idea Title"
+          },
+          "industry": {
+            "type": "string",
+            "title": "Industry"
+          },
+          "sections_included": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sections Included"
+          },
+          "sections_missing": {
+            "items": {
+              "$ref": "#/components/schemas/MissingSection"
+            },
+            "type": "array",
+            "title": "Sections Missing"
+          },
+          "narrative_status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "failed",
+              "skipped"
+            ],
+            "title": "Narrative Status",
+            "default": "skipped"
+          },
+          "prompt_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Version"
+          },
+          "app_version": {
+            "type": "string",
+            "title": "App Version"
+          },
+          "consistency": {
+            "$ref": "#/components/schemas/ConsistencyReport"
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "generated_at",
+          "run_status",
+          "idea_title",
+          "industry",
+          "app_version"
+        ],
+        "title": "ReportMeta"
+      },
+      "ReportRequest": {
+        "properties": {
+          "force": {
+            "type": "boolean",
+            "title": "Force",
+            "default": false
+          },
+          "narrative": {
+            "type": "boolean",
+            "title": "Narrative",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "ReportRequest"
+      },
+      "ReportSection": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "blocks": {
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ParagraphBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/BulletsBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/TableBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/CalloutBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/FactsBlock"
+                },
+                {
+                  "$ref": "#/components/schemas/SubheadingBlock"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "bullets": "#/components/schemas/BulletsBlock",
+                  "callout": "#/components/schemas/CalloutBlock",
+                  "facts": "#/components/schemas/FactsBlock",
+                  "paragraph": "#/components/schemas/ParagraphBlock",
+                  "subheading": "#/components/schemas/SubheadingBlock",
+                  "table": "#/components/schemas/TableBlock"
+                }
+              }
+            },
+            "type": "array",
+            "title": "Blocks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title"
+        ],
+        "title": "ReportSection"
+      },
+      "RiskItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "business",
+              "market",
+              "technical",
+              "financial",
+              "operational"
+            ],
+            "title": "Category"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Title"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Description"
+          },
+          "likelihood": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Likelihood"
+          },
+          "impact": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Impact"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Severity"
+          },
+          "mitigation": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Mitigation"
+          },
+          "early_warning_signal": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Early Warning Signal"
+          },
+          "confidence": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium"
+            ],
+            "title": "Confidence"
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "ai_interpretation",
+              "assumption",
+              "user_provided"
+            ],
+            "title": "Basis"
+          },
+          "based_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Based On"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/StrategySourceKey"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "category",
+          "title",
+          "description",
+          "likelihood",
+          "impact",
+          "severity",
+          "mitigation",
+          "early_warning_signal",
+          "confidence",
+          "basis"
+        ],
+        "title": "RiskItem"
+      },
+      "RunDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "industry": {
+            "type": "string",
+            "title": "Industry"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "failed",
+              "cancelled"
+            ],
+            "title": "State"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "duration_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration S"
+          },
+          "elapsed_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elapsed S"
+          },
+          "cancel_requested": {
+            "type": "boolean",
+            "title": "Cancel Requested",
+            "default": false
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "stages": {
+            "items": {
+              "$ref": "#/components/schemas/RunStage"
+            },
+            "type": "array",
+            "title": "Stages"
+          },
+          "submission": {
+            "$ref": "#/components/schemas/IdeaSubmission"
+          },
+          "idea_override": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedIdea"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "result": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PipelineResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "constraints": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrategyConstraints"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RunReportStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "industry",
+          "state",
+          "created_at",
+          "stages",
+          "submission"
+        ],
+        "title": "RunDetail",
+        "description": "A run's state. `result` is the final result once the run has ended; while it runs, it holds\nwhat the finished stages produced so far (a partial snapshot), or null before any stage ends."
+      },
+      "RunLimits": {
+        "properties": {
+          "time_limit_s": {
+            "type": "number",
+            "title": "Time Limit S"
+          },
+          "max_concurrent_runs": {
+            "type": "integer",
+            "title": "Max Concurrent Runs"
+          },
+          "competitor_max_extra_queries": {
+            "type": "integer",
+            "title": "Competitor Max Extra Queries"
+          },
+          "competitor_results_per_query": {
+            "type": "integer",
+            "title": "Competitor Results Per Query"
+          },
+          "evidence_max_items": {
+            "type": "integer",
+            "title": "Evidence Max Items"
+          }
+        },
+        "type": "object",
+        "required": [
+          "time_limit_s",
+          "max_concurrent_runs",
+          "competitor_max_extra_queries",
+          "competitor_results_per_query",
+          "evidence_max_items"
+        ],
+        "title": "RunLimits"
+      },
+      "RunList": {
+        "properties": {
+          "runs": {
+            "items": {
+              "$ref": "#/components/schemas/RunSummary"
+            },
+            "type": "array",
+            "title": "Runs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "runs"
+        ],
+        "title": "RunList"
+      },
+      "RunRename": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 1,
+            "title": "Title"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "title": "RunRename"
+      },
+      "RunReportStatus": {
+        "properties": {
+          "exists": {
+            "type": "boolean",
+            "title": "Exists",
+            "default": false
+          },
+          "generated_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generated At"
+          },
+          "stale": {
+            "type": "boolean",
+            "title": "Stale",
+            "default": false
+          },
+          "narrative_status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "failed",
+                  "skipped"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Narrative Status"
+          }
+        },
+        "type": "object",
+        "title": "RunReportStatus"
+      },
+      "RunRequest": {
+        "properties": {
+          "submission": {
+            "$ref": "#/components/schemas/IdeaSubmission"
+          },
+          "idea_override": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExtractedIdea"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "include_strategy": {
+            "type": "boolean",
+            "title": "Include Strategy",
+            "default": false
+          },
+          "constraints": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrategyConstraints"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "submission"
+        ],
+        "title": "RunRequest",
+        "description": "Start a run. `idea_override` is the extracted idea after the founder's review; with it the\nextraction stage is not run again."
+      },
+      "RunStage": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting",
+              "running",
+              "done",
+              "skipped",
+              "failed",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "duration_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration S"
+          },
+          "elapsed_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elapsed S"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "status"
+        ],
+        "title": "RunStage"
+      },
+      "RunStarted": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "failed",
+              "cancelled"
+            ],
+            "title": "State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "run_id",
+          "state"
+        ],
+        "title": "RunStarted"
+      },
+      "RunSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "industry": {
+            "type": "string",
+            "title": "Industry"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "done",
+              "failed",
+              "cancelled"
+            ],
+            "title": "State"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "complete",
+                  "partial",
+                  "failed"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "duration_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration S"
+          },
+          "has_strategy": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Strategy"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "industry",
+          "state",
+          "created_at"
+        ],
+        "title": "RunSummary",
+        "description": "One row of the history list. `status` is the result's status when there is a result.\n`has_strategy` (Milestone 3) says whether the run asked for the strategy stages or was given them\nlater; it is always sent, and optional in the schema only so existing clients stay valid."
+      },
+      "SearchBundle": {
+        "properties": {
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/SearchSection"
+            },
+            "type": "array",
+            "title": "Sections"
+          },
+          "total_results": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Results",
+            "default": 0
+          },
+          "queries_failed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Queries Failed",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "SearchBundle"
+      },
+      "SearchResult": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "snippet": {
+            "type": "string",
+            "maxLength": 300,
+            "title": "Snippet"
+          },
+          "score": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "url",
+          "snippet"
+        ],
+        "title": "SearchResult"
+      },
+      "SearchSection": {
+        "properties": {
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "query": {
+            "type": "string",
+            "title": "Query"
+          },
+          "answer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answer"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "label",
+          "query"
+        ],
+        "title": "SearchSection"
+      },
+      "Segment": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Description"
+          },
+          "segmentation_basis": {
+            "type": "string",
+            "enum": [
+              "demographic",
+              "business_type",
+              "location",
+              "needs",
+              "behavior"
+            ],
+            "title": "Segmentation Basis"
+          },
+          "needs": {
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Needs"
+          },
+          "pain_points": {
+            "items": {
+              "$ref": "#/components/schemas/LabeledItem"
+            },
+            "type": "array",
+            "title": "Pain Points"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "segmentation_basis"
+        ],
+        "title": "Segment"
+      },
+      "SourceRef": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "url"
+        ],
+        "title": "SourceRef"
+      },
+      "StageError": {
+        "properties": {
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "stage",
+          "code",
+          "message"
+        ],
+        "title": "StageError"
+      },
+      "StageInfo": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label"
+        ],
+        "title": "StageInfo"
+      },
+      "StageUsage": {
+        "properties": {
+          "llm_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Llm Calls",
+            "default": 0
+          },
+          "search_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Search Calls",
+            "default": 0
+          },
+          "seconds": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Seconds",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "StageUsage"
+      },
+      "StrategyConstraints": {
+        "properties": {
+          "team_size": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 10.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Team Size"
+          },
+          "months_to_mvp": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 12.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Months To Mvp"
+          },
+          "budget_level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "bootstrapped",
+                  "small",
+                  "funded"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Budget Level"
+          },
+          "technical_skill": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "non_technical",
+                  "some",
+                  "strong"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Technical Skill"
+          },
+          "launch_region": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 60
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Launch Region"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "StrategyConstraints"
+      },
+      "StrategyInfo": {
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "time_limit_s": {
+            "type": "number",
+            "title": "Time Limit S"
+          },
+          "constraints": {
+            "$ref": "#/components/schemas/ConstraintLimits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "available",
+          "time_limit_s",
+          "constraints"
+        ],
+        "title": "StrategyInfo",
+        "description": "Milestone 3 (Section 12.1). `available` is true when every strategy stage has its agent;\n`time_limit_s` is the extra time a run with strategy gets, and the whole limit of a strategy job\non a saved run."
+      },
+      "StrategyQuality": {
+        "properties": {
+          "inputs_used": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "idea",
+                "market",
+                "competitors",
+                "swot",
+                "mvp"
+              ]
+            },
+            "type": "array",
+            "title": "Inputs Used"
+          },
+          "inputs_missing": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "idea",
+                "market",
+                "competitors",
+                "swot",
+                "mvp"
+              ]
+            },
+            "type": "array",
+            "title": "Inputs Missing"
+          },
+          "constraints_provided": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "team_size",
+                "months_to_mvp",
+                "budget_level",
+                "technical_skill",
+                "launch_region"
+              ]
+            },
+            "type": "array",
+            "title": "Constraints Provided"
+          },
+          "constraints_assumed": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "team_size",
+                "months_to_mvp",
+                "budget_level",
+                "technical_skill",
+                "launch_region"
+              ]
+            },
+            "type": "array",
+            "title": "Constraints Assumed"
+          },
+          "basis_counts": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "enum": [
+                "ai_interpretation",
+                "assumption",
+                "user_provided"
+              ]
+            },
+            "type": "object",
+            "title": "Basis Counts"
+          },
+          "grounded_share": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Grounded Share",
+            "default": 0.0
+          },
+          "warnings_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Warnings Count",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "StrategyQuality"
+      },
+      "StrategyRequest": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "missing",
+              "all"
+            ],
+            "title": "Mode",
+            "default": "missing"
+          },
+          "constraints": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrategyConstraints"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "StrategyRequest",
+        "description": "Generate strategy for a saved run (Section 12.2). `missing` runs only the absent stages."
+      },
+      "StrategySourceKey": {
+        "properties": {
+          "analysis": {
+            "type": "string",
+            "enum": [
+              "market",
+              "competitors"
+            ],
+            "title": "Analysis"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis",
+          "id"
+        ],
+        "title": "StrategySourceKey"
+      },
+      "SubheadingBlock": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "subheading",
+            "title": "Type",
+            "default": "subheading"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "SubheadingBlock"
+      },
+      "SummaryLine": {
+        "properties": {
+          "topic": {
+            "type": "string",
+            "title": "Topic"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "basis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Basis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          },
+          "analysis": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "market",
+                  "competitors"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis"
+          }
+        },
+        "type": "object",
+        "required": [
+          "topic",
+          "text"
+        ],
+        "title": "SummaryLine",
+        "description": "One executive-summary line. `source_ids` refer to the sources of `analysis` (the market\nand competitor analyses number their evidence separately). `basis` is None for a statement\nthat code counted or composed, such as the number of competitors found."
+      },
+      "SwotItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 280,
+            "minLength": 1,
+            "title": "Text"
+          },
+          "why_it_matters": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Why It Matters",
+            "default": ""
+          },
+          "basis": {
+            "type": "string",
+            "enum": [
+              "ai_interpretation",
+              "assumption",
+              "user_provided"
+            ],
+            "title": "Basis"
+          },
+          "based_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Based On"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/StrategySourceKey"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "text",
+          "basis"
+        ],
+        "title": "SwotItem"
+      },
+      "SwotRiskResult": {
+        "properties": {
+          "summary": {
+            "type": "string",
+            "maxLength": 400,
+            "title": "Summary",
+            "default": ""
+          },
+          "strengths": {
+            "items": {
+              "$ref": "#/components/schemas/SwotItem"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Strengths"
+          },
+          "weaknesses": {
+            "items": {
+              "$ref": "#/components/schemas/SwotItem"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Weaknesses"
+          },
+          "opportunities": {
+            "items": {
+              "$ref": "#/components/schemas/SwotItem"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Opportunities"
+          },
+          "threats": {
+            "items": {
+              "$ref": "#/components/schemas/SwotItem"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Threats"
+          },
+          "risks": {
+            "items": {
+              "$ref": "#/components/schemas/RiskItem"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Risks"
+          },
+          "risk_category_coverage": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "propertyNames": {
+              "enum": [
+                "business",
+                "market",
+                "technical",
+                "financial",
+                "operational"
+              ]
+            },
+            "type": "object",
+            "title": "Risk Category Coverage"
+          },
+          "coverage_gaps": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "business",
+                "market",
+                "technical",
+                "financial",
+                "operational"
+              ]
+            },
+            "type": "array",
+            "title": "Coverage Gaps"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "quality": {
+            "$ref": "#/components/schemas/StrategyQuality"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "type": "object",
+        "title": "SwotRiskResult"
+      },
+      "TableBlock": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "table",
+            "title": "Type",
+            "default": "table"
+          },
+          "caption": {
+            "type": "string",
+            "title": "Caption"
+          },
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Columns"
+          },
+          "rows": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "col_align": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "left",
+                "right"
+              ]
+            },
+            "type": "array",
+            "title": "Col Align"
+          },
+          "row_cites": {
+            "items": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Row Cites"
+          }
+        },
+        "type": "object",
+        "required": [
+          "caption",
+          "columns"
+        ],
+        "title": "TableBlock"
+      },
+      "TextLimit": {
+        "properties": {
+          "min_chars": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Chars"
+          },
+          "max_chars": {
+            "type": "integer",
+            "title": "Max Chars"
+          },
+          "min_words": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Words"
+          }
+        },
+        "type": "object",
+        "required": [
+          "max_chars"
+        ],
+        "title": "TextLimit"
+      },
+      "Trend": {
+        "properties": {
+          "trend": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Trend"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "technology",
+              "consumer",
+              "industry",
+              "business"
+            ],
+            "title": "Category"
+          },
+          "basis": {
+            "$ref": "#/components/schemas/Basis"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trend",
+          "category",
+          "basis"
+        ],
+        "title": "Trend"
+      },
+      "Usage": {
+        "properties": {
+          "llm_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Llm Calls",
+            "default": 0
+          },
+          "search_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Search Calls",
+            "default": 0
+          },
+          "by_stage": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/StageUsage"
+            },
+            "type": "object",
+            "title": "By Stage"
+          }
+        },
+        "type": "object",
+        "title": "Usage"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VerifyItem": {
+        "properties": {
+          "topic": {
+            "type": "string",
+            "title": "Topic"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Ids"
+          },
+          "analysis": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "market",
+                  "competitors"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis"
+          }
+        },
+        "type": "object",
+        "required": [
+          "topic",
+          "text"
+        ],
+        "title": "VerifyItem",
+        "description": "One \"what to verify next\" item, built from an unavailable, estimated or low-confidence part."
+      },
+      "Versions": {
+        "properties": {
+          "query_profile": {
+            "type": "string",
+            "title": "Query Profile"
+          },
+          "prompt_profile": {
+            "type": "string",
+            "title": "Prompt Profile"
+          },
+          "prompt_versions": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Prompt Versions"
+          },
+          "app_version": {
+            "type": "string",
+            "title": "App Version"
+          }
+        },
+        "type": "object",
+        "required": [
+          "query_profile",
+          "prompt_profile",
+          "app_version"
+        ],
+        "title": "Versions"
+      }
+    }
+  }
+}

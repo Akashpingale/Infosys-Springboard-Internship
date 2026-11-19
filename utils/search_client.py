@@ -8,6 +8,7 @@ import requests
 from config import get_settings
 from utils.deadline import call_timeout, raise_if_stopped
 from utils.errors import SearchAPIError, SearchConfigError
+from utils.usage import count_search_call
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,8 @@ def search(
     max_results: int = DEFAULT_MAX_RESULTS,
     depth: str = DEFAULT_DEPTH,
     include_answer: bool = True,
+    topic: str | None = None,
+    time_range: str | None = None,
 ) -> dict[str, Any]:
     """Run one Tavily search and return the parsed JSON body.
 
@@ -58,16 +61,19 @@ def search(
         logger.warning("Tavily request not sent: the time limit was reached")
         raise SearchAPIError(MSG_TIME_LIMIT)
 
+    payload = {
+        "query": query,
+        "search_depth": depth,
+        "max_results": max_results,
+        "include_answer": include_answer,
+    }
+    payload.update({name: value for name, value in (("topic", topic), ("time_range", time_range)) if value})
+    count_search_call()
     try:
         response = requests.post(
             API_URL,
             headers={"Authorization": f"Bearer {settings.tavily_api_key}"},
-            json={
-                "query": query,
-                "search_depth": depth,
-                "max_results": max_results,
-                "include_answer": include_answer,
-            },
+            json=payload,
             timeout=timeout,
         )
     except requests.Timeout:

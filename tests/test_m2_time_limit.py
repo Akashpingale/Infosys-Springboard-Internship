@@ -445,7 +445,7 @@ def test_a_run_inside_its_limit_is_the_same_as_one_without(
     unlimited = orchestrator.run_pipeline(PIPELINE_SUBMISSION, FULL_STAGES)
 
     assert limited.status == "complete" and limited.market is not None and limited.competitors is not None
-    assert limited.model_dump(exclude={"timings"}) == unlimited.model_dump(exclude={"timings"})
+    assert limited.model_dump(exclude={"timings": True, "usage": {"by_stage": {"__all__": {"seconds"}}}}) == unlimited.model_dump(exclude={"timings": True, "usage": {"by_stage": {"__all__": {"seconds"}}}})
 
 
 @pytest.mark.parametrize("stages", [None, FULL_STAGES], ids=["milestone_1", "full"])

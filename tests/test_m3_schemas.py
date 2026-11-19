@@ -583,7 +583,7 @@ def test_every_saved_run_fixture_validates_unchanged(path: Path) -> None:
     run = RunDetail.model_validate(original)
     dumped = run.model_dump(mode="json", exclude={"result"})
     assert {key: dumped[key] for key in original if key != "result"} == {key: value for key, value in original.items() if key != "result"}
-    assert set(dumped) - set(original) == {"constraints"}
+    assert set(dumped) - set(original) == {"constraints", "report"}
     assert dumped["constraints"] is None
     assert_unchanged(original["result"], run.result)
 

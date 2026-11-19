@@ -17,8 +17,11 @@ from agents.strategy_checks import (
     remove_duplicates,
     shorten,
     shorten_fields,
+    split_refs,
     tokens,
 )
+from agents.prompt_profile import FIELD_LENGTHS, SPECIFIC_POINTS, active_profile, rules_after, rules_before
+from config import DEFAULT_PROMPT_PROFILE
 from agents.strategy_context import (
     ASSUMPTION,
     FEATURE_PREFIX,
@@ -81,6 +84,7 @@ from utils.structured import call_structured
 logger = logging.getLogger(__name__)
 
 WARNING_PREFIX = STRATEGY_TITLES[STAGE_GTM]
+PROMPT_VERSION = "gtm-v1"
 
 CHANNELS_RANGE = (3, CHANNELS_MAX)
 EARLY_CUSTOMERS_RANGE = (3, EARLY_CUSTOMERS_MAX)
@@ -140,6 +144,8 @@ SEGMENT_REPLACED = "used {name} as the target segment because the one given is n
 AUDIENCE_REPLACED = "used the target segment as the audience of the positioning because the audience given did not name it"
 EMPTY_REMOVED = "removed {count} that left a required part empty"
 RATINGS_CLAMPED = "moved {count} outside 1 to 5 to the nearest end of the scale"
+SIGNAL_REPLACEMENT = "Set your own target: the suggested signal stated a figure no cited finding contains."
+SIGNALS_REPLACED = "replaced the success signal of {count} because it stated a figure no cited finding contains"
 FEATURE_LINKS_REMOVED = "removed {count} to features that are not in the MVP recommendation ({refs})"
 RISK_LINKS_REMOVED = "removed {count} to risks that are not in the risk analysis ({refs})"
 BUDGET_CONFLICT = "{count} may be above a bootstrapped budget ({names})"
@@ -232,17 +238,19 @@ TASK_TEXT = "\n".join(
 )
 
 
-def build_prompt(digest: Digest) -> tuple[str, str]:
+def build_prompt(digest: Digest, *, profile: str = DEFAULT_PROMPT_PROFILE) -> tuple[str, str]:
     user = "\n".join(
         [
             "Facts include the idea, constraints (budget level and launch region may be present), market segments (MKT), "
             "competitors and gaps (CMP) and, if available, risks (RSK) and the first-release features (MVP).",
+            *rules_before(profile, (FIELD_LENGTHS,)),
             digest.text,
             "",
             TASK_TEXT,
             LENGTH_TEXT,
             "",
             SCHEMA_TEXT,
+            *rules_after(profile, (SPECIFIC_POINTS,)),
         ]
     )
     return SYSTEM_PROMPT, user
@@ -379,16 +387,26 @@ def _channel_name(channel: ChannelDraft) -> str:
     return channel.name
 
 
+def _signal_checked(channel: ChannelDraft, digest: Digest) -> ChannelDraft:
+    refs, _ = split_refs(channel.based_on, digest)
+    if overclaims([channel.success_signal]) or figure_supported(channel.success_signal, refs, digest):
+        return channel
+    return channel.model_copy(update={"success_signal": SIGNAL_REPLACEMENT})
+
+
 def _channels(
     drafts: list[ChannelDraft], digest: Digest, constraints: StrategyConstraints | None, repairs: Repairs
 ) -> tuple[list[Channel], dict[str, object]]:
     complete, empty = _complete(drafts, CHANNEL_REQUIRED)
+    complete = [_signal_checked(channel, digest) for channel in complete]
     low, high = RATING_RANGE
     clamped = 0
+    signals = 0
     features_removed: list[str] = []
     risks_removed: list[str] = []
     checked: list[ChannelDraft] = []
     for channel in check_items(complete, digest, repairs, label="channels", lengths=CHANNEL_LENGTHS, text_of=_channel_name):
+        signals += channel.success_signal == SIGNAL_REPLACEMENT
         fit = min(max(channel.audience_fit, low), high)
         clamped += fit != channel.audience_fit
         features, removed = _linked(channel.uses_features, digest, FEATURE_PREFIX, FEATURE_ID)
@@ -429,7 +447,7 @@ def _channels(
         )
         for priority, (number, channel) in enumerate(kept, 1)
     ]
-    notes = {"empty": empty, "clamped": clamped, "features": features_removed, "risks": risks_removed}
+    notes = {"empty": empty, "clamped": clamped, "signals": signals, "features": features_removed, "risks": risks_removed}
     return stored, notes
 
 
@@ -580,6 +598,8 @@ def build_result(
         warnings.append(EMPTY_REMOVED.format(count=_counted(empty, "point", "points")))
     if channel_notes["clamped"]:
         warnings.append(RATINGS_CLAMPED.format(count=_counted(channel_notes["clamped"], "rating", "ratings")))
+    if channel_notes["signals"]:
+        warnings.append(SIGNALS_REPLACED.format(count=_counted(channel_notes["signals"], "channel", "channels")))
     for key, template in (("features", FEATURE_LINKS_REMOVED), ("risks", RISK_LINKS_REMOVED)):
         removed = channel_notes[key]
         if removed:
@@ -624,10 +644,11 @@ def plan_go_to_market(
     started = time.perf_counter()
     if idea is None or (market is None and competitors is None):
         raise StrategyNotReadyError()
-    digest = build_digest(idea, constraints, market, competitors, swot=swot, mvp=mvp)
+    profile = active_profile()
+    digest = build_digest(idea, constraints, market, competitors, swot=swot, mvp=mvp, profile=profile)
     if not digest.fits:
         logger.warning("gtm digest is %d characters, over the %d cap", len(digest.text), digest.max_chars)
-    system, user = build_prompt(digest)
+    system, user = build_prompt(digest, profile=profile)
     draft = call_structured(system, user, GtmDraft, caller=generate_json)
     result = build_result(draft, digest, idea, market, competitors, swot, mvp, constraints)
     ensure_no_secrets(result)

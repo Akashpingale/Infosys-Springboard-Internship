@@ -550,4 +550,4 @@ def test_the_guards_still_drop_an_invented_competitor_in_a_groq_reply(
     assert on_groq.competitors is not None
     assert "AgroGhost" not in [competitor.name for competitor in on_groq.competitors.competitors]
     assert any("AgroGhost" in warning for warning in on_groq.warnings), "dropped with a warning, as before"
-    assert on_groq.model_dump(exclude={"timings"}) == on_gemini.model_dump(exclude={"timings"})
+    assert on_groq.model_dump(exclude={"timings", "usage"}) == on_gemini.model_dump(exclude={"timings", "usage"})

@@ -102,7 +102,7 @@ export const SCREENS: Screen[] = [
     ready: 'h2:has-text("Summary")',
     after: async (page) => {
       await page.getByRole('button', { name: /export/i }).click();
-      await page.getByText('Markdown report').waitFor();
+      await page.getByText('Raw results (Markdown)').waitFor();
     },
   },
 

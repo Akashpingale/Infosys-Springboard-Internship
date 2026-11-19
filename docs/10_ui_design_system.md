@@ -446,3 +446,42 @@ the same source drawer as the other tabs.
 | Print | Strategy is printed with its folded panels open, and the Advisor is never printed. Checked by unit tests in jsdom only |
 
 The test counts are in [docs/12](12_milestone3_test_report.md#23-browser-tests).
+
+---
+
+## 12. Milestone 4: report page
+
+Milestone 4 added the report page, a header button, two Run details panels and a Status panel. They use the tokens, type scale and components above; no colour token was added. How the report is built: [docs/13](13_report_generation_agent.md).
+
+### New components
+
+In `web/src/features/report/` unless noted.
+
+| Component | Guarantee |
+|---|---|
+| `ReportButton` | In the results header: "Generate report", "Generating", "View report" or "Update report" (out of date), from the run detail's `report` block. Shown only for a finished run with a complete or partial result |
+| `ReportPage` | The lazy route `/runs/:runId/report`. Header (idea title, industry, run status chip, generated date, version line, "Interpretations are labelled. They are not predictions."), banners, contents, document, sources, Download, Regenerate, Back to results. Skeletons while loading; "Writing the report. This takes up to a minute." in a polite live region with a Cancel that aborts the request; plain errors for not finished, provider trouble and offline; a skip link |
+| `ReportToc` | Sticky contents from 1024 px with the current section marked by `aria-current`; one collapsible list below 1024 px. `useMediaQuery` keeps one layout in the DOM |
+| `ReportBlocks` | Paragraphs and bullets with a `BasisChip` and `[n]` citation links to the source entry; tables with a caption, a sticky first column, right-aligned numbers, a scroll container and the hint "Scroll sideways to see every column."; callouts with an icon and a word; facts as a definition list |
+| `ReportBibliography` | Numbered sources; a link only for `http` and `https` URLs, opened in a new tab with `rel="noopener noreferrer"`; the engine summary says it is not a page |
+| `ReportBanners` | Out of date (Regenerate), summary failed (Try again), partial ("Some parts of this validation did not finish: {list}.") |
+| `DownloadMenu` | A Radix popover with PDF, Markdown and JSON. Without the fonts PDF is disabled with the copy-table text, and the other two stay enabled. Escape returns focus to the trigger |
+| Regenerate confirmation | A native `<dialog>`, shown when a written summary would be replaced |
+| `UsageTable`, `VersionsPanel` (`results/`) | In Run details: AI requests and searches per stage, and the profiles and prompt versions. An older result says "Not recorded for this run" instead of showing zeros |
+| Report and profiles panel (`status/StatusPage.tsx`) | PDF fonts "Installed" or "Not installed", the query and prompt profile, the summary time limit. No paths, no keys |
+
+The export menu on the results page is relabelled "Raw results (Markdown)", "Raw results (JSON)" and "Print this page". Print rules in `print.css` show the contents first and expanded, turn off sticky positions, start each section on a new page, keep table rows and list items whole, and hide the actions.
+
+### Status of checks
+
+| Check | Result |
+|---|---|
+| Unit and component tests | 75 tests in 7 files, all passing ([docs/15](15_final_test_report.md#22-front-end)) |
+| Report page is a lazy chunk | Yes: 18.08 kB, 5.98 kB gzip |
+| axe at 390, 820 and 1440 px | **Not executed**: no browser spec visits the report page |
+| Keyboard walk, focus rings, reduced motion | **Not executed** in a browser; covered in jsdom only |
+| Screenshots in `docs/assets/ui_v4/` | **Not executed**; the folder does not exist |
+| Print in a real browser | **Not executed**; covered by unit tests in jsdom only |
+| Preview by the user | **Pending** |
+
+The end-to-end testing task (T7), which was to add these browser checks, was skipped by the user on 18 November 2026.

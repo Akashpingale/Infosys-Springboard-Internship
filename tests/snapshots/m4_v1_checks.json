@@ -1,0 +1,200 @@
+{
+  "docs/test_runs_m2/agritech.json": {
+    "competitor_guards": {
+      "message": "No competitor could be confirmed from the search results, so no competitor analysis is shown.",
+      "raised": "InsufficientEvidenceError"
+    },
+    "competitor_stored_violations": [
+      "sources[0]: URL 'https://technobrains.io/crop-disease-detection-app-develo...' does not match evidence item S1",
+      "sources[1]: URL 'https://www.manage.gov.in/fpoacademy/portalsapps.asp' does not match evidence item S3",
+      "sources[2]: URL 'https://www.ai4d.ai/innovations/crop-disease-detection-app' does not match evidence item S5",
+      "sources[3]: URL 'https://www.dialventures.com/library/agtechs-promise-vs-r...' does not match evidence item S10",
+      "sources[4]: URL 'https://aesanetwork.org/high-tech-low-touch-the-growing-g...' does not match evidence item S11",
+      "sources[5]: URL 'https://www.mdpi.com/2071-1050/17/15/6752' does not match evidence item S12"
+    ],
+    "competitor_violations": null,
+    "market_guards": {
+      "result_sha256": "8153a4efd1cfb3bcb1b1048890311be1a3f7ee66464a55ae7e3449bea757ffe2",
+      "warnings": [
+        "market_demand.demand_evidence[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "broader_markets[2]: the figure does not appear with the same magnitude and unit in its cited sources, so it needs verification"
+      ]
+    },
+    "market_stored_violations": [
+      "sources[6]: URL 'https://technobrains.io/crop-disease-detection-app-develo...' does not match evidence item S9",
+      "sources[7]: URL 'https://www.futuredatastats.com/crop-disease-detection-ma...' does not match evidence item S10",
+      "sources[8]: URL 'https://www.ai4d.ai/innovations/crop-disease-detection-app' does not match evidence item S11",
+      "sources[9]: URL 'https://www.gsma.com/solutions-and-impact/connectivity-fo...' does not match evidence item S12"
+    ],
+    "market_violations": []
+  },
+  "docs/test_runs_m2/fintech_cashflow.json": {
+    "competitor_guards": {
+      "result_sha256": "cb8316230a08f5e1c2f2f1ba45d38a6424662af9e2b6deabcb6657c60acd5af9",
+      "warnings": [
+        "competitors[1].website: removed website 'https://quickbooks.intuit.com/desktop/enterprise/pricing'; it matches no evidence domain",
+        "competitors[0].strengths[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "competitors[4].strengths[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "differentiation_opportunities[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "differentiation_opportunities[1]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "competitors[0].pricing_model: the pricing does not appear in its cited sources, so it needs verification",
+        "competitors[1]: removed 'QuickBooks'; it is not named in its cited sources",
+        "competitors[2]: removed 'Xero'; it is not named in its cited sources",
+        "competitors[3]: removed 'spreadsheets'; it is not named in its cited sources",
+        "competitors[4]: removed 'CapitalOS'; it is not named in its cited sources"
+      ]
+    },
+    "competitor_stored_violations": [
+      "competitors[1].website: website 'https://quickbooks.intuit.com/desktop/enterprise/pricing' is not allowed: it matches no evidence domain",
+      "sources[0]: URL 'https://www.systemsandteams.com/10-essential-small-busine...' does not match evidence item S1",
+      "sources[1]: URL 'https://finance.yahoo.com/news/switching-spreadsheets-crm...' does not match evidence item S2",
+      "sources[2]: URL 'https://www.fintechfutures.com' does not match evidence item S3",
+      "sources[3]: URL 'https://www.softwaresuggest.com/khatabook' does not match evidence item S4",
+      "sources[4]: URL 'https://quickbooks.intuit.com/desktop/enterprise/pricing' does not match evidence item S5",
+      "sources[5]: URL 'https://www.spendflo.com/blog/xero-pricing-guide' does not match evidence item S6",
+      "sources[6]: URL 'https://www.ebanx.com/en/online-payment-methods/upi-india' does not match evidence item S7",
+      "sources[7]: URL 'https://www.saasworthy.com/product/khatabook/pricing' does not match evidence item S9",
+      "sources[8]: URL 'https://www.cnbc.com/select/quickbooks-online-review' does not match evidence item S10",
+      "sources[9]: URL 'https://www.business.com/reviews/xero-accounting-software' does not match evidence item S11",
+      "sources[10]: URL 'https://finance.yahoo.com/news/sticpay-integrates-upi-exp...' does not match evidence item S12"
+    ],
+    "competitor_violations": [],
+    "market_guards": {
+      "result_sha256": "937a5f63f289b79cf457d8fc2fc4104430dc17aaf634a2029a91e4d7a82924a4",
+      "warnings": [
+        "market_demand.interest_signals[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation"
+      ]
+    },
+    "market_stored_violations": [
+      "sources[6]: URL 'https://www.investing.com/news/company-news/us-bank-launc...' does not match evidence item S8",
+      "sources[7]: URL 'https://finance.yahoo.com/news/u-bank-launches-one-cash-1...' does not match evidence item S10",
+      "sources[8]: URL 'https://www.fortunebusinessinsights.com/expense-managemen...' does not match evidence item S11",
+      "sources[9]: URL 'https://finance.yahoo.com/news/expense-management-provide...' does not match evidence item S12"
+    ],
+    "market_violations": []
+  },
+  "docs/test_runs_m2/foodtech_surplus.json": {
+    "competitor_guards": {
+      "result_sha256": "684ae0161b52b1b7bd8dea62d532dbbe9dfee41ed8b363bab6beff0f802b9631",
+      "warnings": [
+        "competitors[0].pricing_model: the pricing does not appear in its cited sources, so it needs verification",
+        "competitors[1]: removed 'Foodsi'; it is not named in its cited sources",
+        "competitors[2]: removed 'Gander'; it is not named in its cited sources",
+        "competitors[3]: removed 'Kamupak'; it is not named in its cited sources",
+        "comparison: 1 cell(s) marked evidence_found had no cited source naming the competitor, so they are now unclear"
+      ]
+    },
+    "competitor_stored_violations": [
+      "sources[0]: URL 'https://cbinsights.com/company/gander/alternatives-compet...' does not match evidence item S1",
+      "sources[1]: URL 'https://www.cbinsights.com/company/foodealz/alternatives-...' does not match evidence item S2",
+      "sources[2]: URL 'https://www.toogoodtogo.com/en-us/blog/food-waste-technology' does not match evidence item S3",
+      "sources[3]: URL 'https://apps.apple.com/pl/app/foodsi-dont-waste-it/id1278...' does not match evidence item S5",
+      "sources[4]: URL 'https://backofhouse.io/resources/app-helping-restaurants-...' does not match evidence item S6",
+      "sources[5]: URL 'https://lifehacker.com/tech/too-good-to-go-food-app-review' does not match evidence item S11"
+    ],
+    "competitor_violations": [],
+    "market_guards": {
+      "result_sha256": "8ed9208acb4b47d3660a8defd21be2f514292bd378d0860b56c57d6eeb156678",
+      "warnings": [
+        "market_demand.demand_evidence[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation"
+      ]
+    },
+    "market_stored_violations": [
+      "sources[7]: URL 'https://dataintelo.com/report/food-waste-reduction-platfo...' does not match evidence item S9",
+      "sources[8]: URL 'https://anderson-review.ucla.edu/wp-content/uploads/2025/...' does not match evidence item S10",
+      "sources[9]: URL 'https://www.cbinsights.com/esp/consumer-&-retail/food-&-g...' does not match evidence item S11",
+      "sources[10]: URL 'https://finance.yahoo.com/news/worlds-largest-marketplace...' does not match evidence item S12"
+    ],
+    "market_violations": []
+  },
+  "web/src/test/liveAgritech.json": {
+    "competitor_guards": {
+      "message": "No competitor could be confirmed from the search results, so no competitor analysis is shown.",
+      "raised": "InsufficientEvidenceError"
+    },
+    "competitor_stored_violations": [
+      "sources[0]: URL 'https://technobrains.io/crop-disease-detection-app-develo...' does not match evidence item S1",
+      "sources[1]: URL 'https://www.manage.gov.in/fpoacademy/portalsapps.asp' does not match evidence item S3",
+      "sources[2]: URL 'https://www.ai4d.ai/innovations/crop-disease-detection-app' does not match evidence item S5",
+      "sources[3]: URL 'https://www.dialventures.com/library/agtechs-promise-vs-r...' does not match evidence item S10",
+      "sources[4]: URL 'https://aesanetwork.org/high-tech-low-touch-the-growing-g...' does not match evidence item S11",
+      "sources[5]: URL 'https://www.mdpi.com/2071-1050/17/15/6752' does not match evidence item S12"
+    ],
+    "competitor_violations": null,
+    "market_guards": {
+      "result_sha256": "8153a4efd1cfb3bcb1b1048890311be1a3f7ee66464a55ae7e3449bea757ffe2",
+      "warnings": [
+        "market_demand.demand_evidence[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "broader_markets[2]: the figure does not appear with the same magnitude and unit in its cited sources, so it needs verification"
+      ]
+    },
+    "market_stored_violations": [
+      "sources[6]: URL 'https://technobrains.io/crop-disease-detection-app-develo...' does not match evidence item S9",
+      "sources[7]: URL 'https://www.futuredatastats.com/crop-disease-detection-ma...' does not match evidence item S10",
+      "sources[8]: URL 'https://www.ai4d.ai/innovations/crop-disease-detection-app' does not match evidence item S11",
+      "sources[9]: URL 'https://www.gsma.com/solutions-and-impact/connectivity-fo...' does not match evidence item S12"
+    ],
+    "market_violations": []
+  },
+  "web/src/test/liveFintech.json": {
+    "competitor_guards": {
+      "result_sha256": "cb8316230a08f5e1c2f2f1ba45d38a6424662af9e2b6deabcb6657c60acd5af9",
+      "warnings": [
+        "competitors[1].website: removed website 'https://quickbooks.intuit.com/desktop/enterprise/pricing'; it matches no evidence domain",
+        "competitors[0].strengths[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "competitors[4].strengths[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "differentiation_opportunities[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "differentiation_opportunities[1]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation",
+        "competitors[0].pricing_model: the pricing does not appear in its cited sources, so it needs verification",
+        "competitors[1]: removed 'QuickBooks'; it is not named in its cited sources",
+        "competitors[2]: removed 'Xero'; it is not named in its cited sources",
+        "competitors[3]: removed 'spreadsheets'; it is not named in its cited sources",
+        "competitors[4]: removed 'CapitalOS'; it is not named in its cited sources"
+      ]
+    },
+    "competitor_stored_violations": [
+      "competitors[1].website: website 'https://quickbooks.intuit.com/desktop/enterprise/pricing' is not allowed: it matches no evidence domain",
+      "sources[0]: URL 'https://www.systemsandteams.com/10-essential-small-busine...' does not match evidence item S1",
+      "sources[1]: URL 'https://finance.yahoo.com/news/switching-spreadsheets-crm...' does not match evidence item S2",
+      "sources[2]: URL 'https://www.fintechfutures.com' does not match evidence item S3",
+      "sources[3]: URL 'https://www.softwaresuggest.com/khatabook' does not match evidence item S4",
+      "sources[4]: URL 'https://quickbooks.intuit.com/desktop/enterprise/pricing' does not match evidence item S5",
+      "sources[5]: URL 'https://www.spendflo.com/blog/xero-pricing-guide' does not match evidence item S6",
+      "sources[6]: URL 'https://www.ebanx.com/en/online-payment-methods/upi-india' does not match evidence item S7",
+      "sources[7]: URL 'https://www.saasworthy.com/product/khatabook/pricing' does not match evidence item S9",
+      "sources[8]: URL 'https://www.cnbc.com/select/quickbooks-online-review' does not match evidence item S10",
+      "sources[9]: URL 'https://www.business.com/reviews/xero-accounting-software' does not match evidence item S11",
+      "sources[10]: URL 'https://finance.yahoo.com/news/sticpay-integrates-upi-exp...' does not match evidence item S12"
+    ],
+    "competitor_violations": [],
+    "market_guards": {
+      "result_sha256": "937a5f63f289b79cf457d8fc2fc4104430dc17aaf634a2029a91e4d7a82924a4",
+      "warnings": [
+        "market_demand.interest_signals[0]: a figure in this sourced claim does not appear with the same magnitude and unit in its cited sources, so it is now an AI interpretation"
+      ]
+    },
+    "market_stored_violations": [
+      "sources[6]: URL 'https://www.investing.com/news/company-news/us-bank-launc...' does not match evidence item S8",
+      "sources[7]: URL 'https://finance.yahoo.com/news/u-bank-launches-one-cash-1...' does not match evidence item S10",
+      "sources[8]: URL 'https://www.fortunebusinessinsights.com/expense-managemen...' does not match evidence item S11",
+      "sources[9]: URL 'https://finance.yahoo.com/news/expense-management-provide...' does not match evidence item S12"
+    ],
+    "market_violations": []
+  },
+  "web/src/test/strategyFixture.synthetic.json": {
+    "competitor_guards": {
+      "result_sha256": "9d26c0f4a67bd9602d75fa17e89574aa3bb1206a01f7ca5c65b40104ede54b40",
+      "warnings": [
+        "competitors[1]: removed 'LeafDoc'; the founder did not name it in the submission"
+      ]
+    },
+    "competitor_stored_violations": [],
+    "competitor_violations": [],
+    "market_guards": {
+      "result_sha256": "d2c22ad0974f535fc5b55b46b4eb169ce60df178fdf40fabff5dde80441a5076",
+      "warnings": []
+    },
+    "market_stored_violations": [],
+    "market_violations": []
+  }
+}

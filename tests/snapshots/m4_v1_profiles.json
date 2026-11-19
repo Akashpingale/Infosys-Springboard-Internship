@@ -1,0 +1,572 @@
+{
+ "extraction": {
+  "agritech.json": {
+   "system_chars": 675,
+   "system_sha256": "1a9abbef0aeb6ff88a9683176f4f24a42e537a0485ddc589774e9a8132c1a142",
+   "user_chars": 480,
+   "user_sha256": "b650a8a9e2f5b64dcc644cb1b27567a0bfea77ac5f7bfb1784d849464dc04635"
+  },
+  "fintech.json": {
+   "system_chars": 675,
+   "system_sha256": "1a9abbef0aeb6ff88a9683176f4f24a42e537a0485ddc589774e9a8132c1a142",
+   "user_chars": 505,
+   "user_sha256": "0c511e25297684b172c001bcad566d8e3b14af50dbb71cfb91ac88a8426bab0a"
+  },
+  "fintech_cashflow.json": {
+   "system_chars": 675,
+   "system_sha256": "1a9abbef0aeb6ff88a9683176f4f24a42e537a0485ddc589774e9a8132c1a142",
+   "user_chars": 594,
+   "user_sha256": "ad7567eaa6a881cc11a04064af53c26e583969ff91b4f673adf45e92e71986bd"
+  },
+  "foodtech.json": {
+   "system_chars": 675,
+   "system_sha256": "1a9abbef0aeb6ff88a9683176f4f24a42e537a0485ddc589774e9a8132c1a142",
+   "user_chars": 478,
+   "user_sha256": "1899226abf38d71a853c5a68d14c4b42a8c22809de14d8fc1ac3c50144621799"
+  },
+  "foodtech_surplus.json": {
+   "system_chars": 675,
+   "system_sha256": "1a9abbef0aeb6ff88a9683176f4f24a42e537a0485ddc589774e9a8132c1a142",
+   "user_chars": 591,
+   "user_sha256": "ee7834c2d19d714b81129ff59d8349e65a153a90f472b3a27ff4fa384fd32e04"
+  },
+  "healthtech.json": {
+   "system_chars": 675,
+   "system_sha256": "1a9abbef0aeb6ff88a9683176f4f24a42e537a0485ddc589774e9a8132c1a142",
+   "user_chars": 517,
+   "user_sha256": "7fc46ac595b1ae8bef5b1f5d502ba6529ed6cf72f8b9a645784b567ac74a9f44"
+  }
+ },
+ "queries": {
+  "docs/test_runs/agritech.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A mobile application that provides instant disease diagnosis alternatives substitutes Small farmers in India"
+    ],
+    [
+     "Emerging approaches",
+     "Agriculture / AgriTech A mobile application that provides instant disease diagnosis emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "AI-Powered Crop Disease Detection App market size"
+    ],
+    [
+     "Market size for the target customers",
+     "AI-Powered Crop Disease Detection App market size Small farmers in India"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Agriculture / AgriTech A mobile application that provides instant disease diagnosis market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Small farmers often face significant delays waiting for competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Small farmers in India Small farmers often face significant delays waiting for demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Agriculture / AgriTech startups funding news recent"
+    ]
+   ]
+  },
+  "docs/test_runs/fintech.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A credit scoring service that analyzes UPI transaction alternatives substitutes Gig workers in Indian cities"
+    ],
+    [
+     "Emerging approaches",
+     "Finance / FinTech A credit scoring service that analyzes UPI transaction emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "Credit Scoring for Gig Workers via UPI History market size"
+    ],
+    [
+     "Market size for the target customers",
+     "Credit Scoring for Gig Workers via UPI History market size Gig workers in Indian cities"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Finance / FinTech A credit scoring service that analyzes UPI transaction market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Gig workers often lack a formal credit record competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Gig workers in Indian cities Gig workers often lack a formal credit record demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Finance / FinTech startups funding news recent"
+    ]
+   ]
+  },
+  "docs/test_runs/foodtech.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A subscription-based platform that connects office workers with alternatives substitutes Office workers in Indian cities"
+    ],
+    [
+     "Emerging approaches",
+     "Food & Beverage A subscription-based platform that connects office workers with emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "Home-Style Tiffin Subscription Platform for Office Workers market size"
+    ],
+    [
+     "Market size for the target customers",
+     "Home-Style Tiffin Subscription Platform for Office Workers market size Office workers in Indian cities"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Food & Beverage A subscription-based platform that connects office workers with market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Office workers in Indian cities often lack access competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Office workers in Indian cities Office workers in Indian cities often lack access demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Food & Beverage startups funding news recent"
+    ]
+   ]
+  },
+  "docs/test_runs/healthtech.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A mobile application that provides video and voice-guided alternatives substitutes Elderly patients"
+    ],
+    [
+     "Emerging approaches",
+     "Healthcare / HealthTech A mobile application that provides video and voice-guided emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "Tele-Physiotherapy App for Elderly Patients market size"
+    ],
+    [
+     "Market size for the target customers",
+     "Tele-Physiotherapy App for Elderly Patients market size Elderly patients"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Healthcare / HealthTech A mobile application that provides video and voice-guided market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Elderly patients often struggle to correctly perform or competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Elderly patients Elderly patients often struggle to correctly perform or demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Healthcare / HealthTech startups funding news recent"
+    ]
+   ]
+  },
+  "docs/test_runs_m2/agritech.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A mobile application that provides instant crop disease alternatives substitutes Small farmers in India"
+    ],
+    [
+     "Emerging approaches",
+     "Agriculture / AgriTech A mobile application that provides instant crop disease emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "AI-Powered Crop Disease Detection and Treatment App for market size"
+    ],
+    [
+     "Market size for the target customers",
+     "AI-Powered Crop Disease Detection and Treatment App for market size Small farmers in India"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Agriculture / AgriTech A mobile application that provides instant crop disease market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Small farmers often face long wait times for competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Small farmers in India Small farmers often face long wait times for demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Agriculture / AgriTech startups funding news recent"
+    ]
+   ]
+  },
+  "docs/test_runs_m2/fintech_cashflow.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A platform that automatically reads bank and UPI alternatives substitutes Small business owners in Indian cities"
+    ],
+    [
+     "Emerging approaches",
+     "Finance / FinTech A platform that automatically reads bank and UPI emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "Cash-flow and Expense Management Platform for Small Businesses market size"
+    ],
+    [
+     "Market size for the target customers",
+     "Cash-flow and Expense Management Platform for Small Businesses market size Small business owners in Indian cities"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Finance / FinTech A platform that automatically reads bank and UPI market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Small business owners often rely on manual spreadsheets competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Small business owners in Indian cities Small business owners often rely on manual spreadsheets demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Finance / FinTech startups funding news recent"
+    ]
+   ]
+  },
+  "docs/test_runs_m2/foodtech_surplus.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A marketplace where businesses list unsold stock at alternatives substitutes Restaurants"
+    ],
+    [
+     "Emerging approaches",
+     "Food & Beverage A marketplace where businesses list unsold stock at emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "Surplus Food Marketplace for Reducing Waste market size"
+    ],
+    [
+     "Market size for the target customers",
+     "Surplus Food Marketplace for Reducing Waste market size Restaurants"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Food & Beverage A marketplace where businesses list unsold stock at market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Restaurants and grocery stores discard unsold stock nightly competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Restaurants Restaurants and grocery stores discard unsold stock nightly demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Food & Beverage startups funding news recent"
+    ]
+   ]
+  },
+  "web/src/test/strategyFixture.synthetic.json": {
+   "competitor_generic": [
+    [
+     "Alternatives and substitutes",
+     "A phone app that detects crop diseases from alternatives substitutes Small farmers in India"
+    ],
+    [
+     "Emerging approaches",
+     "Agriculture / AgriTech A phone app that detects crop diseases from emerging startups new approaches"
+    ]
+   ],
+   "competitor_with_candidates": [
+    [
+     "Competitor: LeafDoc",
+     "LeafDoc pricing features"
+    ],
+    [
+     "Competitor: Plantix",
+     "Plantix pricing features"
+    ],
+    [
+     "Competitor: CropSense",
+     "CropSense pricing features"
+    ],
+    [
+     "Alternatives and substitutes",
+     "A phone app that detects crop diseases from alternatives substitutes Small farmers in India"
+    ],
+    [
+     "Emerging approaches",
+     "Agriculture / AgriTech A phone app that detects crop diseases from emerging startups new approaches"
+    ]
+   ],
+   "market_size": [
+    [
+     "Market size for this idea",
+     "CropScan AI crop disease detection market size"
+    ],
+    [
+     "Market size for the target customers",
+     "CropScan AI crop disease detection market size Small farmers in India"
+    ]
+   ],
+   "standard": [
+    [
+     "Market size and trends",
+     "Agriculture / AgriTech A phone app that detects crop diseases from market size growth trends"
+    ],
+    [
+     "Competitors",
+     "Small farmers in India lose crops because diseases competitors alternatives startups"
+    ],
+    [
+     "Customer demand and pain points",
+     "Small farmers in India Small farmers in India lose crops because diseases demand pain points"
+    ],
+    [
+     "Recent news and funding",
+     "Agriculture / AgriTech startups funding news recent"
+    ]
+   ]
+  }
+ },
+ "reply_schemas": {
+  "AdvisorDraft": {
+   "groq_strict_schema_sha256": "97ac230b0170de1c048e7cad043aec32e934a968d6f311aaea1c97513221780a",
+   "pydantic_json_schema_sha256": "f8803ea3173b9c3eeed8a46effe4240cc782f9a98bb779b4d4ae004b33fc190f"
+  },
+  "CandidateList": {
+   "groq_strict_schema_sha256": "b30b2f8b54e2ba4a6971c912aa456381510c28c2d50bfe9d07ea98cf09f11440",
+   "pydantic_json_schema_sha256": "233705421e1974f59547f2a1c8209c8bc378329f931498c0e28768567024550c"
+  },
+  "CompetitorAnalysisDraft": {
+   "groq_strict_schema_sha256": "5b7c5175f085cb5c088c054277be8b1ecc6e2d9579c51010de089c9d1df593e0",
+   "pydantic_json_schema_sha256": "84070f9122580c2b0b4bca90f94326e5648a951ffaa87349375642ceeecdccca"
+  },
+  "ExtractedIdea": {
+   "groq_strict_schema_sha256": "a508b71e94488ad00437296b458fc7cf89b7c931cf9074e63a01de3620fa92fd",
+   "pydantic_json_schema_sha256": "bbe505418ac8a655d09d495385940e7df1953ede48a639b0e360c15549bfa52f"
+  },
+  "GtmDraft": {
+   "groq_strict_schema_sha256": "93cfc8d9ecb81edd35be178f6949e8935fbad3d71600dc093559cf57fdc74d87",
+   "pydantic_json_schema_sha256": "13112de0c15b6a2251b24ca7858dad633ecad08053b09bf2557589b11bcad80b"
+  },
+  "MarketOpportunityDraft": {
+   "groq_strict_schema_sha256": "0a2e72dd49eaa63c47aedc9451f316bf63a7057af572a7a17134a86e695fdbd7",
+   "pydantic_json_schema_sha256": "7bc50a59e8f6305376bb4a6e88e8e83074b910bfcb514576dd4c3e948b4a6510"
+  },
+  "MvpDraft": {
+   "groq_strict_schema_sha256": "ef165f8b223215e3fb4fc68262a702a728b2bf9e9ae719235dacc0d34f76b3e7",
+   "pydantic_json_schema_sha256": "7c36ba2490b4df8a41600b6dba03601a649ce028970605920fbd8b3445b84e7e"
+  },
+  "SwotRiskDraft": {
+   "groq_strict_schema_sha256": "01c20362967836213bbb088bc7e8e04ce9766a46fb08c29d1e0a7dfd5f865603",
+   "pydantic_json_schema_sha256": "11c08fc3a04b672960e1f72e062fbfabb98011180c735b5916e83456e69ad0ac"
+  }
+ },
+ "saved_live": {
+  "agritech competitor phase A": {
+   "system_chars": 1126,
+   "system_sha256": "984ba2af5a55b89f476fe55270e1e3095d4113f6f89d14c22d5343ca233e13f7",
+   "user_chars": 7869,
+   "user_sha256": "7e8199ae53454d27d4ca4feb6c0e2ab4f0b68881f4ed22bd8a03abbe9313a1e8"
+  },
+  "agritech swot": {
+   "system_chars": 1277,
+   "system_sha256": "c161b5638b89642a87f5a1acf8ccd722bec1a3a126ece3d55eb6e0cefd07846f",
+   "user_chars": 12636,
+   "user_sha256": "929f4391710f0d5d9e3d9dcc8c63fda54be5a348068d35520e2c4602193834f1"
+  },
+  "fintech_cashflow competitor phase A": {
+   "system_chars": 1126,
+   "system_sha256": "984ba2af5a55b89f476fe55270e1e3095d4113f6f89d14c22d5343ca233e13f7",
+   "user_chars": 8020,
+   "user_sha256": "6f8796f38abf2f379ef204b79ee3f2bb0d949d0eb126a56ac9c1e24fbd01b948"
+  },
+  "fintech_cashflow swot": {
+   "system_chars": 1277,
+   "system_sha256": "c161b5638b89642a87f5a1acf8ccd722bec1a3a126ece3d55eb6e0cefd07846f",
+   "user_chars": 17008,
+   "user_sha256": "a5a18f4dbaf0852d06db90e9afd383c6db1e1fe0dccd6797d8e43b5adcbcd2ad"
+  },
+  "foodtech_surplus competitor phase A": {
+   "system_chars": 1126,
+   "system_sha256": "984ba2af5a55b89f476fe55270e1e3095d4113f6f89d14c22d5343ca233e13f7",
+   "user_chars": 7616,
+   "user_sha256": "520fd5ee7285d1fd1327aac5249a58d2af62a955826fae005687fe5721925b0b"
+  },
+  "foodtech_surplus swot": {
+   "system_chars": 1277,
+   "system_sha256": "c161b5638b89642a87f5a1acf8ccd722bec1a3a126ece3d55eb6e0cefd07846f",
+   "user_chars": 14649,
+   "user_sha256": "969d2ba97eee44f00a4c462eaa9da9874a1685828ce5626df903938b9b5fa097"
+  }
+ },
+ "static_prompts": {
+  "agents/advisor_agent.py:ROLE": "441b6c57044963cfb2f6acca0d9155559837bce6aa8a6bc56df92c2a5f3e1083",
+  "agents/advisor_agent.py:SCHEMA_TEXT": "a8e9354d12d6fa79be1b72592bb4f0f94df31693a83cef4a15492ec2abb136e5",
+  "agents/advisor_agent.py:SHARED_RULES": "98e47423c4d1d53d3c744ed0712e88f0e2eebecb64ac3df24649b8cba228df7e",
+  "agents/competitor_analysis_agent.py:ANALYSIS_SCHEMA": "a94b7d321e86819991568af3042e67c96e6e0ed1021987b75de3199703b202f4",
+  "agents/competitor_analysis_agent.py:CANDIDATE_SCHEMA": "4704a669e3cdd58476c5eb4e10b43366f4c0d2fec228367bad0c9022c3a71e91",
+  "agents/competitor_analysis_agent.py:SYSTEM_ANALYSIS": "06743dc0368f3a8af72afe37b0b517b02b358c1d1981f6b66b7a211a7b58e015",
+  "agents/competitor_analysis_agent.py:SYSTEM_CANDIDATES": "984ba2af5a55b89f476fe55270e1e3095d4113f6f89d14c22d5343ca233e13f7",
+  "agents/evidence.py:EVIDENCE_INSTRUCTION": "c6897683f0a73c940e3c81932e8021d8e254e3c1b253a64f410a3bb166ba8cda",
+  "agents/extraction_agent.py:SYSTEM_PROMPT": "1a9abbef0aeb6ff88a9683176f4f24a42e537a0485ddc589774e9a8132c1a142",
+  "agents/gtm_agent.py:LENGTH_TEXT": "5d228d48d85611988092f0d727c45c7f959fecc6e311f0c91df07587d59926d3",
+  "agents/gtm_agent.py:ROLE": "332b8f4d62aa661ed8d4dea17aca2a9ed1314efb5b5129d1fe9349cb16131e0b",
+  "agents/gtm_agent.py:SCHEMA_TEXT": "8056a3e409cc396a3541c0a156c8fe3596241313dbed4a3da473d612081f95b7",
+  "agents/gtm_agent.py:SHARED_RULES": "5ee521a779e36af01f87aa7f8007fb567c42fe04d5061f5235038b2247d38ba2",
+  "agents/gtm_agent.py:SYSTEM_PROMPT": "4d32b54b3979c791a37097cdab070689f8d1b4475327fc3589e18e35b9390c6b",
+  "agents/gtm_agent.py:TASK_TEXT": "45733f2965f03e3582200c4518d5051b9e3cffa6dde1aa34d75fdd9c0ca60b5e",
+  "agents/market_opportunity_agent.py:SCHEMA_TEXT": "0b75032e15d502b6f17ac6d8ab7cc0499fa20e648a4ffc35d18a2d580cb3c78e",
+  "agents/market_opportunity_agent.py:SYSTEM_PROMPT": "7bf114f6aed7a101681851e51131dcb9c8871c4fe48926a2b12121a30d4f60f4",
+  "agents/mvp_agent.py:LENGTH_TEXT": "e100c362e31143637808ef3f14e4990209180e7ea3845537da4b7bdad4cdd78e",
+  "agents/mvp_agent.py:ROLE": "23536b1a6c2e4df8a478e16048cce799eef098f5976a28ca0380b88a1ce4258b",
+  "agents/mvp_agent.py:SCHEMA_TEXT": "af874e41cae51a978bfd9f08b136525b1cb6b73656ebd568f4dacb2114baaee1",
+  "agents/mvp_agent.py:SHARED_RULES": "5ee521a779e36af01f87aa7f8007fb567c42fe04d5061f5235038b2247d38ba2",
+  "agents/mvp_agent.py:SYSTEM_PROMPT": "dd4a9f6d900dad68460542e52bcce8abdeab0719b3966a176408186aebb0f3d5",
+  "agents/mvp_agent.py:TASK_TEXT": "df3a5369978be930d72ddae3db2c78eac36399f07dcd515916b90f8cbd738c61",
+  "agents/swot_risk_agent.py:LENGTH_TEXT": "61a3da6f4dfe341689c47e498f56eec2544580e66de6c02af4d256188f5ac568",
+  "agents/swot_risk_agent.py:ROLE": "f3b2913e6a6ddfbea09bb1d19aad5dc3492294a5c6d1243114fedd5ab6812892",
+  "agents/swot_risk_agent.py:SCHEMA_TEXT": "60aa04403e75cad85eb1ab274ce9a5b356db27af9d602e53936d00c5e9c6705c",
+  "agents/swot_risk_agent.py:SHARED_RULES": "5ee521a779e36af01f87aa7f8007fb567c42fe04d5061f5235038b2247d38ba2",
+  "agents/swot_risk_agent.py:SYSTEM_PROMPT": "c161b5638b89642a87f5a1acf8ccd722bec1a3a126ece3d55eb6e0cefd07846f",
+  "agents/swot_risk_agent.py:TASK_TEXT": "40a074dec5802ac3d9be59aac25ad7bd78e60c61214fc12dfa02d849280c11b4",
+  "utils/structured.py:PROBLEM_NOT_JSON": "5ea488994226361417a16db7ad24888d7536b3ea9f79d3260b770bba172720cb",
+  "utils/structured.py:RETRY_INSTRUCTION": "9a123be61436c46bb9410babd42a8444deb8b15ad4b06e69a16c763b00cdaf86"
+ },
+ "synthetic": {
+  "advisor competitor": {
+   "system_chars": 2146,
+   "system_sha256": "8863becd064c7667d8f060287a322a20787a094eb789dd341bf5503023d655b9",
+   "user_chars": 14044,
+   "user_sha256": "ad828828592321f546df9fd49c9f86c9c200f583049fe8bc3568213d2798d9b7"
+  },
+  "advisor gtm_first_channel": {
+   "system_chars": 2146,
+   "system_sha256": "8863becd064c7667d8f060287a322a20787a094eb789dd341bf5503023d655b9",
+   "user_chars": 15427,
+   "user_sha256": "13886867ed56ef843fa625678779a76237b6e9a3d5a1f8748be4e7fe5fd16897"
+  },
+  "advisor injection": {
+   "system_chars": 2146,
+   "system_sha256": "8863becd064c7667d8f060287a322a20787a094eb789dd341bf5503023d655b9",
+   "user_chars": 11174,
+   "user_sha256": "654bc1c806253863802421fbcba09ec5785980066675990b919ed099c2267a74"
+  },
+  "advisor market": {
+   "system_chars": 2146,
+   "system_sha256": "8863becd064c7667d8f060287a322a20787a094eb789dd341bf5503023d655b9",
+   "user_chars": 12326,
+   "user_sha256": "e87a7b0c08261bf4e745c035b5771c98fb397be101977859a67c880a029fd26c"
+  },
+  "advisor missing_section": {
+   "model_call": false
+  },
+  "advisor mvp_priority": {
+   "system_chars": 2146,
+   "system_sha256": "8863becd064c7667d8f060287a322a20787a094eb789dd341bf5503023d655b9",
+   "user_chars": 12531,
+   "user_sha256": "77ddc08caea749796e89db558bd7215c23479ffac305526a80cde00f155157d8"
+  },
+  "advisor out_of_scope": {
+   "system_chars": 2146,
+   "system_sha256": "8863becd064c7667d8f060287a322a20787a094eb789dd341bf5503023d655b9",
+   "user_chars": 11121,
+   "user_sha256": "0adb0a1598015622814b9eb6321d76d58cd9a24debff6269b0d1bdffdfed745e"
+  },
+  "advisor risk": {
+   "system_chars": 2146,
+   "system_sha256": "8863becd064c7667d8f060287a322a20787a094eb789dd341bf5503023d655b9",
+   "user_chars": 12111,
+   "user_sha256": "50fd14add89fe641866dc9788fa906f07a582d3793d577b3cec51f242332ebc7"
+  },
+  "competitor phase A": {
+   "system_chars": 1126,
+   "system_sha256": "984ba2af5a55b89f476fe55270e1e3095d4113f6f89d14c22d5343ca233e13f7",
+   "user_chars": 1975,
+   "user_sha256": "0f1a92173758073cfd5f74e3fccec445c84699f4114449346c4a2233baf3474b"
+  },
+  "competitor phase C": {
+   "system_chars": 3353,
+   "system_sha256": "06743dc0368f3a8af72afe37b0b517b02b358c1d1981f6b66b7a211a7b58e015",
+   "user_chars": 3078,
+   "user_sha256": "ca4240ceffd1dcbba118ab6eab93731105e7082910858cfec30c55e719c6376f"
+  },
+  "gtm": {
+   "system_chars": 1271,
+   "system_sha256": "4d32b54b3979c791a37097cdab070689f8d1b4475327fc3589e18e35b9390c6b",
+   "user_chars": 13871,
+   "user_sha256": "0bf4fa2898c6fa94017fbe3dae9f744441c6b9d6383f3793c5931a5612201169"
+  },
+  "market": {
+   "system_chars": 4449,
+   "system_sha256": "7bf114f6aed7a101681851e51131dcb9c8871c4fe48926a2b12121a30d4f60f4",
+   "user_chars": 1915,
+   "user_sha256": "d15aa4d225c806e25eeebb0f074f6f410ed1bcdbfa3ac2dfa9676458b7d3079b"
+  },
+  "mvp": {
+   "system_chars": 1282,
+   "system_sha256": "dd4a9f6d900dad68460542e52bcce8abdeab0719b3966a176408186aebb0f3d5",
+   "user_chars": 11156,
+   "user_sha256": "3ee39f1d09123843c1825f9365257506e0053f67e7f20d6ca222c4f9b120b5e5"
+  },
+  "swot": {
+   "system_chars": 1277,
+   "system_sha256": "c161b5638b89642a87f5a1acf8ccd722bec1a3a126ece3d55eb6e0cefd07846f",
+   "user_chars": 9244,
+   "user_sha256": "05a951bb0a72d7b1f099a373fdc4990d539f7586aae32aab0f4b40c8195464ad"
+  }
+ }
+}

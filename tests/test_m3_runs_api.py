@@ -117,7 +117,7 @@ def test_a_default_run_answers_exactly_as_before(client: TestClient, pipeline: F
     assert response.json() == {"run_id": response.json()["run_id"], "state": "queued"}
     body = wait_for(client, response.json()["run_id"])
 
-    assert set(body) == DETAIL_KEYS_BEFORE | {"constraints"} and body["constraints"] is None
+    assert set(body) == DETAIL_KEYS_BEFORE | {"constraints", "report"} and body["constraints"] is None
     assert [stage["key"] for stage in body["stages"]] == FOUR
     assert [stage["label"] for stage in body["stages"]] == FOUR_LABELS
     assert all(set(stage) == STAGE_ENTRY_KEYS and stage["status"] == "done" for stage in body["stages"])
@@ -367,7 +367,7 @@ def meta(client: TestClient) -> dict:
 
 
 def test_meta_keeps_its_keys_and_gains_strategy_and_chat(meta: dict) -> None:
-    assert set(meta) == META_KEYS_BEFORE | {"strategy", "chat"}
+    assert set(meta) == META_KEYS_BEFORE | {"strategy", "chat", "report", "profiles"}
     assert [stage["key"] for stage in meta["stages"]] == FOUR, "the four stages are unchanged"
     assert MetaResponse.model_validate(meta).strategy.available is True
 

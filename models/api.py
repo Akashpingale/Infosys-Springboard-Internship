@@ -8,6 +8,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from models.report import NARRATIVE_STATUSES
 from models.schemas import ExtractedIdea, IdeaSubmission, PipelineResult, StrategyConstraints
 
 RUN_STATES = ("queued", "running", "done", "failed", "cancelled")
@@ -122,6 +123,18 @@ class ChatLimits(BaseModel):
     max_user_turns: int
 
 
+class ReportInfo(BaseModel):
+    available: bool
+    pdf_available: bool
+    time_limit_s: float
+
+
+class ProfileInfo(BaseModel):
+    query_profile: str
+    prompt_profile: str
+    app_version: str
+
+
 class MetaResponse(BaseModel):
     app_name: str
     version: str
@@ -135,6 +148,8 @@ class MetaResponse(BaseModel):
     # typed fixtures stay valid.
     strategy: StrategyInfo | None = None
     chat: ChatLimits | None = None
+    report: ReportInfo | None = None
+    profiles: ProfileInfo | None = None
 
 
 # --- /api/runs ------------------------------------------------------------------------------------
@@ -179,6 +194,20 @@ class RunStage(BaseModel):
     message: str | None = None
 
 
+class RunReportStatus(BaseModel):
+    exists: bool = False
+    generated_at: str | None = None
+    stale: bool = False
+    narrative_status: Literal[NARRATIVE_STATUSES] | None = None
+
+
+class ReportRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    force: bool = False
+    narrative: bool = True
+
+
 class RunDetail(BaseModel):
     """A run's state. `result` is the final result once the run has ended; while it runs, it holds
     what the finished stages produced so far (a partial snapshot), or null before any stage ends."""
@@ -200,6 +229,7 @@ class RunDetail(BaseModel):
     result: PipelineResult | None = None
     # Milestone 3 (Section 12.1): the founder's resource constraints, if any were given.
     constraints: StrategyConstraints | None = None
+    report: RunReportStatus | None = None
 
 
 class RunSummary(BaseModel):
